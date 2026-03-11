@@ -12,162 +12,166 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
---bg:#FFFFFF;--bg2:#F6F6F8;--bg3:#EDEDF0;
---border:#E2E2E6;--border2:#CCCCD0;
---text:#111111;--text2:#5A5A65;--text3:#9A9AA5;
---black:#111111;--white:#FFFFFF;
---green:#22C55E;--red:#EF4444;--orange:#F59E0B;
+--bg:#FFFFFF;--bg2:#F7F7F8;--bg3:#EEEFF1;
+--border:#E5E5EA;--border2:#D1D1D6;
+--text:#111;--text2:#636366;--text3:#AEAEB2;
+--black:#111;--white:#FFF;
+--green:#34C759;--red:#FF3B30;--orange:#FF9500;
 --gold:#C5970A;--silver:#8E8E93;--bronze:#B5651D;
---r:16px;--r-sm:12px;--r-xs:8px;
---sh:0 1px 3px rgba(0,0,0,0.04),0 4px 12px rgba(0,0,0,0.03);
---sh-md:0 2px 8px rgba(0,0,0,0.05),0 8px 24px rgba(0,0,0,0.06);
+--r:16px;--r2:12px;--r3:8px;
+--sh:0 1px 2px rgba(0,0,0,.04),0 3px 10px rgba(0,0,0,.03);
+--sh2:0 2px 8px rgba(0,0,0,.06),0 8px 24px rgba(0,0,0,.05);
 }
 html,body{
 font-family:'Inter',system-ui,-apple-system,sans-serif;
 background:var(--bg);color:var(--text);
 -webkit-font-smoothing:antialiased;
+-moz-osx-font-smoothing:grayscale;
+text-rendering:optimizeLegibility;
 overflow-x:hidden;min-height:100vh;
 }
-body{padding-bottom:calc(90px + env(safe-area-inset-bottom,0px))}
+body{padding-bottom:calc(86px + env(safe-area-inset-bottom,0px))}
 
-@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-@keyframes scaleIn{from{opacity:0;transform:scale(0.94)}to{opacity:1;transform:scale(1)}}
-@keyframes dotPulse{0%,100%{opacity:1}50%{opacity:.3}}
-@keyframes spin{to{transform:rotate(360deg)}}
-@keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
-.an-fu{animation:fadeUp .5s cubic-bezier(.22,1,.36,1) both}
-.an-si{animation:scaleIn .4s cubic-bezier(.22,1,.36,1) both}
-.d1{animation-delay:.04s}.d2{animation-delay:.08s}.d3{animation-delay:.12s}
-.d4{animation-delay:.16s}.d5{animation-delay:.2s}.d6{animation-delay:.24s}
-.d7{animation-delay:.28s}.d8{animation-delay:.32s}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@keyframes scaleIn{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:none}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.afu{animation:fadeUp .45s cubic-bezier(.22,1,.36,1) both}
+.asi{animation:scaleIn .35s cubic-bezier(.22,1,.36,1) both}
+.d1{animation-delay:.03s}.d2{animation-delay:.06s}.d3{animation-delay:.09s}
+.d4{animation-delay:.12s}.d5{animation-delay:.15s}.d6{animation-delay:.18s}
+.d7{animation-delay:.21s}.d8{animation-delay:.24s}
 
-/* === BACK BUTTON === */
-.back-btn{
-display:inline-flex;align-items:center;gap:6px;
-padding:8px 16px 8px 10px;margin-bottom:16px;
+/* === BACK === */
+.back{
+display:inline-flex;align-items:center;gap:5px;
+padding:8px 14px 8px 8px;margin-bottom:16px;
 background:var(--bg2);border:1px solid var(--border);
-border-radius:24px;font-size:13px;font-weight:600;
+border-radius:20px;font-size:13px;font-weight:600;
 color:var(--text2);cursor:pointer;
-transition:all .15s ease;
--webkit-tap-highlight-color:transparent;
+transition:all .15s;-webkit-tap-highlight-color:transparent;
 }
-.back-btn:active{transform:scale(0.96);background:var(--bg3)}
-.back-btn svg{width:16px;height:16px}
+.back:active{transform:scale(.96);background:var(--bg3)}
+.back svg{width:18px;height:18px}
 
-.page{min-height:100vh;padding:20px 18px 28px}
-.page-head{margin-bottom:22px}
-.page-title{font-size:28px;font-weight:900;letter-spacing:-.6px;line-height:1.1}
-.page-sub{font-size:14px;color:var(--text3);margin-top:5px;line-height:1.4}
+.page{min-height:100vh;padding:20px 16px 28px}
+.ptitle{font-size:28px;font-weight:900;letter-spacing:-.6px;line-height:1.1;margin-bottom:4px}
+.psub{font-size:14px;color:var(--text3);margin-bottom:20px;line-height:1.4}
 
-/* === CONTEST CARD — premium redesign === */
-.ccard{
-background:var(--white);
-border:1px solid var(--border);
-border-radius:var(--r);
-padding:0;overflow:hidden;
-box-shadow:var(--sh);
-transition:all .2s ease;
-cursor:pointer;
--webkit-tap-highlight-color:transparent;
-}
-.ccard:active{transform:scale(0.985);box-shadow:var(--sh-md)}
-.ccard+.ccard{margin-top:12px}
-.ccard-top{
-display:flex;align-items:stretch;
-}
-.ccard-icon{
-width:80px;min-height:80px;
+/* === CONTEST ICON — unified premium badge === */
+.ci{
+width:100%;height:100%;
 display:flex;align-items:center;justify-content:center;
-flex-shrink:0;position:relative;overflow:hidden;
+background:var(--bg2);position:relative;overflow:hidden;
+}
+.ci::after{
+content:'';position:absolute;inset:0;
+background:linear-gradient(135deg,rgba(0,0,0,.02),transparent 60%);
+}
+.ci svg{width:32px;height:32px;color:var(--text3);position:relative;z-index:1}
+
+/* === CARD contest — полный редизайн === */
+.cc{
+background:var(--white);border:1px solid var(--border);
+border-radius:var(--r);overflow:hidden;
+box-shadow:var(--sh);transition:all .2s;cursor:pointer;
+-webkit-tap-highlight-color:transparent;
+}
+.cc:active{transform:scale(.985);box-shadow:var(--sh2)}
+.cc+.cc{margin-top:12px}
+.cc-top{display:flex;align-items:stretch}
+.cc-icon{
+width:76px;min-height:76px;flex-shrink:0;
 border-right:1px solid var(--border);
 }
-.ccard-content{
-flex:1;padding:16px 16px 14px;min-width:0;
+.cc-body{
+flex:1;padding:14px 16px;min-width:0;
 display:flex;flex-direction:column;justify-content:center;
 }
-.ccard-name{
-font-size:16px;font-weight:800;letter-spacing:-.3px;
-line-height:1.25;margin-bottom:4px;
-white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+.cc-name{
+font-size:15px;font-weight:800;letter-spacing:-.2px;
+line-height:1.3;margin-bottom:3px;
+overflow:hidden;text-overflow:ellipsis;
+display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;
 }
-.ccard-channel{
-font-size:13px;color:var(--text3);font-weight:500;
-white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
-}
-.ccard-bottom{
-display:flex;align-items:center;justify-content:space-between;
+.cc-ch{font-size:12px;color:var(--text3);font-weight:600}
+.cc-foot{
+display:flex;align-items:center;gap:14px;
 padding:10px 16px;border-top:1px solid var(--border);
-background:var(--bg2);
+background:var(--bg2);font-size:12px;color:var(--text3);font-weight:500;
 }
-.ccard-meta{
-display:flex;align-items:center;gap:12px;
-font-size:12px;color:var(--text3);font-weight:500;
+.cc-m{display:flex;align-items:center;gap:4px}
+.cc-m svg{width:12px;height:12px;opacity:.55}
+.cc-live{
+margin-left:auto;display:flex;align-items:center;gap:5px;
+font-weight:700;color:var(--green);
 }
-.ccard-meta-item{display:flex;align-items:center;gap:4px}
-.ccard-meta-item svg{width:13px;height:13px;opacity:.6}
+.cc-live-dot{
+width:6px;height:6px;border-radius:3px;
+background:var(--green);animation:pulse 2s infinite;
+}
 
-/* === GENERATIVE CONTEST ICON === */
-.gen-icon{width:100%;height:100%;position:relative}
-.gen-icon svg{width:100%;height:100%}
-
+/* === GENERIC CARD === */
 .card{
 background:var(--white);border:1px solid var(--border);
 border-radius:var(--r);padding:16px;
-box-shadow:var(--sh);transition:all .2s ease;
+box-shadow:var(--sh);transition:all .2s;
 }
-.card:active{transform:scale(0.985)}
+.card:active{transform:scale(.985)}
 .card+.card{margin-top:10px}
-.card-row{display:flex;align-items:center;gap:12px}
-.card-body{flex:1;min-width:0}
-.card-title{font-size:15px;font-weight:700;line-height:1.3;margin-bottom:2px}
-.card-desc{font-size:13px;color:var(--text3);line-height:1.3}
-.card-right{display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0}
+.cr{display:flex;align-items:center;gap:12px}
+.cb{flex:1;min-width:0}
+.ct{font-size:14px;font-weight:700;line-height:1.3;margin-bottom:2px}
+.cd{font-size:12px;color:var(--text3);line-height:1.3}
 
+/* Icon box */
 .ib{
 width:40px;height:40px;border-radius:12px;
-display:flex;align-items:center;justify-content:center;
-flex-shrink:0;
+display:flex;align-items:center;justify-content:center;flex-shrink:0;
 }
 .ib svg{width:18px;height:18px}
-.ib-black{background:var(--black);color:var(--white)}
-.ib-soft{background:var(--bg2);border:1px solid var(--border);color:var(--text2)}
-.ib-sm{width:34px;height:34px;border-radius:10px}
-.ib-sm svg{width:15px;height:15px}
+.ib-b{background:var(--black);color:var(--white)}
+.ib-s{background:var(--bg2);border:1px solid var(--border);color:var(--text2)}
+.ib-34{width:34px;height:34px;border-radius:10px}
+.ib-34 svg{width:15px;height:15px}
 
+/* Badges */
 .bdg{
 display:inline-flex;align-items:center;gap:4px;
 padding:4px 10px;border-radius:20px;font-size:11px;font-weight:700;
 letter-spacing:.3px;text-transform:uppercase;
 }
 .bdg-live{background:#ECFDF5;color:#059669;border:1px solid #A7F3D0}
-.bdg-ended{background:var(--bg2);color:var(--text3);border:1px solid var(--border)}
-.bdg-pts{background:var(--black);color:var(--white);font-size:14px;font-weight:800;font-family:'JetBrains Mono',monospace;padding:5px 12px;text-transform:none;letter-spacing:0}
+.bdg-end{background:var(--bg2);color:var(--text3);border:1px solid var(--border)}
+.bdg-pts{
+background:var(--black);color:var(--white);
+font-size:14px;font-weight:800;font-family:'JetBrains Mono',monospace;
+padding:5px 12px;text-transform:none;letter-spacing:0;
+}
 .bdg-g{background:#FEF9C3;color:var(--gold);border:1px solid #FDE68A}
 .bdg-s{background:#F4F4F5;color:var(--silver);border:1px solid #D4D4D8}
 .bdg-b{background:#FFF7ED;color:var(--bronze);border:1px solid #FDBA74}
-.bdg-dot{width:6px;height:6px;border-radius:3px;background:currentColor;animation:dotPulse 2s infinite}
 
+/* Buttons */
 .btn{
 display:flex;align-items:center;justify-content:center;gap:8px;
-width:100%;padding:14px 22px;border:none;border-radius:var(--r-sm);
+width:100%;padding:14px 22px;border:none;border-radius:var(--r2);
 font-family:inherit;font-size:15px;font-weight:700;
-cursor:pointer;transition:all .15s ease;
--webkit-tap-highlight-color:transparent;
+cursor:pointer;transition:all .15s;-webkit-tap-highlight-color:transparent;
 }
-.btn:active{transform:scale(0.975)}
+.btn:active{transform:scale(.975)}
 .btn svg{width:18px;height:18px;flex-shrink:0}
-.btn-black{background:var(--black);color:var(--white)}
-.btn-black:hover{background:#333}
-.btn-soft{background:var(--bg2);color:var(--text);border:1px solid var(--border)}
-.btn-danger{background:var(--red);color:var(--white)}
-.btn-sm{padding:10px 14px;font-size:13px;border-radius:var(--r-xs)}
+.btn-b{background:var(--black);color:var(--white)}
+.btn-s{background:var(--bg2);color:var(--text);border:1px solid var(--border)}
+.btn-r{background:var(--red);color:var(--white)}
+.btn-sm{padding:10px 14px;font-size:13px;border-radius:var(--r3)}
 
-.field{margin-bottom:16px}
-.field-label{display:block;font-size:13px;font-weight:700;color:var(--text2);margin-bottom:6px;letter-spacing:.2px}
-.field-hint{font-size:11px;color:var(--text3);margin-top:4px}
+/* Fields */
+.fld{margin-bottom:16px}
+.fl{display:block;font-size:13px;font-weight:700;color:var(--text2);margin-bottom:6px;letter-spacing:.2px}
+.fh{font-size:11px;color:var(--text3);margin-top:4px}
 .inp{
 width:100%;padding:12px 16px;border:1.5px solid var(--border);
-border-radius:var(--r-sm);font-family:inherit;font-size:15px;
+border-radius:var(--r2);font-family:inherit;font-size:15px;
 background:var(--white);color:var(--text);transition:border-color .2s;
 -webkit-appearance:none;
 }
@@ -176,205 +180,200 @@ background:var(--white);color:var(--text);transition:border-color .2s;
 textarea.inp{resize:vertical;min-height:80px}
 select.inp{cursor:pointer}
 
-.tgl-row{
+/* Toggle */
+.tgl-r{
 display:flex;align-items:center;justify-content:space-between;
-padding:14px 16px;background:var(--bg2);border-radius:var(--r-sm);
+padding:14px 16px;background:var(--bg2);border-radius:var(--r2);
 margin-bottom:8px;border:1px solid var(--border);
 }
-.tgl-label{font-size:14px;font-weight:700;display:flex;align-items:center;gap:8px}
-.tgl-label svg{width:18px;height:18px;color:var(--text3)}
+.tgl-l{font-size:14px;font-weight:700;display:flex;align-items:center;gap:8px}
+.tgl-l svg{width:18px;height:18px;color:var(--text3)}
 .tgl{
 position:relative;width:48px;height:28px;
 background:var(--border2);border-radius:14px;
-cursor:pointer;transition:background .25s;
-flex-shrink:0;border:none;
+cursor:pointer;transition:background .25s;flex-shrink:0;border:none;
 }
 .tgl.on{background:var(--black)}
 .tgl::after{
 content:'';position:absolute;top:2px;left:2px;
 width:24px;height:24px;border-radius:12px;
-background:var(--white);box-shadow:0 1px 4px rgba(0,0,0,0.15);
+background:var(--white);box-shadow:0 1px 4px rgba(0,0,0,.15);
 transition:transform .25s cubic-bezier(.22,1,.36,1);
 }
 .tgl.on::after{transform:translateX(20px)}
 .tgl-sub{
 padding:14px 16px;background:var(--white);
-border:1px solid var(--border);border-radius:var(--r-sm);
+border:1px solid var(--border);border-radius:var(--r2);
 margin-bottom:8px;margin-top:-4px;
 }
-.tgl-sub .field{margin-bottom:0}
+.tgl-sub .fld{margin-bottom:0}
 
-.ava{
-width:42px;height:42px;border-radius:21px;
+/* Avatar */
+.av{
 display:flex;align-items:center;justify-content:center;
-font-size:15px;font-weight:700;color:var(--white);
-flex-shrink:0;letter-spacing:-.3px;
+font-weight:700;color:var(--white);flex-shrink:0;letter-spacing:-.3px;
 }
-.ava-sm{width:34px;height:34px;border-radius:17px;font-size:12px}
-.ava-lg{width:56px;height:56px;border-radius:28px;font-size:20px}
-.ava-xl{width:80px;height:80px;border-radius:24px;font-size:28px}
+.av-40{width:40px;height:40px;border-radius:20px;font-size:14px}
+.av-34{width:34px;height:34px;border-radius:17px;font-size:12px}
+.av-56{width:56px;height:56px;border-radius:28px;font-size:20px}
+.av-80{width:80px;height:80px;border-radius:24px;font-size:28px}
 
+/* Leaderboard */
 .lb{border:1px solid var(--border);border-radius:var(--r);overflow:hidden;background:var(--white)}
-.lb-item{
+.li{
 display:flex;align-items:center;gap:12px;
 padding:14px 16px;cursor:pointer;
 transition:background .15s;border-bottom:1px solid var(--border);
 }
-.lb-item:last-child{border-bottom:none}
-.lb-item:active{background:var(--bg2)}
-.lb-rank{
-width:30px;text-align:center;font-size:14px;font-weight:800;
+.li:last-child{border-bottom:none}
+.li:active{background:var(--bg2)}
+.lr{
+width:28px;text-align:center;font-size:14px;font-weight:800;
 color:var(--text3);flex-shrink:0;font-family:'JetBrains Mono',monospace;
 }
-.lb-info{flex:1;min-width:0}
-.lb-name{font-size:14px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.lb-user{font-size:12px;color:var(--text3);margin-top:1px}
-.lb-pts{font-size:16px;font-weight:800;font-family:'JetBrains Mono',monospace}
-.lb-1{background:#FFFDE7}.lb-1 .lb-rank{color:var(--gold)}
-.lb-2{background:#FAFAFA}.lb-2 .lb-rank{color:var(--silver)}
-.lb-3{background:#FFF8F0}.lb-3 .lb-rank{color:var(--bronze)}
-.lb-me{background:#F0F4FF}
+.ln{flex:1;min-width:0}
+.ln-n{font-size:14px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ln-u{font-size:11px;color:var(--text3);margin-top:1px}
+.lp{font-size:16px;font-weight:800;font-family:'JetBrains Mono',monospace}
+.l1{background:#FFFDE7}.l1 .lr{color:var(--gold)}
+.l2{background:#FAFAFA}.l2 .lr{color:var(--silver)}
+.l3{background:#FFF8F0}.l3 .lr{color:var(--bronze)}
+.lm{background:#F0F4FF}
 
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:22px}
+/* Stats */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px}
 .stat{
 text-align:center;padding:18px 10px;
-background:var(--bg2);border-radius:var(--r-sm);
-border:1px solid var(--border);
+background:var(--bg2);border-radius:var(--r2);border:1px solid var(--border);
 }
-.stat-val{font-size:24px;font-weight:900;letter-spacing:-.5px;font-family:'JetBrains Mono',monospace}
-.stat-label{font-size:11px;color:var(--text3);margin-top:4px;font-weight:600;text-transform:uppercase;letter-spacing:.3px}
+.sv{font-size:24px;font-weight:900;letter-spacing:-.5px;font-family:'JetBrains Mono',monospace}
+.sl{font-size:10px;color:var(--text3);margin-top:4px;font-weight:700;text-transform:uppercase;letter-spacing:.4px}
 
-.sec{margin-bottom:22px}
-.sec-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
-.sec-title{font-size:18px;font-weight:800;letter-spacing:-.3px}
+.sec{margin-bottom:20px}
+.sh{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.st{font-size:18px;font-weight:800;letter-spacing:-.3px}
 
 /* Hero */
 .hero{
 background:var(--bg2);border:1px solid var(--border);
-border-radius:20px;padding:32px 24px;margin-bottom:22px;
-text-align:center;
+border-radius:20px;padding:32px 24px;margin-bottom:20px;text-align:center;
 }
-.hero-icon{
-width:60px;height:60px;border-radius:18px;
+.hero-i{
+width:56px;height:56px;border-radius:16px;
 background:var(--black);color:var(--white);
 display:flex;align-items:center;justify-content:center;
-margin:0 auto 16px;
-box-shadow:0 4px 20px rgba(0,0,0,0.12);
+margin:0 auto 14px;box-shadow:0 4px 16px rgba(0,0,0,.12);
 }
-.hero-icon svg{width:26px;height:26px}
-.hero-title{font-size:24px;font-weight:900;letter-spacing:-.5px;margin-bottom:6px}
-.hero-sub{font-size:14px;color:var(--text3);line-height:1.5}
+.hero-i svg{width:24px;height:24px}
+.hero-t{font-size:22px;font-weight:900;letter-spacing:-.4px;margin-bottom:5px}
+.hero-s{font-size:13px;color:var(--text3);line-height:1.5}
 .hero-chip{
-display:inline-flex;align-items:center;gap:6px;
-padding:6px 14px;background:var(--white);border:1px solid var(--border);
-border-radius:20px;font-size:12px;font-weight:600;color:var(--text2);margin-top:14px;
+display:inline-flex;align-items:center;gap:5px;
+padding:5px 12px;background:var(--white);border:1px solid var(--border);
+border-radius:18px;font-size:12px;font-weight:600;color:var(--text2);margin-top:12px;
 }
+.hero-chip-dot{width:6px;height:6px;border-radius:3px;background:var(--green);animation:pulse 2s infinite}
 
-.ref-block{
+/* Referral */
+.ref{
 background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);
-padding:18px;margin-top:14px;
+padding:16px;margin-top:14px;
 }
-.ref-link{
+.ref-box{
 display:flex;align-items:center;gap:8px;
-padding:12px 14px;background:var(--white);border:1.5px dashed var(--border2);
-border-radius:var(--r-sm);margin:10px 0 0;
-font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--text2);
+padding:11px 12px;background:var(--white);border:1.5px dashed var(--border2);
+border-radius:var(--r2);margin-top:10px;
+font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text2);
 word-break:break-all;line-height:1.4;
 }
-.ref-link-text{flex:1}
-.ref-copy{
-width:38px;height:38px;border-radius:12px;
+.ref-box span{flex:1}
+.ref-cp{
+width:36px;height:36px;border-radius:10px;
 background:var(--black);color:var(--white);
 display:flex;align-items:center;justify-content:center;
-border:none;cursor:pointer;flex-shrink:0;
-transition:transform .15s;
+border:none;cursor:pointer;flex-shrink:0;transition:transform .15s;
 }
-.ref-copy:active{transform:scale(.9)}
-.ref-copy svg{width:16px;height:16px}
+.ref-cp:active{transform:scale(.9)}
+.ref-cp svg{width:15px;height:15px}
 
-.prize-item{
+/* Prizes */
+.pi{
 display:flex;align-items:center;gap:10px;
-padding:12px 14px;background:var(--bg2);
-border-radius:var(--r-xs);margin-bottom:6px;
-border:1px solid var(--border);
+padding:11px 14px;background:var(--bg2);
+border-radius:var(--r3);margin-bottom:6px;border:1px solid var(--border);
 }
-.prize-num{
-width:28px;height:28px;border-radius:14px;
+.pn{
+width:26px;height:26px;border-radius:13px;
 display:flex;align-items:center;justify-content:center;
-font-size:12px;font-weight:800;flex-shrink:0;
+font-size:11px;font-weight:800;flex-shrink:0;
 background:var(--bg3);color:var(--text2);
 }
-.prize-text{flex:1;font-size:14px;font-weight:600}
-.prize-del{
-width:28px;height:28px;border-radius:14px;
+.pt{flex:1;font-size:13px;font-weight:600}
+.pd{
+width:26px;height:26px;border-radius:13px;
 display:flex;align-items:center;justify-content:center;
 background:var(--bg3);border:none;cursor:pointer;
 color:var(--text3);transition:all .15s;
 }
-.prize-del:hover{background:var(--red);color:var(--white)}
-.prize-del svg{width:14px;height:14px}
+.pd:hover{background:var(--red);color:var(--white)}
+.pd svg{width:13px;height:13px}
 
 /* Detail header */
 .dh{
 background:var(--bg2);border:1px solid var(--border);
-border-radius:20px;padding:22px;margin-bottom:18px;
+border-radius:20px;padding:20px;margin-bottom:18px;
 }
-.dh-channel{
-display:inline-flex;align-items:center;gap:5px;
-padding:5px 12px;background:var(--white);border:1px solid var(--border);
-border-radius:18px;font-size:12px;font-weight:600;color:var(--text2);
-margin-bottom:12px;
+.dh-ch{
+display:inline-flex;align-items:center;gap:4px;
+padding:4px 10px;background:var(--white);border:1px solid var(--border);
+border-radius:16px;font-size:12px;font-weight:600;color:var(--text2);margin-bottom:10px;
 }
-.dh-channel svg{width:14px;height:14px}
-.dh-name{font-size:22px;font-weight:900;letter-spacing:-.4px;margin-bottom:8px}
-.dh-desc{font-size:14px;color:var(--text2);line-height:1.55;margin-bottom:14px}
-.dh-meta{display:flex;flex-wrap:wrap;gap:6px}
-.dh-actions{display:flex;gap:8px;margin-top:16px}
+.dh-ch svg{width:13px;height:13px}
+.dh-n{font-size:20px;font-weight:900;letter-spacing:-.3px;margin-bottom:6px;line-height:1.2}
+.dh-d{font-size:13px;color:var(--text2);line-height:1.5;margin-bottom:12px}
+.dh-m{display:flex;flex-wrap:wrap;gap:6px}
+.dh-acts{display:flex;gap:8px;margin-top:14px}
 
-/* Admin contest card */
+/* Admin card */
 .ac{
 border:1px solid var(--border);border-radius:var(--r);
-padding:18px;margin-bottom:12px;background:var(--white);
-box-shadow:var(--sh);
+padding:16px;margin-bottom:12px;background:var(--white);box-shadow:var(--sh);
 }
-.ac-head{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px}
-.ac-title{font-size:16px;font-weight:800;line-height:1.25}
-.ac-sub{font-size:12px;color:var(--text3);margin-top:3px}
-.ac-btns{display:flex;gap:6px;margin-top:12px;flex-wrap:wrap}
-.ac-btn{
-padding:8px 14px;border-radius:var(--r-xs);
+.ac-h{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px}
+.ac-t{font-size:15px;font-weight:800;line-height:1.25}
+.ac-s{font-size:12px;color:var(--text3);margin-top:2px}
+.ac-btns{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
+.ac-b{
+padding:7px 12px;border-radius:var(--r3);
 font-size:12px;font-weight:700;border:1px solid var(--border);
 background:var(--white);cursor:pointer;transition:all .15s;
-display:flex;align-items:center;gap:5px;font-family:inherit;
+display:flex;align-items:center;gap:4px;font-family:inherit;
 }
-.ac-btn:active{transform:scale(.96)}
-.ac-btn svg{width:14px;height:14px}
-.ac-btn-red{border-color:#FCA5A5;color:var(--red);background:#FEF2F2}
-.ac-btn-del{border-color:#FCA5A5;color:var(--red);background:#FEF2F2}
+.ac-b:active{transform:scale(.96)}
+.ac-b svg{width:13px;height:13px}
+.ac-b-r{border-color:#FCA5A5;color:var(--red);background:#FEF2F2}
 
-.sc-row{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.sc-r{display:flex;gap:5px;flex-wrap:wrap;margin-top:8px}
 .sc{
-display:inline-flex;align-items:center;gap:4px;
-padding:4px 10px;border-radius:14px;font-size:11px;font-weight:700;
+display:inline-flex;align-items:center;gap:3px;
+padding:3px 8px;border-radius:12px;font-size:10px;font-weight:700;
 }
-.sc svg{width:12px;height:12px}
+.sc svg{width:11px;height:11px}
 .sc-on{background:#ECFDF5;border:1px solid #A7F3D0;color:#166534}
 .sc-off{background:var(--bg2);border:1px solid var(--border);color:var(--text3);text-decoration:line-through}
 
 .toast{
 position:fixed;top:16px;left:16px;right:16px;z-index:9999;
-padding:15px 20px;border-radius:var(--r-sm);
-font-size:14px;font-weight:700;
-animation:fadeUp .3s ease;
-box-shadow:var(--sh-md);
+padding:14px 18px;border-radius:var(--r2);
+font-size:14px;font-weight:700;animation:fadeUp .3s ease;box-shadow:var(--sh2);
 }
 .toast-ok{background:var(--black);color:var(--white)}
 .toast-err{background:var(--red);color:var(--white)}
 
-.tabs{display:flex;gap:6px;margin-bottom:16px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.tabs{display:flex;gap:6px;margin-bottom:14px;overflow-x:auto;-webkit-overflow-scrolling:touch}
 .tabs::-webkit-scrollbar{display:none}
 .tab{
-padding:8px 16px;border-radius:22px;font-size:13px;font-weight:700;
+padding:7px 14px;border-radius:20px;font-size:13px;font-weight:600;
 white-space:nowrap;border:1.5px solid var(--border);
 background:var(--white);color:var(--text2);cursor:pointer;
 transition:all .15s;flex-shrink:0;
@@ -384,95 +383,131 @@ transition:all .15s;flex-shrink:0;
 .divider{height:1px;background:var(--border);margin:18px 0}
 
 .notice{
-padding:14px 16px;border-radius:var(--r-xs);
+padding:13px 14px;border-radius:var(--r3);
 font-size:12px;line-height:1.5;display:flex;gap:8px;align-items:flex-start;
 }
-.notice svg{width:16px;height:16px;flex-shrink:0;margin-top:1px}
-.notice-warn{background:#FFFBEB;color:#92400E;border:1px solid #FDE68A}
-.notice-info{background:#EFF6FF;color:#1E40AF;border:1px solid #BFDBFE}
+.notice svg{width:15px;height:15px;flex-shrink:0;margin-top:1px}
+.notice-w{background:#FFFBEB;color:#92400E;border:1px solid #FDE68A}
+.notice-i{background:#EFF6FF;color:#1E40AF;border:1px solid #BFDBFE}
 
-/* === TABBAR — 5 equal, pixel-perfect === */
+/* Channel connect */
+.ch-connect{
+padding:16px;background:var(--bg2);border:1px solid var(--border);
+border-radius:var(--r);margin-bottom:16px;
+}
+.ch-step{
+display:flex;gap:12px;align-items:flex-start;margin-bottom:14px;
+}
+.ch-step:last-child{margin-bottom:0}
+.ch-num{
+width:28px;height:28px;border-radius:14px;
+background:var(--black);color:var(--white);
+display:flex;align-items:center;justify-content:center;
+font-size:12px;font-weight:800;flex-shrink:0;
+}
+.ch-step-body{flex:1;min-width:0}
+.ch-step-t{font-size:13px;font-weight:700;margin-bottom:4px}
+.ch-step-d{font-size:12px;color:var(--text3);line-height:1.4}
+.ch-btn{
+display:inline-flex;align-items:center;gap:6px;
+padding:9px 16px;background:var(--black);color:var(--white);
+border:none;border-radius:var(--r3);font-family:inherit;
+font-size:13px;font-weight:700;cursor:pointer;
+margin-top:8px;transition:all .15s;
+}
+.ch-btn:active{transform:scale(.96)}
+.ch-btn svg{width:15px;height:15px}
+.ch-status{
+display:flex;align-items:center;gap:6px;
+padding:8px 12px;border-radius:var(--r3);
+font-size:12px;font-weight:700;margin-top:8px;
+}
+.ch-ok{background:#ECFDF5;color:#059669;border:1px solid #A7F3D0}
+.ch-fail{background:#FEF2F2;color:var(--red);border:1px solid #FCA5A5}
+
+/* === TAB BAR — pixel-perfect, no text pixelation === */
 .tabbar{
 position:fixed;bottom:0;left:0;right:0;
-background:rgba(255,255,255,0.97);
+background:rgba(255,255,255,.97);
 backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
 border-top:1px solid var(--border);
 display:grid;grid-template-columns:repeat(5,1fr);
-padding:0 0 env(safe-area-inset-bottom,0px);
-z-index:100;
+padding:0 0 env(safe-area-inset-bottom,0px);z-index:100;
 }
 .tb{
 display:flex;flex-direction:column;align-items:center;
-justify-content:center;gap:4px;padding:10px 0 8px;
+justify-content:center;gap:3px;padding:10px 0 8px;
 cursor:pointer;border:none;background:none;
--webkit-tap-highlight-color:transparent;
-position:relative;
+-webkit-tap-highlight-color:transparent;position:relative;
 }
-.tb svg{width:22px;height:22px;color:var(--text3);transition:color .15s}
-.tb-label{font-size:10px;font-weight:500;color:var(--text3);transition:color .15s;line-height:1}
+.tb svg{width:22px;height:22px;color:var(--text3);transition:color .2s}
+.tb-t{
+font-size:10px;color:var(--text3);line-height:1;
+transition:color .2s;
+/* ФИКС ПИКСЕЛЕЙ: фиксированный вес, без изменения при active */
+font-weight:600;
+letter-spacing:0;
+}
 .tb.on svg{color:var(--black)}
-.tb.on .tb-label{color:var(--black);font-weight:800}
+.tb.on .tb-t{color:var(--black)}
 .tb.on::before{
 content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);
-width:32px;height:3px;background:var(--black);border-radius:0 0 3px 3px;
+width:28px;height:2.5px;background:var(--black);border-radius:0 0 2px 2px;
 }
-/* Center create button */
-.tb-center{padding-top:0}
-.tb-center-circle{
-width:50px;height:50px;border-radius:50%;
+/* Center */
+.tb-c{padding-top:0}
+.tb-c-circle{
+width:48px;height:48px;border-radius:50%;
 background:var(--black);color:var(--white);
 display:flex;align-items:center;justify-content:center;
 border:3px solid var(--white);
-box-shadow:0 2px 16px rgba(0,0,0,0.18);
-margin-top:-18px;transition:transform .15s;
+box-shadow:0 2px 14px rgba(0,0,0,.18);
+margin-top:-14px;transition:transform .15s;
 }
-.tb-center-circle:active{transform:scale(0.92)}
-.tb-center-circle svg{width:26px;height:26px;color:var(--white)!important}
-.tb-center .tb-label{margin-top:3px}
+.tb-c-circle:active{transform:scale(.92)}
+.tb-c-circle svg{width:24px;height:24px;color:var(--white)!important}
+.tb-c .tb-t{margin-top:2px}
 
-.flex{display:flex}.items-c{align-items:center}.justify-b{justify-content:space-between}
-.gap-6{gap:6px}.gap-8{gap:8px}.gap-10{gap:10px}.gap-12{gap:12px}
-.mt-6{margin-top:6px}.mt-8{margin-top:8px}.mt-12{margin-top:12px}.mt-16{margin-top:16px}
-.mb-8{margin-bottom:8px}.mb-12{margin-bottom:12px}
-.tc{text-align:center}.truncate{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.w-full{width:100%}
-.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.click{cursor:pointer;-webkit-tap-highlight-color:transparent}
-.mono{font-family:'JetBrains Mono',monospace}
-::-webkit-scrollbar{width:0;height:0}
-
+/* Profile menu */
 .pm{border:1px solid var(--border);border-radius:var(--r);overflow:hidden;background:var(--white)}
-.pm-item{
-display:flex;align-items:center;gap:12px;padding:16px 18px;
+.pm-i{
+display:flex;align-items:center;gap:12px;padding:15px 16px;
 cursor:pointer;transition:background .15s;border-bottom:1px solid var(--border);
 }
-.pm-item:last-child{border-bottom:none}
-.pm-item:active{background:var(--bg2)}
-.pm-body{flex:1;min-width:0}
-.pm-title{font-size:14px;font-weight:700}
-.pm-desc{font-size:12px;color:var(--text3);margin-top:2px}
-.pm-arrow{color:var(--text3)}
-.pm-arrow svg{width:16px;height:16px}
+.pm-i:last-child{border-bottom:none}
+.pm-i:active{background:var(--bg2)}
+.pm-b{flex:1;min-width:0}
+.pm-t{font-size:14px;font-weight:700}
+.pm-d{font-size:12px;color:var(--text3);margin-top:1px}
+.pm-a{color:var(--text3)}
+.pm-a svg{width:15px;height:15px}
 
-.empty{text-align:center;padding:56px 24px}
-.empty-icon{width:60px;height:60px;border-radius:18px;background:var(--bg2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;margin:0 auto 18px}
-.empty-icon svg{width:26px;height:26px;color:var(--text3)}
-.empty-title{font-size:17px;font-weight:800;margin-bottom:8px}
-.empty-sub{font-size:13px;color:var(--text3);line-height:1.5}
+.empty{text-align:center;padding:48px 24px}
+.empty-i{width:56px;height:56px;border-radius:16px;background:var(--bg2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;margin:0 auto 16px}
+.empty-i svg{width:24px;height:24px;color:var(--text3)}
+.empty-t{font-size:16px;font-weight:800;margin-bottom:6px}
+.empty-s{font-size:13px;color:var(--text3);line-height:1.5}
+
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.mt4{margin-top:4px}.mt8{margin-top:8px}.mt12{margin-top:12px}.mt16{margin-top:16px}
+.mb6{margin-bottom:6px}.mb8{margin-bottom:8px}.mb12{margin-bottom:12px}
+.tc{text-align:center}
+.mono{font-family:'JetBrains Mono',monospace}
+.clk{cursor:pointer;-webkit-tap-highlight-color:transparent}
+::-webkit-scrollbar{width:0;height:0}
 </style>
 </head>
 <body>
 <div id="root"></div>
 <script>
-// ╔══════════════════════════════════════════════════════════════╗
-// ║  НАСТРОЙКИ                                                   ║
-// ╚══════════════════════════════════════════════════════════════╝
+// ╔══════════════════════════════════════════╗
+// ║  НАСТРОЙКИ                                ║
+// ╚══════════════════════════════════════════╝
 const BOT_TOKEN='8031008647:AAFWbpZ-OQeIUwPbWOmBxCzeYVA_yh_AjC8';
 const MAIN_ADMIN_ID=1262669099;
 const BOT_USERNAME='contest_prize_bot';
-const MINI_APP_URL=location.href.split('?')[0]; // URL этой страницы
+const MINI_APP_URL=location.href.split('?')[0];
 
-// FIREBASE CONFIG
 const FIREBASE_CONFIG={
   apiKey:"AIzaSyBPQO8zHAMOgvM4DtwSwNQ-VhTi6GsoLhs",
   authDomain:"contest-bot-54b4d.firebaseapp.com",
@@ -483,252 +518,190 @@ const FIREBASE_CONFIG={
   measurementId:"G-NRBXCR9GTK"
 };
 
-// ╔══════════════════════════════════════════════════════════════╗
-// ║  FIREBASE                                                     ║
-// ╚══════════════════════════════════════════════════════════════╝
+// ╔══════════════════════════════════════════╗
+// ║  SVG ИКОНКИ                               ║
+// ╚══════════════════════════════════════════╝
+const I={
+home:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>`,
+star:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`,
+plus:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>`,
+settings:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>`,
+user:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`,
+users:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>`,
+clock:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`,
+gift:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 010-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 000-5C13 2 12 7 12 7z"/></svg>`,
+check:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`,
+send:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>`,
+hash:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="9" x2="20" y2="9"/><line x1="4" y1="15" x2="20" y2="15"/><line x1="10" y1="3" x2="8" y2="21"/><line x1="16" y1="3" x2="14" y2="21"/></svg>`,
+award:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>`,
+edit:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>`,
+x:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`,
+chevL:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>`,
+chevR:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>`,
+heart:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>`,
+play:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>`,
+stop:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>`,
+eye:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>`,
+copy:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>`,
+trash:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>`,
+link:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>`,
+info:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>`,
+barChart:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg>`,
+shield:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>`,
+crown:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20h20"/><path d="M4 20l2-14 4 5 2-8 2 8 4-5 2 14"/></svg>`,
+/* Единая иконка конкурса — стилизованная медаль/награда */
+contestIcon:`<svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M24 4L28.9 13.9L39.5 15.4L31.7 23L33.6 33.5L24 28.4L14.4 33.5L16.3 23L8.5 15.4L19.1 13.9L24 4Z" stroke="#C8C8CC" stroke-width="2" fill="#F0F0F2"/><circle cx="24" cy="19" r="5" stroke="#AEAEB2" stroke-width="1.5" fill="#F7F7F8"/><path d="M18 33L15 44L24 39L33 44L30 33" stroke="#C8C8CC" stroke-width="2" fill="none"/></svg>`,
+};
+function ic(n){return I[n]||''}
+
+// ╔══════════════════════════════════════════╗
+// ║  FIREBASE                                 ║
+// ╚══════════════════════════════════════════╝
 let db=null,useFirebase=false;
 try{
-  if(FIREBASE_CONFIG.apiKey&&FIREBASE_CONFIG.apiKey!==''){
+  if(FIREBASE_CONFIG.apiKey&&FIREBASE_CONFIG.projectId){
     firebase.initializeApp(FIREBASE_CONFIG);
-    db=firebase.firestore();
-    useFirebase=true;
+    db=firebase.firestore();useFirebase=true;
     console.log('Firebase подключён');
   }
 }catch(e){console.warn('Firebase ошибка:',e)}
 
-// ╔══════════════════════════════════════════════════════════════╗
-// ║  ДАННЫЕ                                                       ║
-// ╚══════════════════════════════════════════════════════════════╝
-let tgUser=null,contests=[],currentScreen='home',screenParams={};
+// ╔══════════════════════════════════════════╗
+// ║  ДАННЫЕ                                   ║
+// ╚══════════════════════════════════════════╝
+let contests=[],tgUser=null,currentScreen='home',screenParams={};
 
-const DEMO_CONTESTS=[
-  {id:'d1',name:'Весенний розыгрыш',channel:'@spring_channel',desc:'Участвуй и выиграй крутые призы',conditions:'Подпишись на канал',endDate:'2026-04-01T18:00',status:'active',winnersCount:3,buttonText:'Участвовать',initialPoints:0,outcomeType:1,threshold:0,creatorId:MAIN_ADMIN_ID,scoring:{invites:{on:true,pts:5},reactions:{on:true,pts:1},ads:{on:false,pts:3}},prizes:['iPhone 16 Pro','AirPods Pro','Подписка на 1 год'],participants:[
-    {tgId:1001,name:'Алексей',username:'alexey',points:145},
-    {tgId:1002,name:'Мария',username:'maria_k',points:120},
-    {tgId:1003,name:'Дмитрий',username:'dmitry',points:98},
-    {tgId:1004,name:'Елена',username:'elena',points:76},
-    {tgId:MAIN_ADMIN_ID,name:'Admin',username:'Tru5tNoBody',points:210},
-  ]},
-  {id:'d2',name:'Летний марафон',channel:'@summer_vibes',desc:'Большой конкурс с крутыми призами для подписчиков',conditions:'Пригласи 3 друзей',endDate:'2026-06-15T20:00',status:'active',winnersCount:1,buttonText:'Участвовать',initialPoints:10,outcomeType:2,threshold:50,creatorId:MAIN_ADMIN_ID,scoring:{invites:{on:true,pts:10},reactions:{on:false,pts:1},ads:{on:true,pts:5}},prizes:['MacBook Air M3'],participants:[
-    {tgId:2001,name:'Иван',username:'ivan_dev',points:88},
-    {tgId:2002,name:'Анна',username:'anna',points:65},
-    {tgId:2003,name:'Кирилл',username:'kirill',points:42},
-  ]},
-  {id:'d3',name:'Новогодний конкурс',channel:'@new_year',desc:'Последний конкурс года',conditions:'',endDate:'2026-12-31T23:59',status:'active',winnersCount:5,buttonText:'Хочу приз',initialPoints:5,outcomeType:3,threshold:0,creatorId:MAIN_ADMIN_ID,scoring:{invites:{on:true,pts:3},reactions:{on:true,pts:2},ads:{on:false,pts:0}},prizes:['PlayStation 5','Nintendo Switch','Яндекс Станция','Умные часы','Power Bank'],participants:[]},
+const DEMO=[
+  {id:'d1',name:'Розыгрыш iPhone 16 Pro',channel:'@techreviews',desc:'Участвуйте и выиграйте новый iPhone','conditions':'Подписка на канал','endDate':'2026-04-01T20:00',status:'active',winnersCount:1,buttonText:'Участвовать',initialPoints:0,outcomeType:1,threshold:0,creatorId:MAIN_ADMIN_ID,scoring:{invites:{on:true,pts:5},reactions:{on:true,pts:1},ads:{on:false,pts:3}},prizes:['iPhone 16 Pro 256GB'],participants:[{tgId:1001,name:'Алексей',username:'alex',points:45},{tgId:1002,name:'Мария',username:'masha',points:38},{tgId:1003,name:'Дмитрий',username:'dima',points:27},{tgId:MAIN_ADMIN_ID,name:'Admin',username:'Tru5tNoBody',points:15}]},
+  {id:'d2',name:'Конкурс для дизайнеров',channel:'@designhub',desc:'Покажите свои лучшие работы','conditions':'Прислать портфолио','endDate':'2026-05-15T18:00',status:'active',winnersCount:3,buttonText:'Участвовать',initialPoints:10,outcomeType:1,threshold:0,creatorId:MAIN_ADMIN_ID,scoring:{invites:{on:true,pts:3},reactions:{on:false,pts:1},ads:{on:false,pts:3}},prizes:['MacBook Air','iPad Pro','AirPods Pro'],participants:[{tgId:2001,name:'Ольга',username:'olya_design',points:62},{tgId:2002,name:'Никита',username:'nik_art',points:51}]},
+  {id:'d3',name:'Новогодний розыгрыш',channel:'@funclub',desc:'Подарки к праздникам','conditions':'','endDate':'2026-01-01T00:00',status:'ended',winnersCount:2,buttonText:'Участвовать',initialPoints:0,outcomeType:2,threshold:10,creatorId:MAIN_ADMIN_ID,scoring:{invites:{on:true,pts:5},reactions:{on:true,pts:2},ads:{on:false,pts:3}},prizes:['PS5','Nintendo Switch'],participants:[{tgId:3001,name:'Артём',username:'artem',points:88},{tgId:3002,name:'Вика',username:'vika',points:75}]}
 ];
 
-// ╔══════════════════════════════════════════════════════════════╗
-// ║  FIREBASE CRUD                                                ║
-// ╚══════════════════════════════════════════════════════════════╝
 async function loadContests(){
-  if(!useFirebase){contests=JSON.parse(JSON.stringify(DEMO_CONTESTS));return}
-  try{
-    const snap=await db.collection('contests').get();
-    contests=[];
-    snap.forEach(doc=>{const d=doc.data();d.id=doc.id;if(!d.participants)d.participants=[];contests.push(d)});
-  }catch(e){console.error(e);contests=JSON.parse(JSON.stringify(DEMO_CONTESTS))}
+  if(useFirebase){
+    try{
+      const snap=await db.collection('contests').get();
+      contests=[];
+      for(const doc of snap.docs){
+        const d=doc.data();d.id=doc.id;
+        const pSnap=await db.collection('contests').doc(doc.id).collection('participants').get();
+        d.participants=pSnap.docs.map(p=>({...p.data(),docId:p.id}));
+        contests.push(d);
+      }
+      if(!contests.length)contests=[...DEMO];
+    }catch(e){console.warn(e);contests=[...DEMO]}
+  }else{
+    contests=[...DEMO];
+  }
 }
 
-async function saveContest(data){
-  data.participants=data.participants||[];
-  if(!useFirebase){data.id='c'+Date.now();contests.push(data);return data}
-  try{
-    const ref=await db.collection('contests').add(data);
-    data.id=ref.id;contests.push(data);return data;
-  }catch(e){console.error(e);toast('Ошибка сохранения','err');return null}
+async function saveContest(d){
+  d.participants=d.participants||[];
+  if(useFirebase){
+    try{
+      const ref=await db.collection('contests').add({...d,participants:undefined,createdAt:firebase.firestore.FieldValue.serverTimestamp()});
+      d.id=ref.id;contests.push(d);return d;
+    }catch(e){console.warn(e)}
+  }
+  d.id='c'+Date.now();contests.push(d);return d;
 }
-
-async function updateContest(id,updates){
+async function updateContest(id,upd){
   const c=contests.find(x=>x.id===id);if(!c)return;
-  Object.assign(c,updates);
-  if(!useFirebase)return;
-  try{await db.collection('contests').doc(id).update(updates)}catch(e){console.error(e)}
+  Object.assign(c,upd);
+  if(useFirebase){try{await db.collection('contests').doc(id).update(upd)}catch(e){console.warn(e)}}
 }
-
 async function deleteContest(id){
   contests=contests.filter(x=>x.id!==id);
-  if(!useFirebase)return;
-  try{await db.collection('contests').doc(id).delete()}catch(e){console.error(e)}
+  if(useFirebase){try{
+    const pSnap=await db.collection('contests').doc(id).collection('participants').get();
+    const batch=db.batch();pSnap.forEach(d=>batch.delete(d.ref));
+    batch.delete(db.collection('contests').doc(id));await batch.commit();
+  }catch(e){console.warn(e)}}
 }
-
-async function joinContest(contestId,user){
-  const c=contests.find(x=>x.id===contestId);if(!c)return;
+async function joinContest(id,user){
+  const c=contests.find(x=>x.id===id);if(!c)return;
   if(c.participants.find(p=>p.tgId===user.id))return;
-  const p={tgId:user.id,name:user.first_name||'User',username:user.username||'',points:c.initialPoints||0};
+  const p={tgId:user.id,name:user.first_name,username:user.username||'',points:c.initialPoints||0};
   c.participants.push(p);
-  if(!useFirebase)return;
-  try{await db.collection('contests').doc(contestId).update({participants:c.participants})}catch(e){console.error(e)}
+  if(useFirebase){try{await db.collection('contests').doc(id).collection('participants').add(p)}catch(e){console.warn(e)}}
 }
 
-// ╔══════════════════════════════════════════════════════════════╗
-// ║  TELEGRAM BOT API                                             ║
-// ╚══════════════════════════════════════════════════════════════╝
-async function sendPost(channel,name,desc,conditions,prizes,endDate){
-  const ch=channel.startsWith('@')?channel:'@'+channel;
+// ╔══════════════════════════════════════════╗
+// ║  TELEGRAM BOT API                         ║
+// ╚══════════════════════════════════════════╝
+async function tgApi(method,body){
+  try{
+    const r=await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/${method}`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+    return await r.json();
+  }catch(e){console.warn('TG API error:',e);return{ok:false}}
+}
+
+// Проверить что бот — админ канала
+async function checkBotAdmin(channel){
+  const res=await tgApi('getChatAdministrators',{chat_id:channel});
+  if(!res.ok)return{botAdmin:false,userAdmin:false};
+  const botInfo=await tgApi('getMe',{});
+  const botId=botInfo.result?.id;
+  const botAdmin=res.result?.some(a=>a.user.id===botId);
+  const userAdmin=res.result?.some(a=>a.user.id===tgUser?.id);
+  return{botAdmin:!!botAdmin,userAdmin:!!userAdmin};
+}
+
+// Пост о создании конкурса
+async function sendPost(channel,name,desc,cond,prizes,endDate){
   let text=`<b>🎉 Новый конкурс!</b>\n\n<b>${name}</b>`;
-  if(desc)text+=`\n${desc}`;
-  if(conditions)text+=`\n\n<b>Условия:</b> ${conditions}`;
-  if(prizes&&prizes.length){text+='\n\n<b>Призы:</b>';prizes.forEach((p,i)=>text+=`\n${i+1}. ${p}`)}
-  if(endDate){const d=new Date(endDate);text+=`\n\n<b>До:</b> ${d.toLocaleString('ru-RU',{day:'numeric',month:'long',year:'numeric',hour:'2-digit',minute:'2-digit'})} МСК`}
-  try{
-    await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`,{
-      method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({chat_id:ch,text,parse_mode:'HTML',
-        reply_markup:{inline_keyboard:[[{text:'Участвовать',web_app:{url:MINI_APP_URL}}]]}
-      })
-    });
-  }catch(e){console.error('Ошибка отправки поста:',e)}
+  if(desc)text+=`\n\n${desc}`;
+  if(cond)text+=`\n\n<b>Условия:</b> ${cond}`;
+  if(prizes?.length)text+=`\n\n<b>Призы:</b>\n${prizes.map((p,i)=>`${i+1}. ${p}`).join('\n')}`;
+  if(endDate)text+=`\n\n<b>До:</b> ${new Date(endDate).toLocaleString('ru-RU',{timeZone:'Europe/Moscow'})} МСК`;
+  text+=`\n\n<i>Нажмите кнопку ниже для участия</i>`;
+  await tgApi('sendMessage',{chat_id:channel,text,parse_mode:'HTML',reply_markup:{inline_keyboard:[[{text:'Участвовать',web_app:{url:MINI_APP_URL}}]]}});
 }
 
-// Отправка итогов в канал с кнопкой "Посмотреть итоги"
+// Пост с итогами + кнопка "Посмотреть итоги"
 async function sendResultsPost(contest){
-  const ch=contest.channel.startsWith('@')?contest.channel:'@'+contest.channel;
   const sorted=[...contest.participants].sort((a,b)=>b.points-a.points);
-  
-  let text=`<b>Конкурс завершён!</b>\n\n<b>${contest.name}</b>\n`;
-  
-  if(sorted.length>0){
-    text+='\n<b>Победители:</b>';
-    const medals=['🥇','🥈','🥉'];
-    const topN=Math.min(contest.winnersCount||1,sorted.length);
-    for(let i=0;i<topN;i++){
-      const p=sorted[i];
-      const medal=medals[i]||`${i+1}.`;
-      const mention=p.username?`@${p.username}`:p.name;
-      text+=`\n${medal} ${mention} — ${p.points} баллов`;
-    }
-    text+=`\n\n<b>Всего участников:</b> ${sorted.length}`;
-  }else{
-    text+='\nУчастников не было.';
-  }
-
-  try{
-    await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`,{
-      method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({chat_id:ch,text,parse_mode:'HTML',
-        reply_markup:{inline_keyboard:[[{text:'Посмотреть итоги',web_app:{url:MINI_APP_URL+'?contest='+contest.id}}]]}
-      })
-    });
-  }catch(e){console.error('Ошибка отправки итогов:',e)}
+  const winners=sorted.slice(0,contest.winnersCount||1);
+  const medals=['🥇','🥈','🥉'];
+  let text=`<b>Конкурс завершён!</b>\n\n<b>${contest.name}</b>\n\n<b>Победители:</b>\n`;
+  winners.forEach((w,i)=>{
+    const medal=medals[i]||`${i+1}.`;
+    text+=`${medal} <b>${w.name}</b>${w.username?` (@${w.username})`:''} — ${w.points} баллов\n`;
+  });
+  text+=`\n<i>Всего участников: ${contest.participants.length}</i>`;
+  const resultsUrl=MINI_APP_URL+(MINI_APP_URL.includes('?')?'&':'?')+'contest='+contest.id;
+  await tgApi('sendMessage',{chat_id:contest.channel,text,parse_mode:'HTML',reply_markup:{inline_keyboard:[[{text:'Посмотреть итоги',web_app:{url:resultsUrl}}]]}});
 }
 
-// ╔══════════════════════════════════════════════════════════════╗
-// ║  УТИЛИТЫ                                                     ║
-// ╚══════════════════════════════════════════════════════════════╝
+// ╔══════════════════════════════════════════╗
+// ║  УТИЛИТЫ                                  ║
+// ╚══════════════════════════════════════════╝
+const COLORS=['#FF6B6B','#845EF7','#339AF0','#20C997','#FF922B','#F06595','#5C7CFA','#12B886','#E64980','#3BC9DB','#FF8787','#7950F2'];
+function avaColor(name){let h=0;for(let i=0;i<name.length;i++)h=name.charCodeAt(i)+((h<<5)-h);return COLORS[Math.abs(h)%COLORS.length]}
+function initials(name){const p=name.split(' ');return p.length>1?(p[0][0]+p[1][0]).toUpperCase():(name.slice(0,2).toUpperCase())}
+function timeLeft(d){
+  const now=Date.now(),end=new Date(d).getTime(),diff=end-now;
+  if(diff<=0)return'Завершён';
+  const days=Math.floor(diff/864e5),hrs=Math.floor((diff%864e5)/36e5);
+  if(days>0)return`${days} дн ${hrs} ч`;
+  const mins=Math.floor((diff%36e5)/6e4);
+  return`${hrs} ч ${mins} мин`;
+}
 function isAdmin(){return tgUser&&tgUser.id===MAIN_ADMIN_ID}
+
+let toastTimer;
 function toast(msg,type='ok'){
-  const d=document.createElement('div');d.className=`toast toast-${type}`;d.textContent=msg;
-  document.body.appendChild(d);setTimeout(()=>d.remove(),2500);
-}
-function timeLeft(date){
-  const diff=new Date(date)-new Date();if(diff<=0)return'Завершён';
-  const d=Math.floor(diff/86400000),h=Math.floor(diff%86400000/3600000),m=Math.floor(diff%3600000/60000);
-  if(d>0)return`${d}д ${h}ч`;if(h>0)return`${h}ч ${m}м`;return`${m}м`;
-}
-const AVA_COLORS=['#FF6B6B','#845EF7','#339AF0','#20C997','#FCC419','#FF922B','#F06595','#7950F2','#22B8CF','#51CF66','#E64980','#5C7CFA'];
-function avaColor(name){let h=0;for(let i=0;i<name.length;i++)h=name.charCodeAt(i)+((h<<5)-h);return AVA_COLORS[Math.abs(h)%AVA_COLORS.length]}
-function initials(name){return(name||'?').split(' ').slice(0,2).map(w=>w[0]).join('').toUpperCase()}
-const outcomeNames=['','Лидерборд','Рандом','Взвешенный'];
-
-// ╔══════════════════════════════════════════════════════════════╗
-// ║  ГЕНЕРАТИВНЫЕ ИКОНКИ КОНКУРСОВ                               ║
-// ╚══════════════════════════════════════════════════════════════╝
-function hashStr(s){let h=0;for(let i=0;i<s.length;i++)h=((h<<5)-h)+s.charCodeAt(i);return Math.abs(h)}
-
-function generateContestIcon(name){
-  const h=hashStr(name);
-  const hue1=(h%360);
-  const hue2=((h*7)%360);
-  const c1=`hsl(${hue1},15%,88%)`;
-  const c2=`hsl(${hue2},15%,82%)`;
-  const c3=`hsl(${hue1},8%,92%)`;
-  
-  // Generate unique geometric pattern
-  const shapes=[];
-  const numShapes=3+h%3;
-  
-  for(let i=0;i<numShapes;i++){
-    const seed=(h*(i+1)*17)%1000;
-    const x=10+(seed%60);
-    const y=10+((seed*3)%60);
-    const size=12+(seed%20);
-    const type=seed%4;
-    const opacity=0.25+((seed%40)/100);
-    const strokeW=1.5+((seed%3)*0.5);
-    const color=`hsl(${(hue1+i*40)%360},20%,55%)`;
-    
-    if(type===0){
-      // Circle
-      shapes.push(`<circle cx="${x}" cy="${y}" r="${size/2}" fill="none" stroke="${color}" stroke-width="${strokeW}" opacity="${opacity}"/>`);
-    }else if(type===1){
-      // Diamond
-      const s=size/2;
-      shapes.push(`<polygon points="${x},${y-s} ${x+s},${y} ${x},${y+s} ${x-s},${y}" fill="none" stroke="${color}" stroke-width="${strokeW}" opacity="${opacity}"/>`);
-    }else if(type===2){
-      // Line cross
-      shapes.push(`<line x1="${x-size/2}" y1="${y}" x2="${x+size/2}" y2="${y}" stroke="${color}" stroke-width="${strokeW}" opacity="${opacity}"/>`);
-      shapes.push(`<line x1="${x}" y1="${y-size/2}" x2="${x}" y2="${y+size/2}" stroke="${color}" stroke-width="${strokeW}" opacity="${opacity}"/>`);
-    }else{
-      // Rounded rect
-      shapes.push(`<rect x="${x-size/3}" y="${y-size/3}" width="${size*0.66}" height="${size*0.66}" rx="4" fill="none" stroke="${color}" stroke-width="${strokeW}" opacity="${opacity}"/>`);
-    }
-  }
-  
-  // Add a main central shape
-  const mainHue=(h*13)%360;
-  const mainColor=`hsl(${mainHue},25%,45%)`;
-  shapes.push(`<circle cx="40" cy="40" r="14" fill="none" stroke="${mainColor}" stroke-width="2" opacity="0.4"/>`);
-  shapes.push(`<circle cx="40" cy="40" r="6" fill="${mainColor}" opacity="0.2"/>`);
-  
-  return `<div class="gen-icon"><svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
-    <defs><linearGradient id="gi${h%999}" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="${c1}"/><stop offset="50%" stop-color="${c3}"/><stop offset="100%" stop-color="${c2}"/>
-    </linearGradient></defs>
-    <rect width="80" height="80" fill="url(#gi${h%999})"/>
-    ${shapes.join('')}
-  </svg></div>`;
+  let el=document.getElementById('toast');
+  if(el)el.remove();
+  el=document.createElement('div');el.id='toast';
+  el.className=`toast toast-${type}`;el.textContent=msg;
+  document.body.appendChild(el);
+  clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.remove(),3000);
 }
 
-// ╔══════════════════════════════════════════════════════════════╗
-// ║  SVG ИКОНКИ                                                  ║
-// ╚══════════════════════════════════════════════════════════════╝
-function ic(name){
-  const icons={
-    home:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>',
-    star:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>',
-    plus:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>',
-    settings:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>',
-    user:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>',
-    users:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>',
-    clock:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>',
-    gift:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 010-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 000-5C13 2 12 7 12 7z"/></svg>',
-    check:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>',
-    send:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>',
-    hash:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="9" x2="20" y2="9"/><line x1="4" y1="15" x2="20" y2="15"/><line x1="10" y1="3" x2="8" y2="21"/><line x1="16" y1="3" x2="14" y2="21"/></svg>',
-    award:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>',
-    edit:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>',
-    x:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>',
-    chevL:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>',
-    chevR:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>',
-    heart:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>',
-    play:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>',
-    stop:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>',
-    eye:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>',
-    copy:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>',
-    info:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>',
-    trash:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>',
-    barChart:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>',
-    target:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>',
-    zap:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>',
-    flag:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>',
-    crown:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20h20L19 8l-5 6-2-8-2 8-5-6z"/></svg>',
-  };
-  return icons[name]||'';
-}
-
-// ╔══════════════════════════════════════════════════════════════╗
-// ║  РЕНДЕР                                                       ║
-// ╚══════════════════════════════════════════════════════════════╝
+// ╔══════════════════════════════════════════╗
+// ║  РЕНДЕРИНГ                                ║
+// ╚══════════════════════════════════════════╝
 function render(){
   const root=document.getElementById('root');
   let html='';
@@ -742,287 +715,296 @@ function render(){
     case'edit':html=rEdit();break;
     default:html=rHome();
   }
-  html+=rTabbar();
+  html+=rTabBar();
   root.innerHTML=html;
   bind();
 }
 
-function rTabbar(){
-  const t=(s,icon,label)=>{
-    if(s==='create'){
-      return `<button class="tb tb-center${currentScreen===s?' on':''}" data-nav="${s}">
-        <div class="tb-center-circle">${ic('plus')}</div>
-        <span class="tb-label">${label}</span>
+function rTabBar(){
+  const tabs=[
+    {id:'home',icon:'home',label:'Главная'},
+    {id:'points',icon:'star',label:'Баллы'},
+    {id:'create',icon:'plus',label:'Создать',center:true},
+    {id:'admin',icon:'settings',label:'Панель'},
+    {id:'profile',icon:'user',label:'Профиль'},
+  ];
+  let h='<div class="tabbar">';
+  tabs.forEach(t=>{
+    const on=currentScreen===t.id;
+    if(t.center){
+      h+=`<button class="tb tb-c${on?' on':''}" data-nav="${t.id}">
+        <div class="tb-c-circle">${ic(t.icon)}</div>
+        <span class="tb-t">${t.label}</span>
+      </button>`;
+    }else{
+      h+=`<button class="tb${on?' on':''}" data-nav="${t.id}">
+        ${ic(t.icon)}<span class="tb-t">${t.label}</span>
       </button>`;
     }
-    return `<button class="tb${currentScreen===s?' on':''}" data-nav="${s}">
-      ${ic(icon)}<span class="tb-label">${label}</span>
-    </button>`;
-  };
-  return `<nav class="tabbar">
-    ${t('home','home','Главная')}
-    ${t('points','star','Баллы')}
-    ${t('create','plus','Создать')}
-    ${t('admin','settings','Управление')}
-    ${t('profile','user','Профиль')}
-  </nav>`;
+  });
+  h+='</div>';return h;
 }
 
-// === ГЛАВНАЯ — premium cards ===
+// === ГЛАВНАЯ ===
 function rHome(){
   const active=contests.filter(c=>c.status==='active');
   let h='<div class="page">';
-  
-  h+=`<div class="hero an-fu">
-    <div class="hero-icon">${ic('crown')}</div>
-    <div class="hero-title">Конкурсы</div>
-    <div class="hero-sub">Участвуй, набирай баллы и выигрывай призы</div>
-    <div class="hero-chip"><span class="bdg-dot" style="background:var(--green)"></span> ${active.length} активных</div>
+
+  h+=`<div class="hero afu">
+    <div class="hero-i">${ic('award')}</div>
+    <div class="hero-t">Конкурсы</div>
+    <div class="hero-s">Участвуйте, зарабатывайте баллы и выигрывайте призы</div>
+    <div class="hero-chip"><span class="hero-chip-dot"></span>${active.length} активных</div>
   </div>`;
 
-  if(active.length===0){
-    h+=`<div class="empty an-fu d1">
-      <div class="empty-icon">${ic('flag')}</div>
-      <div class="empty-title">Нет активных конкурсов</div>
-      <div class="empty-sub">Создайте первый конкурс или дождитесь новых</div>
+  if(!active.length){
+    h+=`<div class="empty afu d1">
+      <div class="empty-i">${ic('award')}</div>
+      <div class="empty-t">Пока нет конкурсов</div>
+      <div class="empty-s">Создайте первый конкурс или ожидайте появления новых</div>
     </div>`;
   }
 
   active.forEach((c,i)=>{
     const tl=timeLeft(c.endDate);
-    h+=`<div class="ccard an-fu d${(i%6)+1} click" data-go="detail" data-id="${c.id}">
-      <div class="ccard-top">
-        <div class="ccard-icon">${generateContestIcon(c.name)}</div>
-        <div class="ccard-content">
-          <div class="ccard-name">${c.name}</div>
-          <div class="ccard-channel">${c.channel}</div>
-        </div>
-        <div style="padding:16px 16px 16px 0;display:flex;align-items:center">
-          <span class="bdg bdg-live"><span class="bdg-dot"></span> Live</span>
+    h+=`<div class="cc afu d${(i%6)+1} clk" data-go="detail" data-id="${c.id}">
+      <div class="cc-top">
+        <div class="cc-icon"><div class="ci">${ic('contestIcon')}</div></div>
+        <div class="cc-body">
+          <div class="cc-name">${c.name}</div>
+          <div class="cc-ch">${c.channel}</div>
         </div>
       </div>
-      <div class="ccard-bottom">
-        <div class="ccard-meta">
-          <span class="ccard-meta-item">${ic('users')} ${c.participants.length}</span>
-          <span class="ccard-meta-item">${ic('clock')} ${tl}</span>
-          ${c.prizes&&c.prizes.length?`<span class="ccard-meta-item">${ic('gift')} ${c.prizes.length} призов</span>`:''}
-        </div>
-        <span style="color:var(--text3)">${ic('chevR')}</span>
+      <div class="cc-foot">
+        <span class="cc-m">${ic('users')} ${c.participants.length}</span>
+        <span class="cc-m">${ic('clock')} ${tl}</span>
+        ${c.prizes?.length?`<span class="cc-m">${ic('gift')} ${c.prizes.length}</span>`:''}
+        <span class="cc-live"><span class="cc-live-dot"></span>Live</span>
       </div>
     </div>`;
   });
 
-  h+='</div>';
-  return h;
+  h+='</div>';return h;
 }
 
 // === МОИ БАЛЛЫ ===
 function rPoints(){
   const myId=tgUser?.id;
-  let total=0,items=[];
+  let h='<div class="page">';
+  h+=`<div class="afu"><div class="ptitle">Мои баллы</div><div class="psub">Все ваши конкурсы и результаты</div></div>`;
+
+  let totalPts=0,myList=[];
   contests.forEach(c=>{
     const me=c.participants.find(p=>p.tgId===myId);
-    if(me){total+=me.points;
-      const rank=[...c.participants].sort((a,b)=>b.points-a.points).findIndex(p=>p.tgId===myId)+1;
-      items.push({contest:c,pts:me.points,rank});
-    }
+    if(me){totalPts+=me.points;const sorted=[...c.participants].sort((a,b)=>b.points-a.points);
+      myList.push({...c,myPts:me.points,myRank:sorted.findIndex(p=>p.tgId===myId)+1})}
   });
 
-  let h='<div class="page">';
-  h+=`<div class="page-head an-fu"><div class="page-title">Мои баллы</div>
-    <div class="page-sub">Статистика по всем конкурсам</div></div>`;
-
-  h+=`<div class="stats an-fu d1">
-    <div class="stat"><div class="stat-val">${items.length}</div><div class="stat-label">Конкурсов</div></div>
-    <div class="stat"><div class="stat-val">${total}</div><div class="stat-label">Баллов</div></div>
-    <div class="stat"><div class="stat-val">${items.length?Math.min(...items.map(x=>x.rank)):'-'}</div><div class="stat-label">Лучшее место</div></div>
+  h+=`<div class="stats afu d1">
+    <div class="stat"><div class="sv">${myList.length}</div><div class="sl">Конкурсов</div></div>
+    <div class="stat"><div class="sv">${totalPts}</div><div class="sl">Всего баллов</div></div>
+    <div class="stat"><div class="sv">—</div><div class="sl">Побед</div></div>
   </div>`;
 
-  if(items.length===0){
-    h+=`<div class="empty an-fu d2">
-      <div class="empty-icon">${ic('star')}</div>
-      <div class="empty-title">Пока нет участий</div>
-      <div class="empty-sub">Присоединитесь к конкурсу на главной</div>
-    </div>`;
+  if(!myList.length){
+    h+=`<div class="empty afu d2"><div class="empty-i">${ic('star')}</div>
+      <div class="empty-t">Вы не участвуете</div>
+      <div class="empty-s">Вступите в конкурс на главной странице</div></div>`;
   }
 
-  items.forEach((it,i)=>{
-    h+=`<div class="card click an-fu d${(i%6)+2}" data-go="detail" data-id="${it.contest.id}">
-      <div class="card-row">
-        <div class="ib ib-soft">${ic('award')}</div>
-        <div class="card-body">
-          <div class="card-title">${it.contest.name}</div>
-          <div class="card-desc">${it.contest.channel} · Место #${it.rank}</div>
-        </div>
-        <span class="bdg bdg-pts">${it.pts}</span>
-      </div>
-    </div>`;
+  myList.forEach((c,i)=>{
+    h+=`<div class="card clk mb8 afu d${(i%6)+2}" data-go="detail" data-id="${c.id}">
+      <div class="cr"><div class="ib ib-s">${ic('award')}</div>
+        <div class="cb"><div class="ct">${c.name}</div>
+          <div class="cd">${c.channel} · место #${c.myRank}</div></div>
+        <span class="bdg bdg-pts">${c.myPts}</span></div></div>`;
   });
 
-  h+='</div>';
-  return h;
+  h+='</div>';return h;
 }
 
 // === СОЗДАТЬ КОНКУРС ===
 function rCreate(){
   let h='<div class="page">';
-  h+=`<div class="page-head an-fu"><div class="page-title">Создать конкурс</div>
-    <div class="page-sub">Запустите конкурс в вашем канале</div></div>`;
+  h+=`<div class="afu"><div class="ptitle">Новый конкурс</div><div class="psub">Запустите конкурс в своём канале</div></div>`;
 
-  h+=`<form id="cForm" class="an-fu d1">
-  <div class="field"><label class="field-label">Название конкурса</label>
-    <input class="inp" id="cf_name" placeholder="Весенний розыгрыш" required></div>
-  <div class="field"><label class="field-label">Канал</label>
-    <input class="inp" id="cf_ch" placeholder="@your_channel" required>
-    <div class="field-hint">Бот должен быть администратором канала</div></div>
-  <div class="field"><label class="field-label">Описание</label>
+  // Шаг 1: подключение бота к каналу
+  h+=`<div class="ch-connect afu d1">
+    <div style="font-size:15px;font-weight:800;margin-bottom:12px">Подключение канала</div>
+    <div class="ch-step">
+      <div class="ch-num">1</div>
+      <div class="ch-step-body">
+        <div class="ch-step-t">Добавьте бота в канал</div>
+        <div class="ch-step-d">Бот станет администратором канала и сможет публиковать посты</div>
+        <a href="https://t.me/${BOT_USERNAME}?startchannel&admin=post_messages+edit_messages+delete_messages" target="_blank" class="ch-btn">${ic('plus')} Добавить бота в канал</a>
+      </div>
+    </div>
+    <div class="ch-step">
+      <div class="ch-num">2</div>
+      <div class="ch-step-body">
+        <div class="ch-step-t">Укажите @username канала</div>
+        <div class="ch-step-d">Введите username и нажмите «Проверить». Бот должен быть админом, и вы тоже</div>
+        <div style="display:flex;gap:8px;margin-top:8px">
+          <input class="inp" id="cf_ch" placeholder="@mychannel" style="flex:1">
+          <button type="button" class="ch-btn" id="checkChannel">${ic('check')} Проверить</button>
+        </div>
+        <div id="channelStatus"></div>
+      </div>
+    </div>
+  </div>`;
+
+  h+=`<form id="cForm" class="afu d2">
+
+  <div class="fld"><label class="fl">Название конкурса</label>
+    <input class="inp" id="cf_name" placeholder="Розыгрыш iPhone 16 Pro" required></div>
+
+  <div class="fld"><label class="fl">Описание</label>
     <textarea class="inp" id="cf_desc" placeholder="Расскажите о конкурсе..."></textarea></div>
-  <div class="field"><label class="field-label">Условия</label>
-    <textarea class="inp" id="cf_cond" placeholder="Что нужно сделать..." style="min-height:64px"></textarea></div>
-  <div class="grid-2">
-    <div class="field"><label class="field-label">Дата окончания</label>
+
+  <div class="fld"><label class="fl">Условия участия</label>
+    <textarea class="inp" id="cf_cond" placeholder="Подписка на канал..." style="min-height:64px"></textarea></div>
+
+  <div class="grid2">
+    <div class="fld"><label class="fl">Дата окончания (МСК)</label>
       <input class="inp" id="cf_end" type="datetime-local" required></div>
-    <div class="field"><label class="field-label">Победителей</label>
-      <input class="inp" id="cf_winners" type="number" value="1" min="1"></div>
+    <div class="fld"><label class="fl">Победителей</label>
+      <input class="inp" id="cf_winners" type="number" min="1" value="1"></div>
   </div>
-  <div class="grid-2">
-    <div class="field"><label class="field-label">Текст кнопки</label>
+
+  <div class="grid2">
+    <div class="fld"><label class="fl">Текст кнопки</label>
       <input class="inp" id="cf_btn" value="Участвовать"></div>
-    <div class="field"><label class="field-label">Баллы при входе</label>
-      <input class="inp" id="cf_initpts" type="number" value="0" min="0"></div>
+    <div class="fld"><label class="fl">Начальные баллы</label>
+      <input class="inp" id="cf_initpts" type="number" min="0" value="0"></div>
   </div>
-  <div class="field"><label class="field-label">Определение победителя</label>
+
+  <div class="fld"><label class="fl">Тип определения победителя</label>
     <select class="inp" id="cf_outcome">
-      <option value="1">Лидерборд — кто больше набрал</option>
-      <option value="2">Рандом среди набравших порог</option>
-      <option value="3">Взвешенный рандом по баллам</option>
+      <option value="1">Лидерборд (топ по баллам)</option>
+      <option value="2">Рандом (среди тех, кто >= порог)</option>
+      <option value="3">Взвешенный рандом (шанс ~ баллы)</option>
     </select></div>
-  <div class="field" id="cf_thr_wrap" style="display:none">
-    <label class="field-label">Порог баллов</label>
-    <input class="inp" id="cf_thr" type="number" value="50" min="1">
-    <div class="field-hint">Минимум баллов для участия в розыгрыше</div></div>
+
+  <div class="fld" id="cf_thr_wrap" style="display:none"><label class="fl">Порог баллов</label>
+    <input class="inp" id="cf_thr" type="number" min="0" value="10">
+    <div class="fh">Минимум баллов для участия в розыгрыше</div></div>
 
   <div class="divider"></div>
-  <div style="font-size:18px;font-weight:800;margin-bottom:4px;letter-spacing:-.3px">Начисление баллов</div>
-  <div style="font-size:13px;color:var(--text3);margin-bottom:14px">Настройте способы заработка баллов</div>
+  <div style="font-size:17px;font-weight:800;margin-bottom:4px;letter-spacing:-.3px">Начисление баллов</div>
+  <div style="font-size:13px;color:var(--text3);margin-bottom:14px">Настройте как участники зарабатывают баллы</div>
 
-  <div class="tgl-row"><div class="tgl-label">${ic('users')} Приглашение друзей</div>
+  <div class="tgl-r"><div class="tgl-l">${ic('users')} Приглашение друзей</div>
     <button type="button" class="tgl" id="t_inv"></button></div>
   <div class="tgl-sub" id="s_inv" style="display:none">
-    <div class="field"><label class="field-label">Баллов за одного друга</label>
-      <input class="inp" id="cf_inv_pts" type="number" value="5" min="1"></div></div>
+    <div class="fld"><label class="fl">Баллов за одного друга</label>
+      <input class="inp" id="cf_inv_pts" type="number" min="1" value="5"></div></div>
 
-  <div class="tgl-row"><div class="tgl-label">${ic('heart')} Реакции на постах</div>
+  <div class="tgl-r"><div class="tgl-l">${ic('heart')} Реакции на постах</div>
     <button type="button" class="tgl" id="t_react"></button></div>
   <div class="tgl-sub" id="s_react" style="display:none">
-    <div class="field"><label class="field-label">Баллов за реакцию</label>
-      <input class="inp" id="cf_react_pts" type="number" value="1" min="1"></div></div>
+    <div class="fld"><label class="fl">Баллов за реакцию</label>
+      <input class="inp" id="cf_react_pts" type="number" min="1" value="1"></div></div>
 
-  <div class="tgl-row"><div class="tgl-label">${ic('play')} Просмотр рекламы</div>
+  <div class="tgl-r"><div class="tgl-l">${ic('play')} Просмотр рекламы</div>
     <button type="button" class="tgl" id="t_ads"></button></div>
   <div class="tgl-sub" id="s_ads" style="display:none">
-    <div class="field"><label class="field-label">Баллов за просмотр</label>
-      <input class="inp" id="cf_ads_pts" type="number" value="3" min="1"></div>
-    <div class="notice notice-warn">${ic('info')} Модуль рекламы в разработке</div></div>
+    <div class="fld"><label class="fl">Баллов за просмотр</label>
+      <input class="inp" id="cf_ads_pts" type="number" min="1" value="3"></div>
+    <div class="notice notice-w mt8">${ic('info')} Модуль рекламы в разработке. Пока работает как заглушка.</div></div>
 
   <div class="divider"></div>
-  <div class="field"><label class="field-label">Призы</label>
-    <div class="flex gap-8">
-      <input class="inp" id="cf_prize" placeholder="Введите приз..." style="flex:1">
-      <button type="button" class="btn btn-black" id="addPrize" style="width:auto;padding:12px 18px;flex-shrink:0">${ic('plus')}</button>
-    </div>
-    <div id="prizes_list" class="mt-8"></div></div>
+  <div style="font-size:17px;font-weight:800;margin-bottom:4px;letter-spacing:-.3px">Призы</div>
+  <div style="font-size:13px;color:var(--text3);margin-bottom:14px">Добавьте призы для победителей</div>
+  <div id="prizes_list"></div>
+  <div style="display:flex;gap:8px;margin-bottom:16px">
+    <input class="inp" id="cf_prize" placeholder="Например: iPhone 16 Pro" style="flex:1">
+    <button type="button" class="btn btn-s btn-sm" id="addPrize" style="width:auto;padding:10px 16px">${ic('plus')}</button></div>
 
-  <button type="submit" class="btn btn-black mt-8">${ic('send')} Создать конкурс</button>
+  <button type="submit" class="btn btn-b" id="createBtn">${ic('send')} Создать конкурс</button>
+
   </form></div>`;
   return h;
 }
 
-// === ДЕТАЛИ КОНКУРСА ===
+// === ДЕТАЛИ ===
 function rDetail(){
   const c=contests.find(x=>x.id===screenParams.id);
-  if(!c)return'<div class="page"><div class="empty"><div class="empty-title">Конкурс не найден</div></div></div>';
-
+  if(!c)return'<div class="page"><div class="empty"><div class="empty-t">Конкурс не найден</div></div></div>';
   const myId=tgUser?.id;
-  const isParticipant=c.participants.find(p=>p.tgId===myId);
+  const joined=c.participants.find(p=>p.tgId===myId);
   const sorted=[...c.participants].sort((a,b)=>b.points-a.points);
+  const myRank=joined?sorted.findIndex(p=>p.tgId===myId)+1:0;
+  const isLive=c.status==='active';
   const isCreator=tgUser&&c.creatorId===tgUser.id;
   const canManage=isCreator||isAdmin();
-  const isLive=c.status==='active';
 
   let h='<div class="page">';
-  h+=`<button class="back-btn an-fu click" data-nav="home">${ic('chevL')} Назад</button>`;
+  h+=`<button class="back afu clk" data-nav="home">${ic('chevL')} Назад</button>`;
 
   // Header
-  h+=`<div class="dh an-fu d1">
-    <div class="dh-channel">${ic('hash')} ${c.channel}</div>
-    <div class="dh-name">${c.name}</div>
-    ${c.desc?`<div class="dh-desc">${c.desc}</div>`:''}
-    <div class="dh-meta">
-      <span class="bdg ${isLive?'bdg-live':'bdg-ended'}">${isLive?'Активен':'Завершён'}</span>
-      <span class="bdg bdg-s">${ic('clock')} ${timeLeft(c.endDate)}</span>
-      <span class="bdg bdg-s">${ic('users')} ${c.participants.length}</span>
-      ${c.outcomeType?`<span class="bdg bdg-s">${outcomeNames[c.outcomeType]}</span>`:''}
-    </div>
-    ${canManage&&isLive?`<div class="dh-actions">
-      <button class="btn btn-soft btn-sm click" data-go="edit" data-id="${c.id}" style="flex:1">${ic('edit')} Редактировать</button>
-      <button class="btn btn-danger btn-sm click" data-act="end" data-id="${c.id}" style="flex:1">${ic('stop')} Завершить</button>
-    </div>`:''}
+  h+=`<div class="dh afu d1">
+    <div class="dh-ch">${ic('hash')} ${c.channel}</div>
+    <div class="dh-n">${c.name}</div>`;
+  if(c.desc)h+=`<div class="dh-d">${c.desc}</div>`;
+  h+=`<div class="dh-m">
+    <span class="bdg ${isLive?'bdg-live':'bdg-end'}">${isLive?'Активный':'Завершён'}</span>
+    <span class="bdg bdg-end">${ic('users')} ${c.participants.length} участников</span>
+    <span class="bdg bdg-end">${ic('clock')} ${isLive?timeLeft(c.endDate):'Завершён'}</span>
   </div>`;
+
+  if(canManage&&isLive){
+    h+=`<div class="dh-acts">
+      <button class="btn btn-s btn-sm clk" data-go="edit" data-id="${c.id}" style="flex:1">${ic('edit')} Редактировать</button>
+      <button class="btn btn-r btn-sm clk" data-act="end" data-id="${c.id}" style="flex:1">${ic('stop')} Завершить</button>
+    </div>`;
+  }
+  h+='</div>';
 
   // Conditions
   if(c.conditions){
-    h+=`<div class="card an-fu d2 mb-12"><div style="font-size:13px;font-weight:700;color:var(--text3);margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px">Условия</div>
+    h+=`<div class="card afu d2 mb12"><div style="font-size:13px;font-weight:700;color:var(--text2);margin-bottom:6px">Условия участия</div>
       <div style="font-size:14px;line-height:1.5">${c.conditions}</div></div>`;
   }
 
-  // My status + join
-  if(isLive){
-    if(isParticipant){
-      const myRank=sorted.findIndex(p=>p.tgId===myId)+1;
-      h+=`<div class="card an-fu d3 mb-12">
-        <div class="flex items-c justify-b"><div>
-          <div style="font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.5px">Ваши баллы</div>
-          <div style="font-size:32px;font-weight:900;font-family:'JetBrains Mono',monospace;letter-spacing:-1px;margin-top:4px">${isParticipant.points}</div>
-        </div><div style="text-align:right">
-          <div style="font-size:13px;font-weight:700;color:var(--text3)">Место</div>
-          <div style="font-size:32px;font-weight:900;font-family:'JetBrains Mono',monospace;letter-spacing:-1px;margin-top:4px">#${myRank}</div>
-        </div></div></div>`;
+  // Join or stats
+  if(isLive&&!joined){
+    h+=`<button class="btn btn-b afu d2 clk mb12" data-act="join" data-id="${c.id}">${ic('plus')} ${c.buttonText||'Участвовать'}</button>`;
+  }
+  if(joined){
+    h+=`<div class="stats afu d2">
+      <div class="stat"><div class="sv">${joined.points}</div><div class="sl">Баллов</div></div>
+      <div class="stat"><div class="sv">#${myRank}</div><div class="sl">Место</div></div>
+      <div class="stat"><div class="sv">${c.participants.length}</div><div class="sl">Всего</div></div>
+    </div>`;
+  }
 
-      // Referral link (inside contest detail)
-      if(c.scoring?.invites?.on){
-        const refLink=`https://t.me/${BOT_USERNAME}?start=c${c.id}_ref_${myId}`;
-        h+=`<div class="ref-block an-fu d4">
-          <div style="font-size:14px;font-weight:700;margin-bottom:4px">Пригласить друзей</div>
-          <div style="font-size:13px;color:var(--text3)">+${c.scoring.invites.pts} баллов за каждого</div>
-          <div class="ref-link">
-            <div class="ref-link-text">${refLink}</div>
-            <button class="ref-copy click" data-act="copyRef" data-ref="${refLink}">${ic('copy')}</button>
-          </div>
-        </div>`;
-      }
-    }else{
-      h+=`<button class="btn btn-black an-fu d3 mb-12 click" data-act="join" data-id="${c.id}">${ic('zap')} ${c.buttonText||'Участвовать'}</button>`;
-    }
+  // Referral
+  if(joined&&isLive&&c.scoring?.invites?.on){
+    const refLink=`https://t.me/${BOT_USERNAME}?start=c${c.id}_ref_${myId}`;
+    h+=`<div class="ref afu d3">
+      <div style="font-size:14px;font-weight:700;margin-bottom:4px">Пригласить друзей</div>
+      <div style="font-size:12px;color:var(--text3)">+${c.scoring.invites.pts} баллов за каждого приглашённого</div>
+      <div class="ref-box"><span>${refLink}</span>
+        <button class="ref-cp clk" data-act="copyRef" data-ref="${refLink}">${ic('copy')}</button></div>
+    </div>`;
   }
 
   // Prizes
-  if(c.prizes&&c.prizes.length){
-    h+=`<div class="sec an-fu d4"><div class="sec-head"><div class="sec-title">Призы</div></div>`;
+  if(c.prizes?.length){
+    h+=`<div class="sec afu d4"><div class="sh"><div class="st">Призы</div></div>`;
     c.prizes.forEach((p,i)=>{
-      const colors=['var(--gold)','var(--silver)','var(--bronze)'];
-      const bg=['#FEF9C3','#F4F4F5','#FFF7ED'];
-      h+=`<div class="prize-item"><div class="prize-num" style="${i<3?`background:${bg[i]};color:${colors[i]}`:''}">${i+1}</div>
-        <div class="prize-text">${p}</div></div>`;
+      const cls=i===0?'bdg-g':i===1?'bdg-s':i===2?'bdg-b':'bdg-end';
+      h+=`<div class="pi"><div class="pn" style="${i<3?'background:'+(i===0?'#FEF9C3':i===1?'#F4F4F5':'#FFF7ED'):''}">${i+1}</div>
+        <div class="pt">${p}</div></div>`;
     });
     h+='</div>';
   }
 
   // Scoring config
   if(c.scoring){
-    h+=`<div class="sec an-fu d5"><div class="sec-head"><div class="sec-title">Начисление баллов</div></div>
-    <div class="sc-row" style="margin-top:0">
-      ${c.scoring.invites?.on?`<span class="sc sc-on">${ic('users')} Друзья +${c.scoring.invites.pts}</span>`:`<span class="sc sc-off">${ic('users')} Друзья</span>`}
+    h+=`<div class="sec afu d5"><div class="sh"><div class="st">Способы заработка</div></div>
+    <div class="sc-r" style="gap:8px">
+      ${c.scoring.invites?.on?`<span class="sc sc-on">${ic('users')} Приглашения +${c.scoring.invites.pts}</span>`:`<span class="sc sc-off">${ic('users')} Приглашения</span>`}
       ${c.scoring.reactions?.on?`<span class="sc sc-on">${ic('heart')} Реакции +${c.scoring.reactions.pts}</span>`:`<span class="sc sc-off">${ic('heart')} Реакции</span>`}
       ${c.scoring.ads?.on?`<span class="sc sc-on">${ic('play')} Реклама +${c.scoring.ads.pts}</span>`:`<span class="sc sc-off">${ic('play')} Реклама</span>`}
     </div></div>`;
@@ -1030,61 +1012,54 @@ function rDetail(){
 
   // Leaderboard
   if(sorted.length){
-    h+=`<div class="sec an-fu d6"><div class="sec-head"><div class="sec-title">Участники</div>
+    h+=`<div class="sec afu d6"><div class="sh"><div class="st">Участники</div>
       <span style="font-size:14px;color:var(--text3);font-weight:600">${sorted.length}</span></div>`;
     h+='<div class="lb">';
     sorted.forEach((p,i)=>{
       const rank=i+1;
-      let cls='lb-item';
-      if(rank===1)cls+=' lb-1';else if(rank===2)cls+=' lb-2';else if(rank===3)cls+=' lb-3';
-      if(p.tgId===myId)cls+=' lb-me';
+      let cls='li';
+      if(rank===1)cls+=' l1';else if(rank===2)cls+=' l2';else if(rank===3)cls+=' l3';
+      if(p.tgId===myId)cls+=' lm';
       const ac=avaColor(p.name||'?');
-      const profileLink=p.username?`https://t.me/${p.username}`:`tg://user?id=${p.tgId}`;
-      h+=`<div class="${cls} click" data-act="openUser" data-link="${profileLink}">
-        <div class="lb-rank">${rank}</div>
-        <div class="ava ava-sm" style="background:${ac}">${initials(p.name||'?')}</div>
-        <div class="lb-info">
-          <div class="lb-name">${p.name||'Участник'}</div>
-          ${p.username?`<div class="lb-user">@${p.username}</div>`:''}
-        </div>
-        <div class="lb-pts">${p.points}</div>
+      const link=p.username?`https://t.me/${p.username}`:`tg://user?id=${p.tgId}`;
+      h+=`<div class="${cls} clk" data-act="openUser" data-link="${link}">
+        <div class="lr">${rank}</div>
+        <div class="av av-34" style="background:${ac}">${initials(p.name||'?')}</div>
+        <div class="ln"><div class="ln-n">${p.name||'Участник'}</div>
+          ${p.username?`<div class="ln-u">@${p.username}</div>`:''}</div>
+        <div class="lp">${p.points}</div>
       </div>`;
     });
     h+='</div></div>';
   }
 
-  h+='</div>';
-  return h;
+  h+='</div>';return h;
 }
 
 // === УПРАВЛЕНИЕ ===
 function rAdmin(){
   let h='<div class="page">';
-  h+=`<div class="page-head an-fu"><div class="page-title">Управление</div>
-    <div class="page-sub">Ваши конкурсы</div></div>`;
+  h+=`<div class="afu"><div class="ptitle">Управление</div><div class="psub">Ваши конкурсы</div></div>`;
 
   const active=contests.filter(c=>c.status==='active').length;
   const ended=contests.filter(c=>c.status==='ended').length;
   const totalP=contests.reduce((s,c)=>s+c.participants.length,0);
 
-  h+=`<div class="stats an-fu d1">
-    <div class="stat"><div class="stat-val">${active}</div><div class="stat-label">Активных</div></div>
-    <div class="stat"><div class="stat-val">${ended}</div><div class="stat-label">Завершённых</div></div>
-    <div class="stat"><div class="stat-val">${totalP}</div><div class="stat-label">Участников</div></div>
+  h+=`<div class="stats afu d1">
+    <div class="stat"><div class="sv">${active}</div><div class="sl">Активных</div></div>
+    <div class="stat"><div class="sv">${ended}</div><div class="sl">Завершённых</div></div>
+    <div class="stat"><div class="sv">${totalP}</div><div class="sl">Участников</div></div>
   </div>`;
 
-  h+=`<div class="tabs an-fu d2">
+  h+=`<div class="tabs afu d2">
     <div class="tab on" data-atab="all">Все</div>
     <div class="tab" data-atab="active">Активные</div>
     <div class="tab" data-atab="ended">Завершённые</div>
   </div>`;
 
-  if(contests.length===0){
-    h+=`<div class="empty an-fu d3">
-      <div class="empty-icon">${ic('settings')}</div>
-      <div class="empty-title">Нет конкурсов</div>
-      <div class="empty-sub">Создайте первый конкурс</div>
-    </div>`;
+  if(!contests.length){
+    h+=`<div class="empty afu d3"><div class="empty-i">${ic('settings')}</div>
+      <div class="empty-t">Нет конкурсов</div><div class="empty-s">Создайте первый конкурс</div></div>`;
   }
 
   contests.forEach((c,i)=>{
@@ -1092,28 +1067,27 @@ function rAdmin(){
     const isCreator=tgUser&&c.creatorId===tgUser.id;
     const canManage=isCreator||isAdmin();
 
-    h+=`<div class="ac an-fu d${(i%6)+3}" data-filter="${c.status}">
-      <div class="ac-head">
-        <div><div class="ac-title">${c.name}</div>
-          <div class="ac-sub">${c.channel} · ${c.participants.length} участн.</div></div>
-        <span class="bdg ${isLive?'bdg-live':'bdg-ended'}">${isLive?'Live':'Завершён'}</span>
+    h+=`<div class="ac afu d${(i%6)+3}" data-filter="${c.status}">
+      <div class="ac-h">
+        <div><div class="ac-t">${c.name}</div>
+          <div class="ac-s">${c.channel} · ${c.participants.length} уч.</div></div>
+        <span class="bdg ${isLive?'bdg-live':'bdg-end'}">${isLive?'Live':'Завершён'}</span>
       </div>
-      <div class="sc-row">
+      <div class="sc-r">
         ${c.scoring?.invites?.on?`<span class="sc sc-on">${ic('users')} +${c.scoring.invites.pts}</span>`:`<span class="sc sc-off">${ic('users')} Выкл</span>`}
         ${c.scoring?.reactions?.on?`<span class="sc sc-on">${ic('heart')} +${c.scoring.reactions.pts}</span>`:`<span class="sc sc-off">${ic('heart')} Выкл</span>`}
         ${c.scoring?.ads?.on?`<span class="sc sc-on">${ic('play')} +${c.scoring.ads.pts}</span>`:`<span class="sc sc-off">${ic('play')} Выкл</span>`}
       </div>
       <div class="ac-btns">
-        <button class="ac-btn click" data-go="detail" data-id="${c.id}">${ic('eye')} Открыть</button>
-        ${canManage&&isLive?`<button class="ac-btn click" data-go="edit" data-id="${c.id}">${ic('edit')} Изменить</button>
-        <button class="ac-btn ac-btn-red click" data-act="end" data-id="${c.id}">${ic('stop')} Завершить</button>`:''}
-        ${canManage?`<button class="ac-btn ac-btn-del click" data-act="delete" data-id="${c.id}">${ic('trash')} Удалить</button>`:''}
+        <button class="ac-b clk" data-go="detail" data-id="${c.id}">${ic('eye')} Открыть</button>
+        ${canManage&&isLive?`<button class="ac-b clk" data-go="edit" data-id="${c.id}">${ic('edit')} Изменить</button>
+        <button class="ac-b ac-b-r clk" data-act="end" data-id="${c.id}">${ic('stop')} Завершить</button>`:''}
+        ${canManage?`<button class="ac-b ac-b-r clk" data-act="delete" data-id="${c.id}">${ic('trash')} Удалить</button>`:''}
       </div>
     </div>`;
   });
 
-  h+='</div>';
-  return h;
+  h+='</div>';return h;
 }
 
 // === ПРОФИЛЬ ===
@@ -1130,117 +1104,109 @@ function rProfile(){
   });
 
   let h='<div class="page">';
-
-  h+=`<div style="text-align:center;padding:28px 0" class="an-fu">
-    <div class="ava ava-xl" style="background:${col};margin:0 auto 16px">${initials(name)}</div>
-    <div style="font-size:24px;font-weight:900;letter-spacing:-.4px">${name}</div>
-    <div style="font-size:14px;color:var(--text3);margin-top:3px">@${uname}</div>
+  h+=`<div style="text-align:center;padding:24px 0" class="afu">
+    <div class="av av-80" style="background:${col};margin:0 auto 14px">${initials(name)}</div>
+    <div style="font-size:22px;font-weight:900;letter-spacing:-.3px">${name}</div>
+    <div style="font-size:13px;color:var(--text3);margin-top:3px">@${uname}</div>
     ${isAdmin()?'<span class="bdg bdg-g" style="margin-top:10px">Администратор</span>':''}
   </div>`;
 
-  h+=`<div class="stats an-fu d1">
-    <div class="stat"><div class="stat-val">${myContests.length}</div><div class="stat-label">Конкурсов</div></div>
-    <div class="stat"><div class="stat-val">${totalPts}</div><div class="stat-label">Баллов</div></div>
-    <div class="stat"><div class="stat-val">—</div><div class="stat-label">Побед</div></div>
+  h+=`<div class="stats afu d1">
+    <div class="stat"><div class="sv">${myContests.length}</div><div class="sl">Конкурсов</div></div>
+    <div class="stat"><div class="sv">${totalPts}</div><div class="sl">Баллов</div></div>
+    <div class="stat"><div class="sv">—</div><div class="sl">Побед</div></div>
   </div>`;
 
   if(myContests.length){
-    h+=`<div class="sec an-fu d2"><div class="sec-head"><div class="sec-title">Мои конкурсы</div></div>`;
+    h+=`<div class="sec afu d2"><div class="sh"><div class="st">Мои конкурсы</div></div>`;
     myContests.forEach(c=>{
-      h+=`<div class="card click mb-8" data-go="detail" data-id="${c.id}">
-        <div class="card-row">
-          <div class="ib ib-soft">${ic('award')}</div>
-          <div class="card-body">
-            <div class="card-title">${c.name}</div>
-            <div class="card-desc">${c.channel}</div>
-          </div>
-          <span class="bdg bdg-pts">${c.myPts}</span>
-        </div>
-      </div>`;
+      h+=`<div class="card clk mb8" data-go="detail" data-id="${c.id}">
+        <div class="cr"><div class="ib ib-s">${ic('award')}</div>
+          <div class="cb"><div class="ct">${c.name}</div>
+            <div class="cd">${c.channel}</div></div>
+          <span class="bdg bdg-pts">${c.myPts}</span></div></div>`;
     });
     h+='</div>';
   }
 
-  h+=`<div class="pm an-fu d3">
-    <div class="pm-item click" data-nav="points">
-      <div class="ib ib-sm ib-soft">${ic('barChart')}</div>
-      <div class="pm-body"><div class="pm-title">Подробная статистика</div>
-        <div class="pm-desc">Баллы и позиции по всем конкурсам</div></div>
-      <div class="pm-arrow">${ic('chevR')}</div>
+  h+=`<div class="pm afu d3">
+    <div class="pm-i clk" data-nav="points">
+      <div class="ib ib-34 ib-s">${ic('barChart')}</div>
+      <div class="pm-b"><div class="pm-t">Статистика</div>
+        <div class="pm-d">Баллы и позиции</div></div>
+      <div class="pm-a">${ic('chevR')}</div>
     </div>
-    <div class="pm-item click" data-nav="create">
-      <div class="ib ib-sm ib-soft">${ic('plus')}</div>
-      <div class="pm-body"><div class="pm-title">Создать конкурс</div>
-        <div class="pm-desc">Запустите свой конкурс в канале</div></div>
-      <div class="pm-arrow">${ic('chevR')}</div>
+    <div class="pm-i clk" data-nav="create">
+      <div class="ib ib-34 ib-s">${ic('plus')}</div>
+      <div class="pm-b"><div class="pm-t">Создать конкурс</div>
+        <div class="pm-d">Запустите конкурс в канале</div></div>
+      <div class="pm-a">${ic('chevR')}</div>
     </div>
-    <div class="pm-item">
-      <div class="ib ib-sm ib-soft">${ic('info')}</div>
-      <div class="pm-body"><div class="pm-title">О приложении</div>
-        <div class="pm-desc">v1.0 · Telegram Mini App</div></div>
+    <div class="pm-i">
+      <div class="ib ib-34 ib-s">${ic('info')}</div>
+      <div class="pm-b"><div class="pm-t">О приложении</div>
+        <div class="pm-d">v1.0 · Telegram Mini App</div></div>
     </div>
   </div>`;
 
   if(!useFirebase){
-    h+=`<div class="notice notice-warn an-fu d4" style="margin-top:18px">
-      ${ic('info')} <div><b>Демо-режим.</b> Подключите Firebase для сохранения данных.</div>
+    h+=`<div class="notice notice-w afu d4" style="margin-top:16px">
+      ${ic('info')} <div><b>Демо-режим.</b> Firebase подключён, но данные загружаются из демо.</div>
     </div>`;
   }
 
-  h+='</div>';
-  return h;
+  h+='</div>';return h;
 }
 
 // === РЕДАКТИРОВАНИЕ ===
 function rEdit(){
   const c=contests.find(x=>x.id===screenParams.id);
-  if(!c)return'<div class="page"><div class="empty"><div class="empty-title">Конкурс не найден</div></div></div>';
+  if(!c)return'<div class="page"><div class="empty"><div class="empty-t">Конкурс не найден</div></div></div>';
 
   let h='<div class="page">';
-  h+=`<button class="back-btn an-fu click" data-go="detail" data-id="${c.id}">${ic('chevL')} Назад к конкурсу</button>`;
-  h+=`<div class="page-head an-fu d1"><div class="page-title">Редактировать</div>
-    <div class="page-sub">${c.name}</div></div>`;
+  h+=`<button class="back afu clk" data-go="detail" data-id="${c.id}">${ic('chevL')} Назад</button>`;
+  h+=`<div class="afu d1"><div class="ptitle">Редактировать</div><div class="psub">${c.name}</div></div>`;
 
-  h+=`<form id="eForm" class="an-fu d2">
-  <div class="field"><label class="field-label">Название</label>
+  h+=`<form id="eForm" class="afu d2">
+  <div class="fld"><label class="fl">Название</label>
     <input class="inp" id="ef_name" value="${c.name}"></div>
-  <div class="field"><label class="field-label">Описание</label>
+  <div class="fld"><label class="fl">Описание</label>
     <textarea class="inp" id="ef_desc">${c.desc||''}</textarea></div>
-  <div class="field"><label class="field-label">Условия</label>
+  <div class="fld"><label class="fl">Условия</label>
     <textarea class="inp" id="ef_cond" style="min-height:64px">${c.conditions||''}</textarea></div>
 
   <div class="divider"></div>
-  <div style="font-size:18px;font-weight:800;margin-bottom:4px;letter-spacing:-.3px">Начисление баллов</div>
+  <div style="font-size:17px;font-weight:800;margin-bottom:4px;letter-spacing:-.3px">Начисление баллов</div>
   <div style="font-size:13px;color:var(--text3);margin-bottom:14px">Измените настройки</div>
 
-  <div class="tgl-row"><div class="tgl-label">${ic('users')} Приглашения</div>
+  <div class="tgl-r"><div class="tgl-l">${ic('users')} Приглашения</div>
     <button type="button" class="tgl${c.scoring?.invites?.on?' on':''}" id="et_inv"></button></div>
   <div class="tgl-sub" id="es_inv" style="display:${c.scoring?.invites?.on?'block':'none'}">
-    <div class="field"><label class="field-label">Баллов за друга</label>
+    <div class="fld"><label class="fl">Баллов за друга</label>
       <input class="inp" id="ef_inv" type="number" min="1" value="${c.scoring?.invites?.pts||5}"></div></div>
 
-  <div class="tgl-row"><div class="tgl-label">${ic('heart')} Реакции</div>
+  <div class="tgl-r"><div class="tgl-l">${ic('heart')} Реакции</div>
     <button type="button" class="tgl${c.scoring?.reactions?.on?' on':''}" id="et_react"></button></div>
   <div class="tgl-sub" id="es_react" style="display:${c.scoring?.reactions?.on?'block':'none'}">
-    <div class="field"><label class="field-label">Баллов за реакцию</label>
+    <div class="fld"><label class="fl">Баллов за реакцию</label>
       <input class="inp" id="ef_react" type="number" min="1" value="${c.scoring?.reactions?.pts||1}"></div></div>
 
-  <div class="tgl-row"><div class="tgl-label">${ic('play')} Реклама</div>
+  <div class="tgl-r"><div class="tgl-l">${ic('play')} Реклама</div>
     <button type="button" class="tgl${c.scoring?.ads?.on?' on':''}" id="et_ads"></button></div>
   <div class="tgl-sub" id="es_ads" style="display:${c.scoring?.ads?.on?'block':'none'}">
-    <div class="field"><label class="field-label">Баллов за просмотр</label>
+    <div class="fld"><label class="fl">Баллов за просмотр</label>
       <input class="inp" id="ef_ads" type="number" min="1" value="${c.scoring?.ads?.pts||3}"></div>
-    <div class="notice notice-warn">${ic('info')} Модуль рекламы в разработке</div></div>
+    <div class="notice notice-w">${ic('info')} Модуль рекламы в разработке</div></div>
 
   <div class="divider"></div>
-  <button type="submit" class="btn btn-black">${ic('check')} Сохранить изменения</button>
+  <button type="submit" class="btn btn-b">${ic('check')} Сохранить</button>
   </form></div>`;
   return h;
 }
 
-// ╔══════════════════════════════════════════════════════════════╗
-// ║  СОБЫТИЯ                                                     ║
-// ╚══════════════════════════════════════════════════════════════╝
+// ╔══════════════════════════════════════════╗
+// ║  СОБЫТИЯ                                  ║
+// ╚══════════════════════════════════════════╝
 function bind(){
   document.querySelectorAll('[data-nav]').forEach(el=>{
     el.addEventListener('click',()=>go(el.dataset.nav));
@@ -1255,38 +1221,35 @@ function bind(){
     el.addEventListener('click',async e=>{
       e.stopPropagation();
       const act=el.dataset.act;
-      switch(act){
-        case'join':
-          await joinContest(el.dataset.id,tgUser);
-          toast('Вы участвуете в конкурсе!');
-          try{window.Telegram?.WebApp?.HapticFeedback?.notificationOccurred('success')}catch(err){}
-          render();break;
-        case'end':
-          if(confirm('Завершить конкурс досрочно?')){
-            const contest=contests.find(x=>x.id===el.dataset.id);
-            await updateContest(el.dataset.id,{status:'ended'});
-            if(contest) await sendResultsPost(contest);
-            toast('Конкурс завершён. Итоги опубликованы.');
-            render();
-          }break;
-        case'delete':
-          if(confirm('Удалить конкурс навсегда? Это нельзя отменить!')){
-            await deleteContest(el.dataset.id);
-            toast('Конкурс удалён');
-            go('admin');
-          }break;
-        case'copyRef':
-          try{await navigator.clipboard.writeText(el.dataset.ref);toast('Ссылка скопирована!')}
-          catch(err){const ta=document.createElement('textarea');ta.value=el.dataset.ref;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);toast('Ссылка скопирована!')}
-          try{window.Telegram?.WebApp?.HapticFeedback?.impactOccurred('light')}catch(err){}
-          break;
-        case'openUser':
-          if(el.dataset.link)window.open(el.dataset.link,'_blank');break;
+      if(act==='join'){
+        await joinContest(el.dataset.id,tgUser);
+        toast('Вы участвуете!');
+        try{window.Telegram?.WebApp?.HapticFeedback?.notificationOccurred('success')}catch(e){}
+        render();
+      }else if(act==='end'){
+        if(confirm('Завершить конкурс досрочно?')){
+          const contest=contests.find(x=>x.id===el.dataset.id);
+          await updateContest(el.dataset.id,{status:'ended'});
+          if(contest)await sendResultsPost(contest);
+          toast('Конкурс завершён. Итоги опубликованы в канале.');
+          render();
+        }
+      }else if(act==='delete'){
+        if(confirm('Удалить конкурс навсегда?')){
+          await deleteContest(el.dataset.id);
+          toast('Конкурс удалён');go('admin');
+        }
+      }else if(act==='copyRef'){
+        try{await navigator.clipboard.writeText(el.dataset.ref);toast('Ссылка скопирована!')}
+        catch(e){const ta=document.createElement('textarea');ta.value=el.dataset.ref;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);toast('Скопировано!')}
+        try{window.Telegram?.WebApp?.HapticFeedback?.impactOccurred('light')}catch(e){}
+      }else if(act==='openUser'){
+        if(el.dataset.link)window.open(el.dataset.link,'_blank');
       }
     });
   });
 
-  // Admin tabs
+  // Admin tabs filter
   document.querySelectorAll('[data-atab]').forEach(el=>{
     el.addEventListener('click',()=>{
       document.querySelectorAll('[data-atab]').forEach(t=>t.classList.remove('on'));
@@ -1298,19 +1261,16 @@ function bind(){
     });
   });
 
-  // Outcome type → threshold
+  // Outcome type threshold toggle
   const oc=document.getElementById('cf_outcome');
   if(oc)oc.addEventListener('change',()=>{
     const w=document.getElementById('cf_thr_wrap');
     if(w)w.style.display=oc.value==='2'?'block':'none';
   });
 
-  // Toggles
-  [['t_inv','s_inv'],['t_react','s_react'],['t_ads','s_ads']].forEach(([tid,sid])=>{
-    const t=document.getElementById(tid),s=document.getElementById(sid);
-    if(t&&s)t.addEventListener('click',()=>{t.classList.toggle('on');s.style.display=t.classList.contains('on')?'block':'none'});
-  });
-  [['et_inv','es_inv'],['et_react','es_react'],['et_ads','es_ads']].forEach(([tid,sid])=>{
+  // All toggles
+  [['t_inv','s_inv'],['t_react','s_react'],['t_ads','s_ads'],
+   ['et_inv','es_inv'],['et_react','es_react'],['et_ads','es_ads']].forEach(([tid,sid])=>{
     const t=document.getElementById(tid),s=document.getElementById(sid);
     if(t&&s)t.addEventListener('click',()=>{t.classList.toggle('on');s.style.display=t.classList.contains('on')?'block':'none'});
   });
@@ -1321,22 +1281,50 @@ function bind(){
     pb.addEventListener('click',()=>{
       const v=pi.value.trim();if(!v)return;
       const n=pl.children.length+1;
-      const d=document.createElement('div');
-      d.className='prize-item an-si';
-      d.innerHTML=`<div class="prize-num">${n}</div><div class="prize-text">${v}</div>
-        <button type="button" class="prize-del" onclick="this.parentElement.remove()">${ic('x')}</button>`;
+      const d=document.createElement('div');d.className='pi asi';
+      d.innerHTML=`<div class="pn">${n}</div><div class="pt">${v}</div>
+        <button type="button" class="pd" onclick="this.parentElement.remove()">${ic('x')}</button>`;
       pl.appendChild(d);pi.value='';pi.focus();
     });
   }
 
-  // Create form
+  // Check channel button
+  const chBtn=document.getElementById('checkChannel');
+  if(chBtn){
+    chBtn.addEventListener('click',async()=>{
+      const chInp=document.getElementById('cf_ch');
+      const statusDiv=document.getElementById('channelStatus');
+      let ch=chInp.value.trim();
+      if(!ch){toast('Введите @username канала','err');return}
+      if(!ch.startsWith('@'))ch='@'+ch;
+      chInp.value=ch;
+      statusDiv.innerHTML='<div style="padding:8px;font-size:12px;color:var(--text3)">Проверяю...</div>';
+      const result=await checkBotAdmin(ch);
+      if(result.botAdmin&&result.userAdmin){
+        statusDiv.innerHTML=`<div class="ch-status ch-ok">${ic('check')} Бот и вы — администраторы ${ch}. Всё готово!</div>`;
+      }else if(result.botAdmin&&!result.userAdmin){
+        statusDiv.innerHTML=`<div class="ch-status ch-fail">${ic('x')} Бот есть в ${ch}, но вы не являетесь администратором этого канала</div>`;
+      }else{
+        statusDiv.innerHTML=`<div class="ch-status ch-fail">${ic('x')} Бот не найден в ${ch}. Сначала добавьте бота как администратора</div>`;
+      }
+    });
+  }
+
+  // Create form submit
   const cf=document.getElementById('cForm');
   if(cf)cf.addEventListener('submit',async e=>{
     e.preventDefault();
-    const name=document.getElementById('cf_name').value.trim();
     const ch=document.getElementById('cf_ch').value.trim();
+    const name=document.getElementById('cf_name').value.trim();
     const endDate=document.getElementById('cf_end').value;
-    if(!name||!ch||!endDate){toast('Заполните обязательные поля','err');return}
+    if(!name){toast('Введите название','err');return}
+    if(!ch){toast('Укажите канал','err');return}
+    if(!endDate){toast('Укажите дату окончания','err');return}
+
+    // Проверяем канал
+    const check=await checkBotAdmin(ch.startsWith('@')?ch:'@'+ch);
+    if(!check.botAdmin){toast('Сначала добавьте бота в канал как администратора','err');return}
+    if(!check.userAdmin){toast('Вы не являетесь администратором этого канала','err');return}
 
     const contestData={
       name,
@@ -1357,17 +1345,17 @@ function bind(){
       },
       prizes:[]
     };
-    document.querySelectorAll('#prizes_list .prize-text').forEach(el=>contestData.prizes.push(el.textContent));
+    document.querySelectorAll('#prizes_list .pt').forEach(el=>contestData.prizes.push(el.textContent));
 
     const saved=await saveContest(contestData);
-    if(saved)await sendPost(ch,contestData.name,contestData.desc,contestData.conditions,contestData.prizes,endDate);
+    if(saved)await sendPost(contestData.channel,contestData.name,contestData.desc,contestData.conditions,contestData.prizes,endDate);
 
-    toast('Конкурс создан!');
-    try{window.Telegram?.WebApp?.HapticFeedback?.notificationOccurred('success')}catch(err){}
+    toast('Конкурс создан и опубликован в канале!');
+    try{window.Telegram?.WebApp?.HapticFeedback?.notificationOccurred('success')}catch(e){}
     go('home');
   });
 
-  // Edit form
+  // Edit form submit
   const ef=document.getElementById('eForm');
   if(ef)ef.addEventListener('submit',async e=>{
     e.preventDefault();
@@ -1383,27 +1371,22 @@ function bind(){
       }
     };
     await updateContest(id,updates);
-    toast('Изменения сохранены');
-    go('detail',{id});
+    toast('Изменения сохранены');go('detail',{id});
   });
 }
 
-// ╔══════════════════════════════════════════════════════════════╗
-// ║  НАВИГАЦИЯ И ЗАПУСК                                          ║
-// ╚══════════════════════════════════════════════════════════════╝
+// ╔══════════════════════════════════════════╗
+// ║  НАВИГАЦИЯ                                ║
+// ╚══════════════════════════════════════════╝
 function go(screen,params={}){
   currentScreen=screen;screenParams=params;
   render();window.scrollTo({top:0,behavior:'smooth'});
 }
 
-// Обработка deep link — ?contest=id
 function handleDeepLink(){
-  const urlParams=new URLSearchParams(window.location.search);
-  const contestId=urlParams.get('contest');
-  if(contestId){
-    currentScreen='detail';
-    screenParams={id:contestId};
-  }
+  const p=new URLSearchParams(window.location.search);
+  const cid=p.get('contest');
+  if(cid){currentScreen='detail';screenParams={id:cid}}
 }
 
 async function init(){
