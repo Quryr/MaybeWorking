@@ -8,1224 +8,1415 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+*{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --white:#FFFFFF;--bg:#FFFFFF;--bg2:#F5F5F7;--bg3:#EBEBED;
-  --text:#1D1D1F;--text2:#6E6E73;--text3:#AEAEB2;
-  --border:#D2D2D7;--border-light:#E8E8ED;
-  --black:#1D1D1F;--accent:#0071E3;
-  --green:#34C759;--red:#FF3B30;--orange:#FF9500;
-  --gold:#FFD700;--silver:#A8A8A8;--bronze:#CD7F32;
-  --shadow-xs:0 1px 3px rgba(0,0,0,.04);
-  --shadow-sm:0 2px 8px rgba(0,0,0,.06);
-  --shadow-md:0 4px 20px rgba(0,0,0,.08);
-  --shadow-lg:0 12px 40px rgba(0,0,0,.12);
-  --r:16px;--r-lg:22px;--r-full:999px;
+--bg:#FFFFFF;--bg2:#F7F7F8;--bg3:#F0F0F2;
+--border:#E5E5EA;--border2:#D1D1D6;
+--text:#000000;--text2:#3C3C43;--text3:#8E8E93;
+--black:#000000;--white:#FFFFFF;
+--accent:#007AFF;--green:#34C759;--red:#FF3B30;--orange:#FF9500;
+--gold:#FFD700;--silver:#C0C0C0;--bronze:#CD7F32;
+--radius:16px;--radius-sm:12px;--radius-xs:8px;
+--shadow:0 2px 16px rgba(0,0,0,0.06);
+--shadow-lg:0 8px 32px rgba(0,0,0,0.1);
+--shadow-xl:0 16px 48px rgba(0,0,0,0.12);
 }
 html,body{
-  font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
-  background:var(--bg);color:var(--text);
-  -webkit-font-smoothing:antialiased;
-  text-rendering:optimizeLegibility;
-  overflow-x:hidden;
+font-family:'Inter',system-ui,-apple-system,sans-serif;
+background:var(--bg);color:var(--text);
+-webkit-font-smoothing:antialiased;
+overflow-x:hidden;min-height:100vh;
 }
-body{padding-bottom:100px}
-::-webkit-scrollbar{display:none}
+body{padding-bottom:calc(88px + env(safe-area-inset-bottom,0px))}
 
-/* ── Animations ── */
-@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
-@keyframes scaleIn{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:none}}
-@keyframes slideUp{from{transform:translateY(100%)}to{transform:none}}
-@keyframes barGrow{from{width:0}to{width:var(--w)}}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
-@keyframes shimmer{0%{background-position:-400px 0}100%{background-position:400px 0}}
+/* === ANIMATIONS === */
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+@keyframes scaleIn{from{opacity:0;transform:scale(0.92)}to{opacity:1;transform:scale(1)}}
+@keyframes slideIn{from{opacity:0;transform:translateX(-16px)}to{opacity:1;transform:translateX(0)}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.5}}
+@keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
 @keyframes spin{to{transform:rotate(360deg)}}
+.anim-fu{animation:fadeUp .5s ease both}
+.anim-si{animation:scaleIn .4s ease both}
+.anim-sl{animation:slideIn .4s ease both}
+.d1{animation-delay:.05s}.d2{animation-delay:.1s}.d3{animation-delay:.15s}
+.d4{animation-delay:.2s}.d5{animation-delay:.25s}.d6{animation-delay:.3s}
+.d7{animation-delay:.35s}.d8{animation-delay:.4s}.d9{animation-delay:.45s}
 
-.fu{animation:fadeUp .5s cubic-bezier(.25,.46,.45,.94) both}
-.fi{animation:fadeIn .4s ease both}
-.si{animation:scaleIn .35s ease both}
-.d1{animation-delay:.04s}.d2{animation-delay:.08s}.d3{animation-delay:.12s}
-.d4{animation-delay:.16s}.d5{animation-delay:.2s}.d6{animation-delay:.24s}
-.d7{animation-delay:.28s}.d8{animation-delay:.32s}.d9{animation-delay:.36s}
+/* === LAYOUT === */
+.page{min-height:100vh;padding:16px 16px 24px}
+.page-title{font-size:28px;font-weight:800;letter-spacing:-0.5px;margin-bottom:4px}
+.page-sub{font-size:14px;color:var(--text3);margin-bottom:20px}
 
-/* ── Layout ── */
-.wrap{padding:0 20px;max-width:500px;margin:0 auto}
-.flex{display:flex}.col{flex-direction:column}.aic{align-items:center}
-.jcsb{justify-content:space-between}.jcc{justify-content:center}
-.g1{gap:6px}.g2{gap:10px}.g3{gap:14px}.g4{gap:20px}
-.f1{flex:1}.w100{width:100%}
-.mt1{margin-top:6px}.mt2{margin-top:12px}.mt3{margin-top:20px}.mt4{margin-top:28px}
-.mb1{margin-bottom:6px}.mb2{margin-bottom:12px}.mb3{margin-bottom:20px}
-
-/* ── Typography ── */
-.t-xs{font-size:11px;line-height:1.3}
-.t-sm{font-size:13px;line-height:1.4}
-.t-base{font-size:15px;line-height:1.5}
-.t-lg{font-size:17px;line-height:1.35}
-.t-xl{font-size:22px;line-height:1.25}
-.t-2xl{font-size:28px;line-height:1.15}
-.t-3xl{font-size:34px;line-height:1.1}
-.fw4{font-weight:400}.fw5{font-weight:500}.fw6{font-weight:600}
-.fw7{font-weight:700}.fw8{font-weight:800}.fw9{font-weight:900}
-.tc{text-align:center}.tr{text-align:right}
-.c2{color:var(--text2)}.c3{color:var(--text3)}
-.ls-t{letter-spacing:-.3px}.ls-tt{letter-spacing:-.5px}
-.upper{text-transform:uppercase;letter-spacing:.5px}
-.mono{font-family:'SF Mono','Fira Code',monospace}
-.truncate{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-
-/* ── Card ── */
+/* === CARDS === */
 .card{
-  background:var(--white);border:1px solid var(--border-light);
-  border-radius:var(--r-lg);padding:20px;
-  transition:transform .2s,box-shadow .2s,border-color .2s;
+background:var(--white);border:1px solid var(--border);
+border-radius:var(--radius);padding:16px;
+box-shadow:var(--shadow);
+transition:all .2s ease;
 }
-.card:active{transform:scale(.985)}
-.card-hover:hover{box-shadow:var(--shadow-md);border-color:var(--border)}
-.card-s{padding:16px;border-radius:var(--r)}
-.flat{background:var(--bg2);border:none;border-radius:var(--r);padding:16px}
+.card:hover{box-shadow:var(--shadow-lg)}
+.card+.card{margin-top:12px}
+.card-row{display:flex;align-items:center;gap:12px}
+.card-body{flex:1;min-width:0}
+.card-title{font-size:16px;font-weight:700;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.card-desc{font-size:13px;color:var(--text3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 
-/* ── Button ── */
-.btn{
-  display:inline-flex;align-items:center;justify-content:center;gap:8px;
-  padding:15px 24px;border-radius:13px;
-  font-size:15px;font-weight:600;font-family:inherit;
-  border:none;cursor:pointer;transition:all .15s;
-  user-select:none;position:relative;
-}
-.btn:active{transform:scale(.965)}
-.btn-p{
-  background:var(--black);color:var(--white);
-  box-shadow:0 2px 12px rgba(0,0,0,.15);
-}
-.btn-p:hover{box-shadow:0 4px 20px rgba(0,0,0,.2)}
-.btn-s{background:var(--bg2);color:var(--text);border:1px solid var(--border-light)}
-.btn-s:hover{background:var(--bg3);border-color:var(--border)}
-.btn-d{background:var(--red);color:var(--white)}
-.btn-g{background:var(--green);color:var(--white)}
-.btn-sm{padding:10px 16px;font-size:13px;border-radius:10px}
-.btn-block{width:100%}
-
-/* ── Input ── */
-.field{margin-bottom:18px}
-.field label{display:block;font-size:12px;font-weight:600;color:var(--text2);margin-bottom:7px;text-transform:uppercase;letter-spacing:.5px}
-.inp,.txa,.sel{
-  width:100%;padding:14px 16px;background:var(--bg2);
-  border:1.5px solid transparent;border-radius:13px;
-  font-size:15px;font-family:inherit;color:var(--text);
-  transition:all .2s;outline:none;
-}
-.inp:focus,.txa:focus,.sel:focus{
-  background:var(--white);border-color:var(--black);
-  box-shadow:0 0 0 4px rgba(0,0,0,.05);
-}
-.inp::placeholder,.txa::placeholder{color:var(--text3)}
-.txa{resize:vertical;min-height:80px}
-.sel{
-  -webkit-appearance:none;appearance:none;cursor:pointer;
-  background-image:url("data:image/svg+xml,%3Csvg width='10' height='6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23AEAEB2' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-  background-repeat:no-repeat;background-position:right 16px center;padding-right:40px;
-}
-
-/* ── Badge ── */
-.badge{
-  display:inline-flex;align-items:center;gap:5px;
-  padding:5px 11px;border-radius:var(--r-full);
-  font-size:11px;font-weight:600;letter-spacing:.3px;
-}
-.b-green{background:#E8FAF0;color:#1B9E4B}
-.b-red{background:#FFEFEE;color:#E63B2E}
-.b-orange{background:#FFF4E6;color:#C67C00}
-.b-gray{background:var(--bg2);color:var(--text2)}
-
-/* ── Avatar ── */
-.av{
-  width:44px;height:44px;border-radius:50%;
-  display:flex;align-items:center;justify-content:center;
-  font-weight:700;font-size:15px;color:var(--white);
-  flex-shrink:0;overflow:hidden;
-  box-shadow:var(--shadow-xs);
-}
-.av img{width:100%;height:100%;object-fit:cover}
-.av-sm{width:34px;height:34px;font-size:12px}
-.av-lg{width:56px;height:56px;font-size:20px}
-.av-xl{width:72px;height:72px;font-size:26px;border-radius:20px}
-
-/* ── Icon container ── */
+/* === ICON CONTAINERS === */
 .ic{
-  display:flex;align-items:center;justify-content:center;
-  flex-shrink:0;
+width:44px;height:44px;border-radius:12px;
+display:flex;align-items:center;justify-content:center;
+flex-shrink:0;
 }
-.ic svg{display:block}
+.ic svg{width:22px;height:22px}
+.ic-black{background:var(--black);color:var(--white)}
+.ic-gray{background:var(--bg2);border:1px solid var(--border);color:var(--text2)}
+.ic-accent{background:#EBF5FF;color:var(--accent)}
+.ic-green{background:#E8FAE8;color:var(--green)}
+.ic-red{background:#FFE5E5;color:var(--red)}
+.ic-orange{background:#FFF3E0;color:var(--orange)}
+.ic-gold{background:#FFF8E1;color:#B8860B}
 
-/* ── Tab Bar ── */
-.tabbar{
-  position:fixed;bottom:0;left:0;right:0;z-index:100;
-  background:rgba(255,255,255,.88);
-  -webkit-backdrop-filter:blur(24px);backdrop-filter:blur(24px);
-  border-top:1px solid var(--border-light);
-  padding-bottom:env(safe-area-inset-bottom,0);
+/* === BADGES === */
+.badge{
+display:inline-flex;align-items:center;gap:4px;
+padding:4px 10px;border-radius:20px;font-size:11px;font-weight:600;
+letter-spacing:0.3px;text-transform:uppercase;
 }
-.tabbar-inner{
-  display:grid;grid-template-columns:repeat(5,1fr);
-  max-width:500px;margin:0 auto;
-  height:56px;
-}
-.tab{
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:3px;cursor:pointer;user-select:none;
-  transition:all .15s;position:relative;
-}
-.tab svg{
-  width:22px;height:22px;
-  stroke:var(--text3);stroke-width:1.7;fill:none;
-  transition:all .15s;
-}
-.tab span{font-size:10px;font-weight:500;color:var(--text3);transition:all .15s}
-.tab.on svg{stroke:var(--black);stroke-width:2}
-.tab.on span{color:var(--black);font-weight:700}
-.tab.on::before{
-  content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);
-  width:20px;height:2.5px;border-radius:0 0 2px 2px;
-  background:var(--black);
-}
-.tab-c{position:relative}
-.tab-c .plus-circle{
-  width:44px;height:44px;border-radius:50%;
-  background:var(--black);
-  display:flex;align-items:center;justify-content:center;
-  box-shadow:0 4px 14px rgba(0,0,0,.18);
-  margin-top:-14px;margin-bottom:-2px;
-  transition:transform .15s;
-}
-.tab-c .plus-circle svg{stroke:var(--white);stroke-width:2.2;width:20px;height:20px}
-.tab-c:active .plus-circle{transform:scale(.9)}
-.tab-c span{font-size:10px;font-weight:500;color:var(--text3)}
-.tab-c.on span{color:var(--black);font-weight:700}
+.badge-active{background:#E8FAE8;color:var(--green)}
+.badge-ended{background:var(--bg2);color:var(--text3)}
+.badge-points{background:var(--black);color:var(--white);font-size:13px;font-weight:700;text-transform:none}
+.badge-gold{background:#FFF8E1;color:#B8860B;border:1px solid #FFD700}
+.badge-silver{background:#F5F5F5;color:#666;border:1px solid var(--silver)}
+.badge-bronze{background:#FFF3E0;color:#8B4513;border:1px solid var(--bronze)}
 
-/* ── Participant Row ── */
-.p-row{
-  display:flex;align-items:center;gap:12px;
-  padding:12px 14px;border-radius:14px;
-  cursor:pointer;transition:all .15s;
-  border:1.5px solid transparent;
+/* === BUTTONS === */
+.btn{
+display:flex;align-items:center;justify-content:center;gap:8px;
+width:100%;padding:14px 20px;border:none;border-radius:var(--radius-sm);
+font-family:inherit;font-size:15px;font-weight:600;
+cursor:pointer;transition:all .2s ease;
+-webkit-tap-highlight-color:transparent;
 }
-.p-row:hover{background:var(--bg2)}
-.p-row:active{background:var(--bg3);transform:scale(.99)}
-.p-row .rank{
-  width:26px;font-size:14px;font-weight:700;
-  color:var(--text3);text-align:center;flex-shrink:0;
-}
-.p-row .info{flex:1;min-width:0}
-.p-row .nm{font-size:15px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.p-row .un{font-size:12px;color:var(--text3)}
-.p-row .pts{
-  font-size:14px;font-weight:700;
-  background:var(--bg2);padding:6px 12px;border-radius:9px;
-  flex-shrink:0;
-}
-.p-row.t1 .rank{color:var(--gold)}
-.p-row.t2 .rank{color:var(--silver)}
-.p-row.t3 .rank{color:var(--bronze)}
-.p-row.t1 .pts{background:#FFFBEB;color:#B8860B}
-.p-row.t2 .pts{background:#F4F4F5;color:#71717A}
-.p-row.t3 .pts{background:#FFF7ED;color:#9A3412}
-.p-row.me{background:var(--bg2);border-color:var(--border)}
+.btn:active{transform:scale(0.97)}
+.btn-primary{background:var(--black);color:var(--white)}
+.btn-primary:hover{background:#1a1a1a}
+.btn-secondary{background:var(--bg2);color:var(--text);border:1px solid var(--border)}
+.btn-secondary:hover{background:var(--bg3)}
+.btn-danger{background:var(--red);color:var(--white)}
+.btn-danger:hover{background:#E0352B}
+.btn-accent{background:var(--accent);color:var(--white)}
+.btn-sm{padding:10px 16px;font-size:13px;border-radius:var(--radius-xs)}
+.btn-outline{background:transparent;border:1.5px solid var(--border2);color:var(--text)}
+.btn svg{width:18px;height:18px}
 
-/* ── Hero ── */
-.hero{
-  border-radius:var(--r-lg);padding:36px 24px;
-  text-align:center;position:relative;overflow:hidden;
-  background:linear-gradient(145deg,#F5F5F7 0%,#FFFFFF 50%,#F5F5F7 100%);
-  border:1px solid var(--border-light);
+/* === INPUTS === */
+.field{margin-bottom:16px}
+.field-label{display:block;font-size:13px;font-weight:600;color:var(--text2);margin-bottom:6px}
+.field-hint{font-size:11px;color:var(--text3);margin-top:4px}
+.input{
+width:100%;padding:12px 14px;border:1.5px solid var(--border);
+border-radius:var(--radius-sm);font-family:inherit;font-size:15px;
+background:var(--white);color:var(--text);
+transition:border-color .2s;
+-webkit-appearance:none;
 }
-.hero-deco{
-  position:absolute;width:180px;height:180px;border-radius:50%;
-  background:radial-gradient(circle,rgba(0,0,0,.03) 0%,transparent 70%);
-  pointer-events:none;
-}
-.hero-icon{
-  width:72px;height:72px;border-radius:20px;
-  background:var(--black);
-  display:flex;align-items:center;justify-content:center;
-  margin:0 auto 18px;box-shadow:0 8px 24px rgba(0,0,0,.15);
-  animation:float 3.5s ease-in-out infinite;
-}
-.hero-icon svg{width:34px;height:34px;stroke:var(--white);stroke-width:1.6;fill:none}
-.hero-chip{
-  display:inline-flex;align-items:center;gap:7px;
-  background:var(--white);border:1px solid var(--border-light);
-  padding:8px 16px;border-radius:var(--r-full);
-  font-size:13px;font-weight:500;box-shadow:var(--shadow-xs);
-}
-.dot-live{
-  width:7px;height:7px;border-radius:50%;
-  background:var(--green);animation:pulse 2s ease infinite;
-}
+.input:focus{outline:none;border-color:var(--black)}
+.input::placeholder{color:var(--text3)}
+textarea.input{resize:vertical;min-height:80px}
+select.input{cursor:pointer}
 
-/* ── Progress ── */
-.prog{height:5px;background:var(--bg3);border-radius:3px;overflow:hidden}
-.prog-bar{height:100%;background:var(--black);border-radius:3px;animation:barGrow .7s ease both}
-
-/* ── Contest Card ── */
-.cc{
-  border:1px solid var(--border-light);border-radius:var(--r-lg);
-  padding:20px;background:var(--white);cursor:pointer;
-  transition:all .2s;margin-bottom:12px;
+/* === TOGGLE SWITCH === */
+.toggle-row{
+display:flex;align-items:center;justify-content:space-between;
+padding:14px 16px;background:var(--bg2);border-radius:var(--radius-sm);
+margin-bottom:8px;
 }
-.cc:hover{box-shadow:var(--shadow-md);transform:translateY(-2px)}
-.cc:active{transform:scale(.985)}
-.cc-meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
-.cc-meta span{
-  display:inline-flex;align-items:center;gap:5px;
-  font-size:12px;color:var(--text2);
-}
-.cc-meta svg{width:13px;height:13px;stroke:var(--text3);stroke-width:2;fill:none}
-.cc-channel{
-  display:inline-flex;align-items:center;gap:5px;
-  font-size:13px;font-weight:500;color:var(--text2);
-  background:var(--bg2);padding:5px 12px;border-radius:9px;
-  margin-top:10px;
-}
-
-/* ── Section ── */
-.sec-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
-.sec-t{font-size:20px;font-weight:800;letter-spacing:-.3px}
-
-/* ── Stats grid ── */
-.sg{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.sb{
-  background:var(--bg2);border-radius:var(--r);
-  padding:18px;text-align:center;
-}
-.sb .v{font-size:30px;font-weight:800;letter-spacing:-.5px}
-.sb .l{font-size:11px;color:var(--text2);text-transform:uppercase;letter-spacing:.5px;margin-top:4px}
-
-/* ── Toggle ── */
+.toggle-row-label{font-size:14px;font-weight:600;display:flex;align-items:center;gap:8px}
+.toggle-row-label svg{width:18px;height:18px;color:var(--text3)}
 .toggle{
-  width:50px;height:30px;background:var(--bg3);border-radius:15px;
-  cursor:pointer;transition:all .25s;flex-shrink:0;position:relative;
-}
-.toggle::after{
-  content:'';position:absolute;top:3px;left:3px;
-  width:24px;height:24px;background:var(--white);border-radius:50%;
-  box-shadow:0 1px 4px rgba(0,0,0,.15);transition:all .25s;
+position:relative;width:48px;height:28px;
+background:var(--border2);border-radius:14px;
+cursor:pointer;transition:background .3s;
+flex-shrink:0;border:none;
 }
 .toggle.on{background:var(--black)}
-.toggle.on::after{left:23px}
-
-/* ── Prize ── */
-.prize{
-  display:flex;align-items:center;gap:10px;
-  padding:12px 14px;background:var(--bg2);
-  border-radius:12px;font-size:14px;font-weight:500;
+.toggle::after{
+content:'';position:absolute;top:2px;left:2px;
+width:24px;height:24px;border-radius:12px;
+background:var(--white);box-shadow:0 1px 3px rgba(0,0,0,0.2);
+transition:transform .3s;
 }
-.prize-n{
-  width:26px;height:26px;border-radius:8px;
-  display:flex;align-items:center;justify-content:center;
-  font-size:12px;font-weight:700;color:var(--white);flex-shrink:0;
+.toggle.on::after{transform:translateX(20px)}
+.toggle-sub{
+padding:12px 16px;background:var(--white);
+border:1px solid var(--border);border-radius:var(--radius-sm);
+margin-bottom:8px;margin-top:-4px;
 }
-.pn1{background:linear-gradient(135deg,#FFD700,#FFA500)}
-.pn2{background:linear-gradient(135deg,#C0C0C0,#A0A0A0)}
-.pn3{background:linear-gradient(135deg,#CD7F32,#A0522D)}
-.pn-d{background:var(--text3)}
+.toggle-sub .field{margin-bottom:0}
 
-/* ── Toast ── */
+/* === PROGRESS BAR === */
+.progress{height:6px;background:var(--bg3);border-radius:3px;overflow:hidden;margin:8px 0}
+.progress-fill{height:100%;background:var(--black);border-radius:3px;transition:width .6s ease}
+
+/* === AVATAR === */
+.avatar{
+width:40px;height:40px;border-radius:20px;
+display:flex;align-items:center;justify-content:center;
+font-size:15px;font-weight:700;color:var(--white);
+flex-shrink:0;letter-spacing:-0.3px;
+}
+.avatar-sm{width:32px;height:32px;border-radius:16px;font-size:12px}
+.avatar-lg{width:56px;height:56px;border-radius:28px;font-size:20px}
+
+/* === LEADERBOARD === */
+.lb-item{
+display:flex;align-items:center;gap:12px;
+padding:12px 14px;border-radius:var(--radius-sm);
+transition:background .2s;cursor:pointer;
+border:1px solid transparent;
+}
+.lb-item:hover{background:var(--bg2)}
+.lb-item+.lb-item{margin-top:2px}
+.lb-rank{width:28px;text-align:center;font-size:14px;font-weight:800;color:var(--text3);flex-shrink:0}
+.lb-info{flex:1;min-width:0}
+.lb-name{font-size:14px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lb-user{font-size:12px;color:var(--text3)}
+.lb-points{font-size:15px;font-weight:800;color:var(--text)}
+.lb-1{background:#FFFBEB;border-color:#FFD700}
+.lb-1 .lb-rank{color:#B8860B}
+.lb-2{background:#FAFAFA;border-color:var(--silver)}
+.lb-2 .lb-rank{color:#888}
+.lb-3{background:#FFF8F0;border-color:var(--bronze)}
+.lb-3 .lb-rank{color:#8B4513}
+.lb-me{background:#F0F0FF;border-color:var(--accent)}
+
+/* === SECTION === */
+.section{margin-bottom:20px}
+.section-header{
+display:flex;align-items:center;justify-content:space-between;
+margin-bottom:12px;
+}
+.section-title{font-size:18px;font-weight:700;letter-spacing:-0.3px}
+.section-more{font-size:13px;color:var(--accent);font-weight:600;cursor:pointer;border:none;background:none}
+
+/* === STAT GRID === */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:20px}
+.stat{
+text-align:center;padding:14px 8px;
+background:var(--bg2);border-radius:var(--radius-sm);
+border:1px solid var(--border);
+}
+.stat-val{font-size:22px;font-weight:800;letter-spacing:-0.5px}
+.stat-label{font-size:11px;color:var(--text3);margin-top:2px;font-weight:500}
+
+/* === EMPTY STATE === */
+.empty{
+text-align:center;padding:48px 24px;
+}
+.empty-icon{margin:0 auto 16px;opacity:0.3}
+.empty-icon svg{width:48px;height:48px}
+.empty-title{font-size:17px;font-weight:700;margin-bottom:6px}
+.empty-desc{font-size:14px;color:var(--text3);line-height:1.5}
+
+/* === TOAST === */
 .toast{
-  position:fixed;top:16px;left:50%;transform:translateX(-50%) translateY(-80px);
-  background:var(--black);color:var(--white);
-  padding:14px 24px;border-radius:14px;
-  font-size:14px;font-weight:600;
-  box-shadow:var(--shadow-lg);z-index:9999;
-  transition:transform .4s cubic-bezier(.175,.885,.32,1.275);
-  max-width:90vw;text-align:center;
+position:fixed;top:16px;left:16px;right:16px;z-index:9999;
+padding:14px 18px;border-radius:var(--radius-sm);
+font-size:14px;font-weight:600;
+animation:fadeUp .3s ease;
+box-shadow:var(--shadow-xl);
 }
-.toast.show{transform:translateX(-50%) translateY(0)}
+.toast-success{background:#1a1a1a;color:var(--white)}
+.toast-error{background:var(--red);color:var(--white)}
 
-/* ── Modal ── */
-.modal-bg{
-  position:fixed;inset:0;background:rgba(0,0,0,.35);
-  z-index:200;display:flex;align-items:flex-end;justify-content:center;
-  animation:fadeIn .2s;
+/* === TABS (top) === */
+.tabs{display:flex;gap:6px;margin-bottom:16px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.tabs::-webkit-scrollbar{display:none}
+.tab{
+padding:8px 16px;border-radius:20px;font-size:13px;font-weight:600;
+white-space:nowrap;border:1.5px solid var(--border);
+background:var(--white);color:var(--text2);cursor:pointer;
+transition:all .2s;flex-shrink:0;
+}
+.tab.active{background:var(--black);color:var(--white);border-color:var(--black)}
+
+/* === DIVIDER === */
+.divider{height:1px;background:var(--border);margin:16px 0}
+
+/* === CHIP === */
+.chip{
+display:inline-flex;align-items:center;gap:4px;
+padding:6px 12px;border-radius:20px;font-size:12px;font-weight:600;
+background:var(--bg2);color:var(--text2);border:1px solid var(--border);
+}
+.chip-dot{width:6px;height:6px;border-radius:3px;background:var(--green);animation:pulse 2s infinite}
+
+/* === HERO === */
+.hero{
+background:var(--bg2);border:1px solid var(--border);
+border-radius:20px;padding:24px;margin-bottom:20px;
+text-align:center;position:relative;overflow:hidden;
+}
+.hero::before{
+content:'';position:absolute;top:-50%;left:-50%;
+width:200%;height:200%;
+background:radial-gradient(circle at 30% 50%,rgba(0,122,255,0.03),transparent 50%),
+radial-gradient(circle at 70% 50%,rgba(52,199,89,0.03),transparent 50%);
+pointer-events:none;
+}
+.hero-title{font-size:24px;font-weight:900;letter-spacing:-0.5px;margin-bottom:6px;position:relative}
+.hero-sub{font-size:14px;color:var(--text3);position:relative}
+.hero-icon{
+width:64px;height:64px;border-radius:20px;
+background:var(--black);color:var(--white);
+display:flex;align-items:center;justify-content:center;
+margin:0 auto 16px;position:relative;
+}
+.hero-icon svg{width:28px;height:28px}
+
+/* === PRIZE LIST === */
+.prize-item{
+display:flex;align-items:center;gap:10px;
+padding:10px 12px;background:var(--bg2);
+border-radius:var(--radius-xs);margin-bottom:6px;
+border:1px solid var(--border);
+}
+.prize-place{
+width:28px;height:28px;border-radius:14px;
+display:flex;align-items:center;justify-content:center;
+font-size:12px;font-weight:800;flex-shrink:0;
+}
+.prize-text{flex:1;font-size:14px;font-weight:500}
+.prize-remove{
+width:28px;height:28px;border-radius:14px;
+display:flex;align-items:center;justify-content:center;
+background:var(--bg3);border:none;cursor:pointer;
+color:var(--text3);transition:all .2s;
+}
+.prize-remove:hover{background:var(--red);color:var(--white)}
+
+/* === TAB BAR === */
+.tabbar{
+position:fixed;bottom:0;left:0;right:0;
+background:rgba(255,255,255,0.92);
+backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+border-top:1px solid var(--border);
+display:grid;grid-template-columns:repeat(5,1fr);
+padding:6px 0 calc(6px + env(safe-area-inset-bottom,0px));
+z-index:100;
+}
+.tb-item{
+display:flex;flex-direction:column;align-items:center;
+justify-content:center;gap:3px;padding:6px 0;
+cursor:pointer;border:none;background:none;
+-webkit-tap-highlight-color:transparent;
+position:relative;
+}
+.tb-item svg{width:22px;height:22px;color:var(--text3);transition:color .2s}
+.tb-item span{font-size:10px;font-weight:500;color:var(--text3);transition:color .2s}
+.tb-item.active svg{color:var(--black)}
+.tb-item.active span{color:var(--black);font-weight:700}
+.tb-item.active::before{
+content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);
+width:20px;height:2.5px;background:var(--black);border-radius:0 0 2px 2px;
+}
+
+/* === CENTER TAB (Create) === */
+.tb-center{position:relative}
+.tb-center-btn{
+width:48px;height:48px;border-radius:24px;
+background:var(--black);color:var(--white);
+display:flex;align-items:center;justify-content:center;
+border:3px solid var(--white);
+box-shadow:0 4px 16px rgba(0,0,0,0.2);
+margin-top:-18px;transition:all .2s;
+}
+.tb-center-btn:active{transform:scale(0.92)}
+.tb-center-btn svg{width:22px;height:22px}
+.tb-center span{margin-top:1px}
+
+/* === SCROLLBAR === */
+::-webkit-scrollbar{width:0;height:0}
+
+/* === CONTEST DETAIL HEADER === */
+.detail-header{
+background:var(--bg2);border:1px solid var(--border);
+border-radius:20px;padding:20px;margin-bottom:16px;
+}
+.detail-channel{
+display:inline-flex;align-items:center;gap:6px;
+padding:4px 12px;background:var(--white);border:1px solid var(--border);
+border-radius:20px;font-size:12px;font-weight:600;color:var(--text2);
+margin-bottom:12px;
+}
+.detail-name{font-size:22px;font-weight:800;letter-spacing:-0.3px;margin-bottom:6px}
+.detail-desc{font-size:14px;color:var(--text2);line-height:1.5;margin-bottom:12px}
+.detail-meta{display:flex;flex-wrap:wrap;gap:6px}
+
+/* === ADMIN CONTEST CARD === */
+.admin-card{
+border:1px solid var(--border);border-radius:var(--radius);
+padding:16px;margin-bottom:12px;background:var(--white);
+box-shadow:var(--shadow);
+}
+.admin-card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.admin-card-title{font-size:15px;font-weight:700}
+.admin-card-actions{display:flex;gap:6px}
+.admin-btn{
+padding:8px 14px;border-radius:var(--radius-xs);
+font-size:12px;font-weight:600;border:1px solid var(--border);
+background:var(--white);cursor:pointer;transition:all .2s;
+display:flex;align-items:center;gap:4px;
+font-family:inherit;
+}
+.admin-btn:hover{background:var(--bg2)}
+.admin-btn svg{width:14px;height:14px}
+.admin-btn-danger{border-color:var(--red);color:var(--red)}
+.admin-btn-danger:hover{background:#FFF0F0}
+
+/* === LOG ITEM === */
+.log-item{
+padding:12px;border-left:3px solid var(--border);
+margin-bottom:8px;background:var(--bg2);
+border-radius:0 var(--radius-xs) var(--radius-xs) 0;
+}
+.log-item-time{font-size:11px;color:var(--text3);font-weight:500}
+.log-item-text{font-size:13px;font-weight:500;margin-top:2px}
+
+/* === MODAL OVERLAY === */
+.modal-overlay{
+position:fixed;inset:0;background:rgba(0,0,0,0.4);
+z-index:200;display:flex;align-items:flex-end;
+justify-content:center;animation:fadeUp .2s ease;
 }
 .modal{
-  background:var(--white);
-  border-radius:var(--r-lg) var(--r-lg) 0 0;
-  padding:8px 20px 40px;
-  width:100%;max-width:500px;max-height:85vh;overflow-y:auto;
-  animation:slideUp .3s ease;
+background:var(--white);border-radius:20px 20px 0 0;
+width:100%;max-width:480px;max-height:85vh;
+overflow-y:auto;padding:24px 16px calc(24px + env(safe-area-inset-bottom,0px));
+animation:scaleIn .3s ease;
 }
-.modal-bar{width:36px;height:4px;background:var(--bg3);border-radius:2px;margin:8px auto 20px}
-
-/* ── Divider ── */
-.divider{height:1px;background:var(--border-light);margin:20px 0}
-
-/* ── Back ── */
-.back{
-  display:inline-flex;align-items:center;gap:5px;
-  font-size:15px;font-weight:500;color:var(--text2);
-  cursor:pointer;padding:8px 0;margin-bottom:8px;transition:color .15s;
+.modal-handle{
+width:36px;height:4px;border-radius:2px;
+background:var(--border2);margin:0 auto 16px;
 }
-.back:hover{color:var(--text)}
-.back svg{width:20px;height:20px}
+.modal-title{font-size:18px;font-weight:700;margin-bottom:16px;text-align:center}
 
-/* ── Empty ── */
-.empty{text-align:center;padding:48px 20px}
-.empty-ic{
-  width:80px;height:80px;background:var(--bg2);border-radius:22px;
-  display:flex;align-items:center;justify-content:center;
-  margin:0 auto 18px;
-}
-.empty-ic svg{width:36px;height:36px;stroke:var(--text3);stroke-width:1.5;fill:none}
+/* === MISC === */
+.flex{display:flex}.flex-col{flex-direction:column}.items-center{align-items:center}
+.justify-between{justify-content:space-between}.gap-8{gap:8px}.gap-12{gap:12px}
+.gap-6{gap:6px}.gap-4{gap:4px}
+.mt-8{margin-top:8px}.mt-12{margin-top:12px}.mt-16{margin-top:16px}.mt-20{margin-top:20px}
+.mb-8{margin-bottom:8px}.mb-12{margin-bottom:12px}.mb-16{margin-bottom:16px}
+.text-center{text-align:center}
+.text-sm{font-size:13px}.text-xs{font-size:11px}
+.text-muted{color:var(--text3)}
+.font-bold{font-weight:700}.font-black{font-weight:900}
+.truncate{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.w-full{width:100%}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.clickable{cursor:pointer;-webkit-tap-highlight-color:transparent}
+.no-shrink{flex-shrink:0}
 
-/* ── My points card ── */
-.my-pts{
-  background:#F0FDF4;border:1.5px solid #BBF7D0;
-  border-radius:var(--r);padding:18px;
+/* score config preview */
+.score-preview{
+display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;
 }
+.score-chip{
+display:inline-flex;align-items:center;gap:4px;
+padding:4px 10px;border-radius:16px;font-size:11px;font-weight:600;
+background:var(--bg2);border:1px solid var(--border);
+}
+.score-chip svg{width:12px;height:12px}
+.score-chip.on{background:#E8FAE8;border-color:var(--green);color:#1B5E20}
+.score-chip.off{background:var(--bg2);color:var(--text3);text-decoration:line-through}
 </style>
 </head>
 <body>
-<div id="app"></div>
-<script>
-/* ======================================
-   КОНФИГУРАЦИЯ
-   ====================================== */
-const CONFIG={
-  BOT_TOKEN:'8031008647:AAFWbpZ-OQeIUwPbWOmBxCzeYVA_yh_AjC8',
-  MAIN_ADMIN_ID:1262669099
+<div id="root"></div>
+<script type="module">
+// ============================================================
+// CONFIG
+// ============================================================
+const BOT_TOKEN = '8031008647:AAFWbpZ-OQeIUwPbWOmBxCzeYVA_yh_AjC8';
+const MAIN_ADMIN_ID = 1262669099;
+
+// Firebase config — замени на свои данные
+const FB_CFG = {
+  apiKey:"",projectId:"",authDomain:"",storageBucket:"",messagingSenderId:"",appId:""
 };
 
-/* ======================================
-   SVG ИКОНКИ (все 24x24, stroke)
-   ====================================== */
-const I={
-  home:'<svg viewBox="0 0 24 24"><path d="M3 10.5L12 3l9 7.5V20a1.5 1.5 0 01-1.5 1.5h-4a1 1 0 01-1-1v-4a1 1 0 00-1-1h-2a1 1 0 00-1 1v4a1 1 0 01-1 1h-4A1.5 1.5 0 013 20V10.5z" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>',
-  star:'<svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>',
-  plus:'<svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="5" y1="12" x2="19" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
-  settings:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.7" fill="none"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 11-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 112.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 112.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z" stroke="currentColor" stroke-width="1.7" fill="none"/></svg>',
-  user:'<svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.7" fill="none"/><path d="M20 21a8 8 0 10-16 0" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" fill="none"/></svg>',
-  users:'<svg viewBox="0 0 24 24"><circle cx="9" cy="7" r="3.5" stroke="currentColor" stroke-width="1.7" fill="none"/><path d="M2 21a7 7 0 0114 0" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" fill="none"/><circle cx="17.5" cy="8.5" r="2.5" stroke="currentColor" stroke-width="1.7" fill="none"/><path d="M22 21a5 5 0 00-7-4.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" fill="none"/></svg>',
-  trophy:'<svg viewBox="0 0 24 24"><path d="M8 21h8M12 17v4M6 4h12v7a6 6 0 01-12 0V4z" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M6 7H3.5a1 1 0 00-1 1v1a4 4 0 004 4H6M18 7h2.5a1 1 0 011 1v1a4 4 0 01-4 4H18" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>',
-  clock:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.7" fill="none"/><polyline points="12,7 12,12 16,14" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>',
-  gift:'<svg viewBox="0 0 24 24"><rect x="3" y="8" width="18" height="4" rx="1" stroke="currentColor" stroke-width="1.7" fill="none"/><path d="M12 8v13" stroke="currentColor" stroke-width="1.7" fill="none"/><rect x="3" y="12" width="18" height="9" rx="1" stroke="currentColor" stroke-width="1.7" fill="none"/><path d="M7.5 8c-1.5-1.5-1.5-4 0-4s4.5 2.5 4.5 4M16.5 8c1.5-1.5 1.5-4 0-4S12 6.5 12 8" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" fill="none"/></svg>',
-  chevL:'<svg viewBox="0 0 24 24"><polyline points="15,18 9,12 15,6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>',
-  chevR:'<svg viewBox="0 0 24 24"><polyline points="9,6 15,12 9,18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>',
-  check:'<svg viewBox="0 0 24 24"><polyline points="20,6 9,17 4,12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>',
-  send:'<svg viewBox="0 0 24 24"><path d="M22 2L11 13" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" fill="none"/><polygon points="22,2 15,22 11,13 2,9" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>',
-  hash:'<svg viewBox="0 0 24 24"><line x1="4" y1="9" x2="20" y2="9" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><line x1="4" y1="15" x2="20" y2="15" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><line x1="10" y1="3" x2="8" y2="21" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><line x1="16" y1="3" x2="14" y2="21" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>',
-  zap:'<svg viewBox="0 0 24 24"><polygon points="13,2 3,14 12,14 11,22 21,10 12,10" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>',
-  award:'<svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="6" stroke="currentColor" stroke-width="1.7" fill="none"/><path d="M8.21 13.89L7 23l5-3 5 3-1.21-9.12" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>',
-  list:'<svg viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><line x1="8" y1="12" x2="21" y2="12" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><line x1="8" y1="18" x2="21" y2="18" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="4" cy="6" r="1" fill="currentColor" stroke="none"/><circle cx="4" cy="12" r="1" fill="currentColor" stroke="none"/><circle cx="4" cy="18" r="1" fill="currentColor" stroke="none"/></svg>',
-  edit:'<svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>',
-  search:'<svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.7" fill="none"/><line x1="21" y1="21" x2="16.65" y2="16.65" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>',
-  copy:'<svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" stroke="currentColor" stroke-width="1.7" fill="none"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" fill="none"/></svg>',
-  ext:'<svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" fill="none"/><polyline points="15,3 21,3 21,9" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" fill="none"/><line x1="10" y1="14" x2="21" y2="3" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" fill="none"/></svg>',
-  x:'<svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="6" y1="6" x2="18" y2="18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
-  calendar:'<svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.7" fill="none"/><line x1="16" y1="2" x2="16" y2="6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><line x1="8" y1="2" x2="8" y2="6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><line x1="3" y1="10" x2="21" y2="10" stroke="currentColor" stroke-width="1.7"/></svg>',
-  crown:'<svg viewBox="0 0 24 24"><path d="M2 20h20L19 8l-4 5-3-7-3 7-4-5-3 12z" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>',
-  target:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.7" fill="none"/><circle cx="12" cy="12" r="6" stroke="currentColor" stroke-width="1.7" fill="none"/><circle cx="12" cy="12" r="2" stroke="currentColor" stroke-width="1.7" fill="none"/></svg>',
-  bar:'<svg viewBox="0 0 24 24"><rect x="4" y="14" width="4" height="8" rx="1" stroke="currentColor" stroke-width="1.7" fill="none"/><rect x="10" y="8" width="4" height="14" rx="1" stroke="currentColor" stroke-width="1.7" fill="none"/><rect x="16" y="2" width="4" height="20" rx="1" stroke="currentColor" stroke-width="1.7" fill="none"/></svg>',
-  info:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.7" fill="none"/><line x1="12" y1="16" x2="12" y2="12" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="12" cy="8" r=".5" fill="currentColor" stroke="currentColor" stroke-width="1"/></svg>',
+// ============================================================
+// SVG ICONS (inline, все прорисованные)
+// ============================================================
+const I = {
+  home:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>`,
+  star:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`,
+  plus:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>`,
+  settings:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 01-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>`,
+  user:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`,
+  users:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>`,
+  trophy:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4a2 2 0 01-2-2V5a2 2 0 012-2h2"/><path d="M18 9h2a2 2 0 002-2V5a2 2 0 00-2-2h-2"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 19.24 7 20v2"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 19.24 17 20v2"/><path d="M18 2H6v7a6 6 0 1012 0V2z"/></svg>`,
+  clock:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`,
+  gift:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 010-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 000-5C13 2 12 7 12 7z"/></svg>`,
+  check:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`,
+  send:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>`,
+  hash:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="9" x2="20" y2="9"/><line x1="4" y1="15" x2="20" y2="15"/><line x1="10" y1="3" x2="8" y2="21"/><line x1="16" y1="3" x2="14" y2="21"/></svg>`,
+  zap:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>`,
+  award:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>`,
+  list:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>`,
+  edit:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>`,
+  x:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`,
+  calendar:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>`,
+  crown:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20h20"/><path d="M4 17l2-12 4 5 2-6 2 6 4-5 2 12"/></svg>`,
+  target:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>`,
+  chevL:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>`,
+  chevR:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>`,
+  ext:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>`,
+  heart:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>`,
+  play:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>`,
+  stop:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>`,
+  eye:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>`,
+  link:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>`,
+  info:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>`,
+  shuffle:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/><line x1="4" y1="4" x2="9" y2="9"/></svg>`,
 };
 
-/* ======================================
-   УТИЛИТЫ
-   ====================================== */
-const $=s=>document.querySelector(s);
-const $$=s=>document.querySelectorAll(s);
-const el=(tag,cls,html)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(html)e.innerHTML=html;return e};
-const ic=(name,w=22,h=22)=>`<span class="ic" style="width:${w}px;height:${h}px">${I[name]||''}</span>`;
+function icon(name,cls=''){return `<span class="icon ${cls}" style="display:inline-flex;align-items:center;justify-content:center">${I[name]||''}</span>`}
 
-const tg=window.Telegram?.WebApp;
-if(tg){tg.ready();tg.expand();tg.setHeaderColor('#FFFFFF');tg.setBackgroundColor('#FFFFFF')}
-const tgUser=tg?.initDataUnsafe?.user||{id:CONFIG.MAIN_ADMIN_ID,first_name:'Admin',last_name:'',username:'admin'};
-const isAdmin=tgUser.id===CONFIG.MAIN_ADMIN_ID;
+// ============================================================
+// STATE
+// ============================================================
+let currentScreen = 'home';
+let screenParams = {};
+let tgUser = null;
+let toastTimer = null;
 
-const COLORS=['#FF6B6B','#4ECDC4','#45B7D1','#96CEB4','#FFEAA7','#DDA0DD','#98D8C8','#F7DC6F','#BB8FCE','#85C1E9','#F0B27A','#82E0AA'];
-const avColor=id=>COLORS[Math.abs(id||0)%COLORS.length];
-const initials=(f,l)=>((f||'?')[0]+(l||'')[0]).toUpperCase().trim()||'?';
+// Demo data
+const AVATAR_COLORS = ['#FF6B6B','#4ECDC4','#45B7D1','#96CEB4','#FECA57','#FF9FF3','#54A0FF','#5F27CD','#01CBC6','#F368E0','#FF6348','#7158e2'];
 
-function fmtDate(d){
-  if(!d)return'—';
-  const dt=new Date(d);
-  const pad=n=>String(n).padStart(2,'0');
-  return`${pad(dt.getDate())}.${pad(dt.getMonth()+1)}.${dt.getFullYear()} ${pad(dt.getHours())}:${pad(dt.getMinutes())} МСК`;
-}
-
-function timeLeft(d){
-  if(!d)return'—';
-  const diff=new Date(d)-new Date();
-  if(diff<=0)return'Завершён';
-  const days=Math.floor(diff/864e5);
-  const hrs=Math.floor((diff%864e5)/36e5);
-  const mins=Math.floor((diff%36e5)/6e4);
-  if(days>0)return`${days}д ${hrs}ч`;
-  if(hrs>0)return`${hrs}ч ${mins}м`;
-  return`${mins}м`;
-}
-
-function outcomeLabel(t){return{1:'Лидерборд (топ по баллам)',2:'Рандом (порог баллов)',3:'Взвешенный рандом'}[t]||'—'}
-
-/* ── Toast ── */
-let toastTimer;
-function showToast(msg){
-  let t=$('#toast');
-  if(!t){t=el('div','toast','');t.id='toast';document.body.appendChild(t)}
-  t.textContent=msg;t.classList.add('show');
-  clearTimeout(toastTimer);
-  toastTimer=setTimeout(()=>t.classList.remove('show'),2500);
-}
-
-/* ======================================
-   СОСТОЯНИЕ
-   ====================================== */
-const state={
-  screen:'home',
-  selectedContest:null,
-  contests:[
-    {
-      id:1,name:'Розыгрыш iPhone 16 Pro Max',
-      description:'Участвуй в розыгрыше флагманского смартфона! Набирай баллы через реакции, приглашения и активность.',
-      conditions:'Подписка на канал, активность в комментариях',
-      channel_username:'@techreviews',
-      end_datetime_msk:'2026-04-15T20:00:00',
-      button_text:'Участвовать',initial_points:10,winners_count:1,
-      outcome_type:1,threshold:null,status:'active',scoring_enabled:true,
-      scoring_config:{reactions:{pts:1,limit:10},invites:{pts:5,require_sub:true},ads:{pts:3,url:''}},
-      prizes:['iPhone 16 Pro Max 256GB','AirPods Pro 3','Чехол Apple Leather'],
-      participants:[
-        {user_tg_id:1001,first_name:'Александр',last_name:'К.',username:'alex_k',points:847,photo_url:null},
-        {user_tg_id:1002,first_name:'Мария',last_name:'С.',username:'maria_sv',points:623,photo_url:null},
-        {user_tg_id:1003,first_name:'Дмитрий',last_name:'В.',username:'dim_v',points:589,photo_url:null},
-        {user_tg_id:1004,first_name:'Елена',last_name:'П.',username:'elena_p',points:412,photo_url:null},
-        {user_tg_id:1005,first_name:'Артём',last_name:'Н.',username:'artem_n',points:298,photo_url:null},
-        {user_tg_id:CONFIG.MAIN_ADMIN_ID,first_name:tgUser.first_name,last_name:tgUser.last_name||'',username:tgUser.username,points:156,photo_url:null},
-      ]
-    },
-    {
-      id:2,name:'1000 USDT на троих',
-      description:'Делись ссылкой, приводи друзей и выигрывай крипту!',
-      conditions:'Подписка + минимум 3 приглашения',
-      channel_username:'@cryptoworld',
-      end_datetime_msk:'2026-05-01T18:00:00',
-      button_text:'Хочу участвовать',initial_points:5,winners_count:3,
-      outcome_type:3,threshold:null,status:'active',scoring_enabled:true,
-      scoring_config:{reactions:{pts:2,limit:5},invites:{pts:10,require_sub:true},ads:{pts:5,url:''}},
-      prizes:['500 USDT','300 USDT','200 USDT'],
-      participants:[
-        {user_tg_id:2001,first_name:'Иван',last_name:'М.',username:'ivan_m',points:1230,photo_url:null},
-        {user_tg_id:2002,first_name:'Анна',last_name:'Б.',username:'anna_b',points:980,photo_url:null},
-        {user_tg_id:2003,first_name:'Сергей',last_name:'Л.',username:'sergey_l',points:756,photo_url:null},
-      ]
-    },
-    {
-      id:3,name:'Годовая подписка Spotify',
-      description:'Розыгрыш Premium-подписки на Spotify среди подписчиков канала.',
-      conditions:'Быть подписчиком канала',
-      channel_username:'@musiclovers',
-      end_datetime_msk:'2026-03-20T12:00:00',
-      button_text:'Участвовать',initial_points:0,winners_count:1,
-      outcome_type:2,threshold:50,status:'active',scoring_enabled:false,
-      scoring_config:null,
-      prizes:['Spotify Premium 12 мес.'],
-      participants:[
-        {user_tg_id:3001,first_name:'Ольга',last_name:'Р.',username:'olga_r',points:120,photo_url:null},
-        {user_tg_id:3002,first_name:'Павел',last_name:'Ш.',username:'pavel_sh',points:85,photo_url:null},
-      ]
-    }
-  ]
-};
-
-/* ======================================
-   РЕНДЕР
-   ====================================== */
-function render(){
-  const app=$('#app');
-  app.innerHTML='';
-  const content=el('div','wrap','');
-  content.style.paddingTop='16px';
-
-  const screens={
-    home:renderHome,mypoints:renderMyPoints,create:renderCreate,
-    admin:renderAdmin,detail:renderDetail,scoring:renderScoring,
-    manual:renderManual,logs:renderLogs,profile:renderProfile
-  };
-
-  (screens[state.screen]||renderHome)(content);
-  app.appendChild(content);
-
-  // Tab bar
-  const showTabs=['home','mypoints','create','admin','profile'];
-  if(!$('.tabbar')){
-    document.body.appendChild(buildTabBar());
-  }else{
-    const old=$('.tabbar');
-    old.replaceWith(buildTabBar());
+const demoContests = [
+  {
+    id:'c1', name:'iPhone 16 Pro Max', description:'Розыгрыш нового iPhone 16 Pro Max 256GB. Подпишись и участвуй!',
+    conditions:'Подписка на канал обязательна', channel:'@techreviews',
+    endDate:'2026-04-15T18:00', status:'active', winnersCount:1,
+    outcomeType:1, prizes:['iPhone 16 Pro Max 256GB'],
+    initialPoints:10, creatorId:MAIN_ADMIN_ID,
+    scoring:{invites:{enabled:true,points:5},reactions:{enabled:true,points:2},ads:{enabled:false,points:0}},
+    participants:[
+      {id:'u1',name:'Александр',username:'alex_dev',points:156},
+      {id:'u2',name:'Мария',username:'masha_pro',points:134},
+      {id:'u3',name:'Дмитрий',username:'dmitry_k',points:98},
+      {id:'u4',name:'Екатерина',username:'kate_design',points:87},
+      {id:'u5',name:'Иван',username:'ivan_codes',points:65},
+      {id:'u6',name:'Анна',username:'anna_writes',points:42},
+    ]
+  },
+  {
+    id:'c2', name:'MacBook Air M3', description:'Конкурс для дизайнеров. Приглашай друзей и зарабатывай баллы!',
+    conditions:'Минимум 50 баллов для участия в розыгрыше', channel:'@designhub',
+    endDate:'2026-05-01T20:00', status:'active', winnersCount:2,
+    outcomeType:2, threshold:50, prizes:['MacBook Air M3','AirPods Pro 2'],
+    initialPoints:5, creatorId:12345,
+    scoring:{invites:{enabled:true,points:10},reactions:{enabled:false,points:0},ads:{enabled:true,points:3}},
+    participants:[
+      {id:'u7',name:'Олег',username:'oleg_ui',points:210},
+      {id:'u8',name:'Света',username:'sveta_ux',points:180},
+      {id:'u9',name:'Павел',username:'pavel_3d',points:75},
+    ]
+  },
+  {
+    id:'c3', name:'PlayStation 5 Slim', description:'Новогодний розыгрыш! Чем больше баллов — тем выше шанс победить.',
+    conditions:'', channel:'@gamezone',
+    endDate:'2026-03-20T12:00', status:'ended', winnersCount:1,
+    outcomeType:3, prizes:['PlayStation 5 Slim + DualSense'],
+    initialPoints:0, creatorId:MAIN_ADMIN_ID,
+    scoring:{invites:{enabled:true,points:3},reactions:{enabled:true,points:1},ads:{enabled:false,points:0}},
+    participants:[
+      {id:'u10',name:'Максим',username:'max_gamer',points:320},
+      {id:'u11',name:'Артём',username:'artem_play',points:290},
+      {id:'u12',name:'Никита',username:'nikita_fps',points:150},
+    ],
+    winners:['Максим (@max_gamer)']
   }
+];
+
+// ============================================================
+// TELEGRAM API
+// ============================================================
+async function sendChannelPost(channel, contestName, desc, conditions, prizes, endDate) {
+  if (!BOT_TOKEN || !channel) return;
+  let text = `<b>Новый конкурс!</b>\n\n`;
+  text += `<b>${contestName}</b>\n`;
+  if (desc) text += `\n${desc}\n`;
+  if (conditions) text += `\n<b>Условия:</b> ${conditions}\n`;
+  if (prizes && prizes.length) {
+    text += `\n<b>Призы:</b>\n`;
+    prizes.forEach((p,i) => { text += `  ${i+1}. ${p}\n`; });
+  }
+  if (endDate) text += `\n<b>Окончание:</b> ${new Date(endDate).toLocaleString('ru-RU',{timeZone:'Europe/Moscow'})} МСК`;
+  text += `\n\nНажми кнопку ниже, чтобы участвовать!`;
+
+  try {
+    const ch = channel.startsWith('@') ? channel : '@'+channel;
+    await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({
+        chat_id: ch, text, parse_mode:'HTML',
+        reply_markup:{inline_keyboard:[[{text:'Участвовать',web_app:{url:window.location.href}}]]}
+      })
+    });
+  } catch(e) { console.log('Ошибка отправки в канал:', e); }
 }
 
-/* ── Tab Bar ── */
-function buildTabBar(){
-  const bar=el('nav','tabbar','');
-  const inner=el('div','tabbar-inner','');
-  const tabs=[
+// ============================================================
+// HELPERS
+// ============================================================
+function getInitials(name) {
+  if (!name) return '?';
+  const parts = name.trim().split(/\s+/);
+  return parts.length > 1 ? (parts[0][0]+parts[1][0]).toUpperCase() : name.slice(0,2).toUpperCase();
+}
+function getAvatarColor(name) {
+  let h = 0;
+  for (let i = 0; i < (name||'').length; i++) h = ((h << 5) - h) + name.charCodeAt(i);
+  return AVATAR_COLORS[Math.abs(h) % AVATAR_COLORS.length];
+}
+function timeLeft(dateStr) {
+  const diff = new Date(dateStr) - new Date();
+  if (diff <= 0) return 'Завершён';
+  const d = Math.floor(diff/86400000), h = Math.floor((diff%86400000)/3600000), m = Math.floor((diff%3600000)/60000);
+  if (d > 0) return `${d} дн ${h} ч`;
+  if (h > 0) return `${h} ч ${m} мин`;
+  return `${m} мин`;
+}
+function formatDate(dateStr) {
+  return new Date(dateStr).toLocaleString('ru-RU',{day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit',timeZone:'Europe/Moscow'}) + ' МСК';
+}
+function outcomeLabel(t) {
+  return t===1?'Лидерборд':t===2?'Рандом с порогом':t===3?'Взвешенный рандом':'—';
+}
+function showToast(msg, type='success') {
+  clearTimeout(toastTimer);
+  const old = document.querySelector('.toast');
+  if (old) old.remove();
+  const el = document.createElement('div');
+  el.className = `toast toast-${type}`;
+  el.textContent = msg;
+  document.body.appendChild(el);
+  toastTimer = setTimeout(() => el.remove(), 3000);
+}
+function isMainAdmin() {
+  return tgUser && tgUser.id === MAIN_ADMIN_ID;
+}
+function navigateTo(screen, params={}) {
+  currentScreen = screen;
+  screenParams = params;
+  render();
+  window.scrollTo(0,0);
+}
+
+// ============================================================
+// RENDER ENGINE
+// ============================================================
+function render() {
+  const root = document.getElementById('root');
+  let html = '';
+  switch(currentScreen) {
+    case 'home': html = renderHome(); break;
+    case 'points': html = renderPoints(); break;
+    case 'create': html = renderCreate(); break;
+    case 'admin': html = renderAdmin(); break;
+    case 'profile': html = renderProfile(); break;
+    case 'detail': html = renderDetail(); break;
+    case 'edit': html = renderEdit(); break;
+    default: html = renderHome();
+  }
+  html += renderTabBar();
+  root.innerHTML = html;
+  bindEvents();
+}
+
+// ============================================================
+// TAB BAR
+// ============================================================
+function renderTabBar() {
+  const tabs = [
     {id:'home',icon:'home',label:'Главная'},
-    {id:'mypoints',icon:'star',label:'Баллы'},
+    {id:'points',icon:'star',label:'Баллы'},
     {id:'create',icon:'plus',label:'Создать',center:true},
-    {id:'admin',icon:'settings',label:'Админ'},
+    {id:'admin',icon:'settings',label:'Управление'},
     {id:'profile',icon:'user',label:'Профиль'},
   ];
-
-  tabs.forEach(t=>{
-    const isOn=state.screen===t.id;
-    if(t.center){
-      const tab=el('div',`tab tab-c${isOn?' on':''}`,'');
-      tab.innerHTML=`<div class="plus-circle">${I.plus}</div><span>${t.label}</span>`;
-      tab.onclick=()=>{state.screen=t.id;render();if(tg?.HapticFeedback)tg.HapticFeedback.selectionChanged()};
-      inner.appendChild(tab);
-    }else{
-      const tab=el('div',`tab${isOn?' on':''}`,'');
-      tab.innerHTML=`${I[t.icon]}<span>${t.label}</span>`;
-      tab.onclick=()=>{state.screen=t.id;render();if(tg?.HapticFeedback)tg.HapticFeedback.selectionChanged()};
-      inner.appendChild(tab);
+  let h = `<nav class="tabbar">`;
+  tabs.forEach(t => {
+    const active = currentScreen === t.id ? ' active' : '';
+    if (t.center) {
+      h += `<button class="tb-item tb-center${active}" data-tab="${t.id}">
+        <div class="tb-center-btn">${icon(t.icon)}</div>
+        <span>${t.label}</span>
+      </button>`;
+    } else {
+      h += `<button class="tb-item${active}" data-tab="${t.id}">
+        ${icon(t.icon)}
+        <span>${t.label}</span>
+      </button>`;
     }
   });
-
-  bar.appendChild(inner);
-  return bar;
+  h += `</nav>`;
+  return h;
 }
 
-/* ======================================
-   ЭКРАНЫ
-   ====================================== */
+// ============================================================
+// HOME SCREEN
+// ============================================================
+function renderHome() {
+  const active = demoContests.filter(c => c.status === 'active');
+  const ended = demoContests.filter(c => c.status === 'ended');
 
-/* ── Главная ── */
-function renderHome(c){
+  let h = `<div class="page">`;
+
   // Hero
-  const hero=el('div','hero fu','');
-  hero.innerHTML=`
-    <div class="hero-deco" style="top:-60px;right:-40px"></div>
-    <div class="hero-deco" style="bottom:-80px;left:-50px"></div>
-    <div class="hero-icon">${I.trophy}</div>
-    <h1 class="t-2xl fw9 ls-tt">Конкурсы</h1>
-    <p class="t-sm c2 mt1">Участвуй, набирай баллы, побеждай</p>
-    <div class="hero-chip mt3"><span class="dot-live"></span>${state.contests.filter(x=>x.status==='active').length} активных</div>
-  `;
-  c.appendChild(hero);
-
-  // Contests
-  c.appendChild(el('div','sec-h mt4 fu d2',`<span class="sec-t">Активные</span><span class="t-sm c3">${state.contests.length}</span>`));
-
-  state.contests.forEach((ct,i)=>{
-    const card=el('div',`cc fu d${i+3}`,'');
-    const statusCls=ct.status==='active'?'b-green':ct.status==='ended'?'b-red':'b-orange';
-    const statusText=ct.status==='active'?'Активен':ct.status==='ended'?'Завершён':'Ожидает';
-    card.innerHTML=`
-      <div class="flex jcsb" style="align-items:flex-start">
-        <div style="flex:1;min-width:0">
-          <div class="t-lg fw7 truncate">${ct.name}</div>
-          <div class="cc-channel">${ic('hash',14,14)} ${ct.channel_username}</div>
-        </div>
-        <div class="badge ${statusCls}" style="margin-left:10px;flex-shrink:0">${statusText}</div>
-      </div>
-      <div class="cc-meta">
-        <span>${ic('users',13,13)} ${ct.participants?.length||0}</span>
-        <span>${ic('clock',13,13)} ${timeLeft(ct.end_datetime_msk)}</span>
-        <span>${ic('gift',13,13)} ${ct.prizes?.length||0} призов</span>
-      </div>
-    `;
-    card.onclick=()=>{state.selectedContest=ct;state.screen='detail';render()};
-    c.appendChild(card);
-  });
-
-  if(!state.contests.length){
-    c.appendChild(el('div','empty fu d3',`
-      <div class="empty-ic">${I.trophy}</div>
-      <div class="t-lg fw7">Пока нет конкурсов</div>
-      <p class="t-sm c2 mt1">Создайте первый конкурс прямо сейчас</p>
-    `));
-  }
-}
-
-/* ── Мои баллы ── */
-function renderMyPoints(c){
-  c.appendChild(el('h1','t-2xl fw9 ls-tt fu','Мои баллы'));
-  c.appendChild(el('p','t-sm c2 mt1 mb3 fu d1','Ваш прогресс по всем конкурсам'));
-
-  let total=0;
-  const myContests=state.contests.filter(ct=>(ct.participants||[]).some(p=>p.user_tg_id===tgUser.id));
-
-  myContests.forEach((ct,i)=>{
-    const me=ct.participants.find(p=>p.user_tg_id===tgUser.id);
-    if(!me)return;
-    total+=me.points;
-    const sorted=[...ct.participants].sort((a,b)=>b.points-a.points);
-    const rank=sorted.findIndex(p=>p.user_tg_id===tgUser.id)+1;
-    const maxPts=sorted[0]?.points||1;
-    const pct=Math.round((me.points/maxPts)*100);
-
-    const card=el('div',`card card-s fu d${i+2}`,'');
-    card.style.marginBottom='12px';card.style.cursor='pointer';
-    card.innerHTML=`
-      <div class="flex jcsb aic">
-        <div style="flex:1;min-width:0">
-          <div class="t-base fw7 truncate">${ct.name}</div>
-          <div class="t-xs c3 mt1">${ct.channel_username}</div>
-        </div>
-        <div style="text-align:right">
-          <div class="t-lg fw8">${me.points.toLocaleString()}</div>
-          <div class="t-xs c3">#${rank} из ${sorted.length}</div>
-        </div>
-      </div>
-      <div class="prog mt2"><div class="prog-bar" style="--w:${pct}%"></div></div>
-    `;
-    card.onclick=()=>{state.selectedContest=ct;state.screen='detail';render()};
-    c.appendChild(card);
-  });
-
-  if(myContests.length){
-    const totalCard=el('div','flat tc fu d1','');
-    totalCard.innerHTML=`
-      <div class="t-xs upper c2 mb1">Всего баллов</div>
-      <div class="t-3xl fw9">${total.toLocaleString()}</div>
-    `;
-    c.insertBefore(totalCard,c.children[2]);
-  }else{
-    c.appendChild(el('div','empty fu d2',`
-      <div class="empty-ic">${I.star}</div>
-      <div class="t-lg fw7">Вы ещё не участвуете</div>
-      <p class="t-sm c2 mt1">Присоединяйтесь к конкурсу на главной</p>
-    `));
-  }
-}
-
-/* ── Создать конкурс ── */
-function renderCreate(c){
-  c.appendChild(el('h1','t-2xl fw9 ls-tt fu','Новый конкурс'));
-  c.appendChild(el('p','t-sm c2 mt1 mb3 fu d1','Заполните информацию о конкурсе'));
-
-  const form=el('div','fu d2','');
-  form.innerHTML=`
-    <div class="field"><label>Название</label><input class="inp" id="f-name" placeholder="Например: Розыгрыш MacBook Air"></div>
-    <div class="field"><label>Канал</label><input class="inp" id="f-channel" placeholder="@username канала"></div>
-    <div class="field"><label>Описание</label><textarea class="txa" id="f-desc" placeholder="Расскажите о конкурсе..."></textarea></div>
-    <div class="field"><label>Условия участия</label><textarea class="txa" id="f-cond" placeholder="Подписка на канал, репост и т.д." style="min-height:60px"></textarea></div>
-    <div class="field"><label>Дата и время окончания (МСК)</label><input class="inp" id="f-end" type="datetime-local"></div>
-    <div class="flex g2">
-      <div class="field f1"><label>Победителей</label><input class="inp" id="f-winners" type="number" value="1" min="1"></div>
-      <div class="field f1"><label>Нач. баллы</label><input class="inp" id="f-initpts" type="number" value="0" min="0"></div>
+  h += `<div class="hero anim-fu">
+    <div class="hero-icon">${icon('trophy')}</div>
+    <div class="hero-title">Конкурсы</div>
+    <div class="hero-sub">Участвуй, приглашай друзей, выигрывай призы</div>
+    <div style="display:flex;justify-content:center;gap:8px;margin-top:14px">
+      <div class="chip"><span class="chip-dot"></span> ${active.length} активных</div>
+      <div class="chip">${icon('users')} ${demoContests.reduce((s,c)=>s+c.participants.length,0)} участников</div>
     </div>
-    <div class="field"><label>Тип определения победителя</label>
-      <select class="sel" id="f-outcome">
-        <option value="1">Лидерборд — топ по баллам</option>
-        <option value="2">Рандом среди тех, кто набрал порог</option>
-        <option value="3">Взвешенный рандом по баллам</option>
-      </select>
-    </div>
-    <div class="field" id="f-thresh-wrap" style="display:none"><label>Порог баллов</label><input class="inp" id="f-thresh" type="number" value="50" min="1"></div>
-    <div class="field"><label>Текст кнопки</label><input class="inp" id="f-btn" placeholder="Участвовать" value="Участвовать"></div>
-    <div class="field"><label>Призы (каждый с новой строки)</label><textarea class="txa" id="f-prizes" placeholder="1 место — iPhone&#10;2 место — AirPods&#10;3 место — Чехол"></textarea></div>
-    <button class="btn btn-p btn-block mt2" id="f-submit" style="padding:17px;font-size:16px">${ic('send',18,18)} Создать конкурс</button>
-  `;
-  c.appendChild(form);
+  </div>`;
 
-  setTimeout(()=>{
-    const outcSel=$('#f-outcome');
-    const thWrap=$('#f-thresh-wrap');
-    if(outcSel) outcSel.onchange=()=>{thWrap.style.display=outcSel.value==='2'?'':'none'};
+  // Active
+  if (active.length) {
+    h += `<div class="section">
+      <div class="section-header"><div class="section-title">Активные</div></div>`;
+    active.forEach((c,i) => {
+      const pCount = c.participants.length;
+      h += `<div class="card clickable anim-fu d${i+1}" data-action="openContest" data-id="${c.id}">
+        <div class="card-row">
+          <div class="ic ic-black">${icon('trophy')}</div>
+          <div class="card-body">
+            <div class="card-title">${c.name}</div>
+            <div class="card-desc">${c.channel} · ${pCount} участн.</div>
+          </div>
+          <div style="text-align:right">
+            <div class="badge badge-active">Active</div>
+            <div style="font-size:11px;color:var(--text3);margin-top:4px">${icon('clock')} ${timeLeft(c.endDate)}</div>
+          </div>
+        </div>
+        <div class="score-preview">
+          ${c.scoring.invites.enabled ? `<span class="score-chip on">${icon('users')} +${c.scoring.invites.points}/друг</span>` : `<span class="score-chip off">${icon('users')} Друзья</span>`}
+          ${c.scoring.reactions.enabled ? `<span class="score-chip on">${icon('heart')} +${c.scoring.reactions.points}/реакц.</span>` : `<span class="score-chip off">${icon('heart')} Реакции</span>`}
+          ${c.scoring.ads.enabled ? `<span class="score-chip on">${icon('play')} +${c.scoring.ads.points}/реклама</span>` : `<span class="score-chip off">${icon('play')} Реклама</span>`}
+        </div>
+      </div>`;
+    });
+    h += `</div>`;
+  }
 
-    const submit=$('#f-submit');
-    if(submit) submit.onclick=async()=>{
-      const name=$('#f-name').value.trim();
-      const channel=$('#f-channel').value.trim();
-      const end=$('#f-end').value;
-      if(!name){showToast('Укажите название');return}
-      if(!channel){showToast('Укажите канал');return}
-      if(!end){showToast('Укажите дату окончания');return}
+  // Ended
+  if (ended.length) {
+    h += `<div class="section">
+      <div class="section-header"><div class="section-title">Завершённые</div></div>`;
+    ended.forEach((c,i) => {
+      h += `<div class="card clickable anim-fu d${i+3}" data-action="openContest" data-id="${c.id}">
+        <div class="card-row">
+          <div class="ic ic-gray">${icon('trophy')}</div>
+          <div class="card-body">
+            <div class="card-title" style="color:var(--text3)">${c.name}</div>
+            <div class="card-desc">${c.channel}</div>
+          </div>
+          <div class="badge badge-ended">Завершён</div>
+        </div>
+      </div>`;
+    });
+    h += `</div>`;
+  }
 
-      const contest={
-        id:Date.now(),name,
-        description:$('#f-desc').value.trim(),
-        conditions:$('#f-cond').value.trim(),
-        channel_username:channel.startsWith('@')?channel:'@'+channel,
-        end_datetime_msk:end,
-        button_text:$('#f-btn').value.trim()||'Участвовать',
-        initial_points:parseInt($('#f-initpts').value)||0,
-        winners_count:parseInt($('#f-winners').value)||1,
-        outcome_type:parseInt(outcSel.value),
-        threshold:outcSel.value==='2'?parseInt($('#f-thresh').value)||50:null,
-        status:'active',scoring_enabled:false,scoring_config:null,
-        prizes:$('#f-prizes').value.trim().split('\n').filter(Boolean),
-        participants:[]
-      };
-
-      state.contests.unshift(contest);
-
-      // Публикация поста в канал через Bot API
-      try{
-        const prizesText=contest.prizes.length?'\n\nПризы:\n'+contest.prizes.map((p,i)=>`  ${i+1}. ${p}`).join('\n'):'';
-        const text=`🎉 <b>Новый конкурс!</b>\n\n<b>${contest.name}</b>\n${contest.description?'\n'+contest.description:''}${contest.conditions?'\n\nУсловия: '+contest.conditions:''}${prizesText}\n\nОкончание: ${fmtDate(contest.end_datetime_msk)}\nПобедителей: ${contest.winners_count}`;
-        await fetch(`https://api.telegram.org/bot${CONFIG.BOT_TOKEN}/sendMessage`,{
-          method:'POST',
-          headers:{'Content-Type':'application/json'},
-          body:JSON.stringify({chat_id:contest.channel_username,text,parse_mode:'HTML'})
-        });
-      }catch(e){console.log('Post to channel:',e)}
-
-      showToast('Конкурс создан!');
-      if(tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
-      state.screen='home';render();
-    };
-  },50);
+  h += `</div>`;
+  return h;
 }
 
-/* ── Детали конкурса ── */
-function renderDetail(c){
-  const ct=state.selectedContest;
-  if(!ct){state.screen='home';render();return}
+// ============================================================
+// CONTEST DETAIL
+// ============================================================
+function renderDetail() {
+  const c = demoContests.find(x => x.id === screenParams.id);
+  if (!c) return `<div class="page"><div class="empty"><div class="empty-title">Конкурс не найден</div></div></div>`;
 
-  const participants=[...ct.participants].sort((a,b)=>b.points-a.points);
-  const myP=participants.find(p=>p.user_tg_id===tgUser.id);
-  const myRank=myP?participants.indexOf(myP)+1:0;
-  const isJoined=!!myP;
+  const isCreator = tgUser && c.creatorId === tgUser.id;
+  const isEnded = c.status === 'ended';
+  const sorted = [...c.participants].sort((a,b) => b.points - a.points);
+
+  let h = `<div class="page">`;
 
   // Back
-  const back=el('div','back fu','');
-  back.innerHTML=`${I.chevL} Назад`;
-  back.onclick=()=>{state.screen='home';render()};
-  c.appendChild(back);
+  h += `<div style="margin-bottom:12px">
+    <button class="btn-back clickable" data-action="goHome" style="display:inline-flex;align-items:center;gap:4px;background:none;border:none;font-family:inherit;font-size:14px;font-weight:600;color:var(--text2);cursor:pointer;padding:4px 0">
+      ${icon('chevL')} Назад
+    </button>
+  </div>`;
 
-  // Title
-  c.appendChild(el('h1',`t-2xl fw9 ls-tt fu d1`,ct.name));
+  // Header
+  h += `<div class="detail-header anim-fu">
+    <div class="detail-channel">${icon('hash')} ${c.channel}</div>
+    <div class="detail-name">${c.name}</div>`;
+  if (c.description) h += `<div class="detail-desc">${c.description}</div>`;
+  h += `<div class="detail-meta">
+      <span class="badge ${isEnded ? 'badge-ended' : 'badge-active'}">${isEnded ? 'Завершён' : 'Активный'}</span>
+      <span class="chip">${icon('clock')} ${isEnded ? 'Завершён' : timeLeft(c.endDate)}</span>
+      <span class="chip">${icon('users')} ${c.participants.length}</span>
+      <span class="chip">${icon('target')} ${outcomeLabel(c.outcomeType)}</span>
+    </div>
+  </div>`;
 
-  // Channel + Status
-  const meta=el('div','flex aic g2 mt2 fu d2','');
-  meta.innerHTML=`
-    <span class="cc-channel">${ic('hash',14,14)} ${ct.channel_username}</span>
-    <span class="badge ${ct.status==='active'?'b-green':'b-red'}">${ct.status==='active'?'Активен':'Завершён'}</span>
-  `;
-  c.appendChild(meta);
+  // End date + scoring info
+  h += `<div class="card anim-fu d1" style="margin-bottom:12px">
+    <div style="font-size:13px;color:var(--text3);margin-bottom:4px">Окончание</div>
+    <div style="font-size:15px;font-weight:700">${formatDate(c.endDate)}</div>
+  </div>`;
 
-  // Stats
-  const sg=el('div','sg mt3 fu d3','');
-  sg.innerHTML=`
-    <div class="sb"><div class="v">${participants.length}</div><div class="l">Участников</div></div>
-    <div class="sb"><div class="v">${timeLeft(ct.end_datetime_msk)}</div><div class="l">Осталось</div></div>
-    <div class="sb"><div class="v">${ct.winners_count}</div><div class="l">Победителей</div></div>
-    <div class="sb"><div class="v">${ct.prizes?.length||0}</div><div class="l">Призов</div></div>
-  `;
-  c.appendChild(sg);
-
-  // Description
-  if(ct.description){
-    const d=el('div','flat mt3 fu d4','');
-    d.innerHTML=`<div class="t-xs upper c2 fw6 mb1">Описание</div><div class="t-base" style="line-height:1.6">${ct.description}</div>`;
-    c.appendChild(d);
-  }
-
-  // Conditions
-  if(ct.conditions){
-    const d=el('div','flat mt2 fu d4','');
-    d.innerHTML=`<div class="t-xs upper c2 fw6 mb1">Условия</div><div class="t-base" style="line-height:1.6">${ct.conditions}</div>`;
-    c.appendChild(d);
-  }
+  // Scoring config display
+  h += `<div class="card anim-fu d2" style="margin-bottom:12px">
+    <div style="font-size:14px;font-weight:700;margin-bottom:10px">Начисление баллов</div>
+    <div style="display:flex;flex-direction:column;gap:6px">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:${c.scoring.invites.enabled?'#E8FAE8':'var(--bg2)'};border-radius:8px">
+        <div style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600">
+          ${icon('users')} Приглашение друзей
+        </div>
+        <span style="font-size:13px;font-weight:700;color:${c.scoring.invites.enabled?'var(--green)':'var(--text3)'}">${c.scoring.invites.enabled ? '+'+c.scoring.invites.points+' баллов' : 'Выкл.'}</span>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:${c.scoring.reactions.enabled?'#E8FAE8':'var(--bg2)'};border-radius:8px">
+        <div style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600">
+          ${icon('heart')} Реакции
+        </div>
+        <span style="font-size:13px;font-weight:700;color:${c.scoring.reactions.enabled?'var(--green)':'var(--text3)'}">${c.scoring.reactions.enabled ? '+'+c.scoring.reactions.points+' баллов' : 'Выкл.'}</span>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:${c.scoring.ads.enabled?'#E8FAE8':'var(--bg2)'};border-radius:8px">
+        <div style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600">
+          ${icon('play')} Просмотр рекламы
+        </div>
+        <span style="font-size:13px;font-weight:700;color:${c.scoring.ads.enabled?'var(--green)':'var(--text3)'}">${c.scoring.ads.enabled ? '+'+c.scoring.ads.points+' баллов' : 'Выкл.'}</span>
+      </div>
+    </div>
+    ${c.initialPoints ? `<div style="margin-top:8px;font-size:12px;color:var(--text3)">Стартовые баллы при вступлении: <b>${c.initialPoints}</b></div>` : ''}
+  </div>`;
 
   // Prizes
-  if(ct.prizes?.length){
-    c.appendChild(el('div','sec-h mt3 fu d5',`<span class="sec-t t-lg">Призы</span>`));
-    const pw=el('div','col g1 fu d5','');
-    ct.prizes.forEach((p,i)=>{
-      const cls=i===0?'pn1':i===1?'pn2':i===2?'pn3':'pn-d';
-      pw.innerHTML+=`<div class="prize"><div class="prize-n ${cls}">${i+1}</div><span>${p}</span></div>`;
+  if (c.prizes && c.prizes.length) {
+    h += `<div class="card anim-fu d3" style="margin-bottom:12px">
+      <div style="font-size:14px;font-weight:700;margin-bottom:10px">${icon('gift')} Призы</div>`;
+    c.prizes.forEach((p,i) => {
+      const colors = ['badge-gold','badge-silver','badge-bronze'];
+      const placeColors = [['#FFF8E1','#B8860B'],['#F5F5F5','#666'],['#FFF3E0','#8B4513']];
+      const pc = placeColors[i] || ['var(--bg2)','var(--text2)'];
+      h += `<div class="prize-item">
+        <div class="prize-place" style="background:${pc[0]};color:${pc[1]}">${i+1}</div>
+        <div class="prize-text">${p}</div>
+      </div>`;
     });
-    c.appendChild(pw);
+    h += `</div>`;
+  }
+
+  // Winners
+  if (isEnded && c.winners) {
+    h += `<div class="card anim-fu d4" style="margin-bottom:12px;border-color:var(--gold);background:#FFFDF5">
+      <div style="font-size:14px;font-weight:700;margin-bottom:8px">${icon('crown')} Победители</div>`;
+    c.winners.forEach(w => {
+      h += `<div style="font-size:14px;font-weight:600;padding:4px 0">${w}</div>`;
+    });
+    h += `</div>`;
   }
 
   // Join button
-  if(!isJoined && ct.status==='active'){
-    const btn=el('button','btn btn-p btn-block mt3 fu d5','');
-    btn.style.padding='18px';btn.style.fontSize='16px';
-    btn.innerHTML=`${ic('zap',18,18)} ${ct.button_text||'Участвовать'}`;
-    btn.onclick=()=>{
-      ct.participants.push({user_tg_id:tgUser.id,first_name:tgUser.first_name,last_name:tgUser.last_name||'',username:tgUser.username,points:ct.initial_points||0,photo_url:null});
-      if(tg?.HapticFeedback)tg.HapticFeedback.notificationOccurred('success');
-      showToast('Вы участвуете!');
-      render();
-    };
-    c.appendChild(btn);
-  }else if(isJoined){
-    const mp=el('div','my-pts mt3 fu d5','');
-    const maxPts=participants[0]?.points||1;
-    const pct=Math.round((myP.points/maxPts)*100);
-    mp.innerHTML=`
-      <div class="flex jcsb aic">
-        <div>
-          <div class="t-xs fw6" style="color:#1B9E4B">Вы участвуете</div>
-          <div class="t-2xl fw9 mt1">${myP.points.toLocaleString()} <span class="t-sm fw5 c2">баллов</span></div>
-        </div>
-        <div class="badge b-green" style="font-size:14px;padding:7px 14px"># ${myRank}</div>
-      </div>
-      <div class="prog mt2" style="background:#BBF7D0"><div class="prog-bar" style="--w:${pct}%;background:#16A34A"></div></div>
-    `;
-    c.appendChild(mp);
+  if (!isEnded) {
+    h += `<button class="btn btn-primary anim-fu d4" data-action="joinContest" data-id="${c.id}" style="margin-bottom:16px">
+      ${icon('check')} Участвовать
+    </button>`;
+  }
+
+  // Creator / Admin actions
+  if ((isCreator || isMainAdmin()) && !isEnded) {
+    h += `<div class="grid-2 anim-fu d5" style="margin-bottom:16px">
+      <button class="btn btn-secondary btn-sm" data-action="editContest" data-id="${c.id}">
+        ${icon('edit')} Редактировать
+      </button>
+      <button class="btn btn-danger btn-sm" data-action="endContest" data-id="${c.id}">
+        ${icon('stop')} Завершить
+      </button>
+    </div>`;
   }
 
   // Leaderboard
-  if(participants.length){
-    c.appendChild(el('div','sec-h mt4 fu d6',`<span class="sec-t t-lg">Участники</span><span class="t-sm c3">${participants.length}</span>`));
+  h += `<div class="section anim-fu d5">
+    <div class="section-header">
+      <div class="section-title">${icon('award')} Рейтинг</div>
+      <div style="font-size:13px;color:var(--text3)">${sorted.length} участн.</div>
+    </div>`;
 
-    const list=el('div','fu d7','');
-    participants.forEach((p,i)=>{
-      const topCls=i===0?' t1':i===1?' t2':i===2?' t3':'';
-      const meCls=p.user_tg_id===tgUser.id?' me':'';
-      const color=avColor(p.user_tg_id);
-      const ini=initials(p.first_name,p.last_name);
-
-      const row=el('div',`p-row${topCls}${meCls}`,'');
-      row.innerHTML=`
-        <span class="rank">${i+1}</span>
-        <div class="av" style="background:${color}">${p.photo_url?`<img src="${p.photo_url}" alt="">`:ini}</div>
-        <div class="info">
-          <div class="nm">${p.first_name} ${p.last_name||''}${p.user_tg_id===tgUser.id?' (вы)':''}</div>
-          <div class="un">${p.username?'@'+p.username:'ID: '+p.user_tg_id}</div>
-        </div>
-        <div class="pts">${p.points.toLocaleString()}</div>
-      `;
-      row.onclick=()=>{
-        if(p.username)window.open(`https://t.me/${p.username}`,'_blank');
-        else if(tg) window.open(`tg://user?id=${p.user_tg_id}`,'_blank');
-        else showToast('Профиль доступен в Telegram');
-        if(tg?.HapticFeedback)tg.HapticFeedback.selectionChanged();
-      };
-      list.appendChild(row);
-    });
-    c.appendChild(list);
-  }
-
-  // Info footer
-  const inf=el('div','flat mt3 mb3 fu d8','');
-  inf.innerHTML=`
-    <div class="col g1 t-sm">
-      <div class="flex jcsb"><span class="c2">Тип определения</span><span class="fw6">${outcomeLabel(ct.outcome_type)}</span></div>
-      <div class="flex jcsb"><span class="c2">Окончание</span><span class="fw6">${fmtDate(ct.end_datetime_msk)}</span></div>
-      <div class="flex jcsb"><span class="c2">Начальные баллы</span><span class="fw6">${ct.initial_points}</span></div>
-      <div class="flex jcsb"><span class="c2">Начисление</span><span class="fw6" style="color:${ct.scoring_enabled?'#1B9E4B':'var(--text3)'}">${ct.scoring_enabled?'Включено':'Выключено'}</span></div>
-    </div>
-  `;
-  c.appendChild(inf);
-}
-
-/* ── Админ ── */
-function renderAdmin(c){
-  if(!isAdmin){
-    c.appendChild(el('div','empty fu',`
-      <div class="empty-ic">${I.settings}</div>
-      <div class="t-lg fw7">Доступ ограничен</div>
-      <p class="t-sm c2 mt1">Админ-панель доступна только главному администратору</p>
-    `));
-    return;
-  }
-
-  c.appendChild(el('h1','t-2xl fw9 ls-tt fu','Управление'));
-  c.appendChild(el('p','t-sm c2 mt1 mb3 fu d1','Панель главного администратора'));
-
-  const totalP=state.contests.reduce((s,ct)=>s+(ct.participants?.length||0),0);
-  const sg=el('div','sg fu d2','');
-  sg.innerHTML=`
-    <div class="sb"><div class="v">${state.contests.length}</div><div class="l">Конкурсов</div></div>
-    <div class="sb"><div class="v">${totalP}</div><div class="l">Участников</div></div>
-  `;
-  c.appendChild(sg);
-
-  // Actions
-  const actions=el('div','col g2 mt3 fu d3','');
-  const makeAction=(icon,title,subtitle,screen)=>{
-    const btn=el('div','card card-s card-hover','');
-    btn.style.cursor='pointer';
-    btn.innerHTML=`
-      <div class="flex aic g3">
-        <div class="av" style="background:var(--bg2);width:44px;height:44px">
-          <span class="ic" style="width:22px;height:22px;color:var(--text)">${I[icon]}</span>
-        </div>
-        <div class="f1">
-          <div class="t-base fw6">${title}</div>
-          <div class="t-xs c2">${subtitle}</div>
-        </div>
-        <span class="ic" style="width:18px;height:18px;color:var(--text3)">${I.chevR}</span>
+  sorted.forEach((p,i) => {
+    const rank = i + 1;
+    const lbClass = rank<=3 ? ` lb-${rank}` : '';
+    const col = getAvatarColor(p.name);
+    h += `<div class="lb-item${lbClass} clickable" data-action="openProfile" data-username="${p.username}">
+      <div class="lb-rank">${rank}</div>
+      <div class="avatar" style="background:${col}">${getInitials(p.name)}</div>
+      <div class="lb-info">
+        <div class="lb-name">${p.name}</div>
+        <div class="lb-user">@${p.username}</div>
       </div>
-    `;
-    btn.onclick=()=>{state.screen=screen;render()};
-    return btn;
-  };
-  actions.appendChild(makeAction('zap','Настройка начислений','Реакции, приглашения, реклама','scoring'));
-  actions.appendChild(makeAction('edit','Ручное начисление','Добавить баллы участнику','manual'));
-  actions.appendChild(makeAction('list','Журнал действий','Логи всех операций','logs'));
-  c.appendChild(actions);
-
-  // Contests list
-  c.appendChild(el('div','sec-h mt4 fu d4',`<span class="sec-t t-lg">Все конкурсы</span>`));
-
-  state.contests.forEach((ct,i)=>{
-    const card=el('div',`card card-s card-hover fu d${i+5}`,'');
-    card.style.marginBottom='10px';card.style.cursor='pointer';
-    card.innerHTML=`
-      <div class="flex jcsb aic">
-        <div style="flex:1;min-width:0">
-          <div class="t-base fw7 truncate">${ct.name}</div>
-          <div class="t-xs c2 mt1">${ct.channel_username} · ${ct.participants?.length||0} участников</div>
-        </div>
-        <div class="badge ${ct.status==='active'?'b-green':'b-red'}">${ct.status==='active'?'Активен':'Завершён'}</div>
-      </div>
-    `;
-    card.onclick=()=>{state.selectedContest=ct;state.screen='detail';render()};
-    c.appendChild(card);
+      <div class="lb-points">${p.points}</div>
+    </div>`;
   });
+
+  h += `</div></div>`;
+  return h;
 }
 
-/* ── Настройка начислений ── */
-function renderScoring(c){
-  if(!isAdmin){state.screen='home';render();return}
+// ============================================================
+// POINTS SCREEN
+// ============================================================
+function renderPoints() {
+  const userName = tgUser ? tgUser.first_name : 'Пользователь';
+  // Simulate user being in some contests
+  const myContests = demoContests.filter(c => c.status === 'active').map(c => ({
+    ...c, myPoints: Math.floor(Math.random()*100)+10
+  }));
+  const totalPoints = myContests.reduce((s,c) => s + c.myPoints, 0);
 
-  const back=el('div','back fu','');
-  back.innerHTML=`${I.chevL} Управление`;
-  back.onclick=()=>{state.screen='admin';render()};
-  c.appendChild(back);
+  let h = `<div class="page">`;
+  h += `<div class="page-title anim-fu">Мои баллы</div>
+    <div class="page-sub anim-fu d1">Прогресс во всех конкурсах</div>`;
 
-  c.appendChild(el('h1','t-2xl fw9 ls-tt fu d1','Начисление'));
-  c.appendChild(el('p','t-sm c2 mt1 mb3 fu d2','Настройте способы начисления баллов'));
+  // Total
+  h += `<div class="card anim-fu d1" style="text-align:center;margin-bottom:16px;background:var(--black);color:var(--white);border:none">
+    <div style="font-size:11px;text-transform:uppercase;letter-spacing:1px;opacity:0.6;margin-bottom:4px">Всего баллов</div>
+    <div style="font-size:40px;font-weight:900;letter-spacing:-1px">${totalPoints}</div>
+    <div style="font-size:13px;opacity:0.5;margin-top:2px">${myContests.length} активных конкурсов</div>
+  </div>`;
 
-  const selWrap=el('div','field fu d3','');
-  selWrap.innerHTML=`<label>Конкурс</label><select class="sel" id="sc-sel">${state.contests.map((ct,i)=>`<option value="${i}">${ct.name}</option>`).join('')}</select>`;
-  c.appendChild(selWrap);
-
-  function renderSettings(idx){
-    const ct=state.contests[idx];
-    const old=$('#sc-body');if(old)old.remove();
-    const wrap=el('div','si','');wrap.id='sc-body';
-
-    // Toggle
-    const tog=el('div','flat flex jcsb aic','');
-    tog.innerHTML=`
-      <div><div class="t-base fw6">Начисление активно</div><div class="t-xs c2">Включить для этого конкурса</div></div>
-      <div class="toggle ${ct.scoring_enabled?'on':''}" id="sc-tog"></div>
-    `;
-    wrap.appendChild(tog);
-
-    // Reactions
-    const r=el('div','card card-s mt2','');
-    r.innerHTML=`
-      <div class="flex aic g3 mb2">
-        <div class="av" style="background:var(--bg2);width:40px;height:40px"><span class="ic" style="width:20px;height:20px;color:var(--text)">${I.star}</span></div>
-        <div><div class="t-base fw6">Реакции</div><div class="t-xs c2">Баллы за реакции на посты</div></div>
-      </div>
-      <div class="flex g2">
-        <div class="field f1" style="margin-bottom:0"><label>За реакцию</label><input class="inp" type="number" id="sc-rp" value="${ct.scoring_config?.reactions?.pts||1}" min="1"></div>
-        <div class="field f1" style="margin-bottom:0"><label>Лимит/день</label><input class="inp" type="number" id="sc-rl" value="${ct.scoring_config?.reactions?.limit||10}" min="1"></div>
-      </div>
-    `;
-    wrap.appendChild(r);
-
-    // Invites
-    const inv=el('div','card card-s mt2','');
-    inv.innerHTML=`
-      <div class="flex aic g3 mb2">
-        <div class="av" style="background:var(--bg2);width:40px;height:40px"><span class="ic" style="width:20px;height:20px;color:var(--text)">${I.users}</span></div>
-        <div><div class="t-base fw6">Приглашения</div><div class="t-xs c2">Баллы за приведённых друзей</div></div>
-      </div>
-      <div class="field" style="margin-bottom:10px"><label>За приглашение</label><input class="inp" type="number" id="sc-ip" value="${ct.scoring_config?.invites?.pts||5}" min="1"></div>
-      <label class="flex aic g2 t-sm" style="cursor:pointer"><input type="checkbox" id="sc-isub" ${ct.scoring_config?.invites?.require_sub!==false?'checked':''}> Требовать подписку на канал</label>
-    `;
-    wrap.appendChild(inv);
-
-    // Ads
-    const ads=el('div','card card-s mt2','');
-    ads.innerHTML=`
-      <div class="flex aic g3 mb2">
-        <div class="av" style="background:var(--bg2);width:40px;height:40px"><span class="ic" style="width:20px;height:20px;color:var(--text)">${I.zap}</span></div>
-        <div><div class="t-base fw6">Реклама</div><div class="t-xs c2">Баллы за просмотр видео</div></div>
-      </div>
-      <div class="flex g2">
-        <div class="field f1" style="margin-bottom:10px"><label>За просмотр</label><input class="inp" type="number" id="sc-ap" value="${ct.scoring_config?.ads?.pts||3}" min="1"></div>
-      </div>
-      <div class="field" style="margin-bottom:0"><label>Ссылка на видео</label><input class="inp" id="sc-au" placeholder="https://..." value="${ct.scoring_config?.ads?.url||''}"></div>
-    `;
-    wrap.appendChild(ads);
-
-    // Save
-    const saveBtn=el('button','btn btn-p btn-block mt3','');
-    saveBtn.style.padding='17px';
-    saveBtn.innerHTML=`${ic('check',18,18)} Сохранить`;
-    saveBtn.onclick=()=>{
-      ct.scoring_enabled=true;ct.status='active';
-      ct.scoring_config={
-        reactions:{pts:+$('#sc-rp').value||1,limit:+$('#sc-rl').value||10},
-        invites:{pts:+$('#sc-ip').value||5,require_sub:$('#sc-isub').checked},
-        ads:{pts:+$('#sc-ap').value||3,url:$('#sc-au').value}
-      };
-      showToast('Настройки сохранены');
-      if(tg?.HapticFeedback)tg.HapticFeedback.notificationOccurred('success');
-      render();
-    };
-    wrap.appendChild(saveBtn);
-    c.appendChild(wrap);
-
-    setTimeout(()=>{
-      const t=$('#sc-tog');
-      if(t)t.onclick=()=>{ct.scoring_enabled=!ct.scoring_enabled;t.classList.toggle('on');if(tg?.HapticFeedback)tg.HapticFeedback.selectionChanged()};
-    },50);
-  }
-
-  setTimeout(()=>{
-    renderSettings(0);
-    const sel=$('#sc-sel');
-    if(sel)sel.onchange=()=>renderSettings(+sel.value);
-  },50);
-}
-
-/* ── Ручное начисление ── */
-function renderManual(c){
-  if(!isAdmin){state.screen='home';render();return}
-
-  const back=el('div','back fu','');
-  back.innerHTML=`${I.chevL} Управление`;
-  back.onclick=()=>{state.screen='admin';render()};
-  c.appendChild(back);
-
-  c.appendChild(el('h1','t-2xl fw9 ls-tt fu d1','Начислить баллы'));
-  c.appendChild(el('p','t-sm c2 mt1 mb3 fu d2','Выберите конкурс и участника'));
-
-  const form=el('div','fu d3','');
-  form.innerHTML=`
-    <div class="field"><label>Конкурс</label>
-      <select class="sel" id="mp-ct">${state.contests.map((ct,i)=>`<option value="${i}">${ct.name} (${ct.participants?.length||0})</option>`).join('')}</select>
-    </div>
-    <div id="mp-users"></div>
-    <div class="flex g2">
-      <div class="field f1"><label>Баллы</label><input class="inp" id="mp-pts" type="number" value="10" min="1"></div>
-    </div>
-    <div class="field"><label>Причина</label><input class="inp" id="mp-reason" placeholder="За активность, бонус и т.д."></div>
-    <button class="btn btn-p btn-block" id="mp-save" style="padding:17px">${ic('check',18,18)} Начислить</button>
-  `;
-  c.appendChild(form);
-
-  function renderUsers(idx){
-    const ct=state.contests[idx];
-    const w=$('#mp-users');if(!w)return;w.innerHTML='';
-    const ps=ct.participants||[];
-    if(!ps.length){w.innerHTML='<div class="flat tc t-sm c2" style="padding:24px">Нет участников</div>';return}
-    const g=el('div','field','');
-    g.innerHTML=`<label>Участник</label><select class="sel" id="mp-user">${ps.map((p,i)=>`<option value="${i}">${p.first_name} ${p.last_name||''} ${p.username?'@'+p.username:''} — ${p.points} б.</option>`).join('')}</select>`;
-    w.appendChild(g);
-  }
-
-  setTimeout(()=>{
-    renderUsers(0);
-    $('#mp-ct').onchange=()=>renderUsers(+$('#mp-ct').value);
-    $('#mp-save').onclick=()=>{
-      const ci=+$('#mp-ct').value;
-      const us=$('#mp-user');if(!us){showToast('Нет участников');return}
-      const ui=+us.value;
-      const pts=+$('#mp-pts').value||0;
-      if(!pts){showToast('Укажите баллы');return}
-      state.contests[ci].participants[ui].points+=pts;
-      showToast(`+${pts} баллов начислено!`);
-      if(tg?.HapticFeedback)tg.HapticFeedback.notificationOccurred('success');
-      renderUsers(ci);
-    };
-  },50);
-}
-
-/* ── Логи ── */
-function renderLogs(c){
-  if(!isAdmin){state.screen='home';render();return}
-
-  const back=el('div','back fu','');
-  back.innerHTML=`${I.chevL} Управление`;
-  back.onclick=()=>{state.screen='admin';render()};
-  c.appendChild(back);
-
-  c.appendChild(el('h1','t-2xl fw9 ls-tt fu d1','Журнал'));
-  c.appendChild(el('p','t-sm c2 mt1 mb3 fu d2','Все действия в системе'));
-
-  const logs=[
-    {time:'10.03.2026 14:32',action:'Конкурс создан',detail:'«Розыгрыш iPhone 16 Pro Max» → @techreviews',icon:'trophy'},
-    {time:'10.03.2026 14:33',action:'Начисление включено',detail:'Реакции: 1 балл, лимит 10/день',icon:'zap'},
-    {time:'10.03.2026 14:35',action:'Участник присоединился',detail:'@alex_k → «Розыгрыш iPhone»',icon:'user'},
-    {time:'10.03.2026 15:00',action:'Ручное начисление',detail:'+50 баллов → @alex_k (за активность)',icon:'edit'},
-    {time:'10.03.2026 15:12',action:'Реакция засчитана',detail:'@maria_sv → +1 балл',icon:'star'},
-    {time:'10.03.2026 16:00',action:'Приглашение',detail:'@dim_v пригласил @elena_p → +5 баллов',icon:'users'},
-  ];
-
-  logs.forEach((l,i)=>{
-    const row=el('div',`card card-s fu d${i+3}`,'');
-    row.style.marginBottom='8px';
-    row.innerHTML=`
-      <div class="flex aic g3">
-        <div class="av av-sm" style="background:var(--bg2)"><span class="ic" style="width:16px;height:16px;color:var(--text)">${I[l.icon]}</span></div>
-        <div class="f1">
-          <div class="flex jcsb aic">
-            <span class="t-sm fw6">${l.action}</span>
-            <span class="t-xs c3">${l.time}</span>
-          </div>
-          <div class="t-xs c2 mt1">${l.detail}</div>
+  myContests.forEach((c,i) => {
+    const maxPts = Math.max(...c.participants.map(p=>p.points), c.myPoints);
+    const pct = maxPts > 0 ? Math.round(c.myPoints / maxPts * 100) : 0;
+    h += `<div class="card clickable anim-fu d${i+2}" data-action="openContest" data-id="${c.id}">
+      <div class="card-row" style="margin-bottom:8px">
+        <div class="card-body">
+          <div class="card-title">${c.name}</div>
+          <div class="card-desc">${c.channel}</div>
         </div>
+        <div class="badge badge-points">${c.myPoints}</div>
       </div>
-    `;
-    c.appendChild(row);
+      <div class="progress"><div class="progress-fill" style="width:${pct}%"></div></div>
+      <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text3)">
+        <span>Прогресс: ${pct}%</span>
+        <span>Лидер: ${maxPts} баллов</span>
+      </div>
+    </div>`;
   });
+
+  if (!myContests.length) {
+    h += `<div class="empty anim-fu d2">
+      <div class="empty-icon">${icon('star')}</div>
+      <div class="empty-title">Нет активных конкурсов</div>
+      <div class="empty-desc">Вступите в конкурс, чтобы начать зарабатывать баллы</div>
+    </div>`;
+  }
+
+  h += `</div>`;
+  return h;
 }
 
-/* ── Профиль ── */
-function renderProfile(c){
-  const color=avColor(tgUser.id);
-  const ini=initials(tgUser.first_name,tgUser.last_name);
+// ============================================================
+// CREATE CONTEST SCREEN
+// ============================================================
+function renderCreate() {
+  let h = `<div class="page">`;
+  h += `<div class="page-title anim-fu">Создать конкурс</div>
+    <div class="page-sub anim-fu d1">Заполните форму для создания нового конкурса</div>`;
 
-  c.appendChild(el('h1','t-2xl fw9 ls-tt fu','Профиль'));
+  h += `<form id="createForm" class="anim-fu d2">`;
 
-  const profileCard=el('div','card tc mt3 fu d1','');
-  profileCard.innerHTML=`
-    <div class="av av-xl" style="background:${color};margin:0 auto">${ini}</div>
-    <div class="t-xl fw8 mt2">${tgUser.first_name} ${tgUser.last_name||''}</div>
-    <div class="t-sm c2 mt1">${tgUser.username?'@'+tgUser.username:'ID: '+tgUser.id}</div>
-    ${isAdmin?'<div class="badge b-green mt2">Главный администратор</div>':''}
-  `;
-  c.appendChild(profileCard);
+  // Name
+  h += `<div class="field">
+    <label class="field-label">Название конкурса *</label>
+    <input class="input" id="cf_name" placeholder="Например: Розыгрыш iPhone 16" required>
+  </div>`;
+
+  // Channel
+  h += `<div class="field">
+    <label class="field-label">Канал *</label>
+    <input class="input" id="cf_channel" placeholder="@username канала" required>
+    <div class="field-hint">Бот должен быть администратором канала</div>
+  </div>`;
+
+  // Description
+  h += `<div class="field">
+    <label class="field-label">Описание</label>
+    <textarea class="input" id="cf_desc" placeholder="Расскажите о конкурсе подробнее"></textarea>
+  </div>`;
+
+  // Conditions
+  h += `<div class="field">
+    <label class="field-label">Условия участия</label>
+    <textarea class="input" id="cf_cond" placeholder="Обязательные условия для участников" style="min-height:60px"></textarea>
+  </div>`;
+
+  // End date
+  h += `<div class="field">
+    <label class="field-label">Дата окончания (МСК) *</label>
+    <input class="input" id="cf_end" type="datetime-local" required>
+  </div>`;
+
+  // Winners count
+  h += `<div class="field">
+    <label class="field-label">Количество победителей</label>
+    <input class="input" id="cf_winners" type="number" min="1" value="1">
+  </div>`;
+
+  // Initial points
+  h += `<div class="field">
+    <label class="field-label">Стартовые баллы при вступлении</label>
+    <input class="input" id="cf_initpts" type="number" min="0" value="0">
+    <div class="field-hint">Каждый участник получит эти баллы при вступлении в конкурс</div>
+  </div>`;
+
+  // Outcome type
+  h += `<div class="field">
+    <label class="field-label">Тип определения победителя</label>
+    <select class="input" id="cf_outcome">
+      <option value="1">Лидерборд — побеждают с наибольшими баллами</option>
+      <option value="2">Рандом с порогом — рандом среди набравших N баллов</option>
+      <option value="3">Взвешенный рандом — больше баллов = выше шанс</option>
+    </select>
+  </div>`;
+
+  // Threshold (for type 2)
+  h += `<div class="field" id="cf_threshold_wrap" style="display:none">
+    <label class="field-label">Порог баллов для участия в розыгрыше</label>
+    <input class="input" id="cf_threshold" type="number" min="1" value="50">
+  </div>`;
+
+  // =====================================================
+  // SCORING SETTINGS — создатель настраивает при создании
+  // =====================================================
+  h += `<div class="divider"></div>
+    <div style="font-size:16px;font-weight:700;margin-bottom:4px">Начисление баллов</div>
+    <div style="font-size:13px;color:var(--text3);margin-bottom:12px">Настройте способы заработка баллов для участников</div>`;
+
+  // Invites
+  h += `<div class="toggle-row">
+    <div class="toggle-row-label">${icon('users')} Приглашение друзей</div>
+    <button type="button" class="toggle" id="tgl_invites" data-field="invites"></button>
+  </div>
+  <div class="toggle-sub" id="sub_invites" style="display:none">
+    <div class="field">
+      <label class="field-label">Баллов за одного приглашённого</label>
+      <input class="input" id="cf_inv_pts" type="number" min="1" value="5">
+    </div>
+  </div>`;
+
+  // Reactions
+  h += `<div class="toggle-row">
+    <div class="toggle-row-label">${icon('heart')} Реакции на постах</div>
+    <button type="button" class="toggle" id="tgl_reactions" data-field="reactions"></button>
+  </div>
+  <div class="toggle-sub" id="sub_reactions" style="display:none">
+    <div class="field">
+      <label class="field-label">Баллов за одну реакцию</label>
+      <input class="input" id="cf_react_pts" type="number" min="1" value="2">
+    </div>
+  </div>`;
+
+  // Ads
+  h += `<div class="toggle-row">
+    <div class="toggle-row-label">${icon('play')} Просмотр рекламы</div>
+    <button type="button" class="toggle" id="tgl_ads" data-field="ads"></button>
+  </div>
+  <div class="toggle-sub" id="sub_ads" style="display:none">
+    <div class="field">
+      <label class="field-label">Баллов за просмотр рекламы</label>
+      <input class="input" id="cf_ads_pts" type="number" min="1" value="3">
+    </div>
+    <div style="padding:10px;background:#FFF8E1;border-radius:8px;font-size:12px;color:#8B6914;margin-top:8px">
+      ${icon('info')} Рекламный модуль находится в разработке. Настройки сохранятся и активируются позже.
+    </div>
+  </div>`;
+
+  h += `<div class="divider"></div>`;
+
+  // Prizes
+  h += `<div style="font-size:16px;font-weight:700;margin-bottom:4px">Призы</div>
+    <div style="font-size:13px;color:var(--text3);margin-bottom:12px">Добавьте призы для победителей</div>
+    <div id="prizes_list"></div>
+    <div class="flex gap-8" style="margin-bottom:16px">
+      <input class="input" id="cf_prize_input" placeholder="Название приза" style="margin-bottom:0;flex:1">
+      <button type="button" class="btn btn-secondary btn-sm" id="addPrizeBtn" style="width:auto;flex-shrink:0;padding:10px 14px">${icon('plus')}</button>
+    </div>`;
+
+  // Button text
+  h += `<div class="field">
+    <label class="field-label">Текст кнопки участия</label>
+    <input class="input" id="cf_btntext" value="Участвовать" placeholder="Участвовать">
+  </div>`;
+
+  // Submit
+  h += `<button type="submit" class="btn btn-primary" style="margin-top:8px">
+    ${icon('send')} Создать конкурс
+  </button>`;
+
+  h += `</form></div>`;
+  return h;
+}
+
+// ============================================================
+// ADMIN SCREEN
+// ============================================================
+function renderAdmin() {
+  let h = `<div class="page">`;
+  h += `<div class="page-title anim-fu">Управление</div>
+    <div class="page-sub anim-fu d1">Ваши конкурсы и действия</div>`;
 
   // Stats
-  const myContests=state.contests.filter(ct=>(ct.participants||[]).some(p=>p.user_tg_id===tgUser.id));
-  const totalPts=myContests.reduce((s,ct)=>{const m=ct.participants.find(p=>p.user_tg_id===tgUser.id);return s+(m?m.points:0)},0);
+  const active = demoContests.filter(c=>c.status==='active').length;
+  const ended = demoContests.filter(c=>c.status==='ended').length;
+  const totalP = demoContests.reduce((s,c)=>s+c.participants.length,0);
 
-  const sg=el('div','sg mt3 fu d2','');
-  sg.innerHTML=`
-    <div class="sb"><div class="v">${myContests.length}</div><div class="l">Конкурсов</div></div>
-    <div class="sb"><div class="v">${totalPts.toLocaleString()}</div><div class="l">Всего баллов</div></div>
-  `;
-  c.appendChild(sg);
+  h += `<div class="stats anim-fu d1">
+    <div class="stat"><div class="stat-val">${active}</div><div class="stat-label">Активных</div></div>
+    <div class="stat"><div class="stat-val">${ended}</div><div class="stat-label">Завершённых</div></div>
+    <div class="stat"><div class="stat-val">${totalP}</div><div class="stat-label">Участников</div></div>
+  </div>`;
 
-  // Info
-  const info=el('div','flat mt3 fu d3','');
-  info.innerHTML=`
-    <div class="col g2 t-sm">
-      <div class="flex jcsb"><span class="c2">Telegram ID</span><span class="fw6 mono">${tgUser.id}</span></div>
-      <div class="flex jcsb"><span class="c2">Username</span><span class="fw6">${tgUser.username?'@'+tgUser.username:'—'}</span></div>
-      <div class="flex jcsb"><span class="c2">Статус</span><span class="fw6">${isAdmin?'Администратор':'Пользователь'}</span></div>
+  // Tabs
+  h += `<div class="tabs anim-fu d2">
+    <div class="tab active" data-admintab="all">Все</div>
+    <div class="tab" data-admintab="active">Активные</div>
+    <div class="tab" data-admintab="ended">Завершённые</div>
+  </div>`;
+
+  // Contest list
+  demoContests.forEach((c,i) => {
+    const isCreator = tgUser && c.creatorId === tgUser.id;
+    const isEnded = c.status === 'ended';
+    h += `<div class="admin-card anim-fu d${i+3}">
+      <div class="admin-card-header">
+        <div>
+          <div class="admin-card-title">${c.name}</div>
+          <div style="font-size:12px;color:var(--text3);margin-top:2px">${c.channel} · ${c.participants.length} участн.</div>
+        </div>
+        <span class="badge ${isEnded ? 'badge-ended' : 'badge-active'}">${isEnded ? 'Завершён' : 'Active'}</span>
+      </div>
+      <div class="score-preview" style="margin-bottom:10px">
+        ${c.scoring.invites.enabled ? `<span class="score-chip on">${icon('users')} +${c.scoring.invites.points}</span>` : `<span class="score-chip off">${icon('users')} Выкл</span>`}
+        ${c.scoring.reactions.enabled ? `<span class="score-chip on">${icon('heart')} +${c.scoring.reactions.points}</span>` : `<span class="score-chip off">${icon('heart')} Выкл</span>`}
+        ${c.scoring.ads.enabled ? `<span class="score-chip on">${icon('play')} +${c.scoring.ads.points}</span>` : `<span class="score-chip off">${icon('play')} Выкл</span>`}
+      </div>
+      <div class="admin-card-actions">
+        <button class="admin-btn clickable" data-action="openContest" data-id="${c.id}">
+          ${icon('eye')} Открыть
+        </button>`;
+    if (!isEnded && (isCreator || isMainAdmin())) {
+      h += `<button class="admin-btn clickable" data-action="editContest" data-id="${c.id}">
+          ${icon('edit')} Изменить
+        </button>
+        <button class="admin-btn admin-btn-danger clickable" data-action="endContest" data-id="${c.id}">
+          ${icon('stop')} Завершить
+        </button>`;
+    }
+    h += `</div></div>`;
+  });
+
+  h += `</div>`;
+  return h;
+}
+
+// ============================================================
+// PROFILE SCREEN
+// ============================================================
+function renderProfile() {
+  const name = tgUser ? tgUser.first_name : 'Пользователь';
+  const uname = tgUser ? tgUser.username : 'user';
+  const col = getAvatarColor(name);
+
+  let h = `<div class="page">`;
+
+  h += `<div style="text-align:center;padding:24px 0" class="anim-fu">
+    <div class="avatar avatar-lg" style="background:${col};margin:0 auto 12px">${getInitials(name)}</div>
+    <div style="font-size:20px;font-weight:800">${name}</div>
+    <div style="font-size:14px;color:var(--text3)">@${uname}</div>
+    ${isMainAdmin() ? '<div class="badge badge-gold" style="margin-top:8px">Главный администратор</div>' : ''}
+  </div>`;
+
+  // Stats
+  h += `<div class="stats anim-fu d1">
+    <div class="stat"><div class="stat-val">3</div><div class="stat-label">Конкурсов</div></div>
+    <div class="stat"><div class="stat-val">287</div><div class="stat-label">Баллов</div></div>
+    <div class="stat"><div class="stat-val">1</div><div class="stat-label">Побед</div></div>
+  </div>`;
+
+  // Menu items
+  const menuItems = [
+    {icon:'trophy',label:'Мои конкурсы',desc:'Конкурсы в которых вы участвуете',action:'goPoints'},
+    {icon:'link',label:'Реферальная ссылка',desc:'Приглашайте друзей и получайте баллы',action:'copyRef'},
+    {icon:'info',label:'О приложении',desc:'Версия 1.0 · Telegram Mini App',action:''},
+  ];
+
+  menuItems.forEach((m,i) => {
+    h += `<div class="card clickable anim-fu d${i+2}" ${m.action ? `data-action="${m.action}"` : ''}>
+      <div class="card-row">
+        <div class="ic ic-gray">${icon(m.icon)}</div>
+        <div class="card-body">
+          <div class="card-title">${m.label}</div>
+          <div class="card-desc">${m.desc}</div>
+        </div>
+        ${icon('chevR')}
+      </div>
+    </div>`;
+  });
+
+  h += `</div>`;
+  return h;
+}
+
+// ============================================================
+// EDIT CONTEST SCREEN
+// ============================================================
+function renderEdit() {
+  const c = demoContests.find(x => x.id === screenParams.id);
+  if (!c) return `<div class="page"><div class="empty"><div class="empty-title">Конкурс не найден</div></div></div>`;
+
+  let h = `<div class="page">`;
+  h += `<div style="margin-bottom:12px">
+    <button class="btn-back clickable" data-action="openContest" data-id="${c.id}" style="display:inline-flex;align-items:center;gap:4px;background:none;border:none;font-family:inherit;font-size:14px;font-weight:600;color:var(--text2);cursor:pointer;padding:4px 0">
+      ${icon('chevL')} Назад
+    </button>
+  </div>`;
+  h += `<div class="page-title anim-fu">Редактировать</div>
+    <div class="page-sub anim-fu d1">${c.name}</div>`;
+
+  h += `<form id="editForm" class="anim-fu d2">`;
+
+  h += `<div class="field">
+    <label class="field-label">Название</label>
+    <input class="input" id="ef_name" value="${c.name}">
+  </div>`;
+  h += `<div class="field">
+    <label class="field-label">Описание</label>
+    <textarea class="input" id="ef_desc">${c.description||''}</textarea>
+  </div>`;
+  h += `<div class="field">
+    <label class="field-label">Условия</label>
+    <textarea class="input" id="ef_cond" style="min-height:60px">${c.conditions||''}</textarea>
+  </div>`;
+
+  // Scoring toggles for editing
+  h += `<div class="divider"></div>
+    <div style="font-size:16px;font-weight:700;margin-bottom:4px">Начисление баллов</div>
+    <div style="font-size:13px;color:var(--text3);margin-bottom:12px">Изменить настройки начисления</div>`;
+
+  h += `<div class="toggle-row">
+    <div class="toggle-row-label">${icon('users')} Приглашение друзей</div>
+    <button type="button" class="toggle${c.scoring.invites.enabled?' on':''}" id="etgl_invites" data-field="invites"></button>
+  </div>
+  <div class="toggle-sub" id="esub_invites" style="display:${c.scoring.invites.enabled?'block':'none'}">
+    <div class="field"><label class="field-label">Баллов за друга</label>
+    <input class="input" id="ef_inv_pts" type="number" min="1" value="${c.scoring.invites.points}"></div>
+  </div>`;
+
+  h += `<div class="toggle-row">
+    <div class="toggle-row-label">${icon('heart')} Реакции</div>
+    <button type="button" class="toggle${c.scoring.reactions.enabled?' on':''}" id="etgl_reactions" data-field="reactions"></button>
+  </div>
+  <div class="toggle-sub" id="esub_reactions" style="display:${c.scoring.reactions.enabled?'block':'none'}">
+    <div class="field"><label class="field-label">Баллов за реакцию</label>
+    <input class="input" id="ef_react_pts" type="number" min="1" value="${c.scoring.reactions.points}"></div>
+  </div>`;
+
+  h += `<div class="toggle-row">
+    <div class="toggle-row-label">${icon('play')} Реклама</div>
+    <button type="button" class="toggle${c.scoring.ads.enabled?' on':''}" id="etgl_ads" data-field="ads"></button>
+  </div>
+  <div class="toggle-sub" id="esub_ads" style="display:${c.scoring.ads.enabled?'block':'none'}">
+    <div class="field"><label class="field-label">Баллов за просмотр</label>
+    <input class="input" id="ef_ads_pts" type="number" min="1" value="${c.scoring.ads.points}"></div>
+    <div style="padding:10px;background:#FFF8E1;border-radius:8px;font-size:12px;color:#8B6914">
+      ${icon('info')} Рекламный модуль в разработке
     </div>
-  `;
-  c.appendChild(info);
+  </div>`;
 
-  if(tgUser.username){
-    const tgBtn=el('button','btn btn-s btn-block mt3 fu d4','');
-    tgBtn.innerHTML=`${ic('ext',16,16)} Открыть в Telegram`;
-    tgBtn.onclick=()=>window.open(`https://t.me/${tgUser.username}`,'_blank');
-    c.appendChild(tgBtn);
+  h += `<div class="divider"></div>`;
+  h += `<button type="submit" class="btn btn-primary">${icon('check')} Сохранить изменения</button>`;
+  h += `</form></div>`;
+  return h;
+}
+
+// ============================================================
+// EVENTS
+// ============================================================
+function bindEvents() {
+  // Tab bar
+  document.querySelectorAll('.tb-item').forEach(el => {
+    el.addEventListener('click', () => navigateTo(el.dataset.tab));
+  });
+
+  // Actions
+  document.querySelectorAll('[data-action]').forEach(el => {
+    el.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const action = el.dataset.action;
+      const id = el.dataset.id;
+      switch(action) {
+        case 'openContest': navigateTo('detail', {id}); break;
+        case 'goHome': navigateTo('home'); break;
+        case 'goPoints': navigateTo('points'); break;
+        case 'editContest': navigateTo('edit', {id}); break;
+        case 'joinContest':
+          showToast('Вы участвуете в конкурсе!');
+          try { window.Telegram?.WebApp?.HapticFeedback?.notificationOccurred('success'); } catch(e){}
+          break;
+        case 'endContest':
+          if (confirm('Вы уверены, что хотите завершить конкурс досрочно?')) {
+            const c = demoContests.find(x=>x.id===id);
+            if(c) c.status = 'ended';
+            showToast('Конкурс завершён');
+            render();
+          }
+          break;
+        case 'openProfile':
+          const uname = el.dataset.username;
+          if (uname) window.open(`https://t.me/${uname}`, '_blank');
+          break;
+        case 'copyRef':
+          const refLink = `https://t.me/bot?start=ref_${tgUser?.id || '123'}`;
+          navigator.clipboard?.writeText(refLink).then(() => showToast('Ссылка скопирована!')).catch(() => showToast('Ошибка копирования', 'error'));
+          break;
+      }
+    });
+  });
+
+  // Admin tabs
+  document.querySelectorAll('[data-admintab]').forEach(el => {
+    el.addEventListener('click', () => {
+      document.querySelectorAll('[data-admintab]').forEach(t=>t.classList.remove('active'));
+      el.classList.add('active');
+      // Filter would go here with real data
+    });
+  });
+
+  // Outcome type change
+  const outcomeSelect = document.getElementById('cf_outcome');
+  if (outcomeSelect) {
+    outcomeSelect.addEventListener('change', () => {
+      const wrap = document.getElementById('cf_threshold_wrap');
+      if (wrap) wrap.style.display = outcomeSelect.value === '2' ? 'block' : 'none';
+    });
+  }
+
+  // Toggle switches (create form)
+  ['invites','reactions','ads'].forEach(field => {
+    const tgl = document.getElementById(`tgl_${field}`);
+    const sub = document.getElementById(`sub_${field}`);
+    if (tgl && sub) {
+      tgl.addEventListener('click', () => {
+        tgl.classList.toggle('on');
+        sub.style.display = tgl.classList.contains('on') ? 'block' : 'none';
+      });
+    }
+    // Edit form toggles
+    const etgl = document.getElementById(`etgl_${field}`);
+    const esub = document.getElementById(`esub_${field}`);
+    if (etgl && esub) {
+      etgl.addEventListener('click', () => {
+        etgl.classList.toggle('on');
+        esub.style.display = etgl.classList.contains('on') ? 'block' : 'none';
+      });
+    }
+  });
+
+  // Prizes (create form)
+  const prizeBtn = document.getElementById('addPrizeBtn');
+  const prizeInput = document.getElementById('cf_prize_input');
+  const prizesList = document.getElementById('prizes_list');
+  if (prizeBtn && prizeInput && prizesList) {
+    prizeBtn.addEventListener('click', () => {
+      const val = prizeInput.value.trim();
+      if (!val) return;
+      const count = prizesList.children.length + 1;
+      const colors = [['#FFF8E1','#B8860B'],['#F5F5F5','#666'],['#FFF3E0','#8B4513']];
+      const pc = colors[count-1] || ['var(--bg2)','var(--text2)'];
+      const item = document.createElement('div');
+      item.className = 'prize-item anim-si';
+      item.innerHTML = `
+        <div class="prize-place" style="background:${pc[0]};color:${pc[1]}">${count}</div>
+        <div class="prize-text">${val}</div>
+        <button type="button" class="prize-remove" onclick="this.parentElement.remove()">${I.x}</button>
+      `;
+      prizesList.appendChild(item);
+      prizeInput.value = '';
+    });
+  }
+
+  // Create form submit
+  const createForm = document.getElementById('createForm');
+  if (createForm) {
+    createForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const name = document.getElementById('cf_name').value.trim();
+      const channel = document.getElementById('cf_channel').value.trim();
+      const endDate = document.getElementById('cf_end').value;
+
+      if (!name || !channel || !endDate) {
+        showToast('Заполните обязательные поля', 'error');
+        return;
+      }
+
+      const desc = document.getElementById('cf_desc').value.trim();
+      const cond = document.getElementById('cf_cond').value.trim();
+      const prizes = [];
+      document.querySelectorAll('#prizes_list .prize-text').forEach(el => prizes.push(el.textContent));
+
+      // Send to channel
+      await sendChannelPost(channel, name, desc, cond, prizes, endDate);
+      showToast('Конкурс создан! Пост отправлен в канал');
+      try { window.Telegram?.WebApp?.HapticFeedback?.notificationOccurred('success'); } catch(e){}
+      navigateTo('home');
+    });
+  }
+
+  // Edit form submit
+  const editForm = document.getElementById('editForm');
+  if (editForm) {
+    editForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      showToast('Изменения сохранены');
+      navigateTo('detail', screenParams);
+    });
   }
 }
 
-/* ── СТАРТ ── */
-render();
+// ============================================================
+// INIT
+// ============================================================
+function init() {
+  try {
+    const tg = window.Telegram?.WebApp;
+    if (tg) {
+      tg.ready();
+      tg.expand();
+      tgUser = tg.initDataUnsafe?.user || null;
+    }
+  } catch(e) {}
+
+  // Demo user fallback
+  if (!tgUser) {
+    tgUser = { id: MAIN_ADMIN_ID, first_name: 'Admin', username: 'Tru5tNoBody' };
+  }
+
+  render();
+}
+
+init();
 </script>
 </body>
 </html>
