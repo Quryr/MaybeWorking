@@ -12,101 +12,97 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
---bg:#FFFFFF;--bg2:#F7F7F8;--bg3:#EEEFF1;
+--bg:#FFFFFF;--bg2:#F5F5F7;--bg3:#EBEBED;
 --border:#E5E5EA;--border2:#D1D1D6;
---text:#111;--text2:#636366;--text3:#AEAEB2;
---black:#111;--white:#FFF;
+--text:#000;--text2:#6E6E73;--text3:#AEAEB2;
+--black:#000;--white:#FFF;
+--accent:#007AFF;
 --green:#34C759;--red:#FF3B30;--orange:#FF9500;
---gold:#C5970A;--silver:#8E8E93;--bronze:#B5651D;
---r:16px;--r2:12px;--r3:8px;
---sh:0 1px 2px rgba(0,0,0,.04),0 3px 10px rgba(0,0,0,.03);
---sh2:0 2px 8px rgba(0,0,0,.06),0 8px 24px rgba(0,0,0,.05);
+--gold:#C5970A;--silver:#8E8E93;--bronze:#A0522D;
+--r:14px;--r2:10px;--r3:8px;
+--sh:0 1px 3px rgba(0,0,0,.06);
+--sh2:0 4px 16px rgba(0,0,0,.08);
 }
 html,body{
 font-family:'Inter',system-ui,-apple-system,sans-serif;
 background:var(--bg);color:var(--text);
 -webkit-font-smoothing:antialiased;
 -moz-osx-font-smoothing:grayscale;
-text-rendering:optimizeLegibility;
+text-rendering:geometricPrecision;
 overflow-x:hidden;min-height:100vh;
 }
-body{padding-bottom:calc(86px + env(safe-area-inset-bottom,0px))}
+body{padding-bottom:calc(80px + env(safe-area-inset-bottom,0px))}
 
-@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
-@keyframes scaleIn{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:none}}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-.afu{animation:fadeUp .45s cubic-bezier(.22,1,.36,1) both}
-.asi{animation:scaleIn .35s cubic-bezier(.22,1,.36,1) both}
-.d1{animation-delay:.03s}.d2{animation-delay:.06s}.d3{animation-delay:.09s}
-.d4{animation-delay:.12s}.d5{animation-delay:.15s}.d6{animation-delay:.18s}
-.d7{animation-delay:.21s}.d8{animation-delay:.24s}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.afu{animation:fadeUp .4s ease both}
+.d1{animation-delay:.04s}.d2{animation-delay:.08s}.d3{animation-delay:.12s}
+.d4{animation-delay:.16s}.d5{animation-delay:.2s}.d6{animation-delay:.24s}
 
-/* === BACK === */
+/* === PAGE === */
+.page{min-height:100vh;padding:16px 16px 24px}
+.ptitle{font-size:28px;font-weight:900;letter-spacing:-.7px;line-height:1.15}
+.psub{font-size:14px;color:var(--text3);margin-top:4px;margin-bottom:18px}
+
+/* === BACK BUTTON === */
 .back{
-display:inline-flex;align-items:center;gap:5px;
-padding:8px 14px 8px 8px;margin-bottom:16px;
+display:inline-flex;align-items:center;gap:4px;
+padding:8px 14px 8px 10px;margin-bottom:14px;
 background:var(--bg2);border:1px solid var(--border);
 border-radius:20px;font-size:13px;font-weight:600;
 color:var(--text2);cursor:pointer;
 transition:all .15s;-webkit-tap-highlight-color:transparent;
+font-family:inherit;
 }
 .back:active{transform:scale(.96);background:var(--bg3)}
-.back svg{width:18px;height:18px}
+.back svg{width:16px;height:16px}
 
-.page{min-height:100vh;padding:20px 16px 28px}
-.ptitle{font-size:28px;font-weight:900;letter-spacing:-.6px;line-height:1.1;margin-bottom:4px}
-.psub{font-size:14px;color:var(--text3);margin-bottom:20px;line-height:1.4}
-
-/* === CONTEST ICON — unified premium badge === */
-.ci{
-width:100%;height:100%;
-display:flex;align-items:center;justify-content:center;
-background:var(--bg2);position:relative;overflow:hidden;
-}
-.ci::after{
-content:'';position:absolute;inset:0;
-background:linear-gradient(135deg,rgba(0,0,0,.02),transparent 60%);
-}
-.ci svg{width:32px;height:32px;color:var(--text3);position:relative;z-index:1}
-
-/* === CARD contest — полный редизайн === */
+/* ============================================ */
+/* CONTEST CARD — чистая, крупная, красивая     */
+/* ============================================ */
 .cc{
-background:var(--white);border:1px solid var(--border);
-border-radius:var(--r);overflow:hidden;
-box-shadow:var(--sh);transition:all .2s;cursor:pointer;
+background:var(--white);
+border:1px solid var(--border);
+border-radius:16px;
+overflow:hidden;
+transition:all .18s;
+cursor:pointer;
 -webkit-tap-highlight-color:transparent;
 }
-.cc:active{transform:scale(.985);box-shadow:var(--sh2)}
+.cc:active{transform:scale(.98);box-shadow:var(--sh2)}
 .cc+.cc{margin-top:12px}
 .cc-top{display:flex;align-items:stretch}
 .cc-icon{
-width:76px;min-height:76px;flex-shrink:0;
-border-right:1px solid var(--border);
+width:88px;min-height:88px;flex-shrink:0;
+background:var(--black);
+display:flex;align-items:center;justify-content:center;
 }
+.cc-icon svg{width:36px;height:36px;color:var(--white)}
 .cc-body{
 flex:1;padding:14px 16px;min-width:0;
 display:flex;flex-direction:column;justify-content:center;
 }
 .cc-name{
-font-size:15px;font-weight:800;letter-spacing:-.2px;
-line-height:1.3;margin-bottom:3px;
+font-size:16px;font-weight:800;letter-spacing:-.3px;
+line-height:1.3;margin-bottom:4px;
 overflow:hidden;text-overflow:ellipsis;
 display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;
 }
-.cc-ch{font-size:12px;color:var(--text3);font-weight:600}
+.cc-ch{font-size:13px;color:var(--text2);font-weight:500}
 .cc-foot{
-display:flex;align-items:center;gap:14px;
+display:flex;align-items:center;gap:16px;
 padding:10px 16px;border-top:1px solid var(--border);
-background:var(--bg2);font-size:12px;color:var(--text3);font-weight:500;
+background:var(--bg2);
+font-size:12px;color:var(--text2);font-weight:600;
 }
 .cc-m{display:flex;align-items:center;gap:4px}
-.cc-m svg{width:12px;height:12px;opacity:.55}
+.cc-m svg{width:13px;height:13px;opacity:.5}
 .cc-live{
 margin-left:auto;display:flex;align-items:center;gap:5px;
-font-weight:700;color:var(--green);
+font-weight:700;color:var(--green);font-size:12px;
 }
 .cc-live-dot{
-width:6px;height:6px;border-radius:3px;
+width:6px;height:6px;border-radius:50%;
 background:var(--green);animation:pulse 2s infinite;
 }
 
@@ -114,25 +110,23 @@ background:var(--green);animation:pulse 2s infinite;
 .card{
 background:var(--white);border:1px solid var(--border);
 border-radius:var(--r);padding:16px;
-box-shadow:var(--sh);transition:all .2s;
+box-shadow:var(--sh);transition:all .15s;
 }
 .card:active{transform:scale(.985)}
 .card+.card{margin-top:10px}
 .cr{display:flex;align-items:center;gap:12px}
 .cb{flex:1;min-width:0}
-.ct{font-size:14px;font-weight:700;line-height:1.3;margin-bottom:2px}
-.cd{font-size:12px;color:var(--text3);line-height:1.3}
+.ct{font-size:14px;font-weight:700;line-height:1.3}
+.cd{font-size:12px;color:var(--text3);line-height:1.3;margin-top:1px}
 
 /* Icon box */
 .ib{
-width:40px;height:40px;border-radius:12px;
+width:42px;height:42px;border-radius:12px;
 display:flex;align-items:center;justify-content:center;flex-shrink:0;
 }
 .ib svg{width:18px;height:18px}
 .ib-b{background:var(--black);color:var(--white)}
 .ib-s{background:var(--bg2);border:1px solid var(--border);color:var(--text2)}
-.ib-34{width:34px;height:34px;border-radius:10px}
-.ib-34 svg{width:15px;height:15px}
 
 /* Badges */
 .bdg{
@@ -144,17 +138,14 @@ letter-spacing:.3px;text-transform:uppercase;
 .bdg-end{background:var(--bg2);color:var(--text3);border:1px solid var(--border)}
 .bdg-pts{
 background:var(--black);color:var(--white);
-font-size:14px;font-weight:800;font-family:'JetBrains Mono',monospace;
-padding:5px 12px;text-transform:none;letter-spacing:0;
+font-size:15px;font-weight:800;font-family:'JetBrains Mono',monospace;
+padding:6px 14px;text-transform:none;letter-spacing:0;border-radius:10px;
 }
-.bdg-g{background:#FEF9C3;color:var(--gold);border:1px solid #FDE68A}
-.bdg-s{background:#F4F4F5;color:var(--silver);border:1px solid #D4D4D8}
-.bdg-b{background:#FFF7ED;color:var(--bronze);border:1px solid #FDBA74}
 
 /* Buttons */
 .btn{
 display:flex;align-items:center;justify-content:center;gap:8px;
-width:100%;padding:14px 22px;border:none;border-radius:var(--r2);
+width:100%;padding:15px 20px;border:none;border-radius:var(--r);
 font-family:inherit;font-size:15px;font-weight:700;
 cursor:pointer;transition:all .15s;-webkit-tap-highlight-color:transparent;
 }
@@ -163,14 +154,14 @@ cursor:pointer;transition:all .15s;-webkit-tap-highlight-color:transparent;
 .btn-b{background:var(--black);color:var(--white)}
 .btn-s{background:var(--bg2);color:var(--text);border:1px solid var(--border)}
 .btn-r{background:var(--red);color:var(--white)}
-.btn-sm{padding:10px 14px;font-size:13px;border-radius:var(--r3)}
+.btn-sm{padding:10px 14px;font-size:13px;width:auto;display:inline-flex}
 
 /* Fields */
 .fld{margin-bottom:16px}
-.fl{display:block;font-size:13px;font-weight:700;color:var(--text2);margin-bottom:6px;letter-spacing:.2px}
+.fl{display:block;font-size:13px;font-weight:700;color:var(--text2);margin-bottom:6px}
 .fh{font-size:11px;color:var(--text3);margin-top:4px}
 .inp{
-width:100%;padding:12px 16px;border:1.5px solid var(--border);
+width:100%;padding:13px 16px;border:1.5px solid var(--border);
 border-radius:var(--r2);font-family:inherit;font-size:15px;
 background:var(--white);color:var(--text);transition:border-color .2s;
 -webkit-appearance:none;
@@ -212,23 +203,23 @@ margin-bottom:8px;margin-top:-4px;
 .av{
 display:flex;align-items:center;justify-content:center;
 font-weight:700;color:var(--white);flex-shrink:0;letter-spacing:-.3px;
+border-radius:50%;
 }
-.av-40{width:40px;height:40px;border-radius:20px;font-size:14px}
-.av-34{width:34px;height:34px;border-radius:17px;font-size:12px}
-.av-56{width:56px;height:56px;border-radius:28px;font-size:20px}
-.av-80{width:80px;height:80px;border-radius:24px;font-size:28px}
+.av-36{width:36px;height:36px;font-size:13px}
+.av-56{width:56px;height:56px;font-size:20px}
+.av-80{width:80px;height:80px;font-size:28px;border-radius:22px}
 
 /* Leaderboard */
 .lb{border:1px solid var(--border);border-radius:var(--r);overflow:hidden;background:var(--white)}
 .li{
 display:flex;align-items:center;gap:12px;
-padding:14px 16px;cursor:pointer;
+padding:12px 16px;cursor:pointer;
 transition:background .15s;border-bottom:1px solid var(--border);
 }
 .li:last-child{border-bottom:none}
 .li:active{background:var(--bg2)}
 .lr{
-width:28px;text-align:center;font-size:14px;font-weight:800;
+width:24px;text-align:center;font-size:14px;font-weight:800;
 color:var(--text3);flex-shrink:0;font-family:'JetBrains Mono',monospace;
 }
 .ln{flex:1;min-width:0}
@@ -241,38 +232,98 @@ color:var(--text3);flex-shrink:0;font-family:'JetBrains Mono',monospace;
 .lm{background:#F0F4FF}
 
 /* Stats */
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:18px}
 .stat{
-text-align:center;padding:18px 10px;
+text-align:center;padding:16px 8px;
 background:var(--bg2);border-radius:var(--r2);border:1px solid var(--border);
 }
-.sv{font-size:24px;font-weight:900;letter-spacing:-.5px;font-family:'JetBrains Mono',monospace}
-.sl{font-size:10px;color:var(--text3);margin-top:4px;font-weight:700;text-transform:uppercase;letter-spacing:.4px}
+.sv{font-size:22px;font-weight:900;font-family:'JetBrains Mono',monospace}
+.sl{font-size:10px;color:var(--text3);margin-top:3px;font-weight:600;text-transform:uppercase;letter-spacing:.4px}
 
-.sec{margin-bottom:20px}
-.sh{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
-.st{font-size:18px;font-weight:800;letter-spacing:-.3px}
+.sec{margin-bottom:18px}
+.sh{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.st{font-size:17px;font-weight:800;letter-spacing:-.3px}
 
 /* Hero */
 .hero{
 background:var(--bg2);border:1px solid var(--border);
-border-radius:20px;padding:32px 24px;margin-bottom:20px;text-align:center;
+border-radius:20px;padding:28px 20px;margin-bottom:18px;text-align:center;
 }
 .hero-i{
-width:56px;height:56px;border-radius:16px;
+width:52px;height:52px;border-radius:14px;
 background:var(--black);color:var(--white);
 display:flex;align-items:center;justify-content:center;
-margin:0 auto 14px;box-shadow:0 4px 16px rgba(0,0,0,.12);
+margin:0 auto 12px;
 }
-.hero-i svg{width:24px;height:24px}
-.hero-t{font-size:22px;font-weight:900;letter-spacing:-.4px;margin-bottom:5px}
+.hero-i svg{width:22px;height:22px}
+.hero-t{font-size:21px;font-weight:900;letter-spacing:-.4px;margin-bottom:4px}
 .hero-s{font-size:13px;color:var(--text3);line-height:1.5}
 .hero-chip{
 display:inline-flex;align-items:center;gap:5px;
 padding:5px 12px;background:var(--white);border:1px solid var(--border);
-border-radius:18px;font-size:12px;font-weight:600;color:var(--text2);margin-top:12px;
+border-radius:16px;font-size:12px;font-weight:600;color:var(--text2);margin-top:10px;
 }
-.hero-chip-dot{width:6px;height:6px;border-radius:3px;background:var(--green);animation:pulse 2s infinite}
+.hero-chip-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
+
+/* Channel connect block */
+.ch-block{
+padding:16px;background:var(--bg2);border:1px solid var(--border);
+border-radius:var(--r);margin-bottom:16px;
+}
+.ch-step{display:flex;gap:10px;align-items:flex-start;margin-bottom:12px}
+.ch-step:last-child{margin-bottom:0}
+.ch-num{
+width:26px;height:26px;border-radius:50%;
+background:var(--black);color:var(--white);
+display:flex;align-items:center;justify-content:center;
+font-size:11px;font-weight:800;flex-shrink:0;
+}
+.ch-step-t{font-size:13px;font-weight:700;margin-bottom:2px}
+.ch-step-d{font-size:12px;color:var(--text3);line-height:1.4}
+.ch-btn{
+display:inline-flex;align-items:center;gap:6px;
+padding:10px 16px;background:var(--black);color:var(--white);
+border:none;border-radius:var(--r3);font-family:inherit;
+font-size:13px;font-weight:700;cursor:pointer;
+margin-top:8px;transition:all .15s;
+}
+.ch-btn:active{transform:scale(.96)}
+.ch-btn svg{width:15px;height:15px}
+.ch-status{
+display:flex;align-items:center;gap:6px;
+padding:9px 12px;border-radius:var(--r3);
+font-size:12px;font-weight:700;margin-top:8px;
+}
+.ch-ok{background:#ECFDF5;color:#059669;border:1px solid #A7F3D0}
+.ch-fail{background:#FEF2F2;color:var(--red);border:1px solid #FCA5A5}
+
+/* Channel selector dropdown */
+.ch-sel{
+padding:13px 16px;border:1.5px solid var(--border);border-radius:var(--r2);
+background:var(--white);display:flex;align-items:center;gap:10px;
+cursor:pointer;transition:border-color .2s;margin-bottom:8px;
+}
+.ch-sel:focus-within{border-color:var(--black)}
+.ch-sel-name{flex:1;font-size:15px;font-weight:600}
+.ch-sel svg{width:16px;height:16px;color:var(--text3)}
+.ch-sel-empty{color:var(--text3)}
+.ch-list{
+border:1px solid var(--border);border-radius:var(--r2);
+overflow:hidden;margin-bottom:14px;background:var(--white);
+}
+.ch-item{
+display:flex;align-items:center;gap:10px;padding:12px 14px;
+border-bottom:1px solid var(--border);cursor:pointer;
+transition:background .15s;
+}
+.ch-item:last-child{border-bottom:none}
+.ch-item:active{background:var(--bg2)}
+.ch-item.sel{background:var(--bg2)}
+.ch-item-name{flex:1;font-size:14px;font-weight:600}
+.ch-item-id{font-size:11px;color:var(--text3);font-family:'JetBrains Mono',monospace}
+.ch-item-check{width:20px;height:20px;border-radius:50%;border:2px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.ch-item.sel .ch-item-check{background:var(--black);border-color:var(--black)}
+.ch-item.sel .ch-item-check svg{color:var(--white)}
 
 /* Referral */
 .ref{
@@ -299,47 +350,47 @@ border:none;cursor:pointer;flex-shrink:0;transition:transform .15s;
 /* Prizes */
 .pi{
 display:flex;align-items:center;gap:10px;
-padding:11px 14px;background:var(--bg2);
+padding:10px 14px;background:var(--bg2);
 border-radius:var(--r3);margin-bottom:6px;border:1px solid var(--border);
 }
 .pn{
-width:26px;height:26px;border-radius:13px;
+width:24px;height:24px;border-radius:50%;
 display:flex;align-items:center;justify-content:center;
 font-size:11px;font-weight:800;flex-shrink:0;
 background:var(--bg3);color:var(--text2);
 }
 .pt{flex:1;font-size:13px;font-weight:600}
 .pd{
-width:26px;height:26px;border-radius:13px;
+width:24px;height:24px;border-radius:50%;
 display:flex;align-items:center;justify-content:center;
 background:var(--bg3);border:none;cursor:pointer;
 color:var(--text3);transition:all .15s;
 }
 .pd:hover{background:var(--red);color:var(--white)}
-.pd svg{width:13px;height:13px}
+.pd svg{width:12px;height:12px}
 
 /* Detail header */
 .dh{
 background:var(--bg2);border:1px solid var(--border);
-border-radius:20px;padding:20px;margin-bottom:18px;
+border-radius:16px;padding:20px;margin-bottom:16px;
 }
 .dh-ch{
 display:inline-flex;align-items:center;gap:4px;
 padding:4px 10px;background:var(--white);border:1px solid var(--border);
-border-radius:16px;font-size:12px;font-weight:600;color:var(--text2);margin-bottom:10px;
+border-radius:14px;font-size:12px;font-weight:600;color:var(--text2);margin-bottom:8px;
 }
-.dh-ch svg{width:13px;height:13px}
-.dh-n{font-size:20px;font-weight:900;letter-spacing:-.3px;margin-bottom:6px;line-height:1.2}
-.dh-d{font-size:13px;color:var(--text2);line-height:1.5;margin-bottom:12px}
+.dh-ch svg{width:12px;height:12px}
+.dh-n{font-size:20px;font-weight:900;letter-spacing:-.4px;margin-bottom:6px;line-height:1.2}
+.dh-d{font-size:13px;color:var(--text2);line-height:1.5;margin-bottom:10px}
 .dh-m{display:flex;flex-wrap:wrap;gap:6px}
-.dh-acts{display:flex;gap:8px;margin-top:14px}
+.dh-acts{display:flex;gap:8px;margin-top:12px}
 
 /* Admin card */
 .ac{
 border:1px solid var(--border);border-radius:var(--r);
-padding:16px;margin-bottom:12px;background:var(--white);box-shadow:var(--sh);
+padding:16px;margin-bottom:10px;background:var(--white);
 }
-.ac-h{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px}
+.ac-h{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:8px}
 .ac-t{font-size:15px;font-weight:800;line-height:1.25}
 .ac-s{font-size:12px;color:var(--text3);margin-top:2px}
 .ac-btns{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
@@ -353,10 +404,10 @@ display:flex;align-items:center;gap:4px;font-family:inherit;
 .ac-b svg{width:13px;height:13px}
 .ac-b-r{border-color:#FCA5A5;color:var(--red);background:#FEF2F2}
 
-.sc-r{display:flex;gap:5px;flex-wrap:wrap;margin-top:8px}
+.sc-r{display:flex;gap:4px;flex-wrap:wrap;margin-top:6px}
 .sc{
 display:inline-flex;align-items:center;gap:3px;
-padding:3px 8px;border-radius:12px;font-size:10px;font-weight:700;
+padding:3px 8px;border-radius:10px;font-size:10px;font-weight:700;
 }
 .sc svg{width:11px;height:11px}
 .sc-on{background:#ECFDF5;border:1px solid #A7F3D0;color:#166534}
@@ -383,115 +434,79 @@ transition:all .15s;flex-shrink:0;
 .divider{height:1px;background:var(--border);margin:18px 0}
 
 .notice{
-padding:13px 14px;border-radius:var(--r3);
+padding:12px 14px;border-radius:var(--r3);
 font-size:12px;line-height:1.5;display:flex;gap:8px;align-items:flex-start;
 }
-.notice svg{width:15px;height:15px;flex-shrink:0;margin-top:1px}
+.notice svg{width:14px;height:14px;flex-shrink:0;margin-top:1px}
 .notice-w{background:#FFFBEB;color:#92400E;border:1px solid #FDE68A}
 .notice-i{background:#EFF6FF;color:#1E40AF;border:1px solid #BFDBFE}
 
-/* Channel connect */
-.ch-connect{
-padding:16px;background:var(--bg2);border:1px solid var(--border);
-border-radius:var(--r);margin-bottom:16px;
-}
-.ch-step{
-display:flex;gap:12px;align-items:flex-start;margin-bottom:14px;
-}
-.ch-step:last-child{margin-bottom:0}
-.ch-num{
-width:28px;height:28px;border-radius:14px;
-background:var(--black);color:var(--white);
-display:flex;align-items:center;justify-content:center;
-font-size:12px;font-weight:800;flex-shrink:0;
-}
-.ch-step-body{flex:1;min-width:0}
-.ch-step-t{font-size:13px;font-weight:700;margin-bottom:4px}
-.ch-step-d{font-size:12px;color:var(--text3);line-height:1.4}
-.ch-btn{
-display:inline-flex;align-items:center;gap:6px;
-padding:9px 16px;background:var(--black);color:var(--white);
-border:none;border-radius:var(--r3);font-family:inherit;
-font-size:13px;font-weight:700;cursor:pointer;
-margin-top:8px;transition:all .15s;
-}
-.ch-btn:active{transform:scale(.96)}
-.ch-btn svg{width:15px;height:15px}
-.ch-status{
-display:flex;align-items:center;gap:6px;
-padding:8px 12px;border-radius:var(--r3);
-font-size:12px;font-weight:700;margin-top:8px;
-}
-.ch-ok{background:#ECFDF5;color:#059669;border:1px solid #A7F3D0}
-.ch-fail{background:#FEF2F2;color:var(--red);border:1px solid #FCA5A5}
-
-/* === TAB BAR — pixel-perfect, no text pixelation === */
+/* === TAB BAR === */
 .tabbar{
 position:fixed;bottom:0;left:0;right:0;
-background:rgba(255,255,255,.97);
-backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+background:rgba(255,255,255,.92);
+backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
 border-top:1px solid var(--border);
 display:grid;grid-template-columns:repeat(5,1fr);
 padding:0 0 env(safe-area-inset-bottom,0px);z-index:100;
 }
 .tb{
 display:flex;flex-direction:column;align-items:center;
-justify-content:center;gap:3px;padding:10px 0 8px;
+justify-content:center;gap:4px;padding:8px 0 6px;
 cursor:pointer;border:none;background:none;
 -webkit-tap-highlight-color:transparent;position:relative;
+font-family:'Inter',system-ui,sans-serif;
 }
-.tb svg{width:22px;height:22px;color:var(--text3);transition:color .2s}
+.tb svg{width:22px;height:22px;color:var(--text3);transition:color .15s}
 .tb-t{
-font-size:10px;color:var(--text3);line-height:1;
-transition:color .2s;
-/* ФИКС ПИКСЕЛЕЙ: фиксированный вес, без изменения при active */
-font-weight:600;
+font-family:'Inter',system-ui,sans-serif;
+font-size:10px;font-weight:600;color:var(--text3);
+line-height:1;transition:color .15s;
 letter-spacing:0;
+-webkit-font-smoothing:antialiased;
+-moz-osx-font-smoothing:grayscale;
+text-rendering:geometricPrecision;
 }
 .tb.on svg{color:var(--black)}
 .tb.on .tb-t{color:var(--black)}
 .tb.on::before{
 content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);
-width:28px;height:2.5px;background:var(--black);border-radius:0 0 2px 2px;
+width:24px;height:2px;background:var(--black);border-radius:0 0 2px 2px;
 }
-/* Center */
+/* Center create button */
 .tb-c{padding-top:0}
 .tb-c-circle{
-width:48px;height:48px;border-radius:50%;
+width:46px;height:46px;border-radius:50%;
 background:var(--black);color:var(--white);
 display:flex;align-items:center;justify-content:center;
 border:3px solid var(--white);
-box-shadow:0 2px 14px rgba(0,0,0,.18);
+box-shadow:0 2px 12px rgba(0,0,0,.2);
 margin-top:-14px;transition:transform .15s;
 }
-.tb-c-circle:active{transform:scale(.92)}
-.tb-c-circle svg{width:24px;height:24px;color:var(--white)!important}
-.tb-c .tb-t{margin-top:2px}
+.tb-c-circle:active{transform:scale(.9)}
+.tb-c-circle svg{width:22px;height:22px;color:var(--white)!important}
+.tb-c .tb-t{margin-top:3px}
 
 /* Profile menu */
 .pm{border:1px solid var(--border);border-radius:var(--r);overflow:hidden;background:var(--white)}
 .pm-i{
-display:flex;align-items:center;gap:12px;padding:15px 16px;
+display:flex;align-items:center;gap:12px;padding:14px 16px;
 cursor:pointer;transition:background .15s;border-bottom:1px solid var(--border);
 }
 .pm-i:last-child{border-bottom:none}
 .pm-i:active{background:var(--bg2)}
-.pm-b{flex:1;min-width:0}
-.pm-t{font-size:14px;font-weight:700}
-.pm-d{font-size:12px;color:var(--text3);margin-top:1px}
+.pm-t{font-size:14px;font-weight:700;flex:1}
 .pm-a{color:var(--text3)}
 .pm-a svg{width:15px;height:15px}
 
-.empty{text-align:center;padding:48px 24px}
-.empty-i{width:56px;height:56px;border-radius:16px;background:var(--bg2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;margin:0 auto 16px}
-.empty-i svg{width:24px;height:24px;color:var(--text3)}
-.empty-t{font-size:16px;font-weight:800;margin-bottom:6px}
+.empty{text-align:center;padding:40px 20px}
+.empty-i{width:52px;height:52px;border-radius:14px;background:var(--bg2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;margin:0 auto 14px}
+.empty-i svg{width:22px;height:22px;color:var(--text3)}
+.empty-t{font-size:16px;font-weight:800;margin-bottom:4px}
 .empty-s{font-size:13px;color:var(--text3);line-height:1.5}
 
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.mt4{margin-top:4px}.mt8{margin-top:8px}.mt12{margin-top:12px}.mt16{margin-top:16px}
-.mb6{margin-bottom:6px}.mb8{margin-bottom:8px}.mb12{margin-bottom:12px}
-.tc{text-align:center}
+.mt8{margin-top:8px}.mt12{margin-top:12px}.mt16{margin-top:16px}
+.mb8{margin-bottom:8px}.mb12{margin-bottom:12px}
 .mono{font-family:'JetBrains Mono',monospace}
 .clk{cursor:pointer;-webkit-tap-highlight-color:transparent}
 ::-webkit-scrollbar{width:0;height:0}
@@ -500,223 +515,261 @@ cursor:pointer;transition:background .15s;border-bottom:1px solid var(--border);
 <body>
 <div id="root"></div>
 <script>
-// ╔══════════════════════════════════════════╗
-// ║  НАСТРОЙКИ                                ║
-// ╚══════════════════════════════════════════╝
+// ╔════════════════════════════════════════════╗
+// ║  КОНФИГ                                     ║
+// ╚════════════════════════════════════════════╝
 const BOT_TOKEN='8031008647:AAFWbpZ-OQeIUwPbWOmBxCzeYVA_yh_AjC8';
+const BOT_USERNAME='T3335tBot'; // без @
 const MAIN_ADMIN_ID=1262669099;
-const BOT_USERNAME='T3335tBot';
-const MINI_APP_URL=location.href.split('?')[0];
-
 const FIREBASE_CONFIG={
   apiKey:"AIzaSyBPQO8zHAMOgvM4DtwSwNQ-VhTi6GsoLhs",
   authDomain:"contest-bot-54b4d.firebaseapp.com",
   projectId:"contest-bot-54b4d",
   storageBucket:"contest-bot-54b4d.firebasestorage.app",
   messagingSenderId:"996857778577",
-  appId:"1:996857778577:web:eb0bd1f4de21696b424a30",
-  measurementId:"G-NRBXCR9GTK"
+  appId:"1:996857778577:web:eb0bd1f4de21696b424a30"
 };
+const TGAPI=`https://api.telegram.org/bot${BOT_TOKEN}`;
 
-// ╔══════════════════════════════════════════╗
-// ║  SVG ИКОНКИ                               ║
-// ╚══════════════════════════════════════════╝
-const I={
-home:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>`,
+// ╔════════════════════════════════════════════╗
+// ║  СОСТОЯНИЕ                                  ║
+// ╚════════════════════════════════════════════╝
+let tgUser=null;
+let db=null;
+let useFirebase=false;
+let currentScreen='home';
+let screenParams={};
+let contests=[];
+let myChannels=[]; // каналы где юзер — админ И бот — админ
+
+// ╔════════════════════════════════════════════╗
+// ║  FIREBASE                                   ║
+// ╚════════════════════════════════════════════╝
+try{
+  if(FIREBASE_CONFIG.apiKey){
+    firebase.initializeApp(FIREBASE_CONFIG);
+    db=firebase.firestore();
+    useFirebase=true;
+  }
+}catch(e){console.warn('Firebase error:',e)}
+
+// ╔════════════════════════════════════════════╗
+// ║  SVG ИКОНКИ — все прорисованные             ║
+// ╚════════════════════════════════════════════╝
+const icons={
+home:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12l9-9 9 9"/><path d="M5 10v10a1 1 0 001 1h3a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1h3a1 1 0 001-1V10"/></svg>`,
 star:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`,
-plus:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>`,
+plus:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>`,
 settings:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>`,
 user:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`,
 users:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>`,
 clock:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`,
 gift:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 010-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 000-5C13 2 12 7 12 7z"/></svg>`,
-check:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`,
+check:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`,
+chevL:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>`,
+chevR:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>`,
+x:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`,
 send:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>`,
-hash:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="9" x2="20" y2="9"/><line x1="4" y1="15" x2="20" y2="15"/><line x1="10" y1="3" x2="8" y2="21"/><line x1="16" y1="3" x2="14" y2="21"/></svg>`,
-award:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>`,
-edit:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>`,
-x:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`,
-chevL:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>`,
-chevR:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>`,
 heart:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>`,
 play:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>`,
-stop:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>`,
+stop:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/></svg>`,
 eye:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>`,
-copy:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>`,
+edit:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>`,
 trash:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>`,
+copy:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>`,
 link:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>`,
 info:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>`,
+award:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>`,
 barChart:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg>`,
-shield:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>`,
-crown:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20h20"/><path d="M4 20l2-14 4 5 2-8 2 8 4-5 2 14"/></svg>`,
-/* Единая иконка конкурса — стилизованная медаль/награда */
-contestIcon:`<svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M24 4L28.9 13.9L39.5 15.4L31.7 23L33.6 33.5L24 28.4L14.4 33.5L16.3 23L8.5 15.4L19.1 13.9L24 4Z" stroke="#C8C8CC" stroke-width="2" fill="#F0F0F2"/><circle cx="24" cy="19" r="5" stroke="#AEAEB2" stroke-width="1.5" fill="#F7F7F8"/><path d="M18 33L15 44L24 39L33 44L30 33" stroke="#C8C8CC" stroke-width="2" fill="none"/></svg>`,
+shuffle:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/><line x1="4" y1="4" x2="9" y2="9"/></svg>`,
+addUser:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>`,
+// Иконка конкурса — стильная абстрактная звезда/корона
+contestIcon:`<svg viewBox="0 0 48 48" fill="none"><path d="M24 4L29.5 16.5L43 18.5L33 28L35.5 42L24 35.5L12.5 42L15 28L5 18.5L18.5 16.5L24 4Z" fill="currentColor"/></svg>`,
 };
-function ic(n){return I[n]||''}
+function ic(name){return icons[name]||''}
 
-// ╔══════════════════════════════════════════╗
-// ║  FIREBASE                                 ║
-// ╚══════════════════════════════════════════╝
-let db=null,useFirebase=false;
-try{
-  if(FIREBASE_CONFIG.apiKey&&FIREBASE_CONFIG.projectId){
-    firebase.initializeApp(FIREBASE_CONFIG);
-    db=firebase.firestore();useFirebase=true;
-    console.log('Firebase подключён');
-  }
-}catch(e){console.warn('Firebase ошибка:',e)}
+// ╔════════════════════════════════════════════╗
+// ║  УТИЛИТЫ                                    ║
+// ╚════════════════════════════════════════════╝
+const avColors=['#FF6B6B','#4ECDC4','#45B7D1','#96CEB4','#DDA0DD','#F7DC6F','#BB8FCE','#85C1E9','#F8C471','#82E0AA','#F1948A','#AED6F1'];
+function avaColor(s){let h=0;for(let i=0;i<s.length;i++)h=s.charCodeAt(i)+((h<<5)-h);return avColors[Math.abs(h)%avColors.length]}
+function initials(s){const p=s.trim().split(/\s+/);return p.length>1?(p[0][0]+p[1][0]).toUpperCase():(s.substring(0,2).toUpperCase())}
+function isAdmin(){return tgUser&&tgUser.id===MAIN_ADMIN_ID}
+function fmtDate(d){if(!d)return'—';const dt=new Date(d);return dt.toLocaleDateString('ru-RU',{day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'})+' МСК'}
+function timeLeft(d){if(!d)return'—';const ms=new Date(d)-Date.now();if(ms<=0)return'Завершён';const days=Math.floor(ms/864e5),hrs=Math.floor((ms%864e5)/36e5),mins=Math.floor((ms%36e5)/6e4);if(days>0)return`${days}д ${hrs}ч`;if(hrs>0)return`${hrs}ч ${mins}м`;return`${mins}м`}
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6)}
 
-// ╔══════════════════════════════════════════╗
-// ║  ДАННЫЕ                                   ║
-// ╚══════════════════════════════════════════╝
-let contests=[],tgUser=null,currentScreen='home',screenParams={};
+function toast(msg,type='ok'){
+  const d=document.createElement('div');
+  d.className=`toast toast-${type}`;d.textContent=msg;
+  document.body.appendChild(d);
+  setTimeout(()=>{d.style.opacity='0';d.style.transform='translateY(-10px)';d.style.transition='all .3s'},2500);
+  setTimeout(()=>d.remove(),2800);
+}
 
-const DEMO=[
-  {id:'d1',name:'Розыгрыш iPhone 16 Pro',channel:'@techreviews',desc:'Участвуйте и выиграйте новый iPhone','conditions':'Подписка на канал','endDate':'2026-04-01T20:00',status:'active',winnersCount:1,buttonText:'Участвовать',initialPoints:0,outcomeType:1,threshold:0,creatorId:MAIN_ADMIN_ID,scoring:{invites:{on:true,pts:5},reactions:{on:true,pts:1},ads:{on:false,pts:3}},prizes:['iPhone 16 Pro 256GB'],participants:[{tgId:1001,name:'Алексей',username:'alex',points:45},{tgId:1002,name:'Мария',username:'masha',points:38},{tgId:1003,name:'Дмитрий',username:'dima',points:27},{tgId:MAIN_ADMIN_ID,name:'Admin',username:'Tru5tNoBody',points:15}]},
-  {id:'d2',name:'Конкурс для дизайнеров',channel:'@designhub',desc:'Покажите свои лучшие работы','conditions':'Прислать портфолио','endDate':'2026-05-15T18:00',status:'active',winnersCount:3,buttonText:'Участвовать',initialPoints:10,outcomeType:1,threshold:0,creatorId:MAIN_ADMIN_ID,scoring:{invites:{on:true,pts:3},reactions:{on:false,pts:1},ads:{on:false,pts:3}},prizes:['MacBook Air','iPad Pro','AirPods Pro'],participants:[{tgId:2001,name:'Ольга',username:'olya_design',points:62},{tgId:2002,name:'Никита',username:'nik_art',points:51}]},
-  {id:'d3',name:'Новогодний розыгрыш',channel:'@funclub',desc:'Подарки к праздникам','conditions':'','endDate':'2026-01-01T00:00',status:'ended',winnersCount:2,buttonText:'Участвовать',initialPoints:0,outcomeType:2,threshold:10,creatorId:MAIN_ADMIN_ID,scoring:{invites:{on:true,pts:5},reactions:{on:true,pts:2},ads:{on:false,pts:3}},prizes:['PS5','Nintendo Switch'],participants:[{tgId:3001,name:'Артём',username:'artem',points:88},{tgId:3002,name:'Вика',username:'vika',points:75}]}
+// ╔════════════════════════════════════════════╗
+// ║  TELEGRAM BOT API                           ║
+// ╚════════════════════════════════════════════╝
+async function tgApi(method,body={}){
+  try{const r=await fetch(`${TGAPI}/${method}`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});return await r.json()}
+  catch(e){console.error('TG API error:',e);return{ok:false}}
+}
+
+async function checkBotInChannel(channelId){
+  try{
+    const r=await tgApi('getChatAdministrators',{chat_id:channelId});
+    if(!r.ok)return{botAdmin:false,userAdmin:false,title:''};
+    const botId=parseInt(BOT_TOKEN.split(':')[0]);
+    const botAdmin=r.result.some(a=>a.user.id===botId);
+    const userAdmin=tgUser?r.result.some(a=>a.user.id===tgUser.id):false;
+    // Получаем название канала
+    const chatInfo=await tgApi('getChat',{chat_id:channelId});
+    const title=chatInfo.ok?chatInfo.result.title:'';
+    return{botAdmin,userAdmin,title};
+  }catch(e){return{botAdmin:false,userAdmin:false,title:''}}
+}
+
+async function sendPost(channelId,name,desc,conditions,prizes,endDate){
+  let text=`<b>🎉 Новый конкурс!</b>\n\n<b>${name}</b>`;
+  if(desc)text+=`\n\n${desc}`;
+  if(conditions)text+=`\n\n<b>Условия:</b> ${conditions}`;
+  if(prizes&&prizes.length){text+='\n\n<b>Призы:</b>';prizes.forEach((p,i)=>text+=`\n${i+1}. ${p}`)}
+  text+=`\n\n<b>До:</b> ${fmtDate(endDate)}`;
+  text+='\n\nНажмите кнопку ниже, чтобы участвовать!';
+  await tgApi('sendMessage',{chat_id:channelId,text,parse_mode:'HTML'});
+}
+
+async function sendResultsPost(contest){
+  const sorted=[...contest.participants].sort((a,b)=>b.points-a.points);
+  const winners=sorted.slice(0,contest.winnersCount||1);
+  let text=`<b>🏆 Конкурс завершён!</b>\n\n<b>${contest.name}</b>\n\n<b>Победители:</b>`;
+  winners.forEach((w,i)=>{
+    const medal=i===0?'🥇':i===1?'🥈':i===2?'🥉':`${i+1}.`;
+    const mention=w.username?`@${w.username}`:w.name;
+    text+=`\n${medal} ${mention} — ${w.points} баллов`;
+  });
+  text+=`\n\nВсего участников: ${sorted.length}`;
+
+  const miniAppUrl=window.location.href.split('?')[0]+`?contest=${contest.id}`;
+  await tgApi('sendMessage',{
+    chat_id:contest.channelId||contest.channel,
+    text,parse_mode:'HTML',
+    reply_markup:{inline_keyboard:[[{text:'📊 Посмотреть итоги',web_app:{url:miniAppUrl}}]]}
+  });
+}
+
+// Загрузка каналов пользователя из Firebase
+async function loadMyChannels(){
+  if(!useFirebase||!tgUser)return;
+  try{
+    const snap=await db.collection('channels').where('adminId','==',tgUser.id).get();
+    myChannels=[];
+    snap.forEach(doc=>{const d=doc.data();myChannels.push({id:doc.id,channelId:d.channelId,title:d.title,...d})});
+  }catch(e){console.warn('loadMyChannels error:',e)}
+}
+
+async function addChannelToMyList(channelId,title){
+  if(!useFirebase||!tgUser)return;
+  // Проверяем, не добавлен ли уже
+  const existing=myChannels.find(c=>c.channelId===channelId);
+  if(existing)return;
+  try{
+    const docRef=await db.collection('channels').add({
+      channelId,title,adminId:tgUser.id,addedAt:new Date().toISOString()
+    });
+    myChannels.push({id:docRef.id,channelId,title,adminId:tgUser.id});
+  }catch(e){console.warn('addChannel error:',e)}
+}
+
+// ╔════════════════════════════════════════════╗
+// ║  ДАННЫЕ                                     ║
+// ╚════════════════════════════════════════════╝
+const demoContests=[
+  {id:'d1',name:'Розыгрыш iPhone 16 Pro',channel:'@techreviews',channelId:'@techreviews',desc:'Разыгрываем новый iPhone среди подписчиков',conditions:'Подписка на канал',endDate:new Date(Date.now()+5*864e5).toISOString(),status:'active',winnersCount:1,buttonText:'Участвовать',initialPoints:0,outcomeType:1,creatorId:MAIN_ADMIN_ID,
+    scoring:{invites:{on:true,pts:5},reactions:{on:true,pts:1},ads:{on:false,pts:0}},
+    prizes:['iPhone 16 Pro 256GB'],
+    participants:[
+      {tgId:1001,name:'Алексей М.',username:'alexm',points:145},{tgId:1002,name:'Мария К.',username:'mashak',points:120},
+      {tgId:1003,name:'Дмитрий В.',username:'dimav',points:98},{tgId:1004,name:'Елена С.',username:'elenas',points:67},
+      {tgId:MAIN_ADMIN_ID,name:'Admin',username:'Tru5tNoBody',points:200}
+    ]},
+  {id:'d2',name:'Конкурс репостов',channel:'@designhub',channelId:'@designhub',desc:'Репостни и выиграй подписку',conditions:'Репост последнего поста',endDate:new Date(Date.now()+2*864e5).toISOString(),status:'active',winnersCount:3,buttonText:'Участвовать',initialPoints:10,outcomeType:2,threshold:50,creatorId:MAIN_ADMIN_ID,
+    scoring:{invites:{on:true,pts:10},reactions:{on:false,pts:0},ads:{on:true,pts:3}},
+    prizes:['Figma Pro на год','Подписка Adobe','Мерч'],
+    participants:[
+      {tgId:2001,name:'Артём Б.',username:'artem_b',points:88},{tgId:2002,name:'Ольга Р.',username:'olgar',points:52},
+      {tgId:MAIN_ADMIN_ID,name:'Admin',username:'Tru5tNoBody',points:75}
+    ]}
 ];
 
 async function loadContests(){
   if(useFirebase){
     try{
       const snap=await db.collection('contests').get();
-      contests=[];
-      for(const doc of snap.docs){
-        const d=doc.data();d.id=doc.id;
-        const pSnap=await db.collection('contests').doc(doc.id).collection('participants').get();
-        d.participants=pSnap.docs.map(p=>({...p.data(),docId:p.id}));
-        contests.push(d);
+      if(!snap.empty){
+        contests=[];
+        for(const doc of snap.docs){
+          const d=doc.data();
+          const pSnap=await db.collection('contests').doc(doc.id).collection('participants').get();
+          const participants=[];
+          pSnap.forEach(p=>participants.push({id:p.id,...p.data()}));
+          contests.push({id:doc.id,...d,participants});
+        }
+        return;
       }
-      if(!contests.length)contests=[...DEMO];
-    }catch(e){console.warn(e);contests=[...DEMO]}
-  }else{
-    contests=[...DEMO];
+    }catch(e){console.warn('Firebase load error:',e)}
   }
+  contests=[...demoContests];
 }
 
-async function saveContest(d){
-  d.participants=d.participants||[];
+async function saveContest(data){
+  const c={...data,participants:data.participants||[],createdAt:new Date().toISOString()};
   if(useFirebase){
     try{
-      const ref=await db.collection('contests').add({...d,participants:undefined,createdAt:firebase.firestore.FieldValue.serverTimestamp()});
-      d.id=ref.id;contests.push(d);return d;
-    }catch(e){console.warn(e)}
+      const docRef=await db.collection('contests').add(c);
+      c.id=docRef.id;contests.push(c);return c;
+    }catch(e){console.warn('Firebase save error:',e)}
   }
-  d.id='c'+Date.now();contests.push(d);return d;
+  c.id=uid();contests.push(c);return c;
 }
-async function updateContest(id,upd){
+
+async function updateContest(id,updates){
   const c=contests.find(x=>x.id===id);if(!c)return;
-  Object.assign(c,upd);
-  if(useFirebase){try{await db.collection('contests').doc(id).update(upd)}catch(e){console.warn(e)}}
+  Object.assign(c,updates);
+  if(useFirebase){try{await db.collection('contests').doc(id).update(updates)}catch(e){}}
 }
+
 async function deleteContest(id){
-  contests=contests.filter(x=>x.id!==id);
-  if(useFirebase){try{
-    const pSnap=await db.collection('contests').doc(id).collection('participants').get();
-    const batch=db.batch();pSnap.forEach(d=>batch.delete(d.ref));
-    batch.delete(db.collection('contests').doc(id));await batch.commit();
-  }catch(e){console.warn(e)}}
+  contests=contests.filter(c=>c.id!==id);
+  if(useFirebase){try{await db.collection('contests').doc(id).delete()}catch(e){}}
 }
+
 async function joinContest(id,user){
   const c=contests.find(x=>x.id===id);if(!c)return;
   if(c.participants.find(p=>p.tgId===user.id))return;
-  const p={tgId:user.id,name:user.first_name,username:user.username||'',points:c.initialPoints||0};
+  const p={tgId:user.id,name:user.first_name||'User',username:user.username||'',points:c.initialPoints||0,joinedAt:new Date().toISOString()};
   c.participants.push(p);
-  if(useFirebase){try{await db.collection('contests').doc(id).collection('participants').add(p)}catch(e){console.warn(e)}}
+  if(useFirebase){try{await db.collection('contests').doc(id).collection('participants').add(p)}catch(e){}}
 }
 
-// ╔══════════════════════════════════════════╗
-// ║  TELEGRAM BOT API                         ║
-// ╚══════════════════════════════════════════╝
-async function tgApi(method,body){
-  try{
-    const r=await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/${method}`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
-    return await r.json();
-  }catch(e){console.warn('TG API error:',e);return{ok:false}}
-}
-
-// Проверить что бот — админ канала
-async function checkBotAdmin(channel){
-  const res=await tgApi('getChatAdministrators',{chat_id:channel});
-  if(!res.ok)return{botAdmin:false,userAdmin:false};
-  const botInfo=await tgApi('getMe',{});
-  const botId=botInfo.result?.id;
-  const botAdmin=res.result?.some(a=>a.user.id===botId);
-  const userAdmin=res.result?.some(a=>a.user.id===tgUser?.id);
-  return{botAdmin:!!botAdmin,userAdmin:!!userAdmin};
-}
-
-// Пост о создании конкурса
-async function sendPost(channel,name,desc,cond,prizes,endDate){
-  let text=`<b>🎉 Новый конкурс!</b>\n\n<b>${name}</b>`;
-  if(desc)text+=`\n\n${desc}`;
-  if(cond)text+=`\n\n<b>Условия:</b> ${cond}`;
-  if(prizes?.length)text+=`\n\n<b>Призы:</b>\n${prizes.map((p,i)=>`${i+1}. ${p}`).join('\n')}`;
-  if(endDate)text+=`\n\n<b>До:</b> ${new Date(endDate).toLocaleString('ru-RU',{timeZone:'Europe/Moscow'})} МСК`;
-  text+=`\n\n<i>Нажмите кнопку ниже для участия</i>`;
-  await tgApi('sendMessage',{chat_id:channel,text,parse_mode:'HTML',reply_markup:{inline_keyboard:[[{text:'Участвовать',web_app:{url:MINI_APP_URL}}]]}});
-}
-
-// Пост с итогами + кнопка "Посмотреть итоги"
-async function sendResultsPost(contest){
-  const sorted=[...contest.participants].sort((a,b)=>b.points-a.points);
-  const winners=sorted.slice(0,contest.winnersCount||1);
-  const medals=['🥇','🥈','🥉'];
-  let text=`<b>Конкурс завершён!</b>\n\n<b>${contest.name}</b>\n\n<b>Победители:</b>\n`;
-  winners.forEach((w,i)=>{
-    const medal=medals[i]||`${i+1}.`;
-    text+=`${medal} <b>${w.name}</b>${w.username?` (@${w.username})`:''} — ${w.points} баллов\n`;
-  });
-  text+=`\n<i>Всего участников: ${contest.participants.length}</i>`;
-  const resultsUrl=MINI_APP_URL+(MINI_APP_URL.includes('?')?'&':'?')+'contest='+contest.id;
-  await tgApi('sendMessage',{chat_id:contest.channel,text,parse_mode:'HTML',reply_markup:{inline_keyboard:[[{text:'Посмотреть итоги',web_app:{url:resultsUrl}}]]}});
-}
-
-// ╔══════════════════════════════════════════╗
-// ║  УТИЛИТЫ                                  ║
-// ╚══════════════════════════════════════════╝
-const COLORS=['#FF6B6B','#845EF7','#339AF0','#20C997','#FF922B','#F06595','#5C7CFA','#12B886','#E64980','#3BC9DB','#FF8787','#7950F2'];
-function avaColor(name){let h=0;for(let i=0;i<name.length;i++)h=name.charCodeAt(i)+((h<<5)-h);return COLORS[Math.abs(h)%COLORS.length]}
-function initials(name){const p=name.split(' ');return p.length>1?(p[0][0]+p[1][0]).toUpperCase():(name.slice(0,2).toUpperCase())}
-function timeLeft(d){
-  const now=Date.now(),end=new Date(d).getTime(),diff=end-now;
-  if(diff<=0)return'Завершён';
-  const days=Math.floor(diff/864e5),hrs=Math.floor((diff%864e5)/36e5);
-  if(days>0)return`${days} дн ${hrs} ч`;
-  const mins=Math.floor((diff%36e5)/6e4);
-  return`${hrs} ч ${mins} мин`;
-}
-function isAdmin(){return tgUser&&tgUser.id===MAIN_ADMIN_ID}
-
-let toastTimer;
-function toast(msg,type='ok'){
-  let el=document.getElementById('toast');
-  if(el)el.remove();
-  el=document.createElement('div');el.id='toast';
-  el.className=`toast toast-${type}`;el.textContent=msg;
-  document.body.appendChild(el);
-  clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.remove(),3000);
-}
-
-// ╔══════════════════════════════════════════╗
-// ║  РЕНДЕРИНГ                                ║
-// ╚══════════════════════════════════════════╝
+// ╔════════════════════════════════════════════╗
+// ║  РЕНДЕРИНГ                                  ║
+// ╚════════════════════════════════════════════╝
 function render(){
   const root=document.getElementById('root');
-  let html='';
+  let h='';
   switch(currentScreen){
-    case'home':html=rHome();break;
-    case'points':html=rPoints();break;
-    case'create':html=rCreate();break;
-    case'admin':html=rAdmin();break;
-    case'profile':html=rProfile();break;
-    case'detail':html=rDetail();break;
-    case'edit':html=rEdit();break;
-    default:html=rHome();
+    case'home':h=rHome();break;
+    case'points':h=rPoints();break;
+    case'create':h=rCreate();break;
+    case'detail':h=rDetail();break;
+    case'admin':h=rAdmin();break;
+    case'profile':h=rProfile();break;
+    case'edit':h=rEdit();break;
+    default:h=rHome();
   }
-  html+=rTabBar();
-  root.innerHTML=html;
+  h+=rTabBar();
+  root.innerHTML=h;
   bind();
 }
 
@@ -725,61 +778,55 @@ function rTabBar(){
     {id:'home',icon:'home',label:'Главная'},
     {id:'points',icon:'star',label:'Баллы'},
     {id:'create',icon:'plus',label:'Создать',center:true},
-    {id:'admin',icon:'settings',label:'Панель'},
-    {id:'profile',icon:'user',label:'Профиль'},
+    {id:'admin',icon:'settings',label:'Управление'},
+    {id:'profile',icon:'user',label:'Профиль'}
   ];
-  let h='<div class="tabbar">';
+  let h='<nav class="tabbar">';
   tabs.forEach(t=>{
     const on=currentScreen===t.id;
     if(t.center){
-      h+=`<button class="tb tb-c${on?' on':''}" data-nav="${t.id}">
+      h+=`<button class="tb tb-c" data-nav="${t.id}">
         <div class="tb-c-circle">${ic(t.icon)}</div>
-        <span class="tb-t">${t.label}</span>
-      </button>`;
+        <span class="tb-t">Создать</span></button>`;
     }else{
       h+=`<button class="tb${on?' on':''}" data-nav="${t.id}">
-        ${ic(t.icon)}<span class="tb-t">${t.label}</span>
-      </button>`;
+        ${ic(t.icon)}<span class="tb-t">${t.label}</span></button>`;
     }
   });
-  h+='</div>';return h;
+  h+='</nav>';return h;
 }
 
 // === ГЛАВНАЯ ===
 function rHome(){
   const active=contests.filter(c=>c.status==='active');
   let h='<div class="page">';
-
   h+=`<div class="hero afu">
     <div class="hero-i">${ic('award')}</div>
     <div class="hero-t">Конкурсы</div>
-    <div class="hero-s">Участвуйте, зарабатывайте баллы и выигрывайте призы</div>
-    <div class="hero-chip"><span class="hero-chip-dot"></span>${active.length} активных</div>
+    <div class="hero-s">Участвуйте и выигрывайте призы</div>
+    ${active.length?`<div class="hero-chip"><span class="hero-chip-dot"></span>${active.length} активных</div>`:''}
   </div>`;
 
   if(!active.length){
-    h+=`<div class="empty afu d1">
-      <div class="empty-i">${ic('award')}</div>
-      <div class="empty-t">Пока нет конкурсов</div>
-      <div class="empty-s">Создайте первый конкурс или ожидайте появления новых</div>
-    </div>`;
+    h+=`<div class="empty afu d1"><div class="empty-i">${ic('award')}</div>
+      <div class="empty-t">Нет активных конкурсов</div>
+      <div class="empty-s">Станьте первым — создайте конкурс</div></div>`;
   }
 
   active.forEach((c,i)=>{
-    const tl=timeLeft(c.endDate);
-    h+=`<div class="cc afu d${(i%6)+1} clk" data-go="detail" data-id="${c.id}">
+    h+=`<div class="cc afu d${(i%5)+1} clk" data-go="detail" data-id="${c.id}">
       <div class="cc-top">
-        <div class="cc-icon"><div class="ci">${ic('contestIcon')}</div></div>
+        <div class="cc-icon">${ic('contestIcon')}</div>
         <div class="cc-body">
           <div class="cc-name">${c.name}</div>
-          <div class="cc-ch">${c.channel}</div>
+          <div class="cc-ch">${c.channel||'Канал'}</div>
         </div>
       </div>
       <div class="cc-foot">
-        <span class="cc-m">${ic('users')} ${c.participants.length}</span>
-        <span class="cc-m">${ic('clock')} ${tl}</span>
-        ${c.prizes?.length?`<span class="cc-m">${ic('gift')} ${c.prizes.length}</span>`:''}
-        <span class="cc-live"><span class="cc-live-dot"></span>Live</span>
+        <div class="cc-m">${ic('users')} ${c.participants.length}</div>
+        <div class="cc-m">${ic('clock')} ${timeLeft(c.endDate)}</div>
+        <div class="cc-m">${ic('gift')} ${(c.prizes||[]).length}</div>
+        <div class="cc-live"><span class="cc-live-dot"></span>Live</div>
       </div>
     </div>`;
   });
@@ -787,37 +834,37 @@ function rHome(){
   h+='</div>';return h;
 }
 
-// === МОИ БАЛЛЫ ===
+// === БАЛЛЫ ===
 function rPoints(){
   const myId=tgUser?.id;
   let h='<div class="page">';
-  h+=`<div class="afu"><div class="ptitle">Мои баллы</div><div class="psub">Все ваши конкурсы и результаты</div></div>`;
+  h+=`<div class="afu"><div class="ptitle">Мои баллы</div><div class="psub">По всем конкурсам</div></div>`;
 
-  let totalPts=0,myList=[];
+  let total=0,list=[];
   contests.forEach(c=>{
     const me=c.participants.find(p=>p.tgId===myId);
-    if(me){totalPts+=me.points;const sorted=[...c.participants].sort((a,b)=>b.points-a.points);
-      myList.push({...c,myPts:me.points,myRank:sorted.findIndex(p=>p.tgId===myId)+1})}
+    if(me){total+=me.points;list.push({contest:c,pts:me.points})}
   });
 
   h+=`<div class="stats afu d1">
-    <div class="stat"><div class="sv">${myList.length}</div><div class="sl">Конкурсов</div></div>
-    <div class="stat"><div class="sv">${totalPts}</div><div class="sl">Всего баллов</div></div>
+    <div class="stat"><div class="sv">${list.length}</div><div class="sl">Конкурсов</div></div>
+    <div class="stat"><div class="sv">${total}</div><div class="sl">Всего баллов</div></div>
     <div class="stat"><div class="sv">—</div><div class="sl">Побед</div></div>
   </div>`;
 
-  if(!myList.length){
+  if(!list.length){
     h+=`<div class="empty afu d2"><div class="empty-i">${ic('star')}</div>
-      <div class="empty-t">Вы не участвуете</div>
-      <div class="empty-s">Вступите в конкурс на главной странице</div></div>`;
+      <div class="empty-t">Пока пусто</div><div class="empty-s">Присоединитесь к конкурсу</div></div>`;
   }
 
-  myList.forEach((c,i)=>{
-    h+=`<div class="card clk mb8 afu d${(i%6)+2}" data-go="detail" data-id="${c.id}">
-      <div class="cr"><div class="ib ib-s">${ic('award')}</div>
-        <div class="cb"><div class="ct">${c.name}</div>
-          <div class="cd">${c.channel} · место #${c.myRank}</div></div>
-        <span class="bdg bdg-pts">${c.myPts}</span></div></div>`;
+  list.forEach((item,i)=>{
+    h+=`<div class="card clk mb8 afu d${(i%5)+2}" data-go="detail" data-id="${item.contest.id}">
+      <div class="cr">
+        <div class="ib ib-b">${ic('award')}</div>
+        <div class="cb"><div class="ct">${item.contest.name}</div>
+          <div class="cd">${item.contest.channel}</div></div>
+        <span class="bdg bdg-pts">${item.pts}</span>
+      </div></div>`;
   });
 
   h+='</div>';return h;
@@ -826,193 +873,193 @@ function rPoints(){
 // === СОЗДАТЬ КОНКУРС ===
 function rCreate(){
   let h='<div class="page">';
-  h+=`<div class="afu"><div class="ptitle">Новый конкурс</div><div class="psub">Запустите конкурс в своём канале</div></div>`;
+  h+=`<button class="back afu clk" data-nav="home">${ic('chevL')} Назад</button>`;
+  h+=`<div class="afu d1"><div class="ptitle">Новый конкурс</div><div class="psub">Создайте конкурс в вашем канале</div></div>`;
 
-  // Шаг 1: подключение бота к каналу
-  h+=`<div class="ch-connect afu d1">
-    <div style="font-size:15px;font-weight:800;margin-bottom:12px">Подключение канала</div>
+  // Шаг 1: Подключение канала
+  h+=`<div class="ch-block afu d2">
+    <div style="font-size:15px;font-weight:800;margin-bottom:12px">Подключите канал</div>
     <div class="ch-step">
       <div class="ch-num">1</div>
-      <div class="ch-step-body">
+      <div style="flex:1">
         <div class="ch-step-t">Добавьте бота в канал</div>
-        <div class="ch-step-d">Бот станет администратором канала и сможет публиковать посты</div>
-        <a href="https://t.me/${BOT_USERNAME}?startchannel&admin=post_messages+edit_messages+delete_messages" target="_blank" class="ch-btn">${ic('plus')} Добавить бота в канал</a>
+        <div class="ch-step-d">Бот должен быть администратором канала с правами на отправку сообщений</div>
+        <button type="button" class="ch-btn clk" id="addBotBtn">${ic('addUser')} Добавить бота в канал</button>
       </div>
     </div>
     <div class="ch-step">
       <div class="ch-num">2</div>
-      <div class="ch-step-body">
-        <div class="ch-step-t">Укажите @username канала</div>
-        <div class="ch-step-d">Введите username и нажмите «Проверить». Бот должен быть админом, и вы тоже</div>
+      <div style="flex:1">
+        <div class="ch-step-t">Проверьте канал</div>
+        <div class="ch-step-d">Введите @username канала (для публичных) или ID (для приватных) и нажмите проверить</div>
         <div style="display:flex;gap:8px;margin-top:8px">
-          <input class="inp" id="cf_ch" placeholder="@mychannel" style="flex:1">
-          <button type="button" class="ch-btn" id="checkChannel">${ic('check')} Проверить</button>
+          <input class="inp" id="cf_ch_input" placeholder="@channel или -100..." style="flex:1;margin:0">
+          <button type="button" class="ch-btn clk" id="checkChannelBtn">${ic('check')} Проверить</button>
         </div>
         <div id="channelStatus"></div>
       </div>
-    </div>
-  </div>`;
+    </div>`;
 
-  h+=`<form id="cForm" class="afu d2">
+  // Показываем сохранённые каналы
+  if(myChannels.length){
+    h+=`<div style="margin-top:12px">
+      <div style="font-size:13px;font-weight:700;color:var(--text2);margin-bottom:8px">Ваши каналы</div>
+      <div class="ch-list" id="channelList">`;
+    myChannels.forEach((ch,i)=>{
+      h+=`<div class="ch-item clk" data-ch-select="${ch.channelId}" data-ch-title="${ch.title||ch.channelId}">
+        <div class="ib ib-s" style="width:36px;height:36px;border-radius:10px">${ic('send')}</div>
+        <div class="ch-item-name">${ch.title||'Канал'}</div>
+        <div class="ch-item-id">${ch.channelId}</div>
+        <div class="ch-item-check">${ic('check')}</div>
+      </div>`;
+    });
+    h+=`</div></div>`;
+  }
 
-  <div class="fld"><label class="fl">Название конкурса</label>
-    <input class="inp" id="cf_name" placeholder="Розыгрыш iPhone 16 Pro" required></div>
+  h+=`</div>`;
 
-  <div class="fld"><label class="fl">Описание</label>
-    <textarea class="inp" id="cf_desc" placeholder="Расскажите о конкурсе..."></textarea></div>
+  // Форма
+  h+=`<form id="cForm">
+    <input type="hidden" id="cf_channel_id" value="">
+    <input type="hidden" id="cf_channel_title" value="">
 
-  <div class="fld"><label class="fl">Условия участия</label>
-    <textarea class="inp" id="cf_cond" placeholder="Подписка на канал..." style="min-height:64px"></textarea></div>
-
-  <div class="grid2">
-    <div class="fld"><label class="fl">Дата окончания (МСК)</label>
+    <div class="fld afu d3"><label class="fl">Название конкурса</label>
+      <input class="inp" id="cf_name" placeholder="Розыгрыш iPhone 16" required></div>
+    <div class="fld afu d3"><label class="fl">Описание</label>
+      <textarea class="inp" id="cf_desc" placeholder="Расскажите о конкурсе..."></textarea></div>
+    <div class="fld afu d3"><label class="fl">Условия участия</label>
+      <textarea class="inp" id="cf_cond" placeholder="Подписка на канал..." style="min-height:64px"></textarea></div>
+    <div class="fld afu d4"><label class="fl">Дата и время окончания (МСК)</label>
       <input class="inp" id="cf_end" type="datetime-local" required></div>
-    <div class="fld"><label class="fl">Победителей</label>
-      <input class="inp" id="cf_winners" type="number" min="1" value="1"></div>
-  </div>
+    <div class="afu d4" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px">
+      <div class="fld" style="margin:0"><label class="fl">Победителей</label>
+        <input class="inp" id="cf_winners" type="number" min="1" value="1"></div>
+      <div class="fld" style="margin:0"><label class="fl">Начальные баллы</label>
+        <input class="inp" id="cf_initpts" type="number" min="0" value="0"></div>
+    </div>
+    <div class="fld afu d4"><label class="fl">Текст кнопки</label>
+      <input class="inp" id="cf_btn" value="Участвовать" placeholder="Участвовать"></div>
+    <div class="fld afu d4"><label class="fl">Тип определения победителя</label>
+      <select class="inp" id="cf_outcome">
+        <option value="1">Лидерборд — больше баллов</option>
+        <option value="2">Рандом среди набравших порог</option>
+        <option value="3">Взвешенный рандом по баллам</option>
+      </select></div>
+    <div class="fld afu d4" id="cf_thr_wrap" style="display:none"><label class="fl">Порог баллов</label>
+      <input class="inp" id="cf_thr" type="number" min="1" value="50"></div>
 
-  <div class="grid2">
-    <div class="fld"><label class="fl">Текст кнопки</label>
-      <input class="inp" id="cf_btn" value="Участвовать"></div>
-    <div class="fld"><label class="fl">Начальные баллы</label>
-      <input class="inp" id="cf_initpts" type="number" min="0" value="0"></div>
-  </div>
+    <div class="divider afu d4"></div>
+    <div class="afu d5" style="font-size:17px;font-weight:800;margin-bottom:4px;letter-spacing:-.3px">Начисление баллов</div>
+    <div style="font-size:13px;color:var(--text3);margin-bottom:14px" class="afu d5">Настройте способы заработка баллов</div>
 
-  <div class="fld"><label class="fl">Тип определения победителя</label>
-    <select class="inp" id="cf_outcome">
-      <option value="1">Лидерборд (топ по баллам)</option>
-      <option value="2">Рандом (среди тех, кто >= порог)</option>
-      <option value="3">Взвешенный рандом (шанс ~ баллы)</option>
-    </select></div>
+    <div class="tgl-r afu d5"><div class="tgl-l">${ic('users')} Приглашение друзей</div>
+      <button type="button" class="tgl" id="t_inv"></button></div>
+    <div class="tgl-sub" id="s_inv" style="display:none">
+      <div class="fld"><label class="fl">Баллов за 1 приглашённого</label>
+        <input class="inp" id="cf_inv_pts" type="number" min="1" value="5"></div></div>
 
-  <div class="fld" id="cf_thr_wrap" style="display:none"><label class="fl">Порог баллов</label>
-    <input class="inp" id="cf_thr" type="number" min="0" value="10">
-    <div class="fh">Минимум баллов для участия в розыгрыше</div></div>
+    <div class="tgl-r afu d5"><div class="tgl-l">${ic('heart')} Реакции на постах</div>
+      <button type="button" class="tgl" id="t_react"></button></div>
+    <div class="tgl-sub" id="s_react" style="display:none">
+      <div class="fld"><label class="fl">Баллов за 1 реакцию</label>
+        <input class="inp" id="cf_react_pts" type="number" min="1" value="1"></div></div>
 
-  <div class="divider"></div>
-  <div style="font-size:17px;font-weight:800;margin-bottom:4px;letter-spacing:-.3px">Начисление баллов</div>
-  <div style="font-size:13px;color:var(--text3);margin-bottom:14px">Настройте как участники зарабатывают баллы</div>
+    <div class="tgl-r afu d6"><div class="tgl-l">${ic('play')} Просмотр рекламы</div>
+      <button type="button" class="tgl" id="t_ads"></button></div>
+    <div class="tgl-sub" id="s_ads" style="display:none">
+      <div class="fld"><label class="fl">Баллов за 1 просмотр</label>
+        <input class="inp" id="cf_ads_pts" type="number" min="1" value="3"></div>
+      <div class="notice notice-w">${ic('info')} Модуль рекламы в разработке</div></div>
 
-  <div class="tgl-r"><div class="tgl-l">${ic('users')} Приглашение друзей</div>
-    <button type="button" class="tgl" id="t_inv"></button></div>
-  <div class="tgl-sub" id="s_inv" style="display:none">
-    <div class="fld"><label class="fl">Баллов за одного друга</label>
-      <input class="inp" id="cf_inv_pts" type="number" min="1" value="5"></div></div>
+    <div class="divider afu d6"></div>
+    <div class="afu d6" style="font-size:17px;font-weight:800;margin-bottom:4px;letter-spacing:-.3px">Призы</div>
+    <div style="font-size:13px;color:var(--text3);margin-bottom:12px" class="afu d6">Добавьте призы для победителей</div>
+    <div id="prizes_list" class="afu d6"></div>
+    <div style="display:flex;gap:8px;margin-bottom:20px" class="afu d6">
+      <input class="inp" id="cf_prize" placeholder="Название приза" style="flex:1;margin:0">
+      <button type="button" class="btn btn-s btn-sm" id="addPrize">${ic('plus')} Добавить</button>
+    </div>
 
-  <div class="tgl-r"><div class="tgl-l">${ic('heart')} Реакции на постах</div>
-    <button type="button" class="tgl" id="t_react"></button></div>
-  <div class="tgl-sub" id="s_react" style="display:none">
-    <div class="fld"><label class="fl">Баллов за реакцию</label>
-      <input class="inp" id="cf_react_pts" type="number" min="1" value="1"></div></div>
-
-  <div class="tgl-r"><div class="tgl-l">${ic('play')} Просмотр рекламы</div>
-    <button type="button" class="tgl" id="t_ads"></button></div>
-  <div class="tgl-sub" id="s_ads" style="display:none">
-    <div class="fld"><label class="fl">Баллов за просмотр</label>
-      <input class="inp" id="cf_ads_pts" type="number" min="1" value="3"></div>
-    <div class="notice notice-w mt8">${ic('info')} Модуль рекламы в разработке. Пока работает как заглушка.</div></div>
-
-  <div class="divider"></div>
-  <div style="font-size:17px;font-weight:800;margin-bottom:4px;letter-spacing:-.3px">Призы</div>
-  <div style="font-size:13px;color:var(--text3);margin-bottom:14px">Добавьте призы для победителей</div>
-  <div id="prizes_list"></div>
-  <div style="display:flex;gap:8px;margin-bottom:16px">
-    <input class="inp" id="cf_prize" placeholder="Например: iPhone 16 Pro" style="flex:1">
-    <button type="button" class="btn btn-s btn-sm" id="addPrize" style="width:auto;padding:10px 16px">${ic('plus')}</button></div>
-
-  <button type="submit" class="btn btn-b" id="createBtn">${ic('send')} Создать конкурс</button>
-
+    <button type="submit" class="btn btn-b afu d6">${ic('check')} Создать конкурс</button>
   </form></div>`;
   return h;
 }
 
-// === ДЕТАЛИ ===
+// === ДЕТАЛИ КОНКУРСА ===
 function rDetail(){
   const c=contests.find(x=>x.id===screenParams.id);
   if(!c)return'<div class="page"><div class="empty"><div class="empty-t">Конкурс не найден</div></div></div>';
+
   const myId=tgUser?.id;
-  const joined=c.participants.find(p=>p.tgId===myId);
+  const isParticipant=c.participants.some(p=>p.tgId===myId);
+  const me=c.participants.find(p=>p.tgId===myId);
   const sorted=[...c.participants].sort((a,b)=>b.points-a.points);
-  const myRank=joined?sorted.findIndex(p=>p.tgId===myId)+1:0;
+  const myRank=sorted.findIndex(p=>p.tgId===myId)+1;
   const isLive=c.status==='active';
-  const isCreator=tgUser&&c.creatorId===tgUser.id;
-  const canManage=isCreator||isAdmin();
+  const canManage=(tgUser&&c.creatorId===tgUser.id)||isAdmin();
 
   let h='<div class="page">';
   h+=`<button class="back afu clk" data-nav="home">${ic('chevL')} Назад</button>`;
 
   // Header
   h+=`<div class="dh afu d1">
-    <div class="dh-ch">${ic('hash')} ${c.channel}</div>
+    <div class="dh-ch">${ic('send')} ${c.channel||'Канал'}</div>
     <div class="dh-n">${c.name}</div>`;
   if(c.desc)h+=`<div class="dh-d">${c.desc}</div>`;
   h+=`<div class="dh-m">
-    <span class="bdg ${isLive?'bdg-live':'bdg-end'}">${isLive?'Активный':'Завершён'}</span>
-    <span class="bdg bdg-end">${ic('users')} ${c.participants.length} участников</span>
-    <span class="bdg bdg-end">${ic('clock')} ${isLive?timeLeft(c.endDate):'Завершён'}</span>
+    <span class="bdg ${isLive?'bdg-live':'bdg-end'}">${isLive?'Активен':'Завершён'}</span>
+    <span class="bdg bdg-end">${ic('clock')} ${timeLeft(c.endDate)}</span>
+    <span class="bdg bdg-end">${ic('users')} ${c.participants.length}</span>
   </div>`;
 
   if(canManage&&isLive){
     h+=`<div class="dh-acts">
-      <button class="btn btn-s btn-sm clk" data-go="edit" data-id="${c.id}" style="flex:1">${ic('edit')} Редактировать</button>
-      <button class="btn btn-r btn-sm clk" data-act="end" data-id="${c.id}" style="flex:1">${ic('stop')} Завершить</button>
+      <button class="btn btn-s btn-sm clk" data-go="edit" data-id="${c.id}">${ic('edit')} Изменить</button>
+      <button class="btn btn-sm clk" style="background:var(--red);color:#fff" data-act="end" data-id="${c.id}">${ic('stop')} Завершить</button>
     </div>`;
   }
-  h+='</div>';
+  h+=`</div>`;
 
-  // Conditions
-  if(c.conditions){
-    h+=`<div class="card afu d2 mb12"><div style="font-size:13px;font-weight:700;color:var(--text2);margin-bottom:6px">Условия участия</div>
-      <div style="font-size:14px;line-height:1.5">${c.conditions}</div></div>`;
+  // Участие
+  if(isLive&&!isParticipant){
+    h+=`<button class="btn btn-b mb12 afu d2 clk" data-act="join" data-id="${c.id}">${ic('plus')} ${c.buttonText||'Участвовать'}</button>`;
   }
-
-  // Join or stats
-  if(isLive&&!joined){
-    h+=`<button class="btn btn-b afu d2 clk mb12" data-act="join" data-id="${c.id}">${ic('plus')} ${c.buttonText||'Участвовать'}</button>`;
-  }
-  if(joined){
+  if(isParticipant&&me){
     h+=`<div class="stats afu d2">
-      <div class="stat"><div class="sv">${joined.points}</div><div class="sl">Баллов</div></div>
+      <div class="stat"><div class="sv">${me.points}</div><div class="sl">Ваши баллы</div></div>
       <div class="stat"><div class="sv">#${myRank}</div><div class="sl">Место</div></div>
-      <div class="stat"><div class="sv">${c.participants.length}</div><div class="sl">Всего</div></div>
+      <div class="stat"><div class="sv">${sorted.length}</div><div class="sl">Участников</div></div>
     </div>`;
   }
 
-  // Referral
-  if(joined&&isLive&&c.scoring?.invites?.on){
-    const refLink=`https://t.me/${BOT_USERNAME}?start=c${c.id}_ref_${myId}`;
+  // Реферальная ссылка
+  if(isParticipant&&isLive&&c.scoring?.invites?.on){
+    const ref=`https://t.me/${BOT_USERNAME}?start=c${c.id}_ref_${myId}`;
     h+=`<div class="ref afu d3">
-      <div style="font-size:14px;font-weight:700;margin-bottom:4px">Пригласить друзей</div>
-      <div style="font-size:12px;color:var(--text3)">+${c.scoring.invites.pts} баллов за каждого приглашённого</div>
-      <div class="ref-box"><span>${refLink}</span>
-        <button class="ref-cp clk" data-act="copyRef" data-ref="${refLink}">${ic('copy')}</button></div>
+      <div style="font-size:14px;font-weight:700;margin-bottom:2px">Пригласите друзей</div>
+      <div style="font-size:12px;color:var(--text3)">+${c.scoring.invites.pts} баллов за каждого</div>
+      <div class="ref-box"><span>${ref}</span>
+        <button class="ref-cp clk" data-act="copyRef" data-ref="${ref}">${ic('copy')}</button>
+      </div>
     </div>`;
   }
 
-  // Prizes
-  if(c.prizes?.length){
+  // Условия
+  if(c.conditions){
+    h+=`<div class="sec afu d3"><div class="sh"><div class="st">Условия</div></div>
+      <div class="card"><div style="font-size:14px;line-height:1.6;color:var(--text2)">${c.conditions}</div></div></div>`;
+  }
+
+  // Призы
+  if(c.prizes&&c.prizes.length){
     h+=`<div class="sec afu d4"><div class="sh"><div class="st">Призы</div></div>`;
-    c.prizes.forEach((p,i)=>{
-      const cls=i===0?'bdg-g':i===1?'bdg-s':i===2?'bdg-b':'bdg-end';
-      h+=`<div class="pi"><div class="pn" style="${i<3?'background:'+(i===0?'#FEF9C3':i===1?'#F4F4F5':'#FFF7ED'):''}">${i+1}</div>
-        <div class="pt">${p}</div></div>`;
-    });
-    h+='</div>';
+    c.prizes.forEach((p,i)=>{h+=`<div class="pi"><div class="pn">${i+1}</div><div class="pt">${p}</div></div>`});
+    h+=`</div>`;
   }
 
-  // Scoring config
-  if(c.scoring){
-    h+=`<div class="sec afu d5"><div class="sh"><div class="st">Способы заработка</div></div>
-    <div class="sc-r" style="gap:8px">
-      ${c.scoring.invites?.on?`<span class="sc sc-on">${ic('users')} Приглашения +${c.scoring.invites.pts}</span>`:`<span class="sc sc-off">${ic('users')} Приглашения</span>`}
-      ${c.scoring.reactions?.on?`<span class="sc sc-on">${ic('heart')} Реакции +${c.scoring.reactions.pts}</span>`:`<span class="sc sc-off">${ic('heart')} Реакции</span>`}
-      ${c.scoring.ads?.on?`<span class="sc sc-on">${ic('play')} Реклама +${c.scoring.ads.pts}</span>`:`<span class="sc sc-off">${ic('play')} Реклама</span>`}
-    </div></div>`;
-  }
-
-  // Leaderboard
+  // Лидерборд
   if(sorted.length){
-    h+=`<div class="sec afu d6"><div class="sh"><div class="st">Участники</div>
+    h+=`<div class="sec afu d5"><div class="sh"><div class="st">Участники</div>
       <span style="font-size:14px;color:var(--text3);font-weight:600">${sorted.length}</span></div>`;
     h+='<div class="lb">';
     sorted.forEach((p,i)=>{
@@ -1024,7 +1071,7 @@ function rDetail(){
       const link=p.username?`https://t.me/${p.username}`:`tg://user?id=${p.tgId}`;
       h+=`<div class="${cls} clk" data-act="openUser" data-link="${link}">
         <div class="lr">${rank}</div>
-        <div class="av av-34" style="background:${ac}">${initials(p.name||'?')}</div>
+        <div class="av av-36" style="background:${ac}">${initials(p.name||'?')}</div>
         <div class="ln"><div class="ln-n">${p.name||'Участник'}</div>
           ${p.username?`<div class="ln-u">@${p.username}</div>`:''}</div>
         <div class="lp">${p.points}</div>
@@ -1039,7 +1086,7 @@ function rDetail(){
 // === УПРАВЛЕНИЕ ===
 function rAdmin(){
   let h='<div class="page">';
-  h+=`<div class="afu"><div class="ptitle">Управление</div><div class="psub">Ваши конкурсы</div></div>`;
+  h+=`<div class="afu"><div class="ptitle">Управление</div><div class="psub">Ваши конкурсы и каналы</div></div>`;
 
   const active=contests.filter(c=>c.status==='active').length;
   const ended=contests.filter(c=>c.status==='ended').length;
@@ -1064,13 +1111,12 @@ function rAdmin(){
 
   contests.forEach((c,i)=>{
     const isLive=c.status==='active';
-    const isCreator=tgUser&&c.creatorId===tgUser.id;
-    const canManage=isCreator||isAdmin();
+    const canManage=(tgUser&&c.creatorId===tgUser.id)||isAdmin();
 
-    h+=`<div class="ac afu d${(i%6)+3}" data-filter="${c.status}">
+    h+=`<div class="ac afu d${(i%5)+3}" data-filter="${c.status}">
       <div class="ac-h">
         <div><div class="ac-t">${c.name}</div>
-          <div class="ac-s">${c.channel} · ${c.participants.length} уч.</div></div>
+          <div class="ac-s">${c.channel||'—'} · ${c.participants.length} уч.</div></div>
         <span class="bdg ${isLive?'bdg-live':'bdg-end'}">${isLive?'Live':'Завершён'}</span>
       </div>
       <div class="sc-r">
@@ -1104,11 +1150,11 @@ function rProfile(){
   });
 
   let h='<div class="page">';
-  h+=`<div style="text-align:center;padding:24px 0" class="afu">
-    <div class="av av-80" style="background:${col};margin:0 auto 14px">${initials(name)}</div>
+  h+=`<div style="text-align:center;padding:20px 0" class="afu">
+    <div class="av av-80" style="background:${col};margin:0 auto 12px">${initials(name)}</div>
     <div style="font-size:22px;font-weight:900;letter-spacing:-.3px">${name}</div>
     <div style="font-size:13px;color:var(--text3);margin-top:3px">@${uname}</div>
-    ${isAdmin()?'<span class="bdg bdg-g" style="margin-top:10px">Администратор</span>':''}
+    ${isAdmin()?'<div class="bdg bdg-live" style="margin-top:10px">Администратор</div>':''}
   </div>`;
 
   h+=`<div class="stats afu d1">
@@ -1121,7 +1167,7 @@ function rProfile(){
     h+=`<div class="sec afu d2"><div class="sh"><div class="st">Мои конкурсы</div></div>`;
     myContests.forEach(c=>{
       h+=`<div class="card clk mb8" data-go="detail" data-id="${c.id}">
-        <div class="cr"><div class="ib ib-s">${ic('award')}</div>
+        <div class="cr"><div class="ib ib-b">${ic('award')}</div>
           <div class="cb"><div class="ct">${c.name}</div>
             <div class="cd">${c.channel}</div></div>
           <span class="bdg bdg-pts">${c.myPts}</span></div></div>`;
@@ -1131,29 +1177,21 @@ function rProfile(){
 
   h+=`<div class="pm afu d3">
     <div class="pm-i clk" data-nav="points">
-      <div class="ib ib-34 ib-s">${ic('barChart')}</div>
-      <div class="pm-b"><div class="pm-t">Статистика</div>
-        <div class="pm-d">Баллы и позиции</div></div>
+      <div class="ib ib-s" style="width:36px;height:36px;border-radius:10px">${ic('barChart')}</div>
+      <div class="pm-t">Статистика</div>
       <div class="pm-a">${ic('chevR')}</div>
     </div>
     <div class="pm-i clk" data-nav="create">
-      <div class="ib ib-34 ib-s">${ic('plus')}</div>
-      <div class="pm-b"><div class="pm-t">Создать конкурс</div>
-        <div class="pm-d">Запустите конкурс в канале</div></div>
+      <div class="ib ib-s" style="width:36px;height:36px;border-radius:10px">${ic('plus')}</div>
+      <div class="pm-t">Создать конкурс</div>
       <div class="pm-a">${ic('chevR')}</div>
     </div>
     <div class="pm-i">
-      <div class="ib ib-34 ib-s">${ic('info')}</div>
-      <div class="pm-b"><div class="pm-t">О приложении</div>
-        <div class="pm-d">v1.0 · Telegram Mini App</div></div>
+      <div class="ib ib-s" style="width:36px;height:36px;border-radius:10px">${ic('info')}</div>
+      <div class="pm-t">О приложении v1.0</div>
+      <div class="pm-a">${ic('chevR')}</div>
     </div>
   </div>`;
-
-  if(!useFirebase){
-    h+=`<div class="notice notice-w afu d4" style="margin-top:16px">
-      ${ic('info')} <div><b>Демо-режим.</b> Firebase подключён, но данные загружаются из демо.</div>
-    </div>`;
-  }
 
   h+='</div>';return h;
 }
@@ -1176,7 +1214,7 @@ function rEdit(){
     <textarea class="inp" id="ef_cond" style="min-height:64px">${c.conditions||''}</textarea></div>
 
   <div class="divider"></div>
-  <div style="font-size:17px;font-weight:800;margin-bottom:4px;letter-spacing:-.3px">Начисление баллов</div>
+  <div style="font-size:17px;font-weight:800;margin-bottom:4px">Начисление баллов</div>
   <div style="font-size:13px;color:var(--text3);margin-bottom:14px">Измените настройки</div>
 
   <div class="tgl-r"><div class="tgl-l">${ic('users')} Приглашения</div>
@@ -1204,10 +1242,11 @@ function rEdit(){
   return h;
 }
 
-// ╔══════════════════════════════════════════╗
-// ║  СОБЫТИЯ                                  ║
-// ╚══════════════════════════════════════════╝
+// ╔════════════════════════════════════════════╗
+// ║  СОБЫТИЯ                                    ║
+// ╚════════════════════════════════════════════╝
 function bind(){
+  // Навигация
   document.querySelectorAll('[data-nav]').forEach(el=>{
     el.addEventListener('click',()=>go(el.dataset.nav));
   });
@@ -1217,6 +1256,8 @@ function bind(){
       go(el.dataset.go,{id:el.dataset.id});
     });
   });
+
+  // Действия
   document.querySelectorAll('[data-act]').forEach(el=>{
     el.addEventListener('click',async e=>{
       e.stopPropagation();
@@ -1231,7 +1272,7 @@ function bind(){
           const contest=contests.find(x=>x.id===el.dataset.id);
           await updateContest(el.dataset.id,{status:'ended'});
           if(contest)await sendResultsPost(contest);
-          toast('Конкурс завершён. Итоги опубликованы в канале.');
+          toast('Конкурс завершён');
           render();
         }
       }else if(act==='delete'){
@@ -1242,14 +1283,13 @@ function bind(){
       }else if(act==='copyRef'){
         try{await navigator.clipboard.writeText(el.dataset.ref);toast('Ссылка скопирована!')}
         catch(e){const ta=document.createElement('textarea');ta.value=el.dataset.ref;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);toast('Скопировано!')}
-        try{window.Telegram?.WebApp?.HapticFeedback?.impactOccurred('light')}catch(e){}
       }else if(act==='openUser'){
         if(el.dataset.link)window.open(el.dataset.link,'_blank');
       }
     });
   });
 
-  // Admin tabs filter
+  // Admin tabs
   document.querySelectorAll('[data-atab]').forEach(el=>{
     el.addEventListener('click',()=>{
       document.querySelectorAll('[data-atab]').forEach(t=>t.classList.remove('on'));
@@ -1268,7 +1308,7 @@ function bind(){
     if(w)w.style.display=oc.value==='2'?'block':'none';
   });
 
-  // All toggles
+  // Toggles
   [['t_inv','s_inv'],['t_react','s_react'],['t_ads','s_ads'],
    ['et_inv','es_inv'],['et_react','es_react'],['et_ads','es_ads']].forEach(([tid,sid])=>{
     const t=document.getElementById(tid),s=document.getElementById(sid);
@@ -1281,54 +1321,81 @@ function bind(){
     pb.addEventListener('click',()=>{
       const v=pi.value.trim();if(!v)return;
       const n=pl.children.length+1;
-      const d=document.createElement('div');d.className='pi asi';
+      const d=document.createElement('div');d.className='pi';
       d.innerHTML=`<div class="pn">${n}</div><div class="pt">${v}</div>
         <button type="button" class="pd" onclick="this.parentElement.remove()">${ic('x')}</button>`;
       pl.appendChild(d);pi.value='';pi.focus();
     });
   }
 
+  // Add bot to channel button
+  const addBotBtn=document.getElementById('addBotBtn');
+  if(addBotBtn){
+    addBotBtn.addEventListener('click',()=>{
+      const deeplink=`https://t.me/${BOT_USERNAME}?startchannel&admin=post_messages+edit_messages+delete_messages`;
+      window.open(deeplink,'_blank');
+    });
+  }
+
   // Check channel button
-  const chBtn=document.getElementById('checkChannel');
-  if(chBtn){
-    chBtn.addEventListener('click',async()=>{
-      const chInp=document.getElementById('cf_ch');
+  const checkBtn=document.getElementById('checkChannelBtn');
+  if(checkBtn){
+    checkBtn.addEventListener('click',async()=>{
+      const inp=document.getElementById('cf_ch_input');
       const statusDiv=document.getElementById('channelStatus');
-      let ch=chInp.value.trim();
-      if(!ch){toast('Введите @username канала','err');return}
-      if(!ch.startsWith('@'))ch='@'+ch;
-      chInp.value=ch;
+      let ch=inp.value.trim();
+      if(!ch){toast('Введите @username или ID канала','err');return}
+      if(!ch.startsWith('@')&&!ch.startsWith('-'))ch='@'+ch;
+
       statusDiv.innerHTML='<div style="padding:8px;font-size:12px;color:var(--text3)">Проверяю...</div>';
-      const result=await checkBotAdmin(ch);
+      const result=await checkBotInChannel(ch);
+
       if(result.botAdmin&&result.userAdmin){
-        statusDiv.innerHTML=`<div class="ch-status ch-ok">${ic('check')} Бот и вы — администраторы ${ch}. Всё готово!</div>`;
+        statusDiv.innerHTML=`<div class="ch-status ch-ok">${ic('check')} Бот и вы — администраторы. Канал подключён!</div>`;
+        document.getElementById('cf_channel_id').value=ch;
+        document.getElementById('cf_channel_title').value=result.title||ch;
+        // Сохраняем канал
+        await addChannelToMyList(ch,result.title||ch);
       }else if(result.botAdmin&&!result.userAdmin){
-        statusDiv.innerHTML=`<div class="ch-status ch-fail">${ic('x')} Бот есть в ${ch}, но вы не являетесь администратором этого канала</div>`;
+        statusDiv.innerHTML=`<div class="ch-status ch-fail">${ic('x')} Бот есть в канале, но вы не администратор</div>`;
       }else{
-        statusDiv.innerHTML=`<div class="ch-status ch-fail">${ic('x')} Бот не найден в ${ch}. Сначала добавьте бота как администратора</div>`;
+        statusDiv.innerHTML=`<div class="ch-status ch-fail">${ic('x')} Бот не найден в канале. Добавьте его как администратора</div>`;
       }
     });
   }
+
+  // Channel list selection
+  document.querySelectorAll('[data-ch-select]').forEach(el=>{
+    el.addEventListener('click',()=>{
+      document.querySelectorAll('[data-ch-select]').forEach(i=>i.classList.remove('sel'));
+      el.classList.add('sel');
+      const chId=el.dataset.chSelect;
+      const chTitle=el.dataset.chTitle;
+      const inp=document.getElementById('cf_ch_input');
+      if(inp)inp.value=chId;
+      document.getElementById('cf_channel_id').value=chId;
+      document.getElementById('cf_channel_title').value=chTitle;
+      document.getElementById('channelStatus').innerHTML=
+        `<div class="ch-status ch-ok">${ic('check')} Выбран: ${chTitle||chId}</div>`;
+    });
+  });
 
   // Create form submit
   const cf=document.getElementById('cForm');
   if(cf)cf.addEventListener('submit',async e=>{
     e.preventDefault();
-    const ch=document.getElementById('cf_ch').value.trim();
+    const channelId=document.getElementById('cf_channel_id').value;
+    const channelTitle=document.getElementById('cf_channel_title').value;
     const name=document.getElementById('cf_name').value.trim();
     const endDate=document.getElementById('cf_end').value;
     if(!name){toast('Введите название','err');return}
-    if(!ch){toast('Укажите канал','err');return}
+    if(!channelId){toast('Сначала подключите канал','err');return}
     if(!endDate){toast('Укажите дату окончания','err');return}
-
-    // Проверяем канал
-    const check=await checkBotAdmin(ch.startsWith('@')?ch:'@'+ch);
-    if(!check.botAdmin){toast('Сначала добавьте бота в канал как администратора','err');return}
-    if(!check.userAdmin){toast('Вы не являетесь администратором этого канала','err');return}
 
     const contestData={
       name,
-      channel:ch.startsWith('@')?ch:'@'+ch,
+      channel:channelTitle||channelId,
+      channelId:channelId,
       desc:document.getElementById('cf_desc').value.trim(),
       conditions:document.getElementById('cf_cond').value.trim(),
       endDate,status:'active',
@@ -1348,9 +1415,10 @@ function bind(){
     document.querySelectorAll('#prizes_list .pt').forEach(el=>contestData.prizes.push(el.textContent));
 
     const saved=await saveContest(contestData);
-    if(saved)await sendPost(contestData.channel,contestData.name,contestData.desc,contestData.conditions,contestData.prizes,endDate);
+    // Отправляем пост в канал
+    if(saved)await sendPost(channelId,contestData.name,contestData.desc,contestData.conditions,contestData.prizes,endDate);
 
-    toast('Конкурс создан и опубликован в канале!');
+    toast('Конкурс создан и опубликован!');
     try{window.Telegram?.WebApp?.HapticFeedback?.notificationOccurred('success')}catch(e){}
     go('home');
   });
@@ -1371,13 +1439,13 @@ function bind(){
       }
     };
     await updateContest(id,updates);
-    toast('Изменения сохранены');go('detail',{id});
+    toast('Сохранено');go('detail',{id});
   });
 }
 
-// ╔══════════════════════════════════════════╗
-// ║  НАВИГАЦИЯ                                ║
-// ╚══════════════════════════════════════════╝
+// ╔════════════════════════════════════════════╗
+// ║  НАВИГАЦИЯ                                  ║
+// ╚════════════════════════════════════════════╝
 function go(screen,params={}){
   currentScreen=screen;screenParams=params;
   render();window.scrollTo({top:0,behavior:'smooth'});
@@ -1396,6 +1464,7 @@ async function init(){
   }catch(e){}
   if(!tgUser)tgUser={id:MAIN_ADMIN_ID,first_name:'Admin',username:'Tru5tNoBody'};
   await loadContests();
+  await loadMyChannels();
   handleDeepLink();
   render();
 }
