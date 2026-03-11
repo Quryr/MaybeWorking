@@ -629,14 +629,68 @@ async function checkBotInChannel(channelId){
   }catch(e){return{botAdmin:false,userAdmin:false,title:''}}
 }
 
-async function sendPost(channelId,name,desc,conditions,prizes,endDate){
-  let text=`<b>🎉 Новый конкурс!</b>\n\n<b>${name}</b>`;
-  if(desc)text+=`\n\n${desc}`;
-  if(conditions)text+=`\n\n<b>Условия:</b> ${conditions}`;
-  if(prizes&&prizes.length){text+='\n\n<b>Призы:</b>';prizes.forEach((p,i)=>text+=`\n${i+1}. ${p}`)}
-  text+=`\n\n<b>До:</b> ${fmtDate(endDate)}`;
-  text+='\n\nНажмите кнопку ниже, чтобы участвовать!';
-  await tgApi('sendMessage',{chat_id:channelId,text,parse_mode:'HTML'});
+async function sendPost(channelId,contest){
+  const name=contest.name;
+  const desc=contest.desc;
+  const conditions=contest.conditions;
+  const prizes=contest.prizes||[];
+  const endDate=contest.endDate;
+  const winnersCount=contest.winnersCount||1;
+  const scoring=contest.scoring||{};
+  const btnText=contest.buttonText||'Участвовать';
+
+  let text='';
+  text+=`<b>━━━━━━━━━━━━━━━━━━</b>\n`;
+  text+=`<b>🏆 ${name.toUpperCase()}</b>\n`;
+  text+=`<b>━━━━━━━━━━━━━━━━━━</b>\n\n`;
+
+  if(desc)text+=`${desc}\n\n`;
+
+  if(conditions){
+    text+=`<b>📋 Условия участия:</b>\n`;
+    text+=`${conditions}\n\n`;
+  }
+
+  // Призы с распределением по местам
+  if(prizes.length){
+    text+=`<b>🎁 Призы:</b>\n`;
+    const medals=['🥇','🥈','🥉'];
+    prizes.forEach((p,i)=>{
+      const medal=i<3?medals[i]:`  ${i+1}.`;
+      text+=`${medal} <b>${i+1}-е место</b> — ${p}\n`;
+    });
+    text+='\n';
+  }
+
+  // Количество победителей
+  text+=`<b>👥 Призовых мест:</b> ${winnersCount}\n`;
+
+  // Как заработать баллы
+  const methods=[];
+  if(scoring.invites?.on)methods.push(`приглашение друзей (+${scoring.invites.pts} за друга)`);
+  if(scoring.reactions?.on)methods.push(`реакции на постах (+${scoring.reactions.pts} за реакцию)`);
+  if(scoring.ads?.on)methods.push(`просмотр рекламы (+${scoring.ads.pts} за просмотр)`);
+  if(methods.length){
+    text+=`\n<b>⚡ Как заработать баллы:</b>\n`;
+    methods.forEach(m=>text+=`  • ${m}\n`);
+    text+='\n';
+  }
+
+  // Тип определения победителя
+  const outcomeNames={1:'по лидерборду (больше баллов)',2:'рандом среди набравших порог',3:'взвешенный рандом по баллам'};
+  text+=`<b>🎯 Победитель:</b> ${outcomeNames[contest.outcomeType]||outcomeNames[1]}\n\n`;
+
+  text+=`<b>⏰ До:</b> ${fmtDate(endDate)}\n\n`;
+  text+=`<b>━━━━━━━━━━━━━━━━━━</b>\n`;
+  text+=`Нажмите кнопку ниже, чтобы участвовать!`;
+
+  const miniAppUrl=window.location.href.split('?')[0]+`?contest=${contest.id||'new'}`;
+  await tgApi('sendMessage',{
+    chat_id:channelId,
+    text,
+    parse_mode:'HTML',
+    reply_markup:{inline_keyboard:[[{text:`🏆 ${btnText}`,web_app:{url:miniAppUrl}}]]}
+  });
 }
 
 async function sendResultsPost(contest){
@@ -666,6 +720,35 @@ async function loadMyChannels(){
     myChannels=[];
     snap.forEach(doc=>{const d=doc.data();myChannels.push({id:doc.id,channelId:d.channelId,title:d.title,...d})});
   }catch(e){console.warn('loadMyChannels error:',e)}
+}
+
+// Сканирование updates — автоматическое обнаружение каналов
+async function scanBotUpdates(){
+  if(!tgUser)return;
+  try{
+    const data=await tgApi('getUpdates',{allowed_updates:JSON.stringify(['my_chat_member'])});
+    if(!data||!data.result)return;
+    let maxId=0;
+    for(const upd of data.result){
+      if(upd.update_id>maxId)maxId=upd.update_id;
+      const mcm=upd.my_chat_member;
+      if(!mcm)continue;
+      const chat=mcm.chat;
+      const newStatus=mcm.new_chat_member?.status;
+      // Бот стал админом в канале или группе
+      if(newStatus==='administrator'&&(chat.type==='channel'||chat.type==='supergroup')){
+        const channelId=chat.username?'@'+chat.username:String(chat.id);
+        const title=chat.title||channelId;
+        // Проверяем что юзер — админ этого канала
+        const result=await checkBotInChannel(channelId);
+        if(result.userAdmin){
+          await addChannelToMyList(channelId,title);
+        }
+      }
+    }
+    // Подтверждаем обработку updates
+    if(maxId>0)await tgApi('getUpdates',{offset:maxId+1});
+  }catch(e){console.warn('scanBotUpdates error:',e)}
 }
 
 async function addChannelToMyList(channelId,title){
@@ -876,47 +959,42 @@ function rCreate(){
   h+=`<button class="back afu clk" data-nav="home">${ic('chevL')} Назад</button>`;
   h+=`<div class="afu d1"><div class="ptitle">Новый конкурс</div><div class="psub">Создайте конкурс в вашем канале</div></div>`;
 
-  // Шаг 1: Подключение канала
+  // Подключение канала
   h+=`<div class="ch-block afu d2">
-    <div style="font-size:15px;font-weight:800;margin-bottom:12px">Подключите канал</div>
-    <div class="ch-step">
-      <div class="ch-num">1</div>
-      <div style="flex:1">
-        <div class="ch-step-t">Добавьте бота в канал</div>
-        <div class="ch-step-d">Бот должен быть администратором канала с правами на отправку сообщений</div>
-        <button type="button" class="ch-btn clk" id="addBotBtn">${ic('addUser')} Добавить бота в канал</button>
-      </div>
+    <div style="font-size:15px;font-weight:800;margin-bottom:4px">Канал для конкурса</div>
+    <div style="font-size:12px;color:var(--text3);margin-bottom:14px;line-height:1.4">
+      Добавьте бота администратором в канал, затем нажмите «Найти мои каналы»
     </div>
-    <div class="ch-step">
-      <div class="ch-num">2</div>
-      <div style="flex:1">
-        <div class="ch-step-t">Проверьте канал</div>
-        <div class="ch-step-d">Введите @username канала (для публичных) или ID (для приватных) и нажмите проверить</div>
-        <div style="display:flex;gap:8px;margin-top:8px">
-          <input class="inp" id="cf_ch_input" placeholder="@channel или -100..." style="flex:1;margin:0">
-          <button type="button" class="ch-btn clk" id="checkChannelBtn">${ic('check')} Проверить</button>
-        </div>
-        <div id="channelStatus"></div>
-      </div>
-    </div>`;
+    <div style="display:flex;gap:8px;margin-bottom:14px">
+      <button type="button" class="ch-btn clk" id="addBotBtn" style="flex:1;justify-content:center">${ic('addUser')} Добавить бота</button>
+      <button type="button" class="ch-btn clk" id="scanChannelsBtn" style="flex:1;justify-content:center;background:var(--bg2);color:var(--text);border:1.5px solid var(--border)">${ic('search')} Найти каналы</button>
+    </div>
+    <div id="scanStatus"></div>`;
 
-  // Показываем сохранённые каналы
+  // Список каналов
   if(myChannels.length){
-    h+=`<div style="margin-top:12px">
-      <div style="font-size:13px;font-weight:700;color:var(--text2);margin-bottom:8px">Ваши каналы</div>
+    h+=`<div style="font-size:13px;font-weight:700;color:var(--text2);margin-bottom:8px">Выберите канал</div>
       <div class="ch-list" id="channelList">`;
-    myChannels.forEach((ch,i)=>{
+    myChannels.forEach((ch)=>{
       h+=`<div class="ch-item clk" data-ch-select="${ch.channelId}" data-ch-title="${ch.title||ch.channelId}">
-        <div class="ib ib-s" style="width:36px;height:36px;border-radius:10px">${ic('send')}</div>
-        <div class="ch-item-name">${ch.title||'Канал'}</div>
-        <div class="ch-item-id">${ch.channelId}</div>
+        <div style="width:40px;height:40px;border-radius:10px;background:var(--bg2);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;flex-shrink:0;border:1px solid var(--border)">${(ch.title||'К')[0]}</div>
+        <div style="flex:1;min-width:0">
+          <div class="ch-item-name">${ch.title||'Канал'}</div>
+          <div class="ch-item-id">${ch.channelId}</div>
+        </div>
         <div class="ch-item-check">${ic('check')}</div>
       </div>`;
     });
-    h+=`</div></div>`;
+    h+=`</div>`;
+  }else{
+    h+=`<div id="channelList" style="padding:24px;text-align:center;border:1.5px dashed var(--border);border-radius:var(--r2);background:var(--white)">
+      <div style="font-size:13px;color:var(--text3);font-weight:600">Каналов пока нет</div>
+      <div style="font-size:12px;color:var(--text3);margin-top:4px">Добавьте бота в канал и нажмите «Найти каналы»</div>
+    </div>`;
   }
 
-  h+=`</div>`;
+  h+=`<div id="channelStatus" style="margin-top:8px"></div>
+  </div>`;
 
   // Форма
   h+=`<form id="cForm">
@@ -1328,7 +1406,7 @@ function bind(){
     });
   }
 
-  // Add bot to channel button
+  // Добавить бота в канал
   const addBotBtn=document.getElementById('addBotBtn');
   if(addBotBtn){
     addBotBtn.addEventListener('click',()=>{
@@ -1337,46 +1415,34 @@ function bind(){
     });
   }
 
-  // Check channel button
-  const checkBtn=document.getElementById('checkChannelBtn');
-  if(checkBtn){
-    checkBtn.addEventListener('click',async()=>{
-      const inp=document.getElementById('cf_ch_input');
-      const statusDiv=document.getElementById('channelStatus');
-      let ch=inp.value.trim();
-      if(!ch){toast('Введите @username или ID канала','err');return}
-      if(!ch.startsWith('@')&&!ch.startsWith('-'))ch='@'+ch;
-
-      statusDiv.innerHTML='<div style="padding:8px;font-size:12px;color:var(--text3)">Проверяю...</div>';
-      const result=await checkBotInChannel(ch);
-
-      if(result.botAdmin&&result.userAdmin){
-        statusDiv.innerHTML=`<div class="ch-status ch-ok">${ic('check')} Бот и вы — администраторы. Канал подключён!</div>`;
-        document.getElementById('cf_channel_id').value=ch;
-        document.getElementById('cf_channel_title').value=result.title||ch;
-        // Сохраняем канал
-        await addChannelToMyList(ch,result.title||ch);
-      }else if(result.botAdmin&&!result.userAdmin){
-        statusDiv.innerHTML=`<div class="ch-status ch-fail">${ic('x')} Бот есть в канале, но вы не администратор</div>`;
+  // Сканировать каналы — автоматический поиск
+  const scanBtn=document.getElementById('scanChannelsBtn');
+  if(scanBtn){
+    scanBtn.addEventListener('click',async()=>{
+      const statusDiv=document.getElementById('scanStatus');
+      if(statusDiv)statusDiv.innerHTML='<div style="padding:10px;font-size:13px;color:var(--text2);font-weight:600;text-align:center">Ищу каналы...</div>';
+      await scanBotUpdates();
+      await loadMyChannels();
+      if(myChannels.length){
+        if(statusDiv)statusDiv.innerHTML=`<div class="ch-status ch-ok">${ic('check')} Найдено каналов: ${myChannels.length}</div>`;
+        render();
       }else{
-        statusDiv.innerHTML=`<div class="ch-status ch-fail">${ic('x')} Бот не найден в канале. Добавьте его как администратора</div>`;
+        if(statusDiv)statusDiv.innerHTML=`<div class="ch-status ch-fail">${ic('x')} Каналы не найдены. Убедитесь что бот добавлен администратором</div>`;
       }
     });
   }
 
-  // Channel list selection
+  // Выбор канала из списка
   document.querySelectorAll('[data-ch-select]').forEach(el=>{
     el.addEventListener('click',()=>{
       document.querySelectorAll('[data-ch-select]').forEach(i=>i.classList.remove('sel'));
       el.classList.add('sel');
       const chId=el.dataset.chSelect;
       const chTitle=el.dataset.chTitle;
-      const inp=document.getElementById('cf_ch_input');
-      if(inp)inp.value=chId;
       document.getElementById('cf_channel_id').value=chId;
       document.getElementById('cf_channel_title').value=chTitle;
-      document.getElementById('channelStatus').innerHTML=
-        `<div class="ch-status ch-ok">${ic('check')} Выбран: ${chTitle||chId}</div>`;
+      const statusDiv=document.getElementById('channelStatus');
+      if(statusDiv)statusDiv.innerHTML=`<div class="ch-status ch-ok">${ic('check')} Выбран: ${chTitle||chId}</div>`;
     });
   });
 
@@ -1415,8 +1481,8 @@ function bind(){
     document.querySelectorAll('#prizes_list .pt').forEach(el=>contestData.prizes.push(el.textContent));
 
     const saved=await saveContest(contestData);
-    // Отправляем пост в канал
-    if(saved)await sendPost(channelId,contestData.name,contestData.desc,contestData.conditions,contestData.prizes,endDate);
+    // Отправляем пост в канал с кнопкой «Участвовать»
+    if(saved){contestData.id=saved.id||saved;await sendPost(channelId,contestData);}
 
     toast('Конкурс создан и опубликован!');
     try{window.Telegram?.WebApp?.HapticFeedback?.notificationOccurred('success')}catch(e){}
@@ -1464,6 +1530,9 @@ async function init(){
   }catch(e){}
   if(!tgUser)tgUser={id:MAIN_ADMIN_ID,first_name:'Admin',username:'Tru5tNoBody'};
   await loadContests();
+  await loadMyChannels();
+  // Автоматическое сканирование каналов при запуске
+  await scanBotUpdates();
   await loadMyChannels();
   handleDeepLink();
   render();
