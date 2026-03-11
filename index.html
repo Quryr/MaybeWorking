@@ -3,1254 +3,1204 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>CONTESTS</title>
+<title>Конкурсы</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <style>
+/* ===== RESET & BASE ===== */
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
---bg:#000;--bg2:#0a0a0a;--bg3:#111;--bg4:#161616;--bg5:#1a1a1a;
---border:#1f1f1f;--border2:#2a2a2a;--border3:#333;
---t1:#fff;--t2:#b0b0b0;--t3:#666;--t4:#444;
---accent:#fff;--accent2:#ccc;
+  --bg:#FFFFFF;--bg2:#F7F7F8;--bg3:#EFEFEF;
+  --text:#111111;--text2:#555555;--text3:#999999;
+  --border:#E8E8E8;--border2:#D0D0D0;
+  --black:#111111;--white:#FFFFFF;
+  --accent:#000000;--accent-soft:#222222;
+  --green:#22C55E;--red:#EF4444;--blue:#3B82F6;
+  --gold:#D4A017;--silver:#9CA3AF;--bronze:#CD7F32;
+  --shadow-sm:0 1px 2px rgba(0,0,0,0.04);
+  --shadow:0 2px 8px rgba(0,0,0,0.06);
+  --shadow-md:0 4px 16px rgba(0,0,0,0.08);
+  --shadow-lg:0 8px 32px rgba(0,0,0,0.10);
+  --radius:14px;--radius-lg:20px;--radius-full:9999px;
 }
-html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--t1);font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased}
-#root{height:100%;display:flex;flex-direction:column;position:relative;overflow:hidden}
-
-/* === NOISE TEXTURE === */
-#root::before{
-content:'';position:fixed;top:-50%;left:-50%;width:200%;height:200%;
-background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
-pointer-events:none;z-index:9999
+html,body{
+  font-family:'Inter',system-ui,-apple-system,sans-serif;
+  background:var(--bg);color:var(--text);
+  overflow-x:hidden;-webkit-font-smoothing:antialiased;
+  -webkit-tap-highlight-color:transparent;
 }
+body{padding-bottom:90px}
 
-/* === GRID PATTERN === */
-.grid-bg{
-position:fixed;top:0;left:0;width:100%;height:100%;
-background-image:
-linear-gradient(rgba(255,255,255,.02) 1px, transparent 1px),
-linear-gradient(90deg, rgba(255,255,255,.02) 1px, transparent 1px);
-background-size:60px 60px;
-pointer-events:none;z-index:0
-}
+/* ===== ANIMATIONS ===== */
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes scaleIn{from{opacity:0;transform:scale(0.95)}to{opacity:1;transform:scale(1)}}
+@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+@keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+@keyframes barGrow{from{width:0}to{width:var(--w)}}
 
-/* === SCAN LINE === */
-.scanline{
-position:fixed;top:0;left:0;width:100%;height:2px;
-background:linear-gradient(90deg,transparent,rgba(255,255,255,.06),transparent);
-animation:scanMove 4s linear infinite;
-pointer-events:none;z-index:9998
-}
-@keyframes scanMove{0%{top:-2px}100%{top:100%}}
+.anim-fu{animation:fadeUp .5s ease both}
+.anim-fi{animation:fadeIn .4s ease both}
+.anim-si{animation:scaleIn .3s ease both}
+.d1{animation-delay:.05s}.d2{animation-delay:.1s}.d3{animation-delay:.15s}
+.d4{animation-delay:.2s}.d5{animation-delay:.25s}.d6{animation-delay:.3s}
+.d7{animation-delay:.35s}.d8{animation-delay:.4s}
 
-/* === SCROLLABLE AREA === */
-.main{flex:1;overflow-y:auto;overflow-x:hidden;padding:20px 16px 100px;position:relative;z-index:1;
--webkit-overflow-scrolling:touch;scroll-behavior:smooth}
-.main::-webkit-scrollbar{width:0}
+/* ===== TYPOGRAPHY ===== */
+h1{font-size:28px;font-weight:800;letter-spacing:-.5px;line-height:1.2}
+h2{font-size:22px;font-weight:700;letter-spacing:-.3px;line-height:1.3}
+h3{font-size:17px;font-weight:600;line-height:1.4}
+.mono{font-family:'JetBrains Mono',monospace}
+.text-sm{font-size:13px}.text-xs{font-size:11px}
+.text-muted{color:var(--text2)}.text-light{color:var(--text3)}
 
-/* === TYPOGRAPHY === */
-.h1{font-size:32px;font-weight:900;letter-spacing:-1.5px;line-height:1.1;text-transform:uppercase}
-.h2{font-size:22px;font-weight:800;letter-spacing:-0.8px;line-height:1.2;text-transform:uppercase}
-.h3{font-size:16px;font-weight:700;letter-spacing:-0.3px}
-.mono{font-family:'Space Mono',monospace}
-.label{font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--t3)}
-.sub{font-size:13px;color:var(--t2);line-height:1.5}
-.sub2{font-size:12px;color:var(--t3);line-height:1.4}
+/* ===== LAYOUT ===== */
+.container{padding:0 20px;max-width:480px;margin:0 auto}
+.flex{display:flex}.flex-col{flex-direction:column}.items-center{align-items:center}
+.justify-between{justify-content:space-between}.justify-center{justify-content:center}
+.gap-2{gap:8px}.gap-3{gap:12px}.gap-4{gap:16px}
+.w-full{width:100%}.mt-2{margin-top:8px}.mt-3{margin-top:12px}.mt-4{margin-top:16px}
+.mb-2{margin-bottom:8px}.mb-3{margin-bottom:12px}
 
-/* === CARDS === */
+/* ===== CARD ===== */
 .card{
-background:var(--bg2);
-border:1px solid var(--border);
-border-radius:16px;
-padding:20px;
-position:relative;
-overflow:hidden;
-transition:all .3s cubic-bezier(.4,0,.2,1);
+  background:var(--white);
+  border:1px solid var(--border);
+  border-radius:var(--radius-lg);
+  padding:20px;
+  transition:all .2s ease;
 }
-.card::before{
-content:'';position:absolute;top:0;left:0;right:0;height:1px;
-background:linear-gradient(90deg,transparent,rgba(255,255,255,.08),transparent);
-}
-.card:active{transform:scale(.98);border-color:var(--border2)}
-.card:hover{border-color:var(--border2)}
-
-.card-elevated{
-background:linear-gradient(165deg,var(--bg3),var(--bg2));
-border-color:var(--border2);
-box-shadow:0 8px 32px rgba(0,0,0,.4),0 0 0 1px rgba(255,255,255,.03) inset;
+.card:hover{box-shadow:var(--shadow-md);border-color:var(--border2)}
+.card:active{transform:scale(0.985)}
+.card-flat{
+  background:var(--bg2);
+  border-radius:var(--radius);
+  padding:16px;
 }
 
-/* === GLASS CARD === */
-.glass{
-background:rgba(255,255,255,.03);
-backdrop-filter:blur(40px) saturate(1.2);
--webkit-backdrop-filter:blur(40px) saturate(1.2);
-border:1px solid rgba(255,255,255,.06);
-}
-
-/* === BUTTONS === */
+/* ===== BUTTONS ===== */
 .btn{
-width:100%;padding:16px;border:none;border-radius:12px;
-font-family:'Inter',sans-serif;font-size:14px;font-weight:700;
-letter-spacing:.5px;text-transform:uppercase;
-cursor:pointer;position:relative;overflow:hidden;
-transition:all .2s cubic-bezier(.4,0,.2,1);
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  padding:14px 24px;border-radius:var(--radius);
+  font-size:15px;font-weight:600;
+  border:none;cursor:pointer;
+  transition:all .15s ease;
+  -webkit-user-select:none;user-select:none;
+  position:relative;overflow:hidden;
 }
+.btn:active{transform:scale(0.97)}
 .btn-primary{
-background:var(--t1);color:var(--bg);
-box-shadow:0 4px 24px rgba(255,255,255,.1);
+  background:var(--black);color:var(--white);
+  box-shadow:0 2px 8px rgba(0,0,0,0.15);
 }
-.btn-primary:active{transform:scale(.97);box-shadow:0 2px 12px rgba(255,255,255,.05)}
-.btn-primary::after{
-content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;
-background:linear-gradient(90deg,transparent,rgba(255,255,255,.2),transparent);
-transition:left .5s;
+.btn-primary:hover{background:var(--accent-soft);box-shadow:var(--shadow-md)}
+.btn-secondary{
+  background:var(--bg2);color:var(--text);
+  border:1px solid var(--border);
 }
-.btn-primary:hover::after{left:100%}
+.btn-secondary:hover{background:var(--bg3);border-color:var(--border2)}
+.btn-danger{background:var(--red);color:var(--white)}
+.btn-success{background:var(--green);color:var(--white)}
+.btn-sm{padding:10px 16px;font-size:13px;border-radius:10px}
+.btn-block{width:100%}
 
-.btn-outline{
-background:transparent;color:var(--t1);
-border:1px solid var(--border2);
-}
-.btn-outline:active{background:var(--bg3);transform:scale(.97)}
-
-.btn-ghost{
-background:var(--bg3);color:var(--t2);
-border:1px solid var(--border);
-}
-
-.btn-sm{padding:10px 16px;font-size:12px;border-radius:8px;width:auto}
-
-/* === BADGE === */
-.badge{
-display:inline-flex;align-items:center;gap:6px;
-padding:4px 10px;border-radius:6px;
-font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;
-border:1px solid var(--border2);background:var(--bg3);color:var(--t2);
-}
-.badge-live{border-color:var(--t1);color:var(--t1)}
-.badge-live .dot{width:6px;height:6px;border-radius:50%;background:var(--t1);animation:pulse 1.5s infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
-
-/* === INPUT === */
+/* ===== INPUT ===== */
 .input-group{margin-bottom:16px}
-.input-label{display:block;margin-bottom:6px;font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--t3)}
-.input{
-width:100%;padding:14px 16px;
-background:var(--bg2);border:1px solid var(--border);border-radius:10px;
-color:var(--t1);font-family:'Inter',sans-serif;font-size:14px;
-transition:border-color .2s;outline:none;
+.input-group label{display:block;font-size:13px;font-weight:600;color:var(--text2);margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px}
+.input,.textarea,.select{
+  width:100%;padding:14px 16px;
+  background:var(--bg2);border:1.5px solid var(--border);
+  border-radius:12px;font-size:15px;font-family:inherit;
+  color:var(--text);transition:all .2s;outline:none;
 }
-.input:focus{border-color:var(--t3)}
-.input::placeholder{color:var(--t4)}
-textarea.input{resize:vertical;min-height:80px}
-select.input{appearance:none;cursor:pointer}
-
-/* === ICON CONTAINERS === */
-.icon-box{
-width:44px;height:44px;display:flex;align-items:center;justify-content:center;
-border-radius:12px;border:1px solid var(--border2);background:var(--bg3);
-flex-shrink:0;
+.input:focus,.textarea:focus,.select:focus{
+  border-color:var(--black);background:var(--white);
+  box-shadow:0 0 0 3px rgba(0,0,0,0.06);
 }
-.icon-box svg{width:20px;height:20px;stroke:var(--t2);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
-.icon-box-lg{width:56px;height:56px;border-radius:14px}
-.icon-box-lg svg{width:26px;height:26px}
+.textarea{resize:vertical;min-height:80px}
+.select{-webkit-appearance:none;appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%23999' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 14px center;padding-right:36px;
+}
 
-/* === TAB BAR === */
+/* ===== BADGES ===== */
+.badge{
+  display:inline-flex;align-items:center;gap:4px;
+  padding:4px 10px;border-radius:var(--radius-full);
+  font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;
+}
+.badge-active{background:#ECFDF5;color:#059669;border:1px solid #A7F3D0}
+.badge-ended{background:#FEF2F2;color:#DC2626;border:1px solid #FECACA}
+.badge-pending{background:#FFF7ED;color:#D97706;border:1px solid #FED7AA}
+
+/* ===== AVATAR ===== */
+.avatar{
+  width:44px;height:44px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-weight:700;font-size:16px;color:var(--white);
+  flex-shrink:0;overflow:hidden;
+  border:2px solid var(--white);
+  box-shadow:var(--shadow-sm);
+}
+.avatar img{width:100%;height:100%;object-fit:cover}
+.avatar-sm{width:36px;height:36px;font-size:13px}
+.avatar-lg{width:56px;height:56px;font-size:22px}
+
+/* ===== PARTICIPANT ROW ===== */
+.participant-row{
+  display:flex;align-items:center;gap:12px;
+  padding:12px 16px;
+  border-radius:var(--radius);
+  transition:all .15s ease;
+  cursor:pointer;
+  border:1px solid transparent;
+}
+.participant-row:hover{background:var(--bg2);border-color:var(--border)}
+.participant-row:active{background:var(--bg3);transform:scale(0.99)}
+.participant-row .rank{
+  width:28px;text-align:center;
+  font-family:'JetBrains Mono',monospace;
+  font-weight:700;font-size:14px;color:var(--text3);
+}
+.participant-row.top-1 .rank{color:var(--gold)}
+.participant-row.top-2 .rank{color:var(--silver)}
+.participant-row.top-3 .rank{color:var(--bronze)}
+.participant-row .info{flex:1;min-width:0}
+.participant-row .name{font-weight:600;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.participant-row .username{font-size:12px;color:var(--text3)}
+.participant-row .points{
+  font-family:'JetBrains Mono',monospace;
+  font-weight:700;font-size:15px;
+  background:var(--bg2);padding:6px 12px;border-radius:8px;
+}
+.participant-row.top-1 .points{background:#FEF9C3;color:var(--gold)}
+.participant-row.top-2 .points{background:#F3F4F6;color:var(--silver)}
+.participant-row.top-3 .points{background:#FFF7ED;color:var(--bronze)}
+
+/* ===== TAB BAR ===== */
 .tab-bar{
-position:fixed;bottom:0;left:0;right:0;
-display:flex;align-items:flex-end;justify-content:space-around;
-padding:8px 8px calc(env(safe-area-inset-bottom,8px) + 8px);
-background:rgba(0,0,0,.85);
-backdrop-filter:blur(40px) saturate(1.5);
--webkit-backdrop-filter:blur(40px) saturate(1.5);
-border-top:1px solid var(--border);
-z-index:100;
+  position:fixed;bottom:0;left:0;right:0;
+  background:rgba(255,255,255,0.92);
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border-top:1px solid var(--border);
+  display:flex;align-items:flex-end;justify-content:space-around;
+  padding:6px 8px 0;height:80px;z-index:100;
+  padding-bottom:env(safe-area-inset-bottom,8px);
 }
-.tab{
-display:flex;flex-direction:column;align-items:center;gap:4px;
-padding:8px 12px;border-radius:10px;
-cursor:pointer;transition:all .2s;
-border:none;background:none;
+.tab-item{
+  display:flex;flex-direction:column;align-items:center;gap:3px;
+  padding:6px 0;cursor:pointer;
+  transition:all .15s;flex:1;
+  -webkit-user-select:none;user-select:none;
 }
-.tab svg{width:20px;height:20px;stroke:var(--t4);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;transition:all .2s}
-.tab span{font-size:9px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--t4);transition:all .2s}
-.tab.active svg{stroke:var(--t1)}
-.tab.active span{color:var(--t1)}
-.tab.active{position:relative}
-.tab.active::before{
-content:'';position:absolute;top:-9px;left:50%;transform:translateX(-50%);
-width:20px;height:2px;background:var(--t1);border-radius:1px;
-}
-
+.tab-item svg{width:22px;height:22px;stroke:var(--text3);stroke-width:1.8;fill:none;transition:all .15s}
+.tab-item span{font-size:10px;font-weight:500;color:var(--text3);transition:all .15s}
+.tab-item.active svg{stroke:var(--black);stroke-width:2.2}
+.tab-item.active span{color:var(--black);font-weight:700}
 .tab-create{
-margin-top:-20px;
-width:52px;height:52px;
-border-radius:14px;
-background:var(--t1);
-display:flex;align-items:center;justify-content:center;
-box-shadow:0 4px 20px rgba(255,255,255,.15);
-border:none;cursor:pointer;
-transition:all .2s;
+  position:relative;margin-top:-20px;
 }
-.tab-create:active{transform:scale(.9)}
-.tab-create svg{stroke:var(--bg)!important;width:24px;height:24px}
+.tab-create .create-btn{
+  width:52px;height:52px;
+  background:var(--black);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 4px 16px rgba(0,0,0,0.2);
+  transition:all .15s;
+}
+.tab-create .create-btn svg{stroke:var(--white);width:24px;height:24px;stroke-width:2.5}
+.tab-create .create-btn:active{transform:scale(0.92)}
+.tab-create span{margin-top:4px}
 
-/* === HERO === */
+/* ===== HERO ===== */
 .hero{
-padding:40px 24px;
-border-radius:20px;
-border:1px solid var(--border);
-background:var(--bg2);
-position:relative;overflow:hidden;
-margin-bottom:24px;
+  background:var(--bg2);
+  border-radius:var(--radius-lg);
+  padding:32px 24px;
+  text-align:center;
+  margin-bottom:24px;
+  position:relative;
+  overflow:hidden;
 }
 .hero::before{
-content:'';position:absolute;top:-50%;right:-30%;
-width:300px;height:300px;
-background:radial-gradient(circle,rgba(255,255,255,.03),transparent 70%);
-pointer-events:none;
-}
-.hero::after{
-content:'';position:absolute;bottom:0;left:0;right:0;height:1px;
-background:linear-gradient(90deg,transparent,rgba(255,255,255,.06),transparent);
+  content:'';position:absolute;top:-50%;right:-30%;
+  width:200px;height:200px;
+  background:radial-gradient(circle,rgba(0,0,0,0.03) 0%,transparent 70%);
+  border-radius:50%;
 }
 .hero-icon{
-width:72px;height:72px;
-border:2px solid var(--border2);
-border-radius:20px;
-display:flex;align-items:center;justify-content:center;
-margin-bottom:20px;
-background:linear-gradient(135deg,var(--bg3),var(--bg));
-animation:float 6s ease-in-out infinite;
+  width:64px;height:64px;
+  background:var(--black);border-radius:18px;
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 16px;
+  box-shadow:0 4px 16px rgba(0,0,0,0.15);
+  animation:float 3s ease-in-out infinite;
 }
-.hero-icon svg{width:32px;height:32px;stroke:var(--t1);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
-@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.hero-icon svg{width:32px;height:32px;stroke:var(--white);stroke-width:1.8;fill:none}
+.hero-stat{
+  display:inline-flex;align-items:center;gap:6px;
+  background:var(--white);border:1px solid var(--border);
+  padding:6px 14px;border-radius:var(--radius-full);
+  font-size:13px;font-weight:500;margin-top:12px;
+}
+.hero-stat .dot{width:6px;height:6px;background:var(--green);border-radius:50%;animation:pulse 2s ease infinite}
 
-/* === STAT BLOCKS === */
-.stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin:20px 0}
-.stat{
-text-align:center;padding:16px 8px;
-border-radius:12px;border:1px solid var(--border);
-background:var(--bg2);
-}
-.stat-value{font-family:'Space Mono',monospace;font-size:28px;font-weight:700;color:var(--t1);line-height:1}
-.stat-label{font-size:9px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--t3);margin-top:6px}
+/* ===== PROGRESS BAR ===== */
+.progress{height:6px;background:var(--bg3);border-radius:3px;overflow:hidden;margin-top:8px}
+.progress-bar{height:100%;background:var(--black);border-radius:3px;animation:barGrow .8s ease both}
 
-/* === LIST ITEMS === */
-.list-item{
-display:flex;align-items:center;gap:14px;
-padding:16px;
-border-radius:14px;
-border:1px solid var(--border);
-background:var(--bg2);
-margin-bottom:8px;
-transition:all .2s;
-cursor:pointer;
+/* ===== CONTEST CARD ===== */
+.contest-card{
+  border:1px solid var(--border);
+  border-radius:var(--radius-lg);
+  padding:20px;
+  margin-bottom:12px;
+  background:var(--white);
+  cursor:pointer;
+  transition:all .2s;
 }
-.list-item:active{transform:scale(.98);border-color:var(--border2)}
-.list-item-content{flex:1;min-width:0}
-.list-item-right{text-align:right;flex-shrink:0}
-
-/* === PROGRESS BAR === */
-.progress{
-width:100%;height:4px;background:var(--bg4);border-radius:2px;overflow:hidden;margin:8px 0;
+.contest-card:hover{box-shadow:var(--shadow-md);transform:translateY(-1px)}
+.contest-card:active{transform:scale(0.985);box-shadow:var(--shadow)}
+.contest-card-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px}
+.contest-card-title{font-size:17px;font-weight:700;line-height:1.3;flex:1;margin-right:8px}
+.contest-card-meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
+.contest-card-meta span{
+  display:inline-flex;align-items:center;gap:4px;
+  font-size:12px;color:var(--text3);
 }
-.progress-bar{
-height:100%;background:var(--t1);border-radius:2px;
-position:relative;transition:width .6s cubic-bezier(.4,0,.2,1);
-}
-.progress-bar::after{
-content:'';position:absolute;right:0;top:-1px;width:6px;height:6px;
-border-radius:50%;background:var(--t1);
-box-shadow:0 0 8px rgba(255,255,255,.5);
+.contest-card-meta svg{width:14px;height:14px;stroke-width:2}
+.contest-card-channel{
+  display:inline-flex;align-items:center;gap:4px;
+  font-size:13px;font-weight:500;color:var(--text2);
+  background:var(--bg2);padding:4px 10px;border-radius:8px;
+  margin-top:8px;
 }
 
-/* === LEADERBOARD === */
-.lb-row{
-display:flex;align-items:center;gap:12px;
-padding:14px 16px;
-border-radius:12px;
-border:1px solid var(--border);
-background:var(--bg2);
-margin-bottom:6px;
-transition:all .2s;
+/* ===== SECTION ===== */
+.section-header{
+  display:flex;justify-content:space-between;align-items:center;
+  margin-bottom:16px;
 }
-.lb-row.top1{border-color:var(--border3);background:linear-gradient(135deg,var(--bg3),var(--bg2))}
-.lb-row.top1 .lb-rank{color:var(--t1);font-weight:900}
-.lb-row.me{border-color:var(--t3);background:var(--bg3)}
-.lb-rank{
-width:28px;font-family:'Space Mono',monospace;font-size:14px;font-weight:700;color:var(--t3);text-align:center;
-}
-.lb-name{flex:1;font-size:14px;font-weight:600;color:var(--t1)}
-.lb-pts{font-family:'Space Mono',monospace;font-size:14px;font-weight:700;color:var(--t2)}
+.section-title{font-size:20px;font-weight:800;letter-spacing:-.3px}
+.section-link{font-size:13px;font-weight:600;color:var(--text3);cursor:pointer}
 
-/* === DIVIDER === */
-.divider{
-height:1px;
-background:linear-gradient(90deg,transparent,var(--border2),transparent);
-margin:24px 0;
-}
-
-/* === SPACER === */
-.sp-4{height:4px}.sp-8{height:8px}.sp-12{height:12px}.sp-16{height:16px}.sp-20{height:20px}.sp-24{height:24px}.sp-32{height:32px}
-
-/* === ROW === */
-.row{display:flex;align-items:center;gap:12px}
-.row-between{display:flex;align-items:center;justify-content:space-between}
-.gap-8{gap:8px}.gap-16{gap:16px}
-
-/* === ANIMATIONS === */
-.fade-in{animation:fadeIn .5s ease both}
-.fade-up{animation:fadeUp .5s ease both}
-.d1{animation-delay:.05s}.d2{animation-delay:.1s}.d3{animation-delay:.15s}.d4{animation-delay:.2s}
-.d5{animation-delay:.25s}.d6{animation-delay:.3s}.d7{animation-delay:.35s}.d8{animation-delay:.4s}
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
-@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-
-/* === TOGGLE === */
-.toggle{
-position:relative;width:44px;height:24px;border-radius:12px;
-background:var(--bg4);border:1px solid var(--border2);
-cursor:pointer;transition:all .3s;flex-shrink:0;
-}
-.toggle.on{background:var(--t1);border-color:var(--t1)}
-.toggle::after{
-content:'';position:absolute;top:2px;left:2px;
-width:18px;height:18px;border-radius:9px;
-background:var(--t3);transition:all .3s;
-}
-.toggle.on::after{left:22px;background:var(--bg)}
-
-/* === TOAST === */
+/* ===== TOAST ===== */
 .toast{
-position:fixed;top:20px;left:50%;transform:translateX(-50%) translateY(-100px);
-padding:14px 24px;border-radius:12px;
-background:var(--t1);color:var(--bg);
-font-size:13px;font-weight:600;
-z-index:10000;
-transition:transform .4s cubic-bezier(.4,0,.2,1);
-box-shadow:0 8px 32px rgba(0,0,0,.5);
+  position:fixed;top:20px;left:50%;transform:translateX(-50%) translateY(-100px);
+  background:var(--black);color:var(--white);
+  padding:14px 24px;border-radius:var(--radius);
+  font-size:14px;font-weight:500;
+  box-shadow:var(--shadow-lg);
+  z-index:9999;
+  transition:transform .4s cubic-bezier(.175,.885,.32,1.275);
+  max-width:90vw;text-align:center;
 }
 .toast.show{transform:translateX(-50%) translateY(0)}
 
-/* === CONTEST CARD SPECIAL === */
-.contest-card{position:relative;overflow:hidden}
-.contest-card .cc-line{
-position:absolute;top:0;left:20px;bottom:0;width:1px;
-background:linear-gradient(180deg,var(--border2),transparent);
+/* ===== MODAL ===== */
+.modal-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,0.4);
+  z-index:200;display:flex;align-items:flex-end;justify-content:center;
+  animation:fadeIn .2s ease;
 }
-.contest-card .cc-dot{
-position:absolute;top:20px;left:17px;width:7px;height:7px;
-border-radius:50%;border:1.5px solid var(--t3);background:var(--bg2);
+.modal{
+  background:var(--white);
+  border-radius:var(--radius-lg) var(--radius-lg) 0 0;
+  padding:24px 20px 40px;
+  width:100%;max-width:480px;max-height:85vh;overflow-y:auto;
+  animation:slideUp .3s ease;
 }
-.contest-card.live .cc-dot{border-color:var(--t1);background:var(--t1);box-shadow:0 0 8px rgba(255,255,255,.3)}
-.contest-card .cc-body{padding-left:20px}
-
-/* === COUNTER ANIMATION === */
-.count-num{
-font-family:'Space Mono',monospace;
-font-size:42px;
-font-weight:700;
-line-height:1;
-color:var(--t1);
+.modal-handle{
+  width:36px;height:4px;background:var(--bg3);
+  border-radius:2px;margin:0 auto 20px;
 }
 
-/* === HEADER BAR === */
-.header{
-display:flex;align-items:center;gap:12px;
-padding:4px 0 20px;
+/* ===== DETAIL STATS ===== */
+.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.stat-box{
+  background:var(--bg2);border-radius:var(--radius);
+  padding:16px;text-align:center;
 }
-.back-btn{
-width:36px;height:36px;display:flex;align-items:center;justify-content:center;
-border-radius:10px;border:1px solid var(--border);background:var(--bg2);
-cursor:pointer;transition:all .2s;
+.stat-box .value{font-family:'JetBrains Mono',monospace;font-size:28px;font-weight:800}
+.stat-box .label{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-top:4px}
+
+/* ===== SWITCH ===== */
+.switch{
+  position:relative;width:48px;height:28px;
+  background:var(--bg3);border-radius:14px;
+  cursor:pointer;transition:all .2s;flex-shrink:0;
 }
-.back-btn:active{transform:scale(.9)}
-.back-btn svg{width:18px;height:18px;stroke:var(--t2);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
-
-/* === SCROLLBAR HIDE === */
-.no-scroll::-webkit-scrollbar{display:none}
-
-/* === PRIZE TAG === */
-.prize-tag{
-display:inline-flex;align-items:center;gap:6px;
-padding:8px 14px;border-radius:8px;
-border:1px solid var(--border2);background:var(--bg3);
-font-size:13px;font-weight:500;color:var(--t2);
+.switch.on{background:var(--black)}
+.switch::after{
+  content:'';position:absolute;top:3px;left:3px;
+  width:22px;height:22px;background:var(--white);
+  border-radius:50%;transition:all .2s;
+  box-shadow:0 1px 3px rgba(0,0,0,0.15);
 }
+.switch.on::after{left:23px}
 
-/* === SKELETON === */
+/* ===== DIVIDER ===== */
+.divider{height:1px;background:var(--border);margin:16px 0}
+
+/* ===== LOADING SKELETON ===== */
 .skeleton{
-background:linear-gradient(90deg,var(--bg3) 25%,var(--bg4) 50%,var(--bg3) 75%);
-background-size:200% 100%;
-animation:shimmer 1.5s infinite;
-border-radius:8px;
+  background:linear-gradient(90deg,var(--bg2) 25%,var(--bg3) 50%,var(--bg2) 75%);
+  background-size:200% 100%;animation:shimmer 1.5s infinite;
+  border-radius:8px;
 }
-@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
 
-/* === SECTION HEADER === */
-.section-head{
-display:flex;align-items:center;justify-content:space-between;
-margin-bottom:16px;
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar{width:0;height:0}
+
+/* ===== PRIZE TAG ===== */
+.prize-tag{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:8px 14px;background:var(--bg2);
+  border:1px solid var(--border);border-radius:10px;
+  font-size:14px;font-weight:500;
 }
-.section-head .label{margin:0}
-.section-head .see-all{font-size:11px;font-weight:600;color:var(--t3);cursor:pointer;letter-spacing:.5px}
+.prize-place{
+  width:22px;height:22px;border-radius:6px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:700;color:var(--white);
+}
+.place-1{background:var(--gold)}.place-2{background:var(--silver)}.place-3{background:var(--bronze)}
+
+/* ===== EMPTY STATE ===== */
+.empty-state{
+  text-align:center;padding:48px 24px;
+}
+.empty-icon{
+  width:72px;height:72px;background:var(--bg2);border-radius:20px;
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 16px;
+}
+.empty-icon svg{width:36px;height:36px;stroke:var(--text3);stroke-width:1.5;fill:none}
+
+/* ===== BACK BUTTON ===== */
+.back-btn{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:15px;font-weight:500;color:var(--text2);
+  cursor:pointer;padding:8px 0;margin-bottom:8px;
+  transition:color .15s;
+}
+.back-btn:hover{color:var(--text)}
+.back-btn svg{width:20px;height:20px;stroke-width:2}
+
 </style>
 </head>
 <body>
-<div id="root"></div>
-
-<script type="module">
-/* ═══════════════════════════════════════════════
-   КОНФИГУРАЦИЯ
-   ═══════════════════════════════════════════════ */
+<div id="app"></div>
+<script>
+// ===== КОНФИГУРАЦИЯ =====
 const CONFIG = {
-  MAIN_ADMIN_TG_ID: 1262669099,
-  // Firebase — заменить на свои данные
+  BOT_TOKEN: '8031008647:AAFWbpZ-OQeIUwPbWOmBxCzeYVA_yh_AjC8',
+  MAIN_ADMIN_ID: 1262669099,
   FIREBASE: {
     apiKey: "YOUR_API_KEY",
     authDomain: "YOUR_PROJECT.firebaseapp.com",
     projectId: "YOUR_PROJECT",
     storageBucket: "YOUR_PROJECT.appspot.com",
-    messagingSenderId: "000000",
+    messagingSenderId: "000000000",
     appId: "YOUR_APP_ID"
   }
 };
 
-/* ═══════════════════════════════════════════════
-   SVG ИКОНКИ (вместо эмодзи)
-   ═══════════════════════════════════════════════ */
-const IC = {
-  trophy: `<svg viewBox="0 0 24 24"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>`,
-  home: `<svg viewBox="0 0 24 24"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>`,
-  star: `<svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`,
-  plus: `<svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>`,
-  settings: `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72 1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>`,
-  user: `<svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`,
-  users: `<svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>`,
-  clock: `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`,
-  arrow: `<svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>`,
-  back: `<svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>`,
-  check: `<svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>`,
-  award: `<svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>`,
-  zap: `<svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>`,
-  gift: `<svg viewBox="0 0 24 24"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>`,
-  hash: `<svg viewBox="0 0 24 24"><line x1="4" y1="9" x2="20" y2="9"/><line x1="4" y1="15" x2="20" y2="15"/><line x1="10" y1="3" x2="8" y2="21"/><line x1="16" y1="3" x2="14" y2="21"/></svg>`,
-  list: `<svg viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>`,
-  edit: `<svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>`,
-  target: `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>`,
-  shuffle: `<svg viewBox="0 0 24 24"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/><line x1="4" y1="4" x2="9" y2="9"/></svg>`,
-  bar: `<svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>`,
-  log: `<svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>`,
-  x: `<svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`,
-  link: `<svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>`,
-  eye: `<svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>`,
-  send: `<svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>`,
+// ===== SVG ICONS =====
+const ICONS = {
+  trophy: `<svg viewBox="0 0 24 24" fill="none"><path d="M8 21h8m-4-4v4m-4.5-8.25c-2.032-.77-3.5-2.592-3.5-5.75h3m9 5.75c2.032-.77 3.5-2.592 3.5-5.75h-3M7 4h10v7a5 5 0 01-10 0V4z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  star: `<svg viewBox="0 0 24 24" fill="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  plus: `<svg viewBox="0 0 24 24" fill="none"><path d="M12 5v14m-7-7h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>`,
+  home: `<svg viewBox="0 0 24 24" fill="none"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  settings: `<svg viewBox="0 0 24 24" fill="none"><path d="M12 15a3 3 0 100-6 3 3 0 000 6z" stroke="currentColor" stroke-width="1.8"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 01-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z" stroke="currentColor" stroke-width="1.8"/></svg>`,
+  users: `<svg viewBox="0 0 24 24" fill="none"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M9 11a4 4 0 100-8 4 4 0 000 8zm13 10v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  clock: `<svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.8"/><path d="M12 6v6l4 2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>`,
+  gift: `<svg viewBox="0 0 24 24" fill="none"><rect x="3" y="8" width="18" height="4" rx="1" stroke="currentColor" stroke-width="1.8"/><path d="M12 8v13M3 12h18v7a2 2 0 01-2 2H5a2 2 0 01-2-2v-7z" stroke="currentColor" stroke-width="1.8"/><path d="M7.5 8C6 6.5 6 4 7.5 4S12 5.5 12 8M16.5 8C18 6.5 18 4 16.5 4S12 5.5 12 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>`,
+  chevLeft: `<svg viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  chevRight: `<svg viewBox="0 0 24 24" fill="none"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  send: `<svg viewBox="0 0 24 24" fill="none"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  check: `<svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  hash: `<svg viewBox="0 0 24 24" fill="none"><path d="M4 9h16M4 15h16M10 3l-2 18M16 3l-2 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>`,
+  zap: `<svg viewBox="0 0 24 24" fill="none"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  award: `<svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="6" stroke="currentColor" stroke-width="1.8"/><path d="M8.21 13.89L7 23l5-3 5 3-1.21-9.12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  search: `<svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="1.8"/><path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>`,
+  exLink: `<svg viewBox="0 0 24 24" fill="none"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6m4-3h6v6m-11 5L21 3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  list: `<svg viewBox="0 0 24 24" fill="none"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>`,
+  edit: `<svg viewBox="0 0 24 24" fill="none"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7" stroke="currentColor" stroke-width="1.8"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z" stroke="currentColor" stroke-width="1.8"/></svg>`,
+  logOut: `<svg viewBox="0 0 24 24" fill="none"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4m7 14l5-5-5-5m5 5H9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
 };
 
-function icon(name, cls='') {
-  return `<div class="icon-box ${cls}">${IC[name]||''}</div>`;
-}
-function iconRaw(name) { return IC[name] || ''; }
+// ===== УТИЛИТЫ =====
+function icon(name,w=20,h=20){return `<span style="display:inline-flex;width:${w}px;height:${h}px">${ICONS[name]||''}</span>`}
+function $(sel,ctx=document){return ctx.querySelector(sel)}
+function $$(sel,ctx=document){return [...ctx.querySelectorAll(sel)]}
+function el(tag,cls='',html=''){const e=document.createElement(tag);if(cls)e.className=cls;if(html)e.innerHTML=html;return e}
 
-/* ═══════════════════════════════════════════════
-   TELEGRAM WEB APP
-   ═══════════════════════════════════════════════ */
+// ===== AVATAR COLORS =====
+const AVATAR_COLORS=['#FF6B6B','#4ECDC4','#45B7D1','#96CEB4','#FFEAA7','#DDA0DD','#98D8C8','#F7DC6F','#BB8FCE','#85C1E9','#F8C471','#82E0AA'];
+function getAvatarColor(id){return AVATAR_COLORS[Math.abs(id||0)%AVATAR_COLORS.length]}
+function getInitials(first,last){return ((first||'?')[0]+(last||'')[0]).toUpperCase().trim()||'?'}
+
+// ===== TELEGRAM WEB APP =====
 const tg = window.Telegram?.WebApp;
-if (tg) { tg.ready(); tg.expand(); tg.setHeaderColor('#000000'); tg.setBackgroundColor('#000000'); }
-const tgUser = tg?.initDataUnsafe?.user;
-const userId = tgUser?.id || CONFIG.MAIN_ADMIN_TG_ID;
-const userName = tgUser?.first_name || 'User';
-const isAdmin = userId === CONFIG.MAIN_ADMIN_TG_ID;
+if(tg){tg.ready();tg.expand();tg.setHeaderColor('#FFFFFF');tg.setBackgroundColor('#FFFFFF')}
+const tgUser = tg?.initDataUnsafe?.user || {id:CONFIG.MAIN_ADMIN_ID,first_name:'Demo',last_name:'User',username:'demo'};
+const isAdmin = tgUser.id === CONFIG.MAIN_ADMIN_ID;
 
-/* ═══════════════════════════════════════════════
-   STATE
-   ═══════════════════════════════════════════════ */
+// ===== СОСТОЯНИЕ =====
 let state = {
   screen: 'home',
-  prev: null,
+  contests: [],
   selectedContest: null,
   toast: null,
-  toastTimer: null,
 };
 
-/* ═══════════════════════════════════════════════
-   DEMO DATA
-   ═══════════════════════════════════════════════ */
+// ===== ДЕМО ДАННЫЕ =====
 const DEMO_CONTESTS = [
   {
-    id: 1, name: 'CRYPTO AIRDROP', channel: '@cryptoalpha',
-    description: 'Розыгрыш 10 000 USDT среди подписчиков канала.',
-    conditions: 'Подписка на канал, репост закреплённого поста',
-    end: '2026-04-15T20:00:00', winners_count: 3,
-    outcome_type: 1, threshold: 0, button_text: 'Участвовать',
-    initial_points: 10, status: 'active', scoring_enabled: true,
-    prizes: ['5 000 USDT', '3 000 USDT', '2 000 USDT'],
-    participants: [
-      {name:'phantom', points:2840, tg_id:1},
-      {name:'darkwave', points:2210, tg_id:2},
-      {name:'neonx', points:1890, tg_id:3},
-      {name:'cipher', points:1540, tg_id:4},
-      {name:'ghost', points:1320, tg_id:5},
-      {name:'void', points:980, tg_id:6},
-      {name:'zero', points:750, tg_id:7},
-      {name: userName.toLowerCase(), points:1100, tg_id: userId},
-    ],
-    scoring_config: {reactions:{enabled:true,coeff:2,daily_limit:50},invites:{enabled:true,points:100},ads:{enabled:false,points:0,url:''}}
+    id:1,name:'Розыгрыш iPhone 16 Pro Max',description:'Участвуйте в нашем розыгрыше! Подпишитесь на канал и получите шанс выиграть новейший iPhone 16 Pro Max.',
+    conditions:'Подписка на канал, активность в чате',channel_username:'@techreviews',
+    end_datetime_msk:'2026-04-15T20:00:00',button_text:'Участвовать',initial_points:10,
+    winners_count:1,outcome_type:1,status:'active',scoring_enabled:true,
+    prizes:['iPhone 16 Pro Max 256GB','AirPods Pro 3','Чехол Apple'],
+    creator_tg_id:CONFIG.MAIN_ADMIN_ID,
+    participants:[
+      {user_tg_id:1001,first_name:'Александр',last_name:'К.',username:'alex_k',points:847,photo_url:null},
+      {user_tg_id:1002,first_name:'Мария',last_name:'С.',username:'maria_sv',points:723,photo_url:null},
+      {user_tg_id:1003,first_name:'Дмитрий',last_name:'В.',username:'dima_v',points:691,photo_url:null},
+      {user_tg_id:1004,first_name:'Елена',last_name:'П.',username:'elena_p',points:534,photo_url:null},
+      {user_tg_id:1005,first_name:'Артём',last_name:'Н.',username:'artem_n',points:412,photo_url:null},
+      {user_tg_id:1006,first_name:'Ольга',last_name:'М.',username:'olga_m',points:389,photo_url:null},
+      {user_tg_id:1007,first_name:'Иван',last_name:'Л.',username:'ivan_l',points:256,photo_url:null},
+      {user_tg_id:tgUser.id,first_name:tgUser.first_name,last_name:tgUser.last_name||'',username:tgUser.username,points:534,photo_url:null},
+    ]
   },
   {
-    id: 2, name: 'NFT COLLECTION DROP', channel: '@nftdaily',
-    description: 'Эксклюзивная NFT коллекция для победителей.',
-    conditions: 'Минимум 500 баллов для участия в розыгрыше',
-    end: '2026-05-01T18:00:00', winners_count: 5,
-    outcome_type: 2, threshold: 500, button_text: 'Вступить',
-    initial_points: 5, status: 'active', scoring_enabled: true,
-    prizes: ['Rare NFT #001', 'Rare NFT #002', 'Rare NFT #003', 'Common NFT', 'Common NFT'],
-    participants: [
-      {name:'matrix', points:1920, tg_id:11},
-      {name:'nexus', points:1650, tg_id:12},
-      {name:'pulse', points:1200, tg_id:13},
-      {name: userName.toLowerCase(), points:680, tg_id: userId},
-    ],
-    scoring_config: {reactions:{enabled:true,coeff:3,daily_limit:30},invites:{enabled:true,points:150},ads:{enabled:true,points:25,url:'https://example.com'}}
+    id:2,name:'500 000₽ на лучший контент',description:'Конкурс для креаторов! Создайте лучший пост и получите денежный приз. Оценивается оригинальность и вовлечённость.',
+    conditions:'Опубликовать пост с хештегом #contest2026',channel_username:'@creators_hub',
+    end_datetime_msk:'2026-05-01T18:00:00',button_text:'Принять участие',initial_points:0,
+    winners_count:3,outcome_type:1,status:'active',scoring_enabled:true,
+    prizes:['300 000₽','150 000₽','50 000₽'],
+    creator_tg_id:CONFIG.MAIN_ADMIN_ID,
+    participants:[
+      {user_tg_id:2001,first_name:'Кирилл',last_name:'Б.',username:'kirill_b',points:1203,photo_url:null},
+      {user_tg_id:2002,first_name:'Анна',last_name:'Р.',username:'anna_r',points:998,photo_url:null},
+      {user_tg_id:2003,first_name:'Никита',last_name:'Г.',username:'nikita_g',points:876,photo_url:null},
+      {user_tg_id:2004,first_name:'Софья',last_name:'Д.',username:'sofya_d',points:654,photo_url:null},
+    ]
   },
   {
-    id: 3, name: 'PREMIUM ПОДПИСКА', channel: '@techflow',
-    description: 'Годовая подписка Telegram Premium.',
-    conditions: 'Быть подписчиком канала',
-    end: '2026-03-30T12:00:00', winners_count: 1,
-    outcome_type: 3, threshold: 0, button_text: 'Участвовать',
-    initial_points: 0, status: 'active', scoring_enabled: false,
-    prizes: ['Telegram Premium — 12 месяцев'],
-    participants: [
-      {name:'spectre', points:450, tg_id:21},
-      {name:'nova', points:320, tg_id:22},
-    ],
-    scoring_config: {reactions:{enabled:false,coeff:1,daily_limit:10},invites:{enabled:false,points:50},ads:{enabled:false,points:10,url:''}}
-  },
+    id:3,name:'Подарочные карты Steam',description:'Рандомный розыгрыш карт Steam среди активных подписчиков. Чем больше баллов — тем выше шанс!',
+    conditions:'Быть подписчиком канала',channel_username:'@gaming_world',
+    end_datetime_msk:'2026-03-25T15:00:00',button_text:'Участвовать',initial_points:5,
+    winners_count:5,outcome_type:3,status:'active',scoring_enabled:false,
+    prizes:['Steam 5000₽','Steam 3000₽','Steam 2000₽','Steam 1000₽','Steam 500₽'],
+    creator_tg_id:12345,
+    participants:[
+      {user_tg_id:3001,first_name:'Павел',last_name:'Ш.',username:'pavel_sh',points:445,photo_url:null},
+      {user_tg_id:3002,first_name:'Виктория',last_name:'К.',username:'vika_k',points:332,photo_url:null},
+    ]
+  }
 ];
 
-let contests = [...DEMO_CONTESTS];
-let logs = [
-  {timestamp:'2026-03-10T14:30:00',action:'Конкурс создан',by:'phantom',contest:'CRYPTO AIRDROP',details:'Автоматическое создание'},
-  {timestamp:'2026-03-10T14:35:00',action:'Начисление включено',by:'admin',contest:'CRYPTO AIRDROP',details:'Реакции + приглашения'},
-  {timestamp:'2026-03-10T15:00:00',action:'Участник вступил',by:'darkwave',contest:'CRYPTO AIRDROP',details:'+10 начальных баллов'},
-];
+state.contests = DEMO_CONTESTS;
 
-/* ═══════════════════════════════════════════════
-   UTILITY
-   ═══════════════════════════════════════════════ */
-function timeLeft(end) {
-  const diff = new Date(end) - new Date();
-  if (diff <= 0) return 'Завершён';
-  const d = Math.floor(diff/86400000);
-  const h = Math.floor((diff%86400000)/3600000);
-  const m = Math.floor((diff%3600000)/60000);
-  if (d > 0) return `${d}д ${h}ч`;
-  if (h > 0) return `${h}ч ${m}м`;
-  return `${m}м`;
+// ===== TOAST =====
+function showToast(msg,dur=2500){
+  let t=$('.toast');
+  if(!t){t=el('div','toast');document.body.appendChild(t)}
+  t.textContent=msg;
+  requestAnimationFrame(()=>{t.classList.add('show')});
+  clearTimeout(t._tmr);
+  t._tmr=setTimeout(()=>t.classList.remove('show'),dur);
 }
 
-function fmtDate(d) {
-  return new Date(d).toLocaleDateString('ru-RU',{day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}) + ' МСК';
+// ===== TELEGRAM BOT API =====
+async function sendChannelPost(channel,text){
+  try{
+    const r=await fetch(`https://api.telegram.org/bot${CONFIG.BOT_TOKEN}/sendMessage`,{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({chat_id:channel,text:text,parse_mode:'HTML'})
+    });
+    const d=await r.json();
+    return d.ok;
+  }catch(e){console.error('Ошибка отправки:',e);return false}
 }
 
-function showToast(msg) {
-  state.toast = msg;
-  render();
-  if (state.toastTimer) clearTimeout(state.toastTimer);
-  setTimeout(() => { document.querySelector('.toast')?.classList.add('show'); }, 10);
-  state.toastTimer = setTimeout(() => {
-    document.querySelector('.toast')?.classList.remove('show');
-    setTimeout(() => { state.toast = null; render(); }, 400);
-  }, 2500);
+// ===== FORMAT DATE =====
+function formatDate(d){
+  const dt=new Date(d);
+  const months=['янв','фев','мар','апр','май','июн','июл','авг','сен','окт','ноя','дек'];
+  return `${dt.getDate()} ${months[dt.getMonth()]} ${dt.getFullYear()}, ${String(dt.getHours()).padStart(2,'0')}:${String(dt.getMinutes()).padStart(2,'0')} МСК`;
 }
 
-function go(screen, contest) {
-  state.prev = state.screen;
-  state.screen = screen;
-  if (contest !== undefined) state.selectedContest = contest;
-  render();
-  document.querySelector('.main')?.scrollTo(0,0);
+function timeLeft(d){
+  const diff=new Date(d)-new Date();
+  if(diff<=0) return 'Завершён';
+  const days=Math.floor(diff/86400000);
+  const hrs=Math.floor((diff%86400000)/3600000);
+  if(days>0) return `${days} дн ${hrs} ч`;
+  const mins=Math.floor((diff%3600000)/60000);
+  return `${hrs} ч ${mins} мин`;
 }
 
-function haptic() { tg?.HapticFeedback?.impactOccurred('light'); }
+function outcomeLabel(t){return ['','Лидерборд','Рандом с порогом','Взвешенный рандом'][t]||'—'}
 
-/* ═══════════════════════════════════════════════
-   RENDER ENGINE
-   ═══════════════════════════════════════════════ */
-function render() {
-  const root = document.getElementById('root');
-  let html = `<div class="grid-bg"></div><div class="scanline"></div>`;
+// ===== РЕНДЕР ПРИЛОЖЕНИЯ =====
+function render(){
+  const app=$('#app');
+  app.innerHTML='';
 
-  // Toast
-  if (state.toast) {
-    html += `<div class="toast">${state.toast}</div>`;
-  }
+  const screens={
+    home:renderHome,
+    mypoints:renderMyPoints,
+    create:renderCreate,
+    admin:renderAdmin,
+    detail:renderDetail,
+    scoring:renderScoring,
+    manual:renderManualPoints,
+    logs:renderLogs,
+  };
 
-  // Screen content
-  html += `<div class="main no-scroll">`;
-  switch(state.screen) {
-    case 'home': html += renderHome(); break;
-    case 'points': html += renderPoints(); break;
-    case 'create': html += renderCreate(); break;
-    case 'admin': html += renderAdmin(); break;
-    case 'detail': html += renderDetail(); break;
-    case 'scoring': html += renderScoring(); break;
-    case 'manual': html += renderManual(); break;
-    case 'logs': html += renderLogs(); break;
-  }
-  html += `</div>`;
-
-  // Tab bar
-  html += renderTabBar();
-
-  root.innerHTML = html;
-  bindEvents();
+  const content=el('div','container','');
+  content.style.paddingTop='16px';
+  (screens[state.screen]||renderHome)(content);
+  app.appendChild(content);
+  app.appendChild(renderTabBar());
 }
 
-/* ═══════════════════════════════════════════════
-   HOME SCREEN
-   ═══════════════════════════════════════════════ */
-function renderHome() {
-  const active = contests.filter(c => c.status === 'active');
-  let h = '';
-
+// ===== ГЛАВНАЯ =====
+function renderHome(c){
   // Hero
-  h += `<div class="hero fade-up">`;
-  h += `<div class="hero-icon">${iconRaw('trophy')}</div>`;
-  h += `<div class="h1" style="margin-bottom:8px">CONTESTS</div>`;
-  h += `<div class="sub" style="max-width:280px">Участвуй в конкурсах, набирай баллы, выигрывай призы</div>`;
-  h += `<div class="sp-16"></div>`;
-  h += `<div class="row gap-8">`;
-  h += `<div class="badge badge-live"><div class="dot"></div>${active.length} активных</div>`;
-  h += `<div class="badge">${contests.reduce((a,c)=>a+c.participants.length,0)} участников</div>`;
-  h += `</div>`;
-  h += `</div>`;
+  const hero=el('div','hero anim-fu','');
+  hero.innerHTML=`
+    <div class="hero-icon">${ICONS.trophy}</div>
+    <h1>Конкурсы</h1>
+    <p class="text-muted" style="margin-top:8px">Участвуйте, зарабатывайте баллы и побеждайте</p>
+    <div class="hero-stat"><span class="dot"></span> ${state.contests.filter(c=>c.status==='active').length} активных конкурсов</div>
+  `;
+  c.appendChild(hero);
 
-  // Stats
-  h += `<div class="stats fade-up d2">`;
-  h += `<div class="stat"><div class="stat-value">${active.length}</div><div class="stat-label">Активных</div></div>`;
-  const myPts = contests.reduce((a,c) => {
-    const p = c.participants.find(p=>p.tg_id===userId);
-    return a + (p ? p.points : 0);
-  }, 0);
-  h += `<div class="stat"><div class="stat-value">${myPts}</div><div class="stat-label">Мои баллы</div></div>`;
-  const myContests = contests.filter(c=>c.participants.some(p=>p.tg_id===userId)).length;
-  h += `<div class="stat"><div class="stat-value">${myContests}</div><div class="stat-label">Участвую</div></div>`;
-  h += `</div>`;
+  // Section
+  const sh=el('div','section-header anim-fu d2','');
+  sh.innerHTML=`<span class="section-title">Активные</span><span class="section-link">${state.contests.length} всего</span>`;
+  c.appendChild(sh);
 
-  // Active contests
-  h += `<div class="section-head fade-up d3"><div class="label">Активные конкурсы</div></div>`;
-
-  active.forEach((c, i) => {
-    const tl = timeLeft(c.end);
-    h += `<div class="card contest-card ${c.status==='active'?'live':''} fade-up d${4+i}" data-action="detail" data-id="${c.id}">`;
-    h += `<div class="cc-line"></div><div class="cc-dot"></div>`;
-    h += `<div class="cc-body">`;
-    h += `<div class="row-between" style="margin-bottom:10px">`;
-    h += `<div class="h3">${c.name}</div>`;
-    h += `<div class="badge">${tl}</div>`;
-    h += `</div>`;
-    h += `<div class="sub2" style="margin-bottom:12px">${c.description}</div>`;
-    h += `<div class="row-between">`;
-    h += `<div class="row gap-8">`;
-    h += `<div style="font-size:12px;color:var(--t3)">${iconRaw('users').replace('<svg','<svg style="width:14px;height:14px;display:inline;vertical-align:-2px;stroke:var(--t3)"')} ${c.participants.length}</div>`;
-    h += `<div style="font-size:12px;color:var(--t3)">${c.channel}</div>`;
-    h += `</div>`;
-    h += `<div style="display:flex;align-items:center;gap:4px">`;
-    h += `<span style="font-size:12px;color:var(--t3)">Подробнее</span>`;
-    h += `<span style="width:16px;height:16px;display:inline-flex">${iconRaw('arrow').replace('<svg','<svg style="width:16px;height:16px;stroke:var(--t3)"')}</span>`;
-    h += `</div></div>`;
-    h += `</div></div>`;
-    h += `<div class="sp-8"></div>`;
+  // Contest list
+  state.contests.forEach((ct,i)=>{
+    const card=el('div',`contest-card anim-fu d${i+3}`,'');
+    const pCount=ct.participants?.length||0;
+    const tl=timeLeft(ct.end_datetime_msk);
+    card.innerHTML=`
+      <div class="contest-card-header">
+        <div class="contest-card-title">${ct.name}</div>
+        <div class="badge ${ct.status==='active'?'badge-active':ct.status==='ended'?'badge-ended':'badge-pending'}">${ct.status==='active'?'Активен':ct.status==='ended'?'Завершён':'Ожидает'}</div>
+      </div>
+      <div class="contest-card-meta">
+        <span>${icon('users',14,14)} ${pCount} участников</span>
+        <span>${icon('clock',14,14)} ${tl}</span>
+        <span>${icon('gift',14,14)} ${ct.winners_count} ${ct.winners_count===1?'приз':'призов'}</span>
+      </div>
+      <div class="contest-card-channel">${icon('hash',14,14)} ${ct.channel_username}</div>
+    `;
+    card.onclick=()=>{state.selectedContest=ct;state.screen='detail';render()};
+    c.appendChild(card);
   });
 
-  return h;
+  if(!state.contests.length){
+    c.appendChild(el('div','empty-state anim-fu',`
+      <div class="empty-icon">${ICONS.trophy}</div>
+      <h3>Пока нет конкурсов</h3>
+      <p class="text-muted mt-2">Создайте первый конкурс прямо сейчас</p>
+      <button class="btn btn-primary mt-4" onclick="state.screen='create';render()">Создать конкурс</button>
+    `));
+  }
 }
 
-/* ═══════════════════════════════════════════════
-   MY POINTS SCREEN
-   ═══════════════════════════════════════════════ */
-function renderPoints() {
-  let h = '';
-  h += `<div class="fade-up"><div class="label">Мой профиль</div><div class="sp-8"></div><div class="h1">МОИ БАЛЛЫ</div></div>`;
-  h += `<div class="sp-24"></div>`;
+// ===== МОИ БАЛЛЫ =====
+function renderMyPoints(c){
+  const hero=el('div','hero anim-fu','');
+  const myContests=state.contests.filter(ct=>(ct.participants||[]).find(p=>p.user_tg_id===tgUser.id));
+  const totalPts=myContests.reduce((s,ct)=>{const p=(ct.participants||[]).find(p=>p.user_tg_id===tgUser.id);return s+(p?p.points:0)},0);
+  hero.innerHTML=`
+    <div class="hero-icon">${ICONS.star}</div>
+    <h1>Мои баллы</h1>
+    <div class="mono" style="font-size:48px;font-weight:900;margin-top:12px">${totalPts.toLocaleString()}</div>
+    <p class="text-muted mt-2">${myContests.length} конкурсов</p>
+  `;
+  c.appendChild(hero);
 
-  const totalPts = contests.reduce((a,c) => {
-    const p = c.participants.find(p=>p.tg_id===userId);
-    return a + (p ? p.points : 0);
-  }, 0);
+  myContests.forEach((ct,i)=>{
+    const p=(ct.participants||[]).find(p=>p.user_tg_id===tgUser.id);
+    const pts=p?p.points:0;
+    const sorted=[...(ct.participants||[])].sort((a,b)=>b.points-a.points);
+    const rank=sorted.findIndex(x=>x.user_tg_id===tgUser.id)+1;
+    const maxPts=sorted[0]?.points||1;
+    const pct=Math.round(pts/maxPts*100);
 
-  h += `<div class="card card-elevated fade-up d1" style="text-align:center;padding:32px 20px">`;
-  h += `<div class="label" style="margin-bottom:12px">Всего баллов</div>`;
-  h += `<div class="count-num">${totalPts.toLocaleString()}</div>`;
-  h += `<div class="sp-8"></div>`;
-  h += `<div class="sub2">Во всех конкурсах</div>`;
-  h += `</div>`;
-  h += `<div class="sp-16"></div>`;
-
-  contests.forEach((c, i) => {
-    const p = c.participants.find(p=>p.tg_id===userId);
-    if (!p) return;
-    const sorted = [...c.participants].sort((a,b)=>b.points-a.points);
-    const rank = sorted.findIndex(x=>x.tg_id===userId)+1;
-    const maxPts = sorted[0]?.points || 1;
-    const pct = Math.round((p.points/maxPts)*100);
-
-    h += `<div class="list-item fade-up d${2+i}" data-action="detail" data-id="${c.id}">`;
-    h += `<div class="icon-box">${iconRaw('trophy')}</div>`;
-    h += `<div class="list-item-content">`;
-    h += `<div class="h3" style="font-size:14px;margin-bottom:2px">${c.name}</div>`;
-    h += `<div class="progress"><div class="progress-bar" style="width:${pct}%"></div></div>`;
-    h += `<div class="sub2">${c.channel}</div>`;
-    h += `</div>`;
-    h += `<div class="list-item-right">`;
-    h += `<div class="mono" style="font-size:18px;font-weight:700">${p.points}</div>`;
-    h += `<div class="sub2">#${rank}</div>`;
-    h += `</div></div>`;
+    const card=el('div',`card anim-fu d${i+1}`,'');
+    card.style.marginBottom='12px';
+    card.innerHTML=`
+      <div class="flex justify-between items-center mb-2">
+        <h3 style="flex:1;margin-right:8px">${ct.name}</h3>
+        <span class="badge ${ct.status==='active'?'badge-active':'badge-ended'}">#${rank}</span>
+      </div>
+      <div class="text-sm text-muted mb-2">${ct.channel_username}</div>
+      <div class="flex justify-between items-center">
+        <span class="mono" style="font-size:24px;font-weight:800">${pts.toLocaleString()}</span>
+        <span class="text-sm text-light">${rank} из ${sorted.length}</span>
+      </div>
+      <div class="progress"><div class="progress-bar" style="--w:${pct}%"></div></div>
+    `;
+    card.onclick=()=>{state.selectedContest=ct;state.screen='detail';render()};
+    c.appendChild(card);
   });
 
-  return h;
+  if(!myContests.length){
+    c.appendChild(el('div','empty-state anim-fu',`
+      <div class="empty-icon">${ICONS.star}</div>
+      <h3>Вы ещё не участвуете</h3>
+      <p class="text-muted mt-2">Присоединитесь к конкурсу на главной</p>
+    `));
+  }
 }
 
-/* ═══════════════════════════════════════════════
-   CREATE CONTEST SCREEN
-   ═══════════════════════════════════════════════ */
-function renderCreate() {
-  let h = '';
-  h += `<div class="header fade-up"><div class="back-btn" data-action="back">${iconRaw('back')}</div><div class="h2">Новый конкурс</div></div>`;
+// ===== СОЗДАТЬ КОНКУРС =====
+function renderCreate(c){
+  const back=el('div','back-btn anim-fu',`${ICONS.chevLeft} Назад`);
+  back.onclick=()=>{state.screen='home';render()};
+  c.appendChild(back);
 
-  h += `<div class="fade-up d1">`;
-  h += `<div class="input-group"><div class="input-label">Название</div><input class="input" id="c-name" placeholder="CRYPTO AIRDROP"></div>`;
-  h += `<div class="input-group"><div class="input-label">Канал</div><input class="input" id="c-channel" placeholder="@yourchannel"></div>`;
-  h += `<div class="input-group"><div class="input-label">Описание</div><textarea class="input" id="c-desc" placeholder="Расскажите о конкурсе..."></textarea></div>`;
-  h += `<div class="input-group"><div class="input-label">Условия</div><textarea class="input" id="c-cond" placeholder="Условия участия..."></textarea></div>`;
-  h += `<div class="input-group"><div class="input-label">Дата окончания (МСК)</div><input class="input" id="c-end" type="datetime-local"></div>`;
-  h += `<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">`;
-  h += `<div class="input-group"><div class="input-label">Победителей</div><input class="input" id="c-winners" type="number" value="1" min="1"></div>`;
-  h += `<div class="input-group"><div class="input-label">Нач. баллы</div><input class="input" id="c-initpts" type="number" value="0" min="0"></div>`;
-  h += `</div>`;
-  h += `<div class="input-group"><div class="input-label">Тип определения победителя</div>`;
-  h += `<select class="input" id="c-outcome">`;
-  h += `<option value="1">Лидерборд — топ по баллам</option>`;
-  h += `<option value="2">Рандом среди тех, кто >= порога</option>`;
-  h += `<option value="3">Взвешенный рандом по баллам</option>`;
-  h += `</select></div>`;
-  h += `<div class="input-group" id="c-threshold-group" style="display:none"><div class="input-label">Порог баллов</div><input class="input" id="c-threshold" type="number" value="100" min="0"></div>`;
-  h += `<div class="input-group"><div class="input-label">Текст кнопки</div><input class="input" id="c-btn" value="Участвовать"></div>`;
-  h += `<div class="input-group"><div class="input-label">Призы (каждый с новой строки)</div><textarea class="input" id="c-prizes" placeholder="1 место — 5000 USDT&#10;2 место — 3000 USDT"></textarea></div>`;
-  h += `<div class="sp-16"></div>`;
-  h += `<button class="btn btn-primary" data-action="submit-contest">СОЗДАТЬ КОНКУРС</button>`;
-  h += `</div>`;
+  c.appendChild(el('h1','anim-fu d1','Новый конкурс'));
+  c.appendChild(el('p','text-muted mt-2 mb-3 anim-fu d2','Заполните информацию и конкурс автоматически опубликуется в вашем канале'));
 
-  return h;
+  const form=el('div','anim-fu d3','');
+  form.innerHTML=`
+    <div class="input-group"><label>Название</label><input class="input" id="f-name" placeholder="Розыгрыш iPhone 16 Pro Max"></div>
+    <div class="input-group"><label>Канал</label><input class="input" id="f-channel" placeholder="@yourchannel" value="@"></div>
+    <div class="input-group"><label>Описание</label><textarea class="textarea" id="f-desc" placeholder="Расскажите о конкурсе..."></textarea></div>
+    <div class="input-group"><label>Условия участия</label><textarea class="textarea" id="f-cond" placeholder="Подписка на канал, репост..." style="min-height:60px"></textarea></div>
+    <div class="input-group"><label>Дата окончания (МСК)</label><input class="input" id="f-date" type="datetime-local"></div>
+    <div class="input-group"><label>Количество победителей</label><input class="input" id="f-winners" type="number" value="1" min="1"></div>
+    <div class="input-group"><label>Текст кнопки</label><input class="input" id="f-btn" value="Участвовать"></div>
+    <div class="input-group"><label>Начальные баллы</label><input class="input" id="f-init" type="number" value="0" min="0"></div>
+    <div class="input-group"><label>Тип определения победителя</label>
+      <select class="select" id="f-outcome">
+        <option value="1">Лидерборд — побеждает с наибольшими баллами</option>
+        <option value="2">Рандом с порогом — случайный среди тех, кто набрал N+ баллов</option>
+        <option value="3">Взвешенный рандом — шанс пропорционален баллам</option>
+      </select>
+    </div>
+    <div class="input-group" id="threshold-group" style="display:none"><label>Порог баллов (для типа 2)</label><input class="input" id="f-threshold" type="number" value="100" min="0"></div>
+    <div class="input-group"><label>Призы (по одному на строку)</label><textarea class="textarea" id="f-prizes" placeholder="1 место — iPhone 16 Pro&#10;2 место — AirPods Pro&#10;3 место — Чехол"></textarea></div>
+    <button class="btn btn-primary btn-block mt-3" id="create-btn" style="padding:16px">
+      ${icon('send',18,18)} Создать и опубликовать
+    </button>
+  `;
+  c.appendChild(form);
+
+  setTimeout(()=>{
+    const outcomeSelect=$('#f-outcome');
+    const thresholdGroup=$('#threshold-group');
+    if(outcomeSelect){
+      outcomeSelect.onchange=()=>{
+        thresholdGroup.style.display=outcomeSelect.value==='2'?'block':'none';
+      };
+    }
+
+    $('#create-btn').onclick=async()=>{
+      const name=$('#f-name').value.trim();
+      const channel=$('#f-channel').value.trim();
+      const desc=$('#f-desc').value.trim();
+      const cond=$('#f-cond').value.trim();
+      const dateVal=$('#f-date').value;
+      const winners=parseInt($('#f-winners').value)||1;
+      const btnText=$('#f-btn').value.trim()||'Участвовать';
+      const initPts=parseInt($('#f-init').value)||0;
+      const outcome=parseInt($('#f-outcome').value);
+      const threshold=parseInt($('#f-threshold').value)||100;
+      const prizesRaw=$('#f-prizes').value.trim();
+      const prizes=prizesRaw?prizesRaw.split('\n').filter(l=>l.trim()):[];
+
+      if(!name){showToast('Укажите название конкурса');return}
+      if(!channel||!channel.startsWith('@')){showToast('Укажите канал в формате @channel');return}
+      if(!dateVal){showToast('Укажите дату окончания');return}
+
+      const btn=$('#create-btn');
+      btn.disabled=true;
+      btn.innerHTML='Создание...';
+
+      const contest={
+        id:Date.now(),name,description:desc,conditions:cond,channel_username:channel,
+        end_datetime_msk:dateVal,button_text:btnText,initial_points:initPts,
+        winners_count:winners,outcome_type:outcome,threshold,
+        status:'active',scoring_enabled:false,
+        prizes,creator_tg_id:tgUser.id,participants:[]
+      };
+
+      // Публикуем пост в канал
+      let postText=`<b>🎉 Новый конкурс!</b>\n\n`;
+      postText+=`<b>${name}</b>\n\n`;
+      if(desc) postText+=`${desc}\n\n`;
+      if(cond) postText+=`<b>Условия:</b> ${cond}\n\n`;
+      postText+=`<b>Окончание:</b> ${formatDate(dateVal)}\n`;
+      postText+=`<b>Победителей:</b> ${winners}\n`;
+      if(prizes.length){postText+=`\n<b>Призы:</b>\n`;prizes.forEach((p,i)=>postText+=`  ${i+1}. ${p}\n`)}
+      postText+=`\nНажмите кнопку ниже, чтобы участвовать!`;
+
+      const sent=await sendChannelPost(channel,postText);
+
+      state.contests.unshift(contest);
+
+      if(sent){
+        showToast('Конкурс создан и опубликован в канале!');
+      }else{
+        showToast('Конкурс создан! (пост не отправлен — проверьте права бота)');
+      }
+
+      if(tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
+      state.screen='home';render();
+    };
+  },100);
 }
 
-/* ═══════════════════════════════════════════════
-   CONTEST DETAIL SCREEN
-   ═══════════════════════════════════════════════ */
-function renderDetail() {
-  const c = contests.find(x=>x.id===state.selectedContest);
-  if (!c) return '<div class="sub">Конкурс не найден</div>';
+// ===== ДЕТАЛИ КОНКУРСА =====
+function renderDetail(c){
+  const ct=state.selectedContest;
+  if(!ct){state.screen='home';render();return}
 
-  const sorted = [...c.participants].sort((a,b)=>b.points-a.points);
-  const me = c.participants.find(p=>p.tg_id===userId);
-  const myRank = me ? sorted.findIndex(x=>x.tg_id===userId)+1 : null;
-  const tl = timeLeft(c.end);
-  const outcomeNames = {1:'Лидерборд',2:'Рандом с порогом',3:'Взвешенный рандом'};
+  const back=el('div','back-btn anim-fu',`${ICONS.chevLeft} Назад`);
+  back.onclick=()=>{state.screen='home';render()};
+  c.appendChild(back);
 
-  let h = '';
-  h += `<div class="header fade-up"><div class="back-btn" data-action="back">${iconRaw('back')}</div><div class="h2" style="font-size:16px">${c.name}</div></div>`;
+  const participants=[...(ct.participants||[])].sort((a,b)=>b.points-a.points);
+  const myP=participants.find(p=>p.user_tg_id===tgUser.id);
+  const myRank=myP?participants.indexOf(myP)+1:null;
+  const isJoined=!!myP;
 
-  // Hero card
-  h += `<div class="card card-elevated fade-up d1" style="padding:28px 20px">`;
-  h += `<div class="row-between" style="margin-bottom:16px">`;
-  h += `<div class="badge badge-live"><div class="dot"></div>${c.status === 'active' ? 'LIVE' : 'ENDED'}</div>`;
-  h += `<div class="mono" style="font-size:13px;color:var(--t2)">${tl}</div>`;
-  h += `</div>`;
-  h += `<div class="h1" style="font-size:26px;margin-bottom:8px">${c.name}</div>`;
-  h += `<div class="sub" style="margin-bottom:16px">${c.description}</div>`;
-  if (c.conditions) {
-    h += `<div style="padding:12px 16px;border-radius:10px;border:1px solid var(--border);background:var(--bg3);margin-bottom:16px">`;
-    h += `<div class="label" style="margin-bottom:4px">Условия</div>`;
-    h += `<div class="sub2">${c.conditions}</div>`;
-    h += `</div>`;
+  // Title
+  c.appendChild(el('h1','anim-fu d1',ct.name));
+
+  // Status + channel
+  const meta=el('div','flex gap-2 items-center mt-2 mb-3 anim-fu d2','');
+  meta.innerHTML=`
+    <span class="badge ${ct.status==='active'?'badge-active':'badge-ended'}">${ct.status==='active'?'Активен':'Завершён'}</span>
+    <span class="contest-card-channel" style="margin:0">${icon('hash',14,14)} ${ct.channel_username}</span>
+  `;
+  c.appendChild(meta);
+
+  // Stats grid
+  const stats=el('div','stat-grid anim-fu d3','');
+  stats.innerHTML=`
+    <div class="stat-box"><div class="value">${participants.length}</div><div class="label">Участников</div></div>
+    <div class="stat-box"><div class="value">${timeLeft(ct.end_datetime_msk)}</div><div class="label">Осталось</div></div>
+    <div class="stat-box"><div class="value">${ct.winners_count}</div><div class="label">Победителей</div></div>
+    <div class="stat-box"><div class="value">${myRank||'—'}</div><div class="label">Ваше место</div></div>
+  `;
+  c.appendChild(stats);
+
+  // Description
+  if(ct.description){
+    const descBlock=el('div','card-flat mt-3 anim-fu d4','');
+    descBlock.innerHTML=`<div class="text-sm text-muted" style="margin-bottom:4px">Описание</div><div style="font-size:15px;line-height:1.5">${ct.description}</div>`;
+    c.appendChild(descBlock);
   }
 
-  // Meta grid
-  h += `<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">`;
-  h += `<div style="padding:12px;border-radius:10px;border:1px solid var(--border);background:var(--bg)">`;
-  h += `<div class="sub2">Канал</div><div class="mono" style="font-size:13px;font-weight:700;margin-top:2px">${c.channel}</div></div>`;
-  h += `<div style="padding:12px;border-radius:10px;border:1px solid var(--border);background:var(--bg)">`;
-  h += `<div class="sub2">Победителей</div><div class="mono" style="font-size:13px;font-weight:700;margin-top:2px">${c.winners_count}</div></div>`;
-  h += `<div style="padding:12px;border-radius:10px;border:1px solid var(--border);background:var(--bg)">`;
-  h += `<div class="sub2">Тип</div><div style="font-size:12px;font-weight:600;margin-top:2px">${outcomeNames[c.outcome_type]}</div></div>`;
-  h += `<div style="padding:12px;border-radius:10px;border:1px solid var(--border);background:var(--bg)">`;
-  h += `<div class="sub2">Участники</div><div class="mono" style="font-size:13px;font-weight:700;margin-top:2px">${c.participants.length}</div></div>`;
-  h += `</div>`;
-  h += `</div>`; // end hero card
-
-  // My position
-  if (me) {
-    h += `<div class="sp-12"></div>`;
-    h += `<div class="card fade-up d2" style="border-color:var(--border3)">`;
-    h += `<div class="row-between">`;
-    h += `<div>`;
-    h += `<div class="label" style="margin-bottom:4px">Ваша позиция</div>`;
-    h += `<div class="row gap-8" style="align-items:baseline">`;
-    h += `<div class="count-num" style="font-size:32px">#${myRank}</div>`;
-    h += `<div class="sub2">из ${sorted.length}</div>`;
-    h += `</div></div>`;
-    h += `<div style="text-align:right">`;
-    h += `<div class="label" style="margin-bottom:4px">Баллы</div>`;
-    h += `<div class="mono" style="font-size:24px;font-weight:700">${me.points}</div>`;
-    h += `</div></div></div>`;
-  } else {
-    h += `<div class="sp-12"></div>`;
-    h += `<button class="btn btn-primary fade-up d2" data-action="join" data-id="${c.id}">${c.button_text.toUpperCase()}</button>`;
+  // Conditions
+  if(ct.conditions){
+    const condBlock=el('div','card-flat mt-2 anim-fu d4','');
+    condBlock.innerHTML=`<div class="text-sm text-muted" style="margin-bottom:4px">Условия</div><div style="font-size:15px;line-height:1.5">${ct.conditions}</div>`;
+    c.appendChild(condBlock);
   }
 
   // Prizes
-  if (c.prizes?.length) {
-    h += `<div class="sp-16"></div>`;
-    h += `<div class="section-head fade-up d3"><div class="label">Призы</div></div>`;
-    c.prizes.forEach((p,i) => {
-      h += `<div class="list-item fade-up d${3+i}" style="cursor:default">`;
-      h += `<div class="icon-box">${iconRaw('gift')}</div>`;
-      h += `<div class="list-item-content"><div style="font-size:14px;font-weight:600">${p}</div></div>`;
-      h += `<div class="mono" style="font-size:12px;color:var(--t3)">#${i+1}</div>`;
-      h += `</div>`;
+  if(ct.prizes?.length){
+    const prizesBlock=el('div','mt-3 anim-fu d5','');
+    prizesBlock.innerHTML=`<h3 class="mb-2">Призы</h3>`;
+    const prizesWrap=el('div','flex flex-col gap-2','');
+    ct.prizes.forEach((p,i)=>{
+      const placeClass=i<3?`place-${i+1}`:'';
+      prizesWrap.innerHTML+=`<div class="prize-tag"><div class="prize-place ${placeClass}" ${i>=3?`style="background:var(--text3)"`:''}>${i+1}</div>${p}</div>`;
     });
+    prizesBlock.appendChild(prizesWrap);
+    c.appendChild(prizesBlock);
+  }
+
+  // Join button
+  if(!isJoined && ct.status==='active'){
+    const joinBtn=el('button','btn btn-primary btn-block mt-4 anim-fu d5',`${icon('zap',18,18)} ${ct.button_text||'Участвовать'}`);
+    joinBtn.style.padding='18px';
+    joinBtn.style.fontSize='16px';
+    joinBtn.onclick=()=>{
+      ct.participants.push({user_tg_id:tgUser.id,first_name:tgUser.first_name,last_name:tgUser.last_name||'',username:tgUser.username,points:ct.initial_points||0,photo_url:null});
+      if(tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
+      showToast('Вы участвуете!');
+      render();
+    };
+    c.appendChild(joinBtn);
+  }else if(isJoined){
+    const myCard=el('div','card-flat mt-3 anim-fu d5','');
+    myCard.style.background='#F0FDF4';myCard.style.border='1px solid #BBF7D0';
+    const maxPts=participants[0]?.points||1;
+    const pct=Math.round((myP.points/maxPts)*100);
+    myCard.innerHTML=`
+      <div class="flex justify-between items-center">
+        <div>
+          <div class="text-sm" style="color:#059669;font-weight:600">Вы участвуете</div>
+          <div class="mono" style="font-size:28px;font-weight:800;margin-top:4px">${myP.points.toLocaleString()} баллов</div>
+        </div>
+        <div class="badge badge-active" style="font-size:14px;padding:6px 14px">#${myRank}</div>
+      </div>
+      <div class="progress mt-2" style="background:#BBF7D0"><div class="progress-bar" style="--w:${pct}%;background:#059669"></div></div>
+    `;
+    c.appendChild(myCard);
   }
 
   // Leaderboard
-  h += `<div class="sp-16"></div>`;
-  h += `<div class="section-head fade-up d5"><div class="label">Лидерборд</div></div>`;
-  sorted.slice(0,10).forEach((p,i) => {
-    const isMe = p.tg_id === userId;
-    const cls = i===0?'top1':isMe?'me':'';
-    h += `<div class="lb-row ${cls} fade-up d${5+i}">`;
-    h += `<div class="lb-rank">${i+1}</div>`;
-    h += `<div class="lb-name">${p.name}${isMe?' (вы)':''}</div>`;
-    h += `<div class="lb-pts">${p.points.toLocaleString()}</div>`;
-    h += `</div>`;
-  });
+  if(participants.length){
+    c.appendChild(el('div','section-header mt-4 anim-fu d6',`<span class="section-title">Участники</span><span class="text-sm text-light">${participants.length} чел.</span>`));
 
-  return h;
-}
+    const list=el('div','anim-fu d7','');
+    participants.forEach((p,i)=>{
+      const topClass=i<3?` top-${i+1}`:'';
+      const isMe=p.user_tg_id===tgUser.id;
+      const color=getAvatarColor(p.user_tg_id);
+      const initials=getInitials(p.first_name,p.last_name);
 
-/* ═══════════════════════════════════════════════
-   ADMIN SCREEN
-   ═══════════════════════════════════════════════ */
-function renderAdmin() {
-  if (!isAdmin) return `<div class="card"><div class="sub">Доступ запрещён</div></div>`;
-
-  let h = '';
-  h += `<div class="fade-up"><div class="label">Панель управления</div><div class="sp-8"></div><div class="h1">АДМИН</div></div>`;
-  h += `<div class="sp-24"></div>`;
-
-  // Admin actions
-  const actions = [
-    {icon:'zap',label:'НАЧИСЛЕНИЯ',sub:'Настройка scoring для конкурсов',action:'go-scoring'},
-    {icon:'edit',label:'РУЧНЫЕ БАЛЛЫ',sub:'Добавить баллы участнику',action:'go-manual'},
-    {icon:'log',label:'ЛОГИ',sub:'История всех действий',action:'go-logs'},
-  ];
-  actions.forEach((a,i) => {
-    h += `<div class="list-item fade-up d${1+i}" data-action="${a.action}">`;
-    h += `<div class="icon-box">${iconRaw(a.icon)}</div>`;
-    h += `<div class="list-item-content">`;
-    h += `<div class="h3" style="font-size:14px">${a.label}</div>`;
-    h += `<div class="sub2">${a.sub}</div>`;
-    h += `</div>`;
-    h += `<span style="width:20px;height:20px;display:flex">${iconRaw('arrow').replace('<svg','<svg style="width:20px;height:20px;stroke:var(--t4)"')}</span>`;
-    h += `</div>`;
-  });
-
-  h += `<div class="divider"></div>`;
-  h += `<div class="section-head"><div class="label">Все конкурсы</div></div>`;
-
-  contests.forEach((c,i) => {
-    h += `<div class="card fade-up d${4+i}" style="margin-bottom:10px;padding:16px" data-action="detail" data-id="${c.id}">`;
-    h += `<div class="row-between" style="margin-bottom:8px">`;
-    h += `<div class="h3" style="font-size:14px">${c.name}</div>`;
-    h += `<div class="badge ${c.status==='active'?'badge-live':''}">${c.status==='active'?'<div class=dot></div>':''} ${c.status.toUpperCase()}</div>`;
-    h += `</div>`;
-    h += `<div class="row-between">`;
-    h += `<div class="sub2">${c.channel} &middot; ${c.participants.length} участников</div>`;
-    h += `<div class="sub2">Scoring: ${c.scoring_enabled?'ON':'OFF'}</div>`;
-    h += `</div>`;
-    if (c.status === 'active') {
-      h += `<div class="sp-8"></div>`;
-      h += `<button class="btn btn-ghost btn-sm" data-action="end-contest" data-id="${c.id}" style="width:100%">ЗАВЕРШИТЬ ДОСРОЧНО</button>`;
-    }
-    h += `</div>`;
-  });
-
-  return h;
-}
-
-/* ═══════════════════════════════════════════════
-   SCORING SETTINGS
-   ═══════════════════════════════════════════════ */
-function renderScoring() {
-  if (!isAdmin) return '';
-  let h = '';
-  h += `<div class="header fade-up"><div class="back-btn" data-action="go-admin">${iconRaw('back')}</div><div class="h2">Начисления</div></div>`;
-
-  // Select contest
-  h += `<div class="input-group fade-up d1"><div class="input-label">Конкурс</div>`;
-  h += `<select class="input" id="sc-contest">`;
-  contests.forEach(c => {
-    h += `<option value="${c.id}" ${state.selectedContest===c.id?'selected':''}>${c.name}</option>`;
-  });
-  h += `</select></div>`;
-
-  const c = contests.find(x=>x.id===(state.selectedContest||contests[0]?.id));
-  if (!c) return h;
-  const sc = c.scoring_config || {reactions:{enabled:false,coeff:1,daily_limit:10},invites:{enabled:false,points:50},ads:{enabled:false,points:10,url:''}};
-
-  // Scoring enabled toggle
-  h += `<div class="card fade-up d2" style="margin-bottom:12px">`;
-  h += `<div class="row-between">`;
-  h += `<div><div class="h3" style="font-size:14px">Scoring активен</div><div class="sub2">Включить начисление баллов</div></div>`;
-  h += `<div class="toggle ${c.scoring_enabled?'on':''}" data-action="toggle-scoring" data-id="${c.id}"></div>`;
-  h += `</div></div>`;
-
-  // Reactions
-  h += `<div class="card fade-up d3" style="margin-bottom:12px">`;
-  h += `<div class="row-between" style="margin-bottom:12px">`;
-  h += `<div class="row gap-8"><div class="icon-box">${iconRaw('star')}</div><div><div class="h3" style="font-size:14px">Реакции</div><div class="sub2">Баллы за реакции на посты</div></div></div>`;
-  h += `<div class="toggle ${sc.reactions.enabled?'on':''}" data-action="toggle-reactions" data-id="${c.id}"></div>`;
-  h += `</div>`;
-  if (sc.reactions.enabled) {
-    h += `<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">`;
-    h += `<div class="input-group" style="margin:0"><div class="input-label">Коэффициент</div><input class="input" id="sc-r-coeff" type="number" value="${sc.reactions.coeff}" min="1"></div>`;
-    h += `<div class="input-group" style="margin:0"><div class="input-label">Лимит / день</div><input class="input" id="sc-r-limit" type="number" value="${sc.reactions.daily_limit}" min="1"></div>`;
-    h += `</div>`;
-  }
-  h += `</div>`;
-
-  // Invites
-  h += `<div class="card fade-up d4" style="margin-bottom:12px">`;
-  h += `<div class="row-between" style="margin-bottom:12px">`;
-  h += `<div class="row gap-8"><div class="icon-box">${iconRaw('users')}</div><div><div class="h3" style="font-size:14px">Приглашения</div><div class="sub2">Баллы за приглашённых друзей</div></div></div>`;
-  h += `<div class="toggle ${sc.invites.enabled?'on':''}" data-action="toggle-invites" data-id="${c.id}"></div>`;
-  h += `</div>`;
-  if (sc.invites.enabled) {
-    h += `<div class="input-group" style="margin:0"><div class="input-label">Баллы за друга</div><input class="input" id="sc-i-pts" type="number" value="${sc.invites.points}" min="1"></div>`;
-  }
-  h += `</div>`;
-
-  // Ads
-  h += `<div class="card fade-up d5" style="margin-bottom:12px">`;
-  h += `<div class="row-between" style="margin-bottom:12px">`;
-  h += `<div class="row gap-8"><div class="icon-box">${iconRaw('eye')}</div><div><div class="h3" style="font-size:14px">Реклама</div><div class="sub2">Баллы за просмотр рекламы</div></div></div>`;
-  h += `<div class="toggle ${sc.ads.enabled?'on':''}" data-action="toggle-ads" data-id="${c.id}"></div>`;
-  h += `</div>`;
-  if (sc.ads.enabled) {
-    h += `<div class="input-group"><div class="input-label">Баллы за просмотр</div><input class="input" id="sc-a-pts" type="number" value="${sc.ads.points}" min="1"></div>`;
-    h += `<div class="input-group" style="margin:0"><div class="input-label">Ссылка на видео</div><input class="input" id="sc-a-url" value="${sc.ads.url}" placeholder="https://..."></div>`;
-  }
-  h += `</div>`;
-
-  h += `<div class="sp-12"></div>`;
-  h += `<button class="btn btn-primary" data-action="save-scoring">СОХРАНИТЬ НАСТРОЙКИ</button>`;
-
-  return h;
-}
-
-/* ═══════════════════════════════════════════════
-   MANUAL POINTS
-   ═══════════════════════════════════════════════ */
-function renderManual() {
-  if (!isAdmin) return '';
-  let h = '';
-  h += `<div class="header fade-up"><div class="back-btn" data-action="go-admin">${iconRaw('back')}</div><div class="h2">Ручные баллы</div></div>`;
-
-  h += `<div class="input-group fade-up d1"><div class="input-label">Конкурс</div>`;
-  h += `<select class="input" id="mp-contest">`;
-  contests.forEach(c => { h += `<option value="${c.id}">${c.name}</option>`; });
-  h += `</select></div>`;
-
-  h += `<div class="input-group fade-up d2"><div class="input-label">Участник (Telegram ID)</div><input class="input" id="mp-user" type="number" placeholder="123456789"></div>`;
-  h += `<div class="input-group fade-up d3"><div class="input-label">Баллы</div><input class="input" id="mp-points" type="number" value="100"></div>`;
-  h += `<div class="input-group fade-up d4"><div class="input-label">Причина</div><input class="input" id="mp-reason" placeholder="Активность в чате"></div>`;
-  h += `<div class="sp-12"></div>`;
-  h += `<button class="btn btn-primary fade-up d5" data-action="add-points">НАЧИСЛИТЬ БАЛЛЫ</button>`;
-
-  // Participants list
-  const cId = state.selectedContest || contests[0]?.id;
-  const c = contests.find(x=>x.id===cId);
-  if (c) {
-    h += `<div class="sp-24"></div>`;
-    h += `<div class="section-head"><div class="label">Участники ${c.name}</div></div>`;
-    const sorted = [...c.participants].sort((a,b)=>b.points-a.points);
-    sorted.forEach((p,i) => {
-      h += `<div class="lb-row fade-up d${6+i}">`;
-      h += `<div class="lb-rank">${i+1}</div>`;
-      h += `<div class="lb-name">${p.name}</div>`;
-      h += `<div class="lb-pts">${p.points}</div>`;
-      h += `</div>`;
-    });
-  }
-
-  return h;
-}
-
-/* ═══════════════════════════════════════════════
-   LOGS
-   ═══════════════════════════════════════════════ */
-function renderLogs() {
-  if (!isAdmin) return '';
-  let h = '';
-  h += `<div class="header fade-up"><div class="back-btn" data-action="go-admin">${iconRaw('back')}</div><div class="h2">Логи</div></div>`;
-
-  if (logs.length === 0) {
-    h += `<div class="card" style="text-align:center;padding:40px"><div class="sub">Логи пусты</div></div>`;
-    return h;
-  }
-
-  logs.slice().reverse().forEach((l,i) => {
-    h += `<div class="card fade-up d${1+i}" style="margin-bottom:8px;padding:14px 16px">`;
-    h += `<div class="row-between" style="margin-bottom:6px">`;
-    h += `<div class="h3" style="font-size:13px">${l.action}</div>`;
-    h += `<div class="mono sub2" style="font-size:10px">${new Date(l.timestamp).toLocaleString('ru-RU')}</div>`;
-    h += `</div>`;
-    h += `<div class="sub2">${l.contest} &middot; ${l.by}</div>`;
-    if (l.details) h += `<div class="sub2" style="margin-top:4px;color:var(--t4)">${l.details}</div>`;
-    h += `</div>`;
-  });
-
-  return h;
-}
-
-/* ═══════════════════════════════════════════════
-   TAB BAR
-   ═══════════════════════════════════════════════ */
-function renderTabBar() {
-  const tabs = [
-    {id:'home',icon:'home',label:'Главная'},
-    {id:'points',icon:'star',label:'Баллы'},
-    {id:'create',icon:'plus',label:''},
-    ...(isAdmin ? [{id:'admin',icon:'settings',label:'Админ'}] : []),
-  ];
-  // Add a dummy tab for non-admins to keep symmetry
-  if (!isAdmin) tabs.push({id:'_',icon:'user',label:'Профиль'});
-
-  let h = `<div class="tab-bar">`;
-  tabs.forEach(t => {
-    if (t.id === 'create') {
-      h += `<button class="tab-create" data-action="go" data-screen="create">${iconRaw('plus')}</button>`;
-    } else {
-      h += `<button class="tab ${state.screen===t.id?'active':''}" data-action="go" data-screen="${t.id}">`;
-      h += `<span style="width:20px;height:20px;display:flex">${iconRaw(t.icon)}</span>`;
-      h += `<span>${t.label}</span></button>`;
-    }
-  });
-  h += `</div>`;
-  return h;
-}
-
-/* ═══════════════════════════════════════════════
-   EVENT BINDINGS
-   ═══════════════════════════════════════════════ */
-function bindEvents() {
-  // Navigation tabs
-  document.querySelectorAll('[data-action="go"]').forEach(el => {
-    el.addEventListener('click', () => { haptic(); go(el.dataset.screen); });
-  });
-
-  // Back
-  document.querySelectorAll('[data-action="back"]').forEach(el => {
-    el.addEventListener('click', () => { haptic(); go(state.prev || 'home'); });
-  });
-  document.querySelectorAll('[data-action="go-admin"]').forEach(el => {
-    el.addEventListener('click', () => { haptic(); go('admin'); });
-  });
-
-  // Contest detail
-  document.querySelectorAll('[data-action="detail"]').forEach(el => {
-    el.addEventListener('click', () => { haptic(); go('detail', parseInt(el.dataset.id)); });
-  });
-
-  // Admin sub-screens
-  document.querySelectorAll('[data-action="go-scoring"]').forEach(el => {
-    el.addEventListener('click', () => { haptic(); state.selectedContest = contests[0]?.id; go('scoring'); });
-  });
-  document.querySelectorAll('[data-action="go-manual"]').forEach(el => {
-    el.addEventListener('click', () => { haptic(); go('manual'); });
-  });
-  document.querySelectorAll('[data-action="go-logs"]').forEach(el => {
-    el.addEventListener('click', () => { haptic(); go('logs'); });
-  });
-
-  // Join contest
-  document.querySelectorAll('[data-action="join"]').forEach(el => {
-    el.addEventListener('click', () => {
-      haptic();
-      const id = parseInt(el.dataset.id);
-      const c = contests.find(x=>x.id===id);
-      if (c && !c.participants.find(p=>p.tg_id===userId)) {
-        c.participants.push({name:userName.toLowerCase(),points:c.initial_points,tg_id:userId});
-        logs.push({timestamp:new Date().toISOString(),action:'Участник вступил',by:userName,contest:c.name,details:`+${c.initial_points} начальных баллов`});
-        showToast('Вы участвуете в конкурсе');
-        render();
-      }
-    });
-  });
-
-  // Outcome type change
-  const outcomeEl = document.getElementById('c-outcome');
-  if (outcomeEl) {
-    outcomeEl.addEventListener('change', () => {
-      const tg = document.getElementById('c-threshold-group');
-      if (tg) tg.style.display = outcomeEl.value === '2' ? 'block' : 'none';
-    });
-  }
-
-  // Submit contest
-  document.querySelectorAll('[data-action="submit-contest"]').forEach(el => {
-    el.addEventListener('click', () => {
-      haptic();
-      const name = document.getElementById('c-name')?.value?.trim();
-      const channel = document.getElementById('c-channel')?.value?.trim();
-      const endVal = document.getElementById('c-end')?.value;
-      if (!name) { showToast('Введите название'); return; }
-      if (!channel) { showToast('Укажите канал'); return; }
-      if (!endVal) { showToast('Укажите дату окончания'); return; }
-      const newContest = {
-        id: Date.now(),
-        name: name.toUpperCase(),
-        channel,
-        description: document.getElementById('c-desc')?.value || '',
-        conditions: document.getElementById('c-cond')?.value || '',
-        end: endVal,
-        winners_count: parseInt(document.getElementById('c-winners')?.value)||1,
-        initial_points: parseInt(document.getElementById('c-initpts')?.value)||0,
-        outcome_type: parseInt(document.getElementById('c-outcome')?.value)||1,
-        threshold: parseInt(document.getElementById('c-threshold')?.value)||0,
-        button_text: document.getElementById('c-btn')?.value || 'Участвовать',
-        status: 'active',
-        scoring_enabled: false,
-        prizes: (document.getElementById('c-prizes')?.value||'').split('\n').filter(x=>x.trim()),
-        participants: [],
-        scoring_config: {reactions:{enabled:false,coeff:1,daily_limit:10},invites:{enabled:false,points:50},ads:{enabled:false,points:10,url:''}}
+      const row=el('div',`participant-row${topClass}`,'');
+      if(isMe){row.style.background='#F7F7F8';row.style.border='1px solid #E0E0E0'}
+      row.innerHTML=`
+        <span class="rank">${i+1}</span>
+        <div class="avatar" style="background:${color}">${p.photo_url?`<img src="${p.photo_url}" alt="">`:initials}</div>
+        <div class="info">
+          <div class="name">${p.first_name} ${p.last_name||''}${isMe?' (вы)':''}</div>
+          <div class="username">${p.username?'@'+p.username:'—'}</div>
+        </div>
+        <div class="points">${p.points.toLocaleString()}</div>
+      `;
+      row.onclick=()=>{
+        if(p.username){
+          window.open(`https://t.me/${p.username}`,'_blank');
+        }else{
+          // Попробуем открыть через user id
+          if(tg){
+            window.open(`tg://user?id=${p.user_tg_id}`,'_blank');
+          }else{
+            showToast('Профиль доступен только в Telegram');
+          }
+        }
+        if(tg?.HapticFeedback) tg.HapticFeedback.selectionChanged();
       };
-      contests.unshift(newContest);
-      logs.push({timestamp:new Date().toISOString(),action:'Конкурс создан',by:userName,contest:newContest.name,details:'Новый конкурс'});
-      showToast('Конкурс создан');
-      go('home');
+      list.appendChild(row);
     });
-  });
-
-  // Toggles
-  document.querySelectorAll('[data-action="toggle-scoring"]').forEach(el => {
-    el.addEventListener('click', () => {
-      haptic();
-      const c = contests.find(x=>x.id===parseInt(el.dataset.id));
-      if (c) { c.scoring_enabled = !c.scoring_enabled; render(); }
-    });
-  });
-  document.querySelectorAll('[data-action="toggle-reactions"]').forEach(el => {
-    el.addEventListener('click', () => {
-      haptic();
-      const c = contests.find(x=>x.id===parseInt(el.dataset.id));
-      if (c) { c.scoring_config.reactions.enabled = !c.scoring_config.reactions.enabled; render(); }
-    });
-  });
-  document.querySelectorAll('[data-action="toggle-invites"]').forEach(el => {
-    el.addEventListener('click', () => {
-      haptic();
-      const c = contests.find(x=>x.id===parseInt(el.dataset.id));
-      if (c) { c.scoring_config.invites.enabled = !c.scoring_config.invites.enabled; render(); }
-    });
-  });
-  document.querySelectorAll('[data-action="toggle-ads"]').forEach(el => {
-    el.addEventListener('click', () => {
-      haptic();
-      const c = contests.find(x=>x.id===parseInt(el.dataset.id));
-      if (c) { c.scoring_config.ads.enabled = !c.scoring_config.ads.enabled; render(); }
-    });
-  });
-
-  // Save scoring
-  document.querySelectorAll('[data-action="save-scoring"]').forEach(el => {
-    el.addEventListener('click', () => {
-      haptic();
-      const cId = parseInt(document.getElementById('sc-contest')?.value);
-      const c = contests.find(x=>x.id===cId);
-      if (!c) return;
-      if (c.scoring_config.reactions.enabled) {
-        c.scoring_config.reactions.coeff = parseInt(document.getElementById('sc-r-coeff')?.value)||1;
-        c.scoring_config.reactions.daily_limit = parseInt(document.getElementById('sc-r-limit')?.value)||10;
-      }
-      if (c.scoring_config.invites.enabled) {
-        c.scoring_config.invites.points = parseInt(document.getElementById('sc-i-pts')?.value)||50;
-      }
-      if (c.scoring_config.ads.enabled) {
-        c.scoring_config.ads.points = parseInt(document.getElementById('sc-a-pts')?.value)||10;
-        c.scoring_config.ads.url = document.getElementById('sc-a-url')?.value||'';
-      }
-      logs.push({timestamp:new Date().toISOString(),action:'Scoring обновлён',by:'admin',contest:c.name,details:JSON.stringify(c.scoring_config)});
-      showToast('Настройки сохранены');
-    });
-  });
-
-  // Select contest in scoring
-  const scSelect = document.getElementById('sc-contest');
-  if (scSelect) {
-    scSelect.addEventListener('change', () => {
-      state.selectedContest = parseInt(scSelect.value);
-      render();
-    });
+    c.appendChild(list);
   }
 
-  // Add manual points
-  document.querySelectorAll('[data-action="add-points"]').forEach(el => {
-    el.addEventListener('click', () => {
-      haptic();
-      const cId = parseInt(document.getElementById('mp-contest')?.value);
-      const uid = parseInt(document.getElementById('mp-user')?.value);
-      const pts = parseInt(document.getElementById('mp-points')?.value);
-      const reason = document.getElementById('mp-reason')?.value || '';
-      if (!uid) { showToast('Введите ID пользователя'); return; }
-      if (!pts) { showToast('Введите количество баллов'); return; }
-      const c = contests.find(x=>x.id===cId);
-      if (!c) return;
-      const p = c.participants.find(x=>x.tg_id===uid);
-      if (p) {
-        p.points += pts;
-      } else {
-        c.participants.push({name:'user_'+uid,points:pts,tg_id:uid});
-      }
-      logs.push({timestamp:new Date().toISOString(),action:'Ручное начисление',by:'admin',contest:c.name,details:`+${pts} баллов для ${uid}: ${reason}`});
-      showToast(`+${pts} баллов начислено`);
-      render();
-    });
-  });
+  // Info
+  const infoBlock=el('div','card-flat mt-3 mb-3 anim-fu d8','');
+  infoBlock.innerHTML=`
+    <div class="text-xs text-light" style="display:flex;flex-direction:column;gap:6px">
+      <div class="flex justify-between"><span>Тип определения</span><span style="font-weight:600;color:var(--text)">${outcomeLabel(ct.outcome_type)}</span></div>
+      <div class="flex justify-between"><span>Окончание</span><span style="font-weight:600;color:var(--text)">${formatDate(ct.end_datetime_msk)}</span></div>
+      <div class="flex justify-between"><span>Начальные баллы</span><span style="font-weight:600;color:var(--text)">${ct.initial_points}</span></div>
+      <div class="flex justify-between"><span>Начисление</span><span style="font-weight:600;color:${ct.scoring_enabled?'#059669':'var(--text3)'}">${ct.scoring_enabled?'Включено':'Выключено'}</span></div>
+    </div>
+  `;
+  c.appendChild(infoBlock);
+}
 
-  // End contest
-  document.querySelectorAll('[data-action="end-contest"]').forEach(el => {
-    el.addEventListener('click', (e) => {
-      e.stopPropagation();
-      haptic();
-      const c = contests.find(x=>x.id===parseInt(el.dataset.id));
-      if (c) {
-        c.status = 'ended';
-        logs.push({timestamp:new Date().toISOString(),action:'Конкурс завершён',by:'admin',contest:c.name,details:'Досрочное завершение'});
-        showToast('Конкурс завершён');
-        render();
-      }
-    });
+// ===== АДМИН ПАНЕЛЬ =====
+function renderAdmin(c){
+  if(!isAdmin){
+    c.appendChild(el('div','empty-state anim-fu',`
+      <div class="empty-icon">${ICONS.settings}</div>
+      <h3>Доступ запрещён</h3>
+      <p class="text-muted mt-2">Админ-панель доступна только главному администратору</p>
+    `));
+    return;
+  }
+
+  c.appendChild(el('h1','anim-fu','Админ-панель'));
+  c.appendChild(el('p','text-muted mt-2 mb-3 anim-fu d1','Управление конкурсами и начислениями'));
+
+  // Quick stats
+  const statBar=el('div','stat-grid anim-fu d2','');
+  const totalP=state.contests.reduce((s,ct)=>s+(ct.participants?.length||0),0);
+  statBar.innerHTML=`
+    <div class="stat-box"><div class="value">${state.contests.length}</div><div class="label">Конкурсов</div></div>
+    <div class="stat-box"><div class="value">${totalP}</div><div class="label">Участников</div></div>
+  `;
+  c.appendChild(statBar);
+
+  // Action buttons
+  const actions=el('div','flex flex-col gap-2 mt-3 anim-fu d3','');
+
+  const scoringBtn=el('button','btn btn-secondary btn-block',`<span class="flex items-center gap-2">${icon('zap',18,18)} Настройка начислений</span><span style="margin-left:auto">${icon('chevRight',18,18)}</span>`);
+  scoringBtn.style.display='flex';scoringBtn.style.justifyContent='space-between';
+  scoringBtn.onclick=()=>{state.screen='scoring';render()};
+  actions.appendChild(scoringBtn);
+
+  const manualBtn=el('button','btn btn-secondary btn-block',`<span class="flex items-center gap-2">${icon('edit',18,18)} Ручное начисление баллов</span><span style="margin-left:auto">${icon('chevRight',18,18)}</span>`);
+  manualBtn.style.display='flex';manualBtn.style.justifyContent='space-between';
+  manualBtn.onclick=()=>{state.screen='manual';render()};
+  actions.appendChild(manualBtn);
+
+  const logsBtn=el('button','btn btn-secondary btn-block',`<span class="flex items-center gap-2">${icon('list',18,18)} Журнал действий</span><span style="margin-left:auto">${icon('chevRight',18,18)}</span>`);
+  logsBtn.style.display='flex';logsBtn.style.justifyContent='space-between';
+  logsBtn.onclick=()=>{state.screen='logs';render()};
+  actions.appendChild(logsBtn);
+
+  c.appendChild(actions);
+
+  // Contest list
+  c.appendChild(el('div','section-header mt-4 anim-fu d4',`<span class="section-title">Все конкурсы</span>`));
+
+  state.contests.forEach((ct,i)=>{
+    const card=el('div',`card anim-fu d${i+5}`,'');
+    card.style.marginBottom='10px';card.style.cursor='pointer';
+    card.innerHTML=`
+      <div class="flex justify-between items-center">
+        <div style="flex:1">
+          <h3>${ct.name}</h3>
+          <div class="text-sm text-muted mt-2">${ct.channel_username} · ${ct.participants?.length||0} участников</div>
+        </div>
+        <div class="badge ${ct.status==='active'?'badge-active':ct.status==='ended'?'badge-ended':'badge-pending'}">${ct.status==='active'?'Активен':'Завершён'}</div>
+      </div>
+    `;
+    card.onclick=()=>{state.selectedContest=ct;state.screen='detail';render()};
+    c.appendChild(card);
   });
 }
 
-/* ═══════════════════════════════════════════════
-   INIT
-   ═══════════════════════════════════════════════ */
+// ===== НАСТРОЙКА НАЧИСЛЕНИЙ =====
+function renderScoring(c){
+  if(!isAdmin){state.screen='home';render();return}
+
+  const back=el('div','back-btn anim-fu',`${ICONS.chevLeft} Админ-панель`);
+  back.onclick=()=>{state.screen='admin';render()};
+  c.appendChild(back);
+
+  c.appendChild(el('h1','anim-fu d1','Начисление баллов'));
+  c.appendChild(el('p','text-muted mt-2 mb-3 anim-fu d2','Настройте способы начисления для каждого конкурса'));
+
+  // Contest selector
+  const selectGroup=el('div','input-group anim-fu d3','');
+  selectGroup.innerHTML=`<label>Выберите конкурс</label><select class="select" id="sc-contest">${state.contests.map((ct,i)=>`<option value="${i}">${ct.name}</option>`).join('')}</select>`;
+  c.appendChild(selectGroup);
+
+  const renderSettings=(idx)=>{
+    const ct=state.contests[idx];
+    const existing=$('#scoring-settings');
+    if(existing) existing.remove();
+
+    const wrap=el('div','anim-si','');
+    wrap.id='scoring-settings';
+
+    // Enable toggle
+    const toggleRow=el('div','card-flat flex justify-between items-center','');
+    toggleRow.innerHTML=`
+      <div>
+        <div style="font-weight:600">Начисление баллов</div>
+        <div class="text-sm text-muted">Включить для этого конкурса</div>
+      </div>
+      <div class="switch ${ct.scoring_enabled?'on':''}" id="sc-toggle"></div>
+    `;
+    wrap.appendChild(toggleRow);
+
+    // Reactions
+    const reactBlock=el('div','card mt-3','');
+    reactBlock.innerHTML=`
+      <div class="flex items-center gap-3 mb-3">
+        <div style="width:40px;height:40px;background:var(--bg2);border-radius:10px;display:flex;align-items:center;justify-content:center">${icon('star',20,20)}</div>
+        <div><div style="font-weight:600">Реакции на посты</div><div class="text-sm text-muted">Баллы за реакции в канале</div></div>
+      </div>
+      <div class="input-group" style="margin-bottom:10px"><label>Баллов за реакцию</label><input class="input" type="number" id="sc-react-pts" value="1" min="1"></div>
+      <div class="input-group" style="margin-bottom:0"><label>Лимит в сутки</label><input class="input" type="number" id="sc-react-limit" value="10" min="1"></div>
+    `;
+    wrap.appendChild(reactBlock);
+
+    // Invites
+    const invBlock=el('div','card mt-2','');
+    invBlock.innerHTML=`
+      <div class="flex items-center gap-3 mb-3">
+        <div style="width:40px;height:40px;background:var(--bg2);border-radius:10px;display:flex;align-items:center;justify-content:center">${icon('users',20,20)}</div>
+        <div><div style="font-weight:600">Приглашение друзей</div><div class="text-sm text-muted">Баллы за приведённых участников</div></div>
+      </div>
+      <div class="input-group" style="margin-bottom:10px"><label>Баллов за приглашение</label><input class="input" type="number" id="sc-inv-pts" value="5" min="1"></div>
+      <div class="flex items-center gap-2"><input type="checkbox" id="sc-inv-sub" checked> <label for="sc-inv-sub" class="text-sm">Требовать подписку на канал</label></div>
+    `;
+    wrap.appendChild(invBlock);
+
+    // Ads
+    const adsBlock=el('div','card mt-2','');
+    adsBlock.innerHTML=`
+      <div class="flex items-center gap-3 mb-3">
+        <div style="width:40px;height:40px;background:var(--bg2);border-radius:10px;display:flex;align-items:center;justify-content:center">${icon('zap',20,20)}</div>
+        <div><div style="font-weight:600">Просмотр рекламы</div><div class="text-sm text-muted">Баллы за просмотр видео</div></div>
+      </div>
+      <div class="input-group" style="margin-bottom:10px"><label>Баллов за просмотр</label><input class="input" type="number" id="sc-ad-pts" value="3" min="1"></div>
+      <div class="input-group" style="margin-bottom:0"><label>Ссылка на видео</label><input class="input" id="sc-ad-url" placeholder="https://..."></div>
+    `;
+    wrap.appendChild(adsBlock);
+
+    // Save
+    const saveBtn=el('button','btn btn-primary btn-block mt-3',`${icon('check',18,18)} Сохранить настройки`);
+    saveBtn.style.padding='16px';
+    saveBtn.onclick=()=>{
+      ct.scoring_enabled=true;
+      ct.status='active';
+      ct.scoring_config={
+        reactions:{pts:parseInt($('#sc-react-pts').value)||1,limit:parseInt($('#sc-react-limit').value)||10},
+        invites:{pts:parseInt($('#sc-inv-pts').value)||5,require_sub:$('#sc-inv-sub').checked},
+        ads:{pts:parseInt($('#sc-ad-pts').value)||3,url:$('#sc-ad-url').value}
+      };
+      showToast('Настройки сохранены');
+      if(tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
+      render();
+    };
+    wrap.appendChild(saveBtn);
+
+    c.appendChild(wrap);
+
+    setTimeout(()=>{
+      const toggle=$('#sc-toggle');
+      if(toggle){toggle.onclick=()=>{
+        ct.scoring_enabled=!ct.scoring_enabled;
+        toggle.classList.toggle('on');
+        if(tg?.HapticFeedback) tg.HapticFeedback.selectionChanged();
+      }}
+    },50);
+  };
+
+  setTimeout(()=>{
+    renderSettings(0);
+    const sel=$('#sc-contest');
+    if(sel) sel.onchange=()=>renderSettings(parseInt(sel.value));
+  },50);
+}
+
+// ===== РУЧНОЕ НАЧИСЛЕНИЕ =====
+function renderManualPoints(c){
+  if(!isAdmin){state.screen='home';render();return}
+
+  const back=el('div','back-btn anim-fu',`${ICONS.chevLeft} Админ-панель`);
+  back.onclick=()=>{state.screen='admin';render()};
+  c.appendChild(back);
+
+  c.appendChild(el('h1','anim-fu d1','Начислить баллы'));
+  c.appendChild(el('p','text-muted mt-2 mb-3 anim-fu d2','Выберите конкурс, участника и укажите количество баллов'));
+
+  const form=el('div','anim-fu d3','');
+  form.innerHTML=`
+    <div class="input-group"><label>Конкурс</label>
+      <select class="select" id="mp-contest">${state.contests.map((ct,i)=>`<option value="${i}">${ct.name} (${ct.participants?.length||0} уч.)</option>`).join('')}</select>
+    </div>
+    <div id="mp-participants"></div>
+    <div class="input-group"><label>Баллы</label><input class="input" id="mp-points" type="number" value="10" min="1"></div>
+    <div class="input-group"><label>Причина</label><input class="input" id="mp-reason" placeholder="За активность в чате"></div>
+    <button class="btn btn-primary btn-block mt-2" id="mp-save" style="padding:16px">${icon('check',18,18)} Начислить</button>
+  `;
+  c.appendChild(form);
+
+  const renderParticipants=(idx)=>{
+    const ct=state.contests[idx];
+    const wrap=$('#mp-participants');
+    if(!wrap) return;
+    wrap.innerHTML='';
+    const ps=ct.participants||[];
+    if(!ps.length){
+      wrap.innerHTML='<div class="card-flat text-sm text-muted" style="text-align:center;padding:20px">Нет участников</div>';
+      return;
+    }
+    const group=el('div','input-group','');
+    group.innerHTML=`<label>Участник</label><select class="select" id="mp-user">${ps.map((p,i)=>`<option value="${i}">${p.first_name} ${p.last_name||''} ${p.username?'@'+p.username:''} (${p.points} баллов)</option>`).join('')}</select>`;
+    wrap.appendChild(group);
+  };
+
+  setTimeout(()=>{
+    renderParticipants(0);
+    $('#mp-contest').onchange=()=>renderParticipants(parseInt($('#mp-contest').value));
+
+    $('#mp-save').onclick=()=>{
+      const ctIdx=parseInt($('#mp-contest').value);
+      const userSel=$('#mp-user');
+      if(!userSel){showToast('Нет участников');return}
+      const uIdx=parseInt(userSel.value);
+      const pts=parseInt($('#mp-points').value)||0;
+      const reason=$('#mp-reason').value.trim();
+
+      if(!pts){showToast('Укажите количество баллов');return}
+
+      state.contests[ctIdx].participants[uIdx].points+=pts;
+      showToast(`+${pts} баллов начислено!`);
+      if(tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
+      renderParticipants(ctIdx);
+    };
+  },50);
+}
+
+// ===== ЛОГИ =====
+function renderLogs(c){
+  if(!isAdmin){state.screen='home';render();return}
+
+  const back=el('div','back-btn anim-fu',`${ICONS.chevLeft} Админ-панель`);
+  back.onclick=()=>{state.screen='admin';render()};
+  c.appendChild(back);
+
+  c.appendChild(el('h1','anim-fu d1','Журнал'));
+  c.appendChild(el('p','text-muted mt-2 mb-3 anim-fu d2','История всех действий в системе'));
+
+  const demoLogs=[
+    {time:'10.03.2026 14:32',action:'Конкурс создан',detail:'«Розыгрыш iPhone 16 Pro Max» → @techreviews'},
+    {time:'10.03.2026 14:33',action:'Начисление включено',detail:'Реакции: 1 балл, лимит 10/день'},
+    {time:'10.03.2026 14:35',action:'Участник присоединился',detail:'@alex_k → «Розыгрыш iPhone»'},
+    {time:'10.03.2026 15:00',action:'Ручное начисление',detail:'+50 баллов → @alex_k (за активность)'},
+    {time:'10.03.2026 15:12',action:'Реакция засчитана',detail:'@maria_sv → +1 балл'},
+  ];
+
+  demoLogs.forEach((log,i)=>{
+    const row=el('div',`card-flat anim-fu d${i+3}`,'');
+    row.style.marginBottom='8px';
+    row.innerHTML=`
+      <div class="flex justify-between items-center mb-2">
+        <span style="font-weight:600;font-size:14px">${log.action}</span>
+        <span class="text-xs text-light">${log.time}</span>
+      </div>
+      <div class="text-sm text-muted">${log.detail}</div>
+    `;
+    c.appendChild(row);
+  });
+}
+
+// ===== TAB BAR =====
+function renderTabBar(){
+  const bar=el('nav','tab-bar','');
+  const tabs=[
+    {id:'home',icon:'home',label:'Главная'},
+    {id:'mypoints',icon:'star',label:'Баллы'},
+    {id:'create',icon:'plus',label:'Создать',isCenter:true},
+    {id:'admin',icon:'settings',label:'Админ'},
+  ];
+
+  tabs.forEach(t=>{
+    if(t.isCenter){
+      const wrap=el('div',`tab-item tab-create${state.screen===t.id?' active':''}`,'');
+      wrap.innerHTML=`<div class="create-btn">${ICONS[t.icon]}</div><span>${t.label}</span>`;
+      wrap.onclick=()=>{state.screen=t.id;render();if(tg?.HapticFeedback)tg.HapticFeedback.selectionChanged()};
+      bar.appendChild(wrap);
+    }else{
+      const item=el('div',`tab-item${state.screen===t.id?' active':''}`,'');
+      item.innerHTML=`${ICONS[t.icon]}<span>${t.label}</span>`;
+      item.onclick=()=>{state.screen=t.id;render();if(tg?.HapticFeedback)tg.HapticFeedback.selectionChanged()};
+      bar.appendChild(item);
+    }
+  });
+
+  return bar;
+}
+
+// ===== СТАРТ =====
 render();
 </script>
 </body>
