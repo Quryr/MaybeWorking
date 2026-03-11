@@ -1,0 +1,1370 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>🏆 Конкурсы</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+--bg:#07060E;--card:rgba(255,255,255,.04);--card-border:rgba(255,255,255,.06);
+--text:#E8E6F0;--text2:rgba(255,255,255,.5);--text3:rgba(255,255,255,.3);
+--accent:#8B5CF6;--accent2:#A78BFA;--accent-glow:rgba(139,92,246,.25);
+--pink:#EC4899;--cyan:#06B6D4;--green:#10B981;--amber:#F59E0B;--red:#EF4444;
+--radius:16px;--radius-sm:10px;--radius-xs:8px;
+}
+html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+body{position:relative}
+
+/* ===== MESH BACKGROUND ===== */
+body::before{
+content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+background:
+  radial-gradient(ellipse 80% 60% at 20% 10%,rgba(139,92,246,.12),transparent 60%),
+  radial-gradient(ellipse 60% 80% at 80% 80%,rgba(236,72,153,.08),transparent 50%),
+  radial-gradient(ellipse 50% 50% at 50% 50%,rgba(6,182,212,.05),transparent 60%),
+  radial-gradient(ellipse 100% 100% at 60% 20%,rgba(139,92,246,.04),transparent);
+}
+
+/* ===== ANIMATED ORB ===== */
+.orb{
+position:fixed;width:300px;height:300px;border-radius:50%;pointer-events:none;z-index:0;
+background:radial-gradient(circle,rgba(139,92,246,.15),rgba(236,72,153,.08),transparent 70%);
+filter:blur(60px);animation:orbMove 25s ease-in-out infinite;
+top:10%;left:30%;
+}
+@keyframes orbMove{
+0%,100%{transform:translate(0,0) scale(1)}
+25%{transform:translate(100px,50px) scale(1.2)}
+50%{transform:translate(-50px,100px) scale(.8)}
+75%{transform:translate(80px,-30px) scale(1.1)}
+}
+
+/* ===== PARTICLES ===== */
+.particle{
+position:fixed;border-radius:50%;pointer-events:none;z-index:0;
+animation:particleFloat linear infinite;opacity:.4;
+}
+@keyframes particleFloat{
+0%{transform:translateY(100vh) rotate(0deg);opacity:0}
+10%{opacity:.4}
+90%{opacity:.4}
+100%{transform:translateY(-10vh) rotate(720deg);opacity:0}
+}
+
+/* ===== SCROLLABLE AREA ===== */
+#app{position:relative;z-index:1;height:100%;display:flex;flex-direction:column}
+.screen{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:16px 16px 100px;scroll-behavior:smooth}
+.screen::-webkit-scrollbar{display:none}
+
+/* ===== GLASS CARD ===== */
+.gc{
+background:linear-gradient(165deg,rgba(255,255,255,.06) 0%,rgba(255,255,255,.02) 50%,rgba(255,255,255,.04) 100%);
+border:1px solid var(--card-border);
+border-radius:var(--radius);
+padding:16px;
+backdrop-filter:blur(40px) saturate(1.4);
+-webkit-backdrop-filter:blur(40px) saturate(1.4);
+position:relative;overflow:hidden;
+transition:all .3s cubic-bezier(.4,0,.2,1);
+}
+.gc::before{
+content:'';position:absolute;top:0;left:0;right:0;height:1px;
+background:linear-gradient(90deg,transparent,rgba(255,255,255,.1) 20%,rgba(255,255,255,.2) 50%,rgba(255,255,255,.1) 80%,transparent);
+}
+.gc:active{transform:scale(.97)}
+.gc.hoverable:hover{
+border-color:rgba(139,92,246,.3);
+box-shadow:0 0 0 1px rgba(139,92,246,.1),0 8px 32px rgba(139,92,246,.08),0 2px 8px rgba(0,0,0,.3);
+}
+
+/* ===== BUTTONS ===== */
+.btn{
+display:inline-flex;align-items:center;justify-content:center;gap:8px;
+padding:12px 24px;border-radius:var(--radius-sm);border:none;cursor:pointer;
+font-family:inherit;font-weight:700;font-size:14px;letter-spacing:.3px;
+color:#fff;position:relative;overflow:hidden;
+transition:all .25s cubic-bezier(.4,0,.2,1);
+}
+.btn::before{
+content:'';position:absolute;inset:0;
+background:linear-gradient(180deg,rgba(255,255,255,.15) 0%,transparent 50%);
+opacity:0;transition:opacity .25s;
+}
+.btn:hover::before{opacity:1}
+.btn:active{transform:scale(.95)}
+
+.btn-primary{
+background:linear-gradient(135deg,#7C3AED,#8B5CF6,#A78BFA);
+box-shadow:0 4px 16px rgba(139,92,246,.3),inset 0 1px 0 rgba(255,255,255,.15);
+}
+.btn-success{
+background:linear-gradient(135deg,#059669,#10B981,#34D399);
+box-shadow:0 4px 16px rgba(16,185,129,.3),inset 0 1px 0 rgba(255,255,255,.15);
+}
+.btn-danger{
+background:linear-gradient(135deg,#DC2626,#EF4444,#F87171);
+box-shadow:0 4px 16px rgba(239,68,68,.3),inset 0 1px 0 rgba(255,255,255,.15);
+}
+.btn-ghost{
+background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);
+box-shadow:none;
+}
+.btn-full{width:100%}
+.btn-lg{padding:14px 28px;font-size:15px;border-radius:var(--radius)}
+
+/* ===== TAB BAR ===== */
+.tabbar{
+position:fixed;bottom:0;left:0;right:0;z-index:100;
+background:linear-gradient(180deg,rgba(10,9,20,.85),rgba(10,9,20,.98));
+backdrop-filter:blur(40px) saturate(1.5);
+-webkit-backdrop-filter:blur(40px) saturate(1.5);
+border-top:1px solid rgba(255,255,255,.05);
+display:flex;align-items:flex-end;justify-content:space-around;
+padding:6px 8px calc(env(safe-area-inset-bottom,8px) + 6px);
+}
+.tab{
+display:flex;flex-direction:column;align-items:center;gap:3px;
+padding:6px 12px;border-radius:12px;cursor:pointer;
+transition:all .25s;position:relative;border:none;background:none;
+-webkit-tap-highlight-color:transparent;min-width:56px;
+}
+.tab-icon{font-size:22px;transition:transform .25s}
+.tab-label{font-size:9px;font-weight:600;color:var(--text3);letter-spacing:.5px;text-transform:uppercase;transition:color .25s}
+.tab.active .tab-label{color:var(--accent2)}
+.tab.active .tab-icon{transform:scale(1.15)}
+.tab.active::before{
+content:'';position:absolute;top:-6px;left:50%;transform:translateX(-50%);
+width:24px;height:3px;border-radius:0 0 4px 4px;
+background:linear-gradient(90deg,var(--accent),var(--pink));
+box-shadow:0 2px 8px rgba(139,92,246,.5);
+}
+.tab-create{
+position:relative;margin-top:-22px;
+}
+.tab-create-inner{
+width:52px;height:52px;border-radius:50%;
+background:linear-gradient(135deg,#7C3AED,#8B5CF6,#EC4899);
+display:flex;align-items:center;justify-content:center;
+font-size:26px;color:#fff;
+box-shadow:0 4px 20px rgba(139,92,246,.4),0 0 0 4px rgba(10,9,20,.9);
+transition:all .25s;cursor:pointer;border:none;
+}
+.tab-create-inner:active{transform:scale(.9)}
+
+/* ===== HERO SECTION ===== */
+.hero{
+position:relative;padding:28px 20px;border-radius:20px;overflow:hidden;margin-bottom:20px;
+background:linear-gradient(135deg,rgba(139,92,246,.15),rgba(236,72,153,.1),rgba(6,182,212,.08));
+border:1px solid rgba(139,92,246,.15);
+}
+.hero::before{
+content:'';position:absolute;top:-40%;right:-20%;width:200px;height:200px;
+border-radius:50%;background:radial-gradient(circle,rgba(139,92,246,.2),transparent 70%);
+filter:blur(40px);pointer-events:none;
+}
+.hero-icon{font-size:48px;animation:heroFloat 3s ease-in-out infinite;display:inline-block}
+@keyframes heroFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.hero h1{font-size:26px;font-weight:900;margin:12px 0 6px;letter-spacing:-.5px;line-height:1.1}
+.hero p{color:var(--text2);font-size:14px;line-height:1.4}
+.hero-chip{
+display:inline-flex;align-items:center;gap:6px;
+padding:6px 14px;border-radius:20px;font-size:12px;font-weight:600;
+background:rgba(16,185,129,.12);border:1px solid rgba(16,185,129,.2);color:#6EE7B7;
+margin-top:12px;
+}
+.hero-chip .dot{width:6px;height:6px;border-radius:50%;background:#10B981;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.5)}}
+
+/* ===== GRADIENT TEXT ===== */
+.grad-text{background:linear-gradient(135deg,#C4B5FD,#A78BFA,#8B5CF6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.grad-gold{background:linear-gradient(135deg,#FDE68A,#F59E0B,#D97706);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.grad-multi{background:linear-gradient(135deg,#A78BFA,#EC4899,#06B6D4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+
+/* ===== CONTEST CARD ===== */
+.contest-card{margin-bottom:12px;cursor:pointer}
+.contest-card .top-row{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px}
+.contest-card h3{font-size:16px;font-weight:700;line-height:1.3;flex:1;margin-right:8px}
+.badge{
+padding:4px 10px;border-radius:20px;font-size:10px;font-weight:700;
+letter-spacing:.5px;text-transform:uppercase;white-space:nowrap;
+}
+.badge-active{background:rgba(16,185,129,.12);color:#6EE7B7;border:1px solid rgba(16,185,129,.15)}
+.badge-ended{background:rgba(239,68,68,.12);color:#FCA5A5;border:1px solid rgba(239,68,68,.15)}
+.badge-pending{background:rgba(245,158,11,.12);color:#FCD34D;border:1px solid rgba(245,158,11,.15)}
+.contest-card .desc{color:var(--text2);font-size:13px;line-height:1.4;margin-bottom:10px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.contest-card .meta{display:flex;gap:12px;flex-wrap:wrap}
+.contest-card .meta-item{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--text2)}
+.contest-card .meta-item .ico{font-size:14px}
+
+/* ===== TIMER ===== */
+.timer{
+display:inline-flex;gap:6px;margin-top:10px;
+}
+.timer-block{
+background:rgba(139,92,246,.1);border:1px solid rgba(139,92,246,.15);
+border-radius:8px;padding:6px 8px;text-align:center;min-width:44px;
+}
+.timer-num{font-size:18px;font-weight:800;color:#C4B5FD;font-variant-numeric:tabular-nums}
+.timer-label{font-size:8px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-top:1px}
+
+/* ===== LEADERBOARD ===== */
+.lb-row{
+display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:var(--radius-sm);
+margin-bottom:4px;transition:all .2s;
+}
+.lb-row:hover{background:rgba(255,255,255,.03)}
+.lb-pos{
+width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+font-size:12px;font-weight:800;flex-shrink:0;
+}
+.lb-gold{background:linear-gradient(135deg,#FDE68A,#F59E0B);color:#78350F;box-shadow:0 2px 8px rgba(245,158,11,.3)}
+.lb-silver{background:linear-gradient(135deg,#E5E7EB,#9CA3AF);color:#374151;box-shadow:0 2px 8px rgba(156,163,175,.3)}
+.lb-bronze{background:linear-gradient(135deg,#FDBA74,#EA580C);color:#431407;box-shadow:0 2px 8px rgba(234,88,12,.3)}
+.lb-default{background:rgba(255,255,255,.06);color:var(--text2)}
+.lb-name{flex:1;font-size:14px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lb-pts{font-size:14px;font-weight:800;color:var(--accent2);font-variant-numeric:tabular-nums}
+.lb-me{background:rgba(139,92,246,.08)!important;border:1px solid rgba(139,92,246,.15)}
+
+/* ===== FORM ===== */
+.form-group{margin-bottom:16px}
+.form-label{display:block;font-size:12px;font-weight:600;color:var(--text2);margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px}
+.form-input,.form-select,.form-textarea{
+width:100%;padding:12px 14px;border-radius:var(--radius-sm);
+background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);
+color:var(--text);font-family:inherit;font-size:14px;
+transition:all .2s;outline:none;
+}
+.form-input:focus,.form-select:focus,.form-textarea:focus{
+border-color:rgba(139,92,246,.4);box-shadow:0 0 0 3px rgba(139,92,246,.1);
+background:rgba(255,255,255,.06);
+}
+.form-textarea{min-height:80px;resize:vertical}
+.form-select{-webkit-appearance:none;appearance:none;cursor:pointer}
+.form-select option{background:#1a1a2e;color:#fff}
+.form-hint{font-size:11px;color:var(--text3);margin-top:4px}
+
+/* ===== TOGGLE ===== */
+.toggle-row{
+display:flex;align-items:center;justify-content:space-between;
+padding:12px;border-radius:var(--radius-sm);
+background:rgba(255,255,255,.02);margin-bottom:8px;
+}
+.toggle-row label{font-size:14px;font-weight:500;cursor:pointer}
+.toggle{
+width:44px;height:24px;border-radius:12px;cursor:pointer;position:relative;
+background:rgba(255,255,255,.1);border:none;transition:background .3s;flex-shrink:0;
+}
+.toggle.on{background:var(--accent)}
+.toggle::after{
+content:'';position:absolute;width:18px;height:18px;border-radius:50%;
+background:#fff;top:3px;left:3px;transition:transform .3s;
+box-shadow:0 2px 4px rgba(0,0,0,.3);
+}
+.toggle.on::after{transform:translateX(20px)}
+
+/* ===== ICON BUBBLE ===== */
+.icon-bubble{
+width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;
+font-size:18px;flex-shrink:0;
+}
+.ib-violet{background:rgba(139,92,246,.12);box-shadow:0 0 12px rgba(139,92,246,.08)}
+.ib-pink{background:rgba(236,72,153,.12);box-shadow:0 0 12px rgba(236,72,153,.08)}
+.ib-cyan{background:rgba(6,182,212,.12);box-shadow:0 0 12px rgba(6,182,212,.08)}
+.ib-green{background:rgba(16,185,129,.12);box-shadow:0 0 12px rgba(16,185,129,.08)}
+.ib-amber{background:rgba(245,158,11,.12);box-shadow:0 0 12px rgba(245,158,11,.08)}
+
+/* ===== PROGRESS BAR ===== */
+.pbar-wrap{height:6px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden;margin-top:8px}
+.pbar-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--accent),var(--pink),var(--cyan));background-size:200% 100%;animation:pbarShine 3s linear infinite;position:relative}
+@keyframes pbarShine{0%{background-position:200% 0}100%{background-position:-200% 0}}
+
+/* ===== STATS GRID ===== */
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}
+.stat-card{
+text-align:center;padding:14px 10px;border-radius:var(--radius-sm);
+background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.05);
+}
+.stat-num{font-size:24px;font-weight:900;font-variant-numeric:tabular-nums}
+.stat-label{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-top:2px}
+
+/* ===== TOAST ===== */
+.toast{
+position:fixed;top:20px;left:50%;transform:translateX(-50%) translateY(-100px);
+padding:12px 24px;border-radius:var(--radius-sm);z-index:999;
+font-size:14px;font-weight:600;
+backdrop-filter:blur(20px);
+transition:transform .4s cubic-bezier(.4,0,.2,1);
+max-width:90%;text-align:center;
+}
+.toast.show{transform:translateX(-50%) translateY(0)}
+.toast-success{background:rgba(16,185,129,.9);color:#fff;box-shadow:0 8px 32px rgba(16,185,129,.3)}
+.toast-error{background:rgba(239,68,68,.9);color:#fff;box-shadow:0 8px 32px rgba(239,68,68,.3)}
+.toast-info{background:rgba(139,92,246,.9);color:#fff;box-shadow:0 8px 32px rgba(139,92,246,.3)}
+
+/* ===== ANIMATIONS ===== */
+.fade-up{animation:fadeUp .5s ease-out both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.d1{animation-delay:.05s}.d2{animation-delay:.1s}.d3{animation-delay:.15s}
+.d4{animation-delay:.2s}.d5{animation-delay:.25s}.d6{animation-delay:.3s}
+
+/* ===== SECTION TITLE ===== */
+.section-title{font-size:18px;font-weight:800;margin:20px 0 12px;display:flex;align-items:center;gap:8px}
+.section-title .ico{font-size:20px}
+
+/* ===== BACK BUTTON ===== */
+.back-btn{
+display:flex;align-items:center;gap:6px;font-size:14px;font-weight:600;
+color:var(--accent2);cursor:pointer;background:none;border:none;
+padding:8px 0;margin-bottom:12px;font-family:inherit;
+}
+.back-btn:active{opacity:.6}
+
+/* ===== PRIZE TAG ===== */
+.prize-tag{
+display:inline-flex;align-items:center;gap:4px;
+padding:4px 10px;border-radius:20px;font-size:12px;
+background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.15);color:#FCD34D;
+margin:2px 4px 2px 0;
+}
+
+/* ===== EMPTY STATE ===== */
+.empty-state{text-align:center;padding:40px 20px;color:var(--text2)}
+.empty-state .ico{font-size:48px;margin-bottom:12px;display:inline-block}
+.empty-state h3{font-size:16px;font-weight:700;color:var(--text);margin-bottom:6px}
+.empty-state p{font-size:13px;line-height:1.4}
+
+/* ===== DETAIL HEADER ===== */
+.detail-header{
+padding:24px 20px;border-radius:20px;margin-bottom:16px;
+background:linear-gradient(135deg,rgba(139,92,246,.12),rgba(236,72,153,.08));
+border:1px solid rgba(139,92,246,.12);position:relative;overflow:hidden;
+}
+.detail-header::before{
+content:'';position:absolute;top:-50%;right:-30%;width:200px;height:200px;
+border-radius:50%;background:radial-gradient(circle,rgba(236,72,153,.15),transparent 70%);
+filter:blur(40px);pointer-events:none;
+}
+
+/* ===== ADMIN CARD ===== */
+.admin-card{
+display:flex;align-items:center;gap:14px;
+padding:14px;border-radius:var(--radius-sm);
+background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.05);
+margin-bottom:8px;cursor:pointer;transition:all .2s;
+}
+.admin-card:hover{background:rgba(255,255,255,.05);border-color:rgba(139,92,246,.2)}
+.admin-card:active{transform:scale(.97)}
+.admin-card .info{flex:1;min-width:0}
+.admin-card .info h4{font-size:14px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.admin-card .info p{font-size:12px;color:var(--text2);margin-top:2px}
+.admin-card .arrow{color:var(--text3);font-size:18px}
+
+/* ===== LOG ENTRY ===== */
+.log-entry{
+padding:10px 12px;border-radius:var(--radius-xs);
+border-left:3px solid var(--accent);
+background:rgba(255,255,255,.02);margin-bottom:6px;
+}
+.log-entry .log-time{font-size:10px;color:var(--text3);font-variant-numeric:tabular-nums}
+.log-entry .log-action{font-size:13px;font-weight:500;margin-top:2px}
+.log-entry .log-detail{font-size:11px;color:var(--text2);margin-top:2px}
+
+/* ===== WINNER CARD ===== */
+.winner-card{
+text-align:center;padding:20px;border-radius:var(--radius);
+background:linear-gradient(135deg,rgba(245,158,11,.08),rgba(251,191,36,.05));
+border:1px solid rgba(245,158,11,.15);margin-bottom:8px;
+}
+.winner-card .crown{font-size:32px;margin-bottom:6px;display:inline-block}
+.winner-card .name{font-size:16px;font-weight:800}
+.winner-card .pts{font-size:13px;color:var(--amber);margin-top:4px}
+
+/* ===== RESPONSIVE ===== */
+@media(min-width:420px){.screen{padding:20px 24px 100px}}
+
+/* ===== SKELETON ===== */
+.skeleton{background:linear-gradient(90deg,rgba(255,255,255,.04) 25%,rgba(255,255,255,.08) 50%,rgba(255,255,255,.04) 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:8px}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+
+.hidden{display:none!important}
+</style>
+</head>
+<body>
+
+<div class="orb"></div>
+<div id="particles"></div>
+
+<div id="app">
+  <!-- Screens will be rendered here by JS -->
+  <div id="screen-container" class="screen"></div>
+
+  <!-- TAB BAR -->
+  <div class="tabbar">
+    <button class="tab active" data-tab="home" onclick="switchTab('home')">
+      <span class="tab-icon">🏠</span>
+      <span class="tab-label">Главная</span>
+    </button>
+    <button class="tab" data-tab="points" onclick="switchTab('points')">
+      <span class="tab-icon">⭐</span>
+      <span class="tab-label">Баллы</span>
+    </button>
+    <button class="tab tab-create" data-tab="create" onclick="switchTab('create')">
+      <div class="tab-create-inner">＋</div>
+    </button>
+    <button class="tab" data-tab="admin" onclick="switchTab('admin')">
+      <span class="tab-icon">⚙️</span>
+      <span class="tab-label">Админ</span>
+    </button>
+    <button class="tab" data-tab="profile" onclick="switchTab('profile')">
+      <span class="tab-icon">👤</span>
+      <span class="tab-label">Профиль</span>
+    </button>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+/* ============================================================
+   🏆 CONTEST MINI APP — FULL LOGIC IN ONE FILE
+   Telegram Mini App для управления конкурсами
+   ============================================================ */
+
+// ===== КОНФИГУРАЦИЯ =====
+const CONFIG = {
+  MAIN_ADMIN_TG_ID: 1262669099,
+  FIREBASE: {
+    apiKey: "YOUR_API_KEY",
+    authDomain: "YOUR_PROJECT.firebaseapp.com",
+    projectId: "YOUR_PROJECT_ID",
+    storageBucket: "YOUR_PROJECT.appspot.com",
+    messagingSenderId: "000000000000",
+    appId: "YOUR_APP_ID"
+  }
+};
+
+// ===== TELEGRAM WEB APP =====
+const tg = window.Telegram?.WebApp;
+let currentUser = null;
+let isMainAdmin = false;
+
+function initTelegram() {
+  if (tg) {
+    tg.ready();
+    tg.expand();
+    tg.enableClosingConfirmation();
+    if (tg.initDataUnsafe?.user) {
+      currentUser = {
+        tgId: tg.initDataUnsafe.user.id,
+        username: tg.initDataUnsafe.user.username || '',
+        firstName: tg.initDataUnsafe.user.first_name || 'User'
+      };
+      isMainAdmin = currentUser.tgId === CONFIG.MAIN_ADMIN_TG_ID;
+    }
+  }
+  // Для отладки вне Telegram
+  if (!currentUser) {
+    currentUser = { tgId: CONFIG.MAIN_ADMIN_TG_ID, username: 'Tru5tNoBody', firstName: 'Admin' };
+    isMainAdmin = true;
+  }
+}
+
+// ===== FIREBASE INIT =====
+let db = null;
+let firebaseReady = false;
+
+function initFirebase() {
+  try {
+    if (CONFIG.FIREBASE.apiKey === 'YOUR_API_KEY') {
+      console.log('Firebase не настроен — используем демо-данные');
+      return;
+    }
+    const app = firebase.initializeApp(CONFIG.FIREBASE);
+    db = firebase.firestore();
+    firebaseReady = true;
+    console.log('Firebase подключён');
+  } catch (e) {
+    console.log('Firebase ошибка:', e);
+  }
+}
+
+// ===== ДЕМО ДАННЫЕ =====
+const DEMO_CONTESTS = [
+  {
+    id: 'demo1',
+    name: '🎁 Розыгрыш iPhone 16 Pro',
+    description: 'Грандиозный розыгрыш нового iPhone 16 Pro Max 256GB! Участвуйте и выигрывайте!',
+    conditions: 'Подпишитесь на канал и поставьте реакции на последние 3 поста',
+    channel: '@apple_giveaway',
+    endDate: new Date(Date.now() + 5 * 86400000).toISOString(),
+    winnersCount: 1,
+    outcomeType: 3,
+    prizes: ['iPhone 16 Pro Max 256GB', 'AirPods Pro 2'],
+    status: 'active',
+    participants: 1247,
+    buttonText: 'Участвовать',
+    initialPoints: 10,
+    creatorTgId: CONFIG.MAIN_ADMIN_TG_ID
+  },
+  {
+    id: 'demo2',
+    name: '💰 10 000₽ за активность',
+    description: 'Набери больше всех баллов и получи денежный приз! Лидерборд обновляется каждый час.',
+    conditions: 'Ставьте реакции, приглашайте друзей, смотрите рекламу',
+    channel: '@money_contest',
+    endDate: new Date(Date.now() + 2 * 86400000).toISOString(),
+    winnersCount: 3,
+    outcomeType: 1,
+    prizes: ['10 000₽', '5 000₽', '2 500₽'],
+    status: 'active',
+    participants: 832,
+    buttonText: 'Участвовать',
+    initialPoints: 5,
+    creatorTgId: CONFIG.MAIN_ADMIN_TG_ID
+  },
+  {
+    id: 'demo3',
+    name: '🎮 PlayStation 5 Slim',
+    description: 'Случайный победитель среди тех, кто набрал 50+ баллов получит PS5 Slim!',
+    conditions: 'Набери минимум 50 баллов для участия в рандоме',
+    channel: '@gaming_prizes',
+    endDate: new Date(Date.now() + 10 * 86400000).toISOString(),
+    winnersCount: 1,
+    outcomeType: 2,
+    threshold: 50,
+    prizes: ['PlayStation 5 Slim + DualSense'],
+    status: 'active',
+    participants: 2103,
+    buttonText: 'Хочу PS5!',
+    initialPoints: 0,
+    creatorTgId: 999
+  }
+];
+
+const DEMO_LEADERBOARD = [
+  { name: 'Александр К.', points: 340, tgId: 1 },
+  { name: 'Мария С.', points: 285, tgId: 2 },
+  { name: 'Дмитрий В.', points: 260, tgId: 3 },
+  { name: 'Анна П.', points: 195, tgId: 4 },
+  { name: 'Кирилл Н.', points: 180, tgId: 5 },
+  { name: 'Admin', points: 150, tgId: CONFIG.MAIN_ADMIN_TG_ID },
+  { name: 'Елена М.', points: 120, tgId: 7 },
+  { name: 'Сергей Т.', points: 95, tgId: 8 },
+];
+
+const DEMO_LOGS = [
+  { time: '14:32', action: 'Начислены баллы', detail: '+15 баллов — Александр К. (реакции)', type: 'points' },
+  { time: '14:28', action: 'Новый участник', detail: 'Мария С. вступила в конкурс #1', type: 'join' },
+  { time: '14:15', action: 'Приглашение', detail: 'Дмитрий В. пригласил Анну П.', type: 'invite' },
+  { time: '13:50', action: 'Ручное начисление', detail: '+50 баллов — Кирилл Н. (бонус)', type: 'manual' },
+  { time: '13:30', action: 'Реклама просмотрена', detail: 'Елена М. получила +10 баллов', type: 'ad' },
+];
+
+// ===== HELPERS =====
+function getContests() { return DEMO_CONTESTS; }
+function getLeaderboard() { return DEMO_LEADERBOARD; }
+
+function formatTimeLeft(endDate) {
+  const diff = new Date(endDate) - Date.now();
+  if (diff <= 0) return { d: 0, h: 0, m: 0, s: 0, ended: true };
+  return {
+    d: Math.floor(diff / 86400000),
+    h: Math.floor((diff % 86400000) / 3600000),
+    m: Math.floor((diff % 3600000) / 60000),
+    s: Math.floor((diff % 60000) / 1000),
+    ended: false
+  };
+}
+
+function formatDate(iso) {
+  const d = new Date(iso);
+  const months = ['янв','фев','мар','апр','май','июн','июл','авг','сен','окт','ноя','дек'];
+  return `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}, ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')} МСК`;
+}
+
+function showToast(msg, type = 'info') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = `toast toast-${type} show`;
+  if (tg?.HapticFeedback) {
+    tg.HapticFeedback.notificationOccurred(type === 'error' ? 'error' : 'success');
+  }
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+function haptic(type = 'light') {
+  if (tg?.HapticFeedback) tg.HapticFeedback.impactOccurred(type);
+}
+
+// ===== PARTICLES =====
+function createParticles() {
+  const container = document.getElementById('particles');
+  const colors = ['rgba(139,92,246,.3)', 'rgba(236,72,153,.25)', 'rgba(6,182,212,.2)', 'rgba(245,158,11,.2)', 'rgba(16,185,129,.2)'];
+  for (let i = 0; i < 8; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.style.cssText = `
+      width:${3 + Math.random() * 5}px;height:${3 + Math.random() * 5}px;
+      background:${colors[i % colors.length]};
+      left:${Math.random() * 100}%;
+      animation-duration:${12 + Math.random() * 20}s;
+      animation-delay:${Math.random() * 10}s;
+    `;
+    container.appendChild(p);
+  }
+}
+
+// ===== NAVIGATION =====
+let currentTab = 'home';
+let currentDetail = null;
+let timerIntervals = [];
+
+function switchTab(tab) {
+  haptic('light');
+  currentTab = tab;
+  currentDetail = null;
+  document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.tab === tab));
+  clearTimers();
+  render();
+}
+
+function openDetail(contestId) {
+  haptic('medium');
+  currentDetail = contestId;
+  clearTimers();
+  render();
+}
+
+function goBack() {
+  haptic('light');
+  currentDetail = null;
+  render();
+}
+
+function clearTimers() {
+  timerIntervals.forEach(clearInterval);
+  timerIntervals = [];
+}
+
+// ===== RENDER ENGINE =====
+function render() {
+  const container = document.getElementById('screen-container');
+
+  if (currentDetail) {
+    container.innerHTML = renderDetailScreen(currentDetail);
+    startTimers();
+    container.scrollTop = 0;
+    return;
+  }
+
+  switch(currentTab) {
+    case 'home': container.innerHTML = renderHomeScreen(); break;
+    case 'points': container.innerHTML = renderPointsScreen(); break;
+    case 'create': container.innerHTML = renderCreateScreen(); break;
+    case 'admin': container.innerHTML = isMainAdmin ? renderAdminScreen() : renderNoAccessScreen(); break;
+    case 'profile': container.innerHTML = renderProfileScreen(); break;
+  }
+  startTimers();
+  container.scrollTop = 0;
+}
+
+// ===== HOME SCREEN =====
+function renderHomeScreen() {
+  const contests = getContests().filter(c => c.status === 'active');
+  return `
+    <div class="hero fade-up">
+      <div style="position:relative;z-index:1">
+        <span class="hero-icon">🏆</span>
+        <h1 class="grad-text">Конкурсы</h1>
+        <p>Участвуй, набирай баллы, выигрывай призы!</p>
+        <div class="hero-chip">
+          <span class="dot"></span>
+          ${contests.length} активных конкурсов
+        </div>
+      </div>
+    </div>
+
+    <div class="section-title fade-up d1"><span class="ico">🔥</span> Активные конкурсы</div>
+
+    ${contests.map((c, i) => `
+      <div class="gc hoverable contest-card fade-up d${i+2}" onclick="openDetail('${c.id}')">
+        <div class="top-row">
+          <h3>${c.name}</h3>
+          <span class="badge badge-active">Live</span>
+        </div>
+        <div class="desc">${c.description}</div>
+        <div class="meta">
+          <span class="meta-item"><span class="ico">👥</span> ${c.participants.toLocaleString()}</span>
+          <span class="meta-item"><span class="ico">🏆</span> ${c.winnersCount} ${c.winnersCount === 1 ? 'победитель' : 'победителя'}</span>
+          <span class="meta-item"><span class="ico">📢</span> ${c.channel}</span>
+        </div>
+        <div class="timer" data-end="${c.endDate}">
+          <div class="timer-block"><div class="timer-num t-d">--</div><div class="timer-label">дней</div></div>
+          <div class="timer-block"><div class="timer-num t-h">--</div><div class="timer-label">часов</div></div>
+          <div class="timer-block"><div class="timer-num t-m">--</div><div class="timer-label">минут</div></div>
+          <div class="timer-block"><div class="timer-num t-s">--</div><div class="timer-label">секунд</div></div>
+        </div>
+      </div>
+    `).join('')}
+  `;
+}
+
+// ===== DETAIL SCREEN =====
+function renderDetailScreen(id) {
+  const c = getContests().find(x => x.id === id);
+  if (!c) return '<div class="empty-state"><span class="ico">🤷</span><h3>Конкурс не найден</h3></div>';
+  const lb = getLeaderboard();
+  const outcomeLabels = { 1: '📊 Лидерборд', 2: '🎲 Рандом с порогом', 3: '⚖️ Взвешенный рандом' };
+  const myPlace = lb.findIndex(x => x.tgId === currentUser.tgId);
+  const myPoints = myPlace >= 0 ? lb[myPlace].points : 0;
+
+  return `
+    <button class="back-btn" onclick="goBack()">← Назад</button>
+
+    <div class="detail-header fade-up">
+      <div style="position:relative;z-index:1">
+        <span class="badge badge-active" style="margin-bottom:10px;display:inline-block">Live</span>
+        <h1 style="font-size:22px;font-weight:900;margin-bottom:8px">${c.name}</h1>
+        <p style="color:var(--text2);font-size:13px;line-height:1.5">${c.description}</p>
+        ${c.conditions ? `<p style="color:var(--text2);font-size:12px;margin-top:8px;padding:8px 12px;background:rgba(255,255,255,.04);border-radius:8px">📋 ${c.conditions}</p>` : ''}
+      </div>
+    </div>
+
+    <div class="stats fade-up d1">
+      <div class="stat-card">
+        <div class="stat-num grad-text">${c.participants.toLocaleString()}</div>
+        <div class="stat-label">Участников</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num grad-gold">${myPoints}</div>
+        <div class="stat-label">Ваши баллы</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" style="color:var(--cyan)">${myPlace >= 0 ? '#' + (myPlace + 1) : '—'}</div>
+        <div class="stat-label">Ваше место</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" style="color:var(--amber)">${c.winnersCount}</div>
+        <div class="stat-label">${c.winnersCount === 1 ? 'Победитель' : 'Победителей'}</div>
+      </div>
+    </div>
+
+    <div class="gc fade-up d2" style="margin-bottom:12px;text-align:center">
+      <div style="font-size:12px;color:var(--text2);margin-bottom:8px">⏰ До завершения</div>
+      <div class="timer" data-end="${c.endDate}" style="justify-content:center">
+        <div class="timer-block"><div class="timer-num t-d">--</div><div class="timer-label">дней</div></div>
+        <div class="timer-block"><div class="timer-num t-h">--</div><div class="timer-label">часов</div></div>
+        <div class="timer-block"><div class="timer-num t-m">--</div><div class="timer-label">минут</div></div>
+        <div class="timer-block"><div class="timer-num t-s">--</div><div class="timer-label">секунд</div></div>
+      </div>
+    </div>
+
+    <button class="btn btn-primary btn-full btn-lg fade-up d3" onclick="joinContest('${c.id}')">
+      🚀 ${c.buttonText}
+    </button>
+
+    ${c.prizes?.length ? `
+      <div class="section-title fade-up d3"><span class="ico">🎁</span> Призы</div>
+      <div class="gc fade-up d4" style="margin-bottom:12px">
+        ${c.prizes.map((p, i) => `
+          <div style="display:flex;align-items:center;gap:10px;padding:8px 0;${i > 0 ? 'border-top:1px solid rgba(255,255,255,.05)' : ''}">
+            <span style="font-size:20px">${i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : '🎁'}</span>
+            <span style="font-size:14px;font-weight:600">${p}</span>
+          </div>
+        `).join('')}
+      </div>
+    ` : ''}
+
+    <div class="gc fade-up d4" style="margin-bottom:12px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+        <span style="font-size:12px;color:var(--text2)">Тип определения</span>
+        <span style="font-size:12px;font-weight:600">${outcomeLabels[c.outcomeType] || '📊 Лидерборд'}</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+        <span style="font-size:12px;color:var(--text2)">Канал</span>
+        <span style="font-size:12px;font-weight:600;color:var(--accent2)">${c.channel}</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <span style="font-size:12px;color:var(--text2)">Завершение</span>
+        <span style="font-size:12px;font-weight:600">${formatDate(c.endDate)}</span>
+      </div>
+      ${c.initialPoints > 0 ? `
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:4px">
+          <span style="font-size:12px;color:var(--text2)">Стартовые баллы</span>
+          <span style="font-size:12px;font-weight:600;color:var(--green)">+${c.initialPoints}</span>
+        </div>
+      ` : ''}
+    </div>
+
+    <div class="section-title fade-up d4"><span class="ico">🏅</span> Лидерборд</div>
+    <div class="gc fade-up d5">
+      ${lb.map((p, i) => {
+        const posClass = i === 0 ? 'lb-gold' : i === 1 ? 'lb-silver' : i === 2 ? 'lb-bronze' : 'lb-default';
+        const isMe = p.tgId === currentUser.tgId;
+        return `
+          <div class="lb-row ${isMe ? 'lb-me' : ''}">
+            <div class="lb-pos ${posClass}">${i < 3 ? ['🥇','🥈','🥉'][i] : i + 1}</div>
+            <span class="lb-name">${p.name}${isMe ? ' (вы)' : ''}</span>
+            <span class="lb-pts">${p.points}</span>
+          </div>
+        `;
+      }).join('')}
+    </div>
+  `;
+}
+
+// ===== POINTS SCREEN =====
+function renderPointsScreen() {
+  const contests = getContests();
+  const totalPoints = 150 + 85 + 0;
+  return `
+    <div class="hero fade-up">
+      <div style="position:relative;z-index:1">
+        <span class="hero-icon">⭐</span>
+        <h1 class="grad-gold">Мои баллы</h1>
+        <p>Ваш прогресс во всех конкурсах</p>
+      </div>
+    </div>
+
+    <div class="gc fade-up d1" style="text-align:center;margin-bottom:16px">
+      <div style="font-size:12px;color:var(--text2);margin-bottom:4px">Всего баллов</div>
+      <div style="font-size:42px;font-weight:900" class="grad-gold">${totalPoints}</div>
+      <div style="font-size:12px;color:var(--text2);margin-top:4px">во всех конкурсах</div>
+    </div>
+
+    <div class="section-title fade-up d2"><span class="ico">📊</span> По конкурсам</div>
+
+    ${contests.map((c, i) => {
+      const pts = i === 0 ? 150 : i === 1 ? 85 : 0;
+      const maxPts = i === 0 ? 340 : i === 1 ? 285 : 100;
+      const pct = maxPts > 0 ? Math.round((pts / maxPts) * 100) : 0;
+      return `
+        <div class="gc hoverable fade-up d${i+3}" style="margin-bottom:10px;cursor:pointer" onclick="openDetail('${c.id}')">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+            <h4 style="font-size:14px;font-weight:700;flex:1;margin-right:8px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${c.name}</h4>
+            <span style="font-size:18px;font-weight:800;color:var(--accent2)">${pts}</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text3);margin-bottom:4px">
+            <span>Прогресс до #1</span>
+            <span>${pct}%</span>
+          </div>
+          <div class="pbar-wrap"><div class="pbar-fill" style="width:${pct}%"></div></div>
+        </div>
+      `;
+    }).join('')}
+  `;
+}
+
+// ===== CREATE SCREEN =====
+function renderCreateScreen() {
+  return `
+    <div class="hero fade-up">
+      <div style="position:relative;z-index:1">
+        <span class="hero-icon">✨</span>
+        <h1 class="grad-multi">Новый конкурс</h1>
+        <p>Создайте конкурс в вашем канале</p>
+      </div>
+    </div>
+
+    <form onsubmit="submitContest(event)" id="contest-form">
+      <div class="gc fade-up d1" style="margin-bottom:12px">
+        <div style="font-size:14px;font-weight:700;margin-bottom:12px">📝 Основное</div>
+
+        <div class="form-group">
+          <label class="form-label">Название *</label>
+          <input class="form-input" name="name" placeholder="Розыгрыш iPhone 16 Pro" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Канал *</label>
+          <input class="form-input" name="channel" placeholder="@your_channel" required>
+          <div class="form-hint">Бот должен быть администратором канала</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Описание</label>
+          <textarea class="form-textarea" name="description" placeholder="Опишите конкурс..."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Условия участия</label>
+          <textarea class="form-textarea" name="conditions" placeholder="Подпишитесь на канал, поставьте реакции..."></textarea>
+        </div>
+      </div>
+
+      <div class="gc fade-up d2" style="margin-bottom:12px">
+        <div style="font-size:14px;font-weight:700;margin-bottom:12px">⏰ Время и параметры</div>
+
+        <div class="form-group">
+          <label class="form-label">Дата и время окончания (МСК) *</label>
+          <input class="form-input" type="datetime-local" name="endDate" required>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <div class="form-group">
+            <label class="form-label">Победителей</label>
+            <input class="form-input" type="number" name="winnersCount" value="1" min="1" max="100">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Стартовые баллы</label>
+            <input class="form-input" type="number" name="initialPoints" value="0" min="0">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Текст кнопки</label>
+          <input class="form-input" name="buttonText" value="Участвовать" placeholder="Участвовать">
+        </div>
+      </div>
+
+      <div class="gc fade-up d3" style="margin-bottom:12px">
+        <div style="font-size:14px;font-weight:700;margin-bottom:12px">🏆 Определение победителя</div>
+
+        <div class="form-group">
+          <label class="form-label">Тип исхода</label>
+          <select class="form-select" name="outcomeType" onchange="toggleThreshold(this.value)">
+            <option value="1">📊 Лидерборд — побеждают с наибольшими баллами</option>
+            <option value="2">🎲 Рандом с порогом — случайный среди набравших N баллов</option>
+            <option value="3">⚖️ Взвешенный рандом — шанс пропорционален баллам</option>
+          </select>
+        </div>
+
+        <div class="form-group hidden" id="threshold-group">
+          <label class="form-label">Минимальный порог баллов</label>
+          <input class="form-input" type="number" name="threshold" min="1" value="50" placeholder="50">
+          <div class="form-hint">Только участники с баллами ≥ порога участвуют в рандоме</div>
+        </div>
+      </div>
+
+      <div class="gc fade-up d4" style="margin-bottom:16px">
+        <div style="font-size:14px;font-weight:700;margin-bottom:12px">🎁 Призы</div>
+        <div id="prizes-list">
+          <div class="form-group" style="display:flex;gap:8px;align-items:center">
+            <span style="font-size:18px">🥇</span>
+            <input class="form-input" name="prize_0" placeholder="Главный приз" style="flex:1">
+          </div>
+        </div>
+        <button type="button" class="btn btn-ghost btn-full" onclick="addPrize()" style="margin-top:8px">
+          ＋ Добавить приз
+        </button>
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-full btn-lg fade-up d5">
+        🚀 Создать конкурс
+      </button>
+    </form>
+  `;
+}
+
+let prizeCount = 1;
+function addPrize() {
+  haptic('light');
+  const medals = ['🥇','🥈','🥉','🎁','🎁','🎁','🎁','🎁'];
+  const list = document.getElementById('prizes-list');
+  const div = document.createElement('div');
+  div.className = 'form-group';
+  div.style.cssText = 'display:flex;gap:8px;align-items:center';
+  div.innerHTML = `
+    <span style="font-size:18px">${medals[prizeCount] || '🎁'}</span>
+    <input class="form-input" name="prize_${prizeCount}" placeholder="Приз ${prizeCount + 1}" style="flex:1">
+    <button type="button" onclick="this.parentElement.remove()" style="background:none;border:none;font-size:18px;cursor:pointer;color:var(--red)">✕</button>
+  `;
+  list.appendChild(div);
+  prizeCount++;
+}
+
+function toggleThreshold(val) {
+  const el = document.getElementById('threshold-group');
+  if (el) el.classList.toggle('hidden', val !== '2');
+}
+
+function submitContest(e) {
+  e.preventDefault();
+  haptic('heavy');
+  const form = new FormData(e.target);
+  const data = {
+    name: form.get('name'),
+    channel: form.get('channel'),
+    description: form.get('description'),
+    conditions: form.get('conditions'),
+    endDate: form.get('endDate'),
+    winnersCount: parseInt(form.get('winnersCount')),
+    initialPoints: parseInt(form.get('initialPoints')),
+    buttonText: form.get('buttonText'),
+    outcomeType: parseInt(form.get('outcomeType')),
+    threshold: form.get('threshold') ? parseInt(form.get('threshold')) : null,
+    prizes: [],
+    creatorTgId: currentUser.tgId,
+    status: 'pending_scoring',
+    participants: 0,
+    scoringEnabled: false
+  };
+  // Собираем призы
+  for (let [key, val] of form.entries()) {
+    if (key.startsWith('prize_') && val.trim()) data.prizes.push(val.trim());
+  }
+
+  if (!data.name || !data.channel || !data.endDate) {
+    showToast('Заполните обязательные поля!', 'error');
+    return;
+  }
+  if (!data.channel.startsWith('@')) {
+    showToast('Канал должен начинаться с @', 'error');
+    return;
+  }
+
+  // Если Firebase настроен — сохраняем
+  if (firebaseReady && db) {
+    db.collection('contests').add({
+      ...data,
+      endDate: new Date(data.endDate).toISOString(),
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    }).then(() => {
+      showToast('🎉 Конкурс создан!', 'success');
+      switchTab('home');
+    }).catch(err => {
+      showToast('Ошибка: ' + err.message, 'error');
+    });
+  } else {
+    showToast('🎉 Конкурс создан! (демо-режим)', 'success');
+    setTimeout(() => switchTab('home'), 1500);
+  }
+}
+
+// ===== ADMIN SCREEN =====
+function renderAdminScreen() {
+  const contests = getContests();
+  return `
+    <div class="hero fade-up">
+      <div style="position:relative;z-index:1">
+        <span class="hero-icon">⚙️</span>
+        <h1 class="grad-text">Админ-панель</h1>
+        <p>Управление конкурсами и начислениями</p>
+        <div class="hero-chip" style="background:rgba(139,92,246,.12);border-color:rgba(139,92,246,.2);color:#C4B5FD">
+          👑 Главный администратор
+        </div>
+      </div>
+    </div>
+
+    <div class="stats fade-up d1">
+      <div class="stat-card"><div class="stat-num grad-text">${contests.length}</div><div class="stat-label">Конкурсов</div></div>
+      <div class="stat-card"><div class="stat-num grad-gold">${contests.reduce((s,c) => s + c.participants, 0).toLocaleString()}</div><div class="stat-label">Участников</div></div>
+      <div class="stat-card"><div class="stat-num" style="color:var(--green)">${contests.filter(c => c.status === 'active').length}</div><div class="stat-label">Активных</div></div>
+      <div class="stat-card"><div class="stat-num" style="color:var(--cyan)">${DEMO_LOGS.length}</div><div class="stat-label">Действий</div></div>
+    </div>
+
+    <!-- Быстрые действия -->
+    <div class="section-title fade-up d2"><span class="ico">⚡</span> Быстрые действия</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px" class="fade-up d2">
+      <button class="btn btn-primary" onclick="openAdminSection('scoring')" style="flex-direction:column;padding:16px">
+        <span style="font-size:24px">🎯</span>
+        <span style="font-size:11px;margin-top:4px">Начисления</span>
+      </button>
+      <button class="btn btn-success" onclick="openAdminSection('manual')" style="flex-direction:column;padding:16px">
+        <span style="font-size:24px">➕</span>
+        <span style="font-size:11px;margin-top:4px">Ручные баллы</span>
+      </button>
+      <button class="btn btn-ghost" onclick="openAdminSection('logs')" style="flex-direction:column;padding:16px">
+        <span style="font-size:24px">📜</span>
+        <span style="font-size:11px;margin-top:4px">Логи</span>
+      </button>
+      <button class="btn btn-danger" onclick="showToast('Выберите конкурс для завершения','info')" style="flex-direction:column;padding:16px">
+        <span style="font-size:24px">🏁</span>
+        <span style="font-size:11px;margin-top:4px">Завершить</span>
+      </button>
+    </div>
+
+    <!-- Все конкурсы -->
+    <div class="section-title fade-up d3"><span class="ico">📋</span> Все конкурсы</div>
+    ${contests.map((c, i) => `
+      <div class="admin-card fade-up d${i+4}" onclick="openDetail('${c.id}')">
+        <div class="icon-bubble ${['ib-violet','ib-pink','ib-cyan'][i % 3]}">
+          ${['🎁','💰','🎮'][i % 3]}
+        </div>
+        <div class="info">
+          <h4>${c.name}</h4>
+          <p>${c.channel} · ${c.participants} уч. · ${c.status === 'active' ? '🟢 Активен' : '⏸ Ожидание'}</p>
+        </div>
+        <span class="arrow">›</span>
+      </div>
+    `).join('')}
+
+    <!-- Секция: Настройка начислений -->
+    <div id="admin-scoring" class="hidden">
+      ${renderScoringSection()}
+    </div>
+
+    <!-- Секция: Ручное начисление -->
+    <div id="admin-manual" class="hidden">
+      ${renderManualPointsSection()}
+    </div>
+
+    <!-- Секция: Логи -->
+    <div id="admin-logs" class="hidden">
+      ${renderLogsSection()}
+    </div>
+  `;
+}
+
+function openAdminSection(section) {
+  haptic('medium');
+  const sections = ['scoring','manual','logs'];
+  sections.forEach(s => {
+    const el = document.getElementById('admin-' + s);
+    if (el) el.classList.toggle('hidden', s !== section);
+  });
+  const el = document.getElementById('admin-' + section);
+  if (el) {
+    el.classList.toggle('hidden');
+    if (!el.classList.contains('hidden')) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+}
+
+function renderScoringSection() {
+  return `
+    <div class="section-title" style="margin-top:24px"><span class="ico">🎯</span> Настройка начислений</div>
+    <div class="gc" style="margin-bottom:12px">
+      <div style="font-size:14px;font-weight:700;margin-bottom:4px">Выберите конкурс</div>
+      <select class="form-select" id="scoring-contest" style="margin-top:8px">
+        ${getContests().map(c => `<option value="${c.id}">${c.name}</option>`).join('')}
+      </select>
+    </div>
+
+    <div class="gc" style="margin-bottom:10px">
+      <div class="toggle-row">
+        <label>❤️ Реакции на постах</label>
+        <button class="toggle on" onclick="this.classList.toggle('on');haptic('light')"></button>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px">
+        <div class="form-group" style="margin:0">
+          <label class="form-label">Баллов за реакцию</label>
+          <input class="form-input" type="number" value="1" min="1">
+        </div>
+        <div class="form-group" style="margin:0">
+          <label class="form-label">Лимит в сутки</label>
+          <input class="form-input" type="number" value="10" min="1">
+        </div>
+      </div>
+    </div>
+
+    <div class="gc" style="margin-bottom:10px">
+      <div class="toggle-row">
+        <label>👥 Приглашение друзей</label>
+        <button class="toggle" onclick="this.classList.toggle('on');haptic('light')"></button>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px">
+        <div class="form-group" style="margin:0">
+          <label class="form-label">Баллов за друга</label>
+          <input class="form-input" type="number" value="5" min="1">
+        </div>
+        <div class="form-group" style="margin:0">
+          <label class="form-label">Требовать подписку</label>
+          <select class="form-select"><option>Да</option><option>Нет</option></select>
+        </div>
+      </div>
+    </div>
+
+    <div class="gc" style="margin-bottom:12px">
+      <div class="toggle-row">
+        <label>📺 Просмотр рекламы</label>
+        <button class="toggle" onclick="this.classList.toggle('on');haptic('light')"></button>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px">
+        <div class="form-group" style="margin:0">
+          <label class="form-label">Баллов за просмотр</label>
+          <input class="form-input" type="number" value="3" min="1">
+        </div>
+        <div class="form-group" style="margin:0">
+          <label class="form-label">Лимит в день</label>
+          <input class="form-input" type="number" value="5" min="1">
+        </div>
+      </div>
+      <div class="form-group" style="margin-top:8px;margin-bottom:0">
+        <label class="form-label">Ссылка на видео</label>
+        <input class="form-input" placeholder="https://t.me/...">
+      </div>
+    </div>
+
+    <button class="btn btn-success btn-full btn-lg" onclick="showToast('✅ Настройки сохранены!','success')">
+      💾 Сохранить и активировать
+    </button>
+  `;
+}
+
+function renderManualPointsSection() {
+  const lb = getLeaderboard();
+  return `
+    <div class="section-title" style="margin-top:24px"><span class="ico">➕</span> Ручное начисление</div>
+    <div class="gc" style="margin-bottom:12px">
+      <div class="form-group">
+        <label class="form-label">Конкурс</label>
+        <select class="form-select">
+          ${getContests().map(c => `<option value="${c.id}">${c.name}</option>`).join('')}
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Участник</label>
+        <select class="form-select">
+          ${lb.map(p => `<option value="${p.tgId}">${p.name} (${p.points} баллов)</option>`).join('')}
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Количество баллов</label>
+        <input class="form-input" type="number" value="10" min="1" id="manual-points">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Причина</label>
+        <input class="form-input" placeholder="Бонус за активность" id="manual-reason">
+      </div>
+      <button class="btn btn-success btn-full btn-lg" onclick="manualAddPoints()">
+        ✅ Начислить баллы
+      </button>
+    </div>
+  `;
+}
+
+function renderLogsSection() {
+  const colors = { points: 'var(--accent)', join: 'var(--green)', invite: 'var(--cyan)', manual: 'var(--amber)', ad: 'var(--pink)' };
+  return `
+    <div class="section-title" style="margin-top:24px"><span class="ico">📜</span> Последние действия</div>
+    ${DEMO_LOGS.map(l => `
+      <div class="log-entry" style="border-color:${colors[l.type] || 'var(--accent)'}">
+        <div class="log-time">${l.time}</div>
+        <div class="log-action">${l.action}</div>
+        <div class="log-detail">${l.detail}</div>
+      </div>
+    `).join('')}
+  `;
+}
+
+function manualAddPoints() {
+  haptic('heavy');
+  const pts = document.getElementById('manual-points')?.value || 10;
+  const reason = document.getElementById('manual-reason')?.value || '';
+  showToast(`✅ +${pts} баллов начислено${reason ? ' (' + reason + ')' : ''}`, 'success');
+}
+
+// ===== NO ACCESS SCREEN =====
+function renderNoAccessScreen() {
+  return `
+    <div class="empty-state" style="padding-top:80px">
+      <span class="ico" style="font-size:64px">🔒</span>
+      <h3 style="font-size:20px;margin-top:16px">Доступ ограничен</h3>
+      <p style="margin-top:8px">Панель управления доступна<br>только главному администратору</p>
+    </div>
+  `;
+}
+
+// ===== PROFILE SCREEN =====
+function renderProfileScreen() {
+  return `
+    <div class="hero fade-up">
+      <div style="position:relative;z-index:1">
+        <div style="width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--pink));display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:900;margin-bottom:12px;box-shadow:0 4px 20px rgba(139,92,246,.3)">
+          ${currentUser.firstName.charAt(0).toUpperCase()}
+        </div>
+        <h1 style="font-size:22px;font-weight:900">${currentUser.firstName}</h1>
+        <p style="color:var(--accent2);font-size:14px">@${currentUser.username || 'user'}</p>
+        ${isMainAdmin ? '<div class="hero-chip" style="background:rgba(139,92,246,.12);border-color:rgba(139,92,246,.2);color:#C4B5FD;margin-top:8px">👑 Главный администратор</div>' : ''}
+      </div>
+    </div>
+
+    <div class="stats fade-up d1">
+      <div class="stat-card">
+        <div class="stat-num grad-text">3</div>
+        <div class="stat-label">Конкурсов</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num grad-gold">235</div>
+        <div class="stat-label">Всего баллов</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" style="color:var(--green)">0</div>
+        <div class="stat-label">Побед</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" style="color:var(--cyan)">5</div>
+        <div class="stat-label">Приглашений</div>
+      </div>
+    </div>
+
+    <div class="section-title fade-up d2"><span class="ico">🎯</span> Действия</div>
+
+    <div class="gc hoverable fade-up d3" style="margin-bottom:8px;cursor:pointer" onclick="switchTab('create')">
+      <div style="display:flex;align-items:center;gap:12px">
+        <div class="icon-bubble ib-violet">✨</div>
+        <div style="flex:1"><div style="font-size:14px;font-weight:700">Создать конкурс</div><div style="font-size:12px;color:var(--text2)">Запустите конкурс в вашем канале</div></div>
+        <span style="color:var(--text3);font-size:18px">›</span>
+      </div>
+    </div>
+
+    <div class="gc hoverable fade-up d4" style="margin-bottom:8px;cursor:pointer" onclick="switchTab('points')">
+      <div style="display:flex;align-items:center;gap:12px">
+        <div class="icon-bubble ib-amber">⭐</div>
+        <div style="flex:1"><div style="font-size:14px;font-weight:700">Мои баллы</div><div style="font-size:12px;color:var(--text2)">Просмотр прогресса по конкурсам</div></div>
+        <span style="color:var(--text3);font-size:18px">›</span>
+      </div>
+    </div>
+
+    <div class="gc hoverable fade-up d5" style="margin-bottom:8px;cursor:pointer">
+      <div style="display:flex;align-items:center;gap:12px">
+        <div class="icon-bubble ib-cyan">🔗</div>
+        <div style="flex:1"><div style="font-size:14px;font-weight:700">Реферальная ссылка</div><div style="font-size:12px;color:var(--text2)">Пригласите друзей и получите баллы</div></div>
+        <span style="color:var(--text3);font-size:18px">›</span>
+      </div>
+    </div>
+
+    <div class="gc fade-up d6" style="margin-top:16px;text-align:center">
+      <div style="font-size:11px;color:var(--text3)">ID: ${currentUser.tgId}</div>
+      <div style="font-size:11px;color:var(--text3);margin-top:2px">Contest Mini App v3.0</div>
+    </div>
+  `;
+}
+
+// ===== JOIN CONTEST =====
+function joinContest(id) {
+  haptic('heavy');
+  showToast('🎉 Вы участвуете в конкурсе!', 'success');
+}
+
+// ===== TIMER UPDATE =====
+function startTimers() {
+  const timers = document.querySelectorAll('.timer[data-end]');
+  timers.forEach(timer => {
+    function update() {
+      const t = formatTimeLeft(timer.dataset.end);
+      const dEl = timer.querySelector('.t-d');
+      const hEl = timer.querySelector('.t-h');
+      const mEl = timer.querySelector('.t-m');
+      const sEl = timer.querySelector('.t-s');
+      if (dEl) dEl.textContent = String(t.d).padStart(2, '0');
+      if (hEl) hEl.textContent = String(t.h).padStart(2, '0');
+      if (mEl) mEl.textContent = String(t.m).padStart(2, '0');
+      if (sEl) sEl.textContent = String(t.s).padStart(2, '0');
+    }
+    update();
+    timerIntervals.push(setInterval(update, 1000));
+  });
+}
+
+// ===== INIT =====
+function init() {
+  initTelegram();
+  initFirebase();
+  createParticles();
+  render();
+}
+
+document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>
