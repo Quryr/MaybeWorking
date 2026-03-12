@@ -1435,6 +1435,9 @@ const FIREBASE_CONFIG = {
   appId: "1:996857778577:web:eb0bd1f4de21696b424a30"
 };
 
+// Флаг защиты от спам-кликов по кнопке "Участвовать"
+let isJoining = false;
+
 // ═══════════════════════════════════════
 // SVG ICONS
 // ═══════════════════════════════════════
@@ -1492,6 +1495,7 @@ const state = {
   formData: { prizes: [''], outcome_type: 'leaderboard' },
   modal: null,
   adminTab: 'all',
+  referrerId: null // ID пользователя, который пригласил
 };
 
 // ═══════════════════════════════════════
@@ -1501,7 +1505,6 @@ function esc(s) {
   if (!s) return '';
   const d = document.createElement('div');
   d.textContent = s;
-  // Защита от кавычек, чтобы не ломался HTML
   return d.innerHTML.replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 }
 
@@ -1541,17 +1544,12 @@ function formatDateMSK(dateStr) {
 }
 
 function mskInputToUTC(localStr) {
-  // Надежный парсинг даты из datetime-local (вида YYYY-MM-DDTHH:mm)
-  // Мы принимаем это время ровно как МСК (UTC+3) и конвертируем в UTC для базы
-  const parts = localStr.split(/\D/); // [YYYY, MM, DD, HH, mm]
+  const parts = localStr.split(/\D/);
   if (parts.length >= 5) {
-    // Создаем дату в UTC
     const d = new Date(Date.UTC(parts[0], parts[1] - 1, parts[2], parts[3], parts[4]));
-    // Вычитаем 3 часа (т.к. МСК это UTC+3)
     d.setUTCHours(d.getUTCHours() - 3);
     return d.toISOString();
   }
-  // Запасной вариант, если формат не совпал
   return new Date(localStr).toISOString();
 }
 
@@ -1748,7 +1746,7 @@ function startParticipantsListener(contestId) {
 }
 
 // ═══════════════════════════════════════
-// CHANNEL SCANNING (автоматическое)
+// CHANNEL SCANNING
 // ═══════════════════════════════════════
 async function scanForChannels() {
   try {
@@ -1890,8 +1888,6 @@ async function sendContestPost(contest, contestId) {
   text += `Нажмите кнопку ниже, чтобы участвовать!`;
 
   const buttonText = contest.button_text || 'Участвовать';
-  
-  // Прямая ссылка на веб-апп, как у subinvitebot. Параметр передается через startapp.
   const appUrl = `https://t.me/${BOT_USERNAME}/${MINI_APP_SHORT_NAME}?startapp=${contestId}`;
 
   let result = await tgApi('sendMessage', {
@@ -2048,72 +2044,111 @@ async function createContest(formData) {
 }
 
 // ═══════════════════════════════════════
-// JOIN CONTEST
+// JOIN CONTEST (FIXED: Mandatory Sub + Anti-spam + Invites)
 // ═══════════════════════════════════════
 async function joinContest(contestId) {
-  const contest = state.contests.find(c => c._id === contestId);
-  if (!contest) return;
+  if (isJoining) return;
+  isJoining = true;
 
-  const existing = (state.participants[contestId] || []).find(p => p.user_id === currentUser.id);
-  if (existing) {
-    toast('Вы уже участвуете!', 'error');
-    return;
-  }
+  try {
+    const contest = state.contests.find(c => c._id === contestId);
+    if (!contest) return;
 
-  let initialPts = contest.initial_points || 0;
-  let subCount = 0;
-
-  if (contest.scoring?.subscribe?.enabled && contest.channel_id) {
-    try {
-      const res = await tgApi('getChatMember', { chat_id: contest.channel_id, user_id: currentUser.id });
-      if (res.ok && ['member', 'administrator', 'creator'].includes(res.result.status)) {
-         initialPts += contest.scoring.subscribe.points;
-         subCount = 1;
-         toast('Начислены баллы за подписку!');
-      } else {
-         toast('Вы не подписаны на канал, баллы за подписку не начислены', 'info');
-      }
-    } catch(e) {}
-  }
-
-  const partData = {
-    contest_id: contestId,
-    user_id: currentUser.id,
-    first_name: currentUser.first_name,
-    username: currentUser.username,
-    points: initialPts,
-    invites_count: 0,
-    subscribe_count: subCount,
-    ads_count: 0,
-    invite_link: '',
-    joined_at: new Date().toISOString()
-  };
-
-  const partId = await fbAdd('participants', partData);
-  if (!partId) {
-    toast('Ошибка при присоединении', 'error');
-    return;
-  }
-
-  if (contest.scoring?.invites?.enabled && contest.channel_id) {
-    try {
-      const linkResult = await tgApi('createChatInviteLink', {
-        chat_id: contest.channel_id,
-        name: `ref_${currentUser.id}_${contestId}`,
-        creates_join_request: false
-      });
-      if (linkResult.ok) {
-        await fbSet('participants', partId, { invite_link: linkResult.result.invite_link });
-        partData.invite_link = linkResult.result.invite_link;
-      }
-    } catch (e) {
-      console.error('Invite link error:', e);
+    const existing = (state.participants[contestId] || []).find(p => p.user_id === currentUser.id);
+    if (existing) {
+      toast('Вы уже участвуете!', 'error');
+      return;
     }
-  }
 
-  toast('Вы участвуете!');
-  await loadParticipants(contestId);
-  render();
+    // 1. Обязательная проверка подписки
+    const res = await tgApi('getChatMember', { chat_id: contest.channel_id, user_id: currentUser.id });
+    let isSubscribed = false;
+    if (res.ok && ['member', 'administrator', 'creator'].includes(res.result.status)) {
+      isSubscribed = true;
+    }
+
+    if (!isSubscribed) {
+      toast('Для участия нужно подписаться на канал!', 'error');
+      
+      // Ищем или создаем ссылку на канал, чтобы перекинуть туда юзера
+      let channelUrl = contest.channel_username ? `https://t.me/${contest.channel_username.replace('@', '')}` : contest.invite_link;
+      if (!channelUrl) {
+        const linkRes = await tgApi('createChatInviteLink', { chat_id: contest.channel_id });
+        if (linkRes.ok) {
+          channelUrl = linkRes.result.invite_link;
+          await fbSet('contests', contestId, { invite_link: channelUrl }); // сохраняем для будущих
+          contest.invite_link = channelUrl;
+        }
+      }
+
+      if (channelUrl) {
+        const tg = window.Telegram?.WebApp;
+        if (tg && tg.openTelegramLink) {
+          tg.openTelegramLink(channelUrl);
+        } else {
+          window.open(channelUrl, '_blank');
+        }
+      }
+      return; // ПРЕРЫВАЕМ УЧАСТИЕ: он не подписан
+    }
+
+    // 2. Если дошли сюда — человек подписан. Считаем баллы.
+    let initialPts = contest.initial_points || 0;
+    let subCount = 0;
+    if (contest.scoring?.subscribe?.enabled) {
+       initialPts += (contest.scoring.subscribe.points || 0);
+       subCount = 1;
+    }
+
+    const myInviteUrl = `https://t.me/${BOT_USERNAME}/${MINI_APP_SHORT_NAME}?startapp=${contestId}_${currentUser.id}`;
+
+    const partData = {
+      contest_id: contestId,
+      user_id: currentUser.id,
+      first_name: currentUser.first_name,
+      username: currentUser.username,
+      points: initialPts,
+      invites_count: 0,
+      subscribe_count: subCount,
+      ads_count: 0,
+      invite_link: myInviteUrl,
+      joined_at: new Date().toISOString()
+    };
+
+    const partId = await fbAdd('participants', partData);
+    if (!partId) {
+      toast('Ошибка при присоединении', 'error');
+      return;
+    }
+
+    // 3. Обработка реферальной системы (кто нас пригласил?)
+    if (state.referrerId && String(state.referrerId) !== String(currentUser.id) && contest.scoring?.invites?.enabled) {
+      const parts = state.participants[contestId] || [];
+      const referrer = parts.find(p => String(p.user_id) === String(state.referrerId));
+      if (referrer) {
+        const invitePts = contest.scoring.invites.points || 5;
+        await fbSet('participants', referrer._id, {
+          points: (referrer.points || 0) + invitePts,
+          invites_count: (referrer.invites_count || 0) + 1
+        });
+        toast('Вы успешно присоединились по приглашению!');
+      } else {
+        toast('Вы участвуете!');
+      }
+      state.referrerId = null; // Сбрасываем рефералку
+    } else {
+      toast('Вы участвуете!');
+    }
+
+    await loadParticipants(contestId);
+    render();
+
+  } catch (e) {
+    console.error('Join error:', e);
+    toast('Произошла ошибка', 'error');
+  } finally {
+    isJoining = false; // Отпираем замок
+  }
 }
 
 // ═══════════════════════════════════════
@@ -2539,6 +2574,7 @@ function renderDetail() {
     h += `<button class="btn btn-primary" data-action="joinContest" data-id="${c._id}" style="margin-bottom:16px">${IC.zap} ${esc(c.button_text || 'Участвовать')}</button>`;
   }
 
+  // Оставим кнопку для тех, кто вдруг зашел старым способом, но основная логика теперь требует подписку сразу при входе
   if (me && c.status === 'active' && c.scoring?.subscribe?.enabled && (!me.subscribe_count || me.subscribe_count === 0)) {
     h += `<button class="btn btn-secondary" style="margin-bottom:16px;" data-action="checkSub" data-id="${c._id}">${IC.check} Проверить подписку и получить баллы</button>`;
   }
@@ -2720,7 +2756,6 @@ function renderProfile() {
   h += '<div class="header"><h1>Профиль</h1></div>';
 
   h += '<div class="card" style="text-align:center;padding:28px 20px">';
-  // Исправление: обернули аватарку в inline-block, чтобы она центрировалась внутри блока
   h += `<div style="display:inline-block">${avatarHTML(currentUser, 72)}</div>`;
   h += `<div style="font-size:22px;font-weight:900;letter-spacing:-0.3px;margin-top:14px">${esc(currentUser.first_name)}</div>`;
   if (currentUser.username) {
@@ -3162,13 +3197,22 @@ async function init() {
     state.loading = false;
 
     const params = new URLSearchParams(window.location.search);
-    const contestId = tgStartParam || params.get('contest');
-    if (contestId) {
-      state.selectedContest = contestId;
+    const startappData = tgStartParam || params.get('startapp') || params.get('contest');
+    
+    if (startappData) {
+      // Разбираем реферальную ссылку (формат: contestId_referrerId)
+      if (startappData.includes('_')) {
+        const parts = startappData.split('_');
+        state.selectedContest = parts[0];
+        state.referrerId = parts[1]; // Запоминаем того, кто пригласил
+      } else {
+        state.selectedContest = startappData;
+      }
+      
       state.screen = 'detail';
       if (fbReady) {
-        await loadParticipants(contestId);
-        startParticipantsListener(contestId);
+        await loadParticipants(state.selectedContest);
+        startParticipantsListener(state.selectedContest);
       }
     }
 
