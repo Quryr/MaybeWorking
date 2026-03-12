@@ -391,7 +391,9 @@ a {
 }
 
 .btn-row .btn {
-  flex: 1;
+  flex: 1 1 auto;
+  min-width: 0;
+  white-space: nowrap;
 }
 
 /* ═══════════════════════════════════════
@@ -551,7 +553,7 @@ select.form-input {
 }
 
 /* ═══════════════════════════════════════
-   TAB BAR — все кнопки одинаковые
+   TAB BAR
    ═══════════════════════════════════════ */
 .tab-bar {
   position: fixed;
@@ -1399,6 +1401,16 @@ select.form-input {
 <div id="root"></div>
 <script type="module">
 // ═══════════════════════════════════════
+// НАСТРОЙКИ БОТА И ПРИЛОЖЕНИЯ
+// ═══════════════════════════════════════
+// ВАЖНО!!! ЧТОБЫ ССЫЛКИ РАБОТАЛИ КАК У SUBINVITEBOT:
+// 1. Зайди в @BotFather и отправь команду /newapp
+// 2. Выбери своего бота @T3335tBot
+// 3. Пройди шаги и придумай короткое имя (Short Name), например: app или win
+// 4. Впиши это имя сюда:
+const MINI_APP_SHORT_NAME = 'win'; 
+
+// ═══════════════════════════════════════
 // FIREBASE IMPORTS
 // ═══════════════════════════════════════
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
@@ -1410,12 +1422,6 @@ import {
 // ═══════════════════════════════════════
 // CONSTANTS
 // ═══════════════════════════════════════
-const BOT_TOKEN = '8031008647:AAFWbpZ-OQeIUwPbWOmBxCzeYVA_yh_AjC8';
-const MAIN_ADMIN_TG_ID = 1262669099;
-const BOT_USERNAME = 'T3335tBot';
-// ВАЖНО: ЗАМЕНИ 'app' НА ТОТ SHORT NAME, КОТОРЫЙ ТЫ УКАЗЫВАЛ В @BotFather ДЛЯ СВОЕГО WEB APP
-const MINI_APP_SHORT_NAME = 'app'; 
-
 const FIREBASE_CONFIG = {
   apiKey: "AIzaSyBPQO8zHAMOgvM4DtwSwNQ-VhTi6GsoLhs",
   authDomain: "contest-bot-54b4d.firebaseapp.com",
