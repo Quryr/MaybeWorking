@@ -1403,11 +1403,6 @@ select.form-input {
 // ═══════════════════════════════════════
 // НАСТРОЙКИ БОТА И ПРИЛОЖЕНИЯ
 // ═══════════════════════════════════════
-// ВАЖНО!!! ЧТОБЫ ССЫЛКИ РАБОТАЛИ КАК У SUBINVITEBOT:
-// 1. Зайди в @BotFather и отправь команду /newapp
-// 2. Выбери своего бота @T3335tBot
-// 3. Пройди шаги и придумай короткое имя (Short Name), например: app или win
-// 4. Впиши это имя сюда:
 const MINI_APP_SHORT_NAME = 'win'; 
 
 const BOT_TOKEN = '8031008647:AAFWbpZ-OQeIUwPbWOmBxCzeYVA_yh_AjC8';
@@ -1435,8 +1430,8 @@ const FIREBASE_CONFIG = {
   appId: "1:996857778577:web:eb0bd1f4de21696b424a30"
 };
 
-// Флаг защиты от спам-кликов по кнопке "Участвовать"
 let isJoining = false;
+let isInitialRender = true;
 
 // ═══════════════════════════════════════
 // SVG ICONS
@@ -1495,7 +1490,7 @@ const state = {
   formData: { prizes: [''], outcome_type: 'leaderboard' },
   modal: null,
   adminTab: 'all',
-  referrerId: null // ID пользователя, который пригласил
+  referrerId: null
 };
 
 // ═══════════════════════════════════════
@@ -1508,7 +1503,6 @@ function esc(s) {
   return d.innerHTML.replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 }
 
-// Специальное экранирование для Telegram HTML Parse Mode, чтобы бот не выдавал 400 ошибку
 function escTg(s) {
   if (!s) return '';
   return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -1732,8 +1726,8 @@ function startContestsListener() {
   if (contestsUnsubscribe) contestsUnsubscribe();
   contestsUnsubscribe = onSnapshot(collection(db, 'contests'), (snap) => {
     state.contests = snap.docs.map(d => ({ _id: d.id, ...d.data() }));
-    autoEndContests(); // Проверяем нет ли просроченных конкурсов
-    render();
+    autoEndContests();
+    if (!isInitialRender) render();
   });
 }
 
@@ -1748,12 +1742,12 @@ function startParticipantsListener(contestId) {
         getUserPhoto(p.user_id);
       }
     });
-    render();
+    if (!isInitialRender) render();
   });
 }
 
 // ═══════════════════════════════════════
-// AUTO END CONTESTS (Фоновое закрытие)
+// AUTO END CONTESTS
 // ═══════════════════════════════════════
 let isAutoEnding = false;
 async function autoEndContests() {
@@ -1763,9 +1757,7 @@ async function autoEndContests() {
     const now = new Date();
     for (const c of state.contests) {
       if (c.status === 'active' && new Date(c.end_date) <= now) {
-        // Разрешаем только создателю или админу выполнить этот скрипт, чтобы не было дублей и спама
         if (c.creator_id === currentUser.id || currentUser.is_admin) {
-          // Сразу меняем статус локально, чтобы не вызвать повторно
           c.status = 'ended';
           await fbSet('contests', c._id, { status: 'ended', ended_at: new Date().toISOString() });
           await loadParticipants(c._id);
@@ -1775,7 +1767,7 @@ async function autoEndContests() {
           } else {
              toast(`Ошибка публикации итогов: ${result?.description}`, 'error');
           }
-          render();
+          if (!isInitialRender) render();
         }
       }
     }
@@ -1847,6 +1839,7 @@ async function getUserPhoto(userId) {
       if (fileData.ok) {
         const url = `https://api.telegram.org/file/bot${BOT_TOKEN}/${fileData.result.file_path}`;
         photoCache[userId] = url;
+        if (!isInitialRender) render();
         return url;
       }
     }
@@ -2101,7 +2094,6 @@ async function joinContest(contestId) {
       return;
     }
 
-    // 1. Обязательная проверка подписки
     const res = await tgApi('getChatMember', { chat_id: contest.channel_id, user_id: currentUser.id });
     let isSubscribed = false;
     if (res.ok && ['member', 'administrator', 'creator'].includes(res.result.status)) {
@@ -2111,13 +2103,12 @@ async function joinContest(contestId) {
     if (!isSubscribed) {
       toast('Для участия нужно подписаться на канал!', 'error');
       
-      // Перекидываем в канал
       let channelUrl = contest.channel_username ? `https://t.me/${contest.channel_username.replace('@', '')}` : contest.invite_link;
       if (!channelUrl) {
         const linkRes = await tgApi('createChatInviteLink', { chat_id: contest.channel_id });
         if (linkRes.ok) {
           channelUrl = linkRes.result.invite_link;
-          await fbSet('contests', contestId, { invite_link: channelUrl }); // сохраняем
+          await fbSet('contests', contestId, { invite_link: channelUrl });
           contest.invite_link = channelUrl;
         }
       }
@@ -2130,10 +2121,9 @@ async function joinContest(contestId) {
           window.open(channelUrl, '_blank');
         }
       }
-      return; // Прерываем участие
+      return;
     }
 
-    // 2. Пользователь подписан.
     let initialPts = contest.initial_points || 0;
     let subCount = 0;
     if (contest.scoring?.subscribe?.enabled) {
@@ -2162,7 +2152,6 @@ async function joinContest(contestId) {
       return;
     }
 
-    // 3. Реферальная система (кто пригласил?)
     if (state.referrerId && String(state.referrerId) !== String(currentUser.id) && contest.scoring?.invites?.enabled) {
       const parts = state.participants[contestId] || [];
       const referrer = parts.find(p => String(p.user_id) === String(state.referrerId));
@@ -2188,7 +2177,7 @@ async function joinContest(contestId) {
     console.error('Join error:', e);
     toast('Произошла ошибка', 'error');
   } finally {
-    isJoining = false; // Открываем замок
+    isJoining = false;
   }
 }
 
@@ -3211,56 +3200,58 @@ function collectFormData() {
 // INIT
 // ═══════════════════════════════════════
 async function init() {
-  render(); 
+  render(); // Первичная отрисовка экрана "Загрузка..."
   
   try {
     initTg();
     await initFirebase();
 
     if (fbReady) {
+      // 1. Быстрая загрузка: только каналы текущего админа и активные конкурсы
       await loadChannels();
-      startContestsListener();
       await loadContests();
       
-      scanForChannels().then(() => {
-          loadChannels().then(() => render());
-      });
+      // Парсим параметры запуска, если зашли по реферальной ссылке
+      const params = new URLSearchParams(window.location.search);
+      const startappData = tgStartParam || params.get('startapp') || params.get('contest');
+      
+      if (startappData) {
+        if (startappData.includes('_')) {
+          const parts = startappData.split('_');
+          state.selectedContest = parts[0];
+          state.referrerId = parts[1];
+        } else {
+          state.selectedContest = startappData;
+        }
+        state.screen = 'detail';
+        await loadParticipants(state.selectedContest);
+      }
 
+      // 2. Включаем слушатели базы данных (без лишних render)
+      isInitialRender = true;
+      startContestsListener();
+      
       const pPromises = state.contests.map(c => {
          startParticipantsListener(c._id);
          return loadParticipants(c._id);
       });
       await Promise.all(pPromises);
+      isInitialRender = false;
 
-      getUserPhoto(currentUser.id).then(() => render());
+      // 3. Фоновые процессы, которые не вызывают лишних морганий
+      scanForChannels().then(() => {
+          loadChannels().then(() => render()); // Обновляем тихо в фоне
+      });
+
+      getUserPhoto(currentUser.id).then(() => render()); // Подгружаем аватарку
       
-      // Запускаем периодическую проверку на авто-завершение каждые 30 секунд
+      // Проверка авто-завершения (тоже работает тихо)
       setInterval(autoEndContests, 30000);
     }
 
     state.loading = false;
+    render(); // Финальная отрисовка уже готового интерфейса
 
-    const params = new URLSearchParams(window.location.search);
-    const startappData = tgStartParam || params.get('startapp') || params.get('contest');
-    
-    if (startappData) {
-      // Разбираем реферальную ссылку (формат: contestId_referrerId)
-      if (startappData.includes('_')) {
-        const parts = startappData.split('_');
-        state.selectedContest = parts[0];
-        state.referrerId = parts[1]; // Запоминаем того, кто пригласил
-      } else {
-        state.selectedContest = startappData;
-      }
-      
-      state.screen = 'detail';
-      if (fbReady) {
-        await loadParticipants(state.selectedContest);
-        startParticipantsListener(state.selectedContest);
-      }
-    }
-
-    render();
   } catch (e) {
     console.error('Init error:', e);
     state.loading = false;
