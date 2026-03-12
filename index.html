@@ -1731,14 +1731,17 @@ const AVATAR_COLORS = [
 ];
 
 function avatarHTML(user, size = 42) {
-  const colorIdx = Math.abs((user.id || 0) % AVATAR_COLORS.length);
-  const color = AVATAR_COLORS[colorIdx];
-  const initials = (user.first_name || '?').charAt(0).toUpperCase();
-  const photoUrl = photoCache[user.id || user.user_id];
+  const key = String(user.id || user.user_id || 0);
+  const photoUrl = photoCache[key];
 
   if (photoUrl) {
     return `<div class="lb-avatar" style="width:${size}px;height:${size}px"><img src="${photoUrl}" alt=""></div>`;
   }
+
+  const colorIdx = Math.abs(parseInt(key) % AVATAR_COLORS.length);
+  const color = AVATAR_COLORS[colorIdx];
+  const initials = (user.first_name || '?').charAt(0).toUpperCase();
+
   return `<div class="lb-avatar" style="width:${size}px;height:${size}px;background:${color};font-size:${Math.round(size * 0.4)}px;color:#000;">${initials}</div>`;
 }
 
@@ -2011,23 +2014,29 @@ async function scanForChannels() {
 // USER PHOTOS
 // ═══════════════════════════════════════
 async function getUserPhoto(userId) {
-  if (photoCache[userId]) return photoCache[userId];
+  const key = String(userId);
+  if (photoCache.hasOwnProperty(key)) return photoCache[key];
+
   try {
     const resp = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/getUserProfilePhotos?user_id=${userId}&limit=1`);
     const data = await resp.json();
+
     if (data.ok && data.result.total_count > 0) {
       const fileId = data.result.photos[0][0].file_id;
       const fileResp = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/getFile?file_id=${fileId}`);
       const fileData = await fileResp.json();
+
       if (fileData.ok) {
         const url = `https://api.telegram.org/file/bot${BOT_TOKEN}/${fileData.result.file_path}`;
-        photoCache[userId] = url;
+        photoCache[key] = url;
         if (!isInitialRender) requestRender();
         return url;
       }
     }
-  } catch (e) {
-  }
+  } catch (e) {}
+
+  // Нет фото — запоминаем, чтобы больше не запрашивать
+  photoCache[key] = null;
   return null;
 }
 
@@ -2907,7 +2916,7 @@ function renderDetail() {
       if (canManage) {
         h += `<div class="lb-item${isMe ? ' me' : ''}" data-action="openParticipant" data-pid="${p._id}" data-cid="${c._id}">`;
       } else {
-        h += `<div class="lb-item${isMe ? ' me' : ''}">`;
+        h += `<div class="lb-item${isMe ? ' me' : ''}" data-action="openUserProfile" data-username="${p.username || ''}">`;
       }
 
       h += `<div class="lb-rank ${rankClass}">${rank}</div>`;
@@ -3156,7 +3165,7 @@ function bindEvents() {
   document.querySelectorAll('[data-action]').forEach(el => {
     el.addEventListener('click', async (e) => {
       e.stopPropagation();
-      const action = el.dataset.action; 
+      const action = el.dataset.action;
 
       if (action === 'nav') {
         const screen = el.dataset.screen;
@@ -3169,7 +3178,6 @@ function bindEvents() {
         window.scrollTo(0, 0);
         return;
       }
-
       if (action === 'goHome') {
         state.screen = 'home';
         state.selectedContest = null;
@@ -3177,7 +3185,6 @@ function bindEvents() {
         window.scrollTo(0, 0);
         return;
       }
-
       if (action === 'openContest') {
         state.selectedContest = el.dataset.id;
         state.screen = 'detail';
@@ -3185,12 +3192,10 @@ function bindEvents() {
         window.scrollTo(0, 0);
         return;
       }
-
       if (action === 'checkSub') {
         const contest = state.contests.find(c => c._id === el.dataset.id);
         const parts = state.participants[contest._id] || [];
         const me = parts.find(p => p.user_id === currentUser.id);
-
         if (contest && me) {
            const res = await tgApi('getChatMember', { chat_id: contest.channel_id, user_id: currentUser.id });
            if (res.ok && ['member', 'administrator', 'creator'].includes(res.result.status)) {
@@ -3206,7 +3211,6 @@ function bindEvents() {
         }
         return;
       }
-
       if (action === 'addBotToChannel') {
         const url = `https://t.me/${BOT_USERNAME}?startchannel&admin=post_messages+edit_messages+delete_messages+invite_users`;
         if (window.Telegram?.WebApp?.openTelegramLink) {
@@ -3216,7 +3220,6 @@ function bindEvents() {
         }
         return;
       }
-
       if (action === 'scanChannels') {
         toast('Ищем каналы...');
         await scanForChannels();
@@ -3229,7 +3232,6 @@ function bindEvents() {
         render();
         return;
       }
-
       if (action === 'selectChannel') {
         collectFormData();
         state.formData.channel_id = String(el.dataset.chatid);
@@ -3238,21 +3240,18 @@ function bindEvents() {
         render();
         return;
       }
-
       if (action === 'addPrize') {
         collectFormData();
         state.formData.prizes = (state.formData.prizes || ['']).concat(['']);
         render();
         return;
       }
-
       if (action === 'removePrize') {
         collectFormData();
         state.formData.prizes.splice(parseInt(el.dataset.idx), 1);
         render();
         return;
       }
-
       if (action === 'submitContest') {
         collectFormData();
         const ok = await createContest(state.formData);
@@ -3263,22 +3262,18 @@ function bindEvents() {
         }
         return;
       }
-
       if (action === 'joinContest') {
         await joinContest(el.dataset.id);
         return;
       }
-
       if (action === 'endContest') {
         await endContest(el.dataset.id);
         return;
       }
-
       if (action === 'deleteContest') {
         await deleteContest(el.dataset.id);
         return;
       }
-
       if (action === 'copyInvite') {
         try {
           await navigator.clipboard.writeText(el.dataset.link);
@@ -3294,7 +3289,6 @@ function bindEvents() {
         }
         return;
       }
-
       if (action === 'openParticipant') {
         const parts = state.participants[el.dataset.cid] || [];
         const part = parts.find(p => p._id === el.dataset.pid);
@@ -3303,13 +3297,11 @@ function bindEvents() {
         render();
         return;
       }
-
       if (action === 'closeModal') {
         state.modal = null;
         render();
         return;
       }
-
       if (action === 'addPoints') {
         const type = el.dataset.type;
         const inputId = type === 'invites' ? 'modal-inv' : type === 'subscribe' ? 'modal-sub' : 'modal-ads';
@@ -3318,7 +3310,6 @@ function bindEvents() {
         await addPointsToParticipant(el.dataset.pid, type, count, contest);
         return;
       }
-
       if (action === 'removeManualPoints') {
         const count = parseInt(document.getElementById('modal-manual')?.value) || 1;
         const cid = el.dataset.cid;
@@ -3335,7 +3326,6 @@ function bindEvents() {
         }
         return;
       }
-
       if (action === 'addManualPoints') {
         const count = parseInt(document.getElementById('modal-manual')?.value) || 1;
         const cid = el.dataset.cid;
@@ -3351,12 +3341,31 @@ function bindEvents() {
         }
         return;
       }
-
       if (action === 'setAdminTab') {
         state.adminTab = el.dataset.tab;
         render();
         return;
       }
+
+      // ←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←
+      // НОВЫЙ КОД (добавлен сюда)
+      if (action === 'openUserProfile') {
+        const username = el.dataset.username;
+        if (!username) {
+          toast('У пользователя нет username', 'warn');
+          return;
+        }
+        const link = `https://t.me/${username.replace(/^@/, '')}`;
+        const tg = window.Telegram?.WebApp;
+        if (tg?.openTelegramLink) {
+          tg.openTelegramLink(link);
+        } else {
+          window.open(link, '_blank');
+        }
+        return;
+      }
+      // ←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←
+
     });
   });
 
