@@ -24,13 +24,13 @@
   --text: #FFFFFF;
   --text2: #A0A0A0;
   --text3: #666666;
-
+  
   /* POISONOUS ORANGE ACCENTS */
   --accent: #FF5500; 
   --accent-hover: #E64D00;
   --accent-text: #000000;
   --accent-glow: rgba(255, 85, 0, 0.35);
-
+  
   /* NEON STATUS COLORS */
   --danger: #FF0033;
   --danger-bg: #2A0008;
@@ -38,10 +38,10 @@
   --success-bg: #0A1F05;
   --warn: #FFB300;
   --warn-bg: #261B00;
-
+  
   --section-bg: #121212;
   --hover: #1A1A1A;
-
+  
   --radius: 16px;
   --radius-sm: 12px;
   --radius-xs: 8px;
@@ -1556,10 +1556,8 @@ select.form-input {
 const MINI_APP_SHORT_NAME = 'win'; 
 
 const BOT_TOKEN = '8031008647:AAFWbpZ-OQeIUwPbWOmBxCzeYVA_yh_AjC8';
-const BOT_TOKEN = '8706605182:AAHav-fOev7hgrgxmVa5CILYHj154aoMLxw';
 const MAIN_ADMIN_TG_ID = 1262669099;
 const BOT_USERNAME = 'T3335tBot';
-const BOT_USERNAME = 'PrizeVortexBot';
 
 // ═══════════════════════════════════════
 // FIREBASE IMPORTS
@@ -1733,17 +1731,14 @@ const AVATAR_COLORS = [
 ];
 
 function avatarHTML(user, size = 42) {
-  const key = String(user.id || user.user_id || 0);
-  const photoUrl = photoCache[key];
+  const colorIdx = Math.abs((user.id || 0) % AVATAR_COLORS.length);
+  const color = AVATAR_COLORS[colorIdx];
+  const initials = (user.first_name || '?').charAt(0).toUpperCase();
+  const photoUrl = photoCache[user.id || user.user_id];
 
   if (photoUrl) {
     return `<div class="lb-avatar" style="width:${size}px;height:${size}px"><img src="${photoUrl}" alt=""></div>`;
   }
-
-  const colorIdx = Math.abs(parseInt(key) % AVATAR_COLORS.length);
-  const color = AVATAR_COLORS[colorIdx];
-  const initials = (user.first_name || '?').charAt(0).toUpperCase();
-
   return `<div class="lb-avatar" style="width:${size}px;height:${size}px;background:${color};font-size:${Math.round(size * 0.4)}px;color:#000;">${initials}</div>`;
 }
 
@@ -1874,7 +1869,7 @@ async function loadChannels() {
   const all = await fbAll('channels');
   const uniqueChannels = [];
   const seenIds = new Set();
-
+  
   for (const ch of all) {
     if (!ch.chat_id || ch.chat_id === 'undefined') {
         fbDel('channels', ch._id).catch(e => console.log(e));
@@ -1887,14 +1882,14 @@ async function loadChannels() {
         continue;
     }
     seenIds.add(chIdStr);
-
+    
     if (ch.title === 'undefined' || !ch.title) {
        ch.title = (ch.username && ch.username !== 'undefined') ? `@${ch.username}` : `Канал ${ch.chat_id}`;
     }
     if (ch.username === 'undefined') {
        ch.username = '';
     }
-
+    
     if (ch.admin_id === currentUser.id || currentUser.is_admin) {
       uniqueChannels.push(ch);
     }
@@ -1991,7 +1986,7 @@ async function scanForChannels() {
           let safeTitle = chat.title || chat.username || `Канал ${chat.id}`;
           if (safeTitle === 'undefined') safeTitle = `Канал ${chat.id}`;
           let safeUsername = chat.username && chat.username !== 'undefined' ? chat.username : '';
-
+          
           const chData = {
             chat_id: String(chat.id),
             title: safeTitle,
@@ -2016,29 +2011,23 @@ async function scanForChannels() {
 // USER PHOTOS
 // ═══════════════════════════════════════
 async function getUserPhoto(userId) {
-  const key = String(userId);
-  if (photoCache.hasOwnProperty(key)) return photoCache[key];
-
+  if (photoCache[userId]) return photoCache[userId];
   try {
     const resp = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/getUserProfilePhotos?user_id=${userId}&limit=1`);
     const data = await resp.json();
-
     if (data.ok && data.result.total_count > 0) {
       const fileId = data.result.photos[0][0].file_id;
       const fileResp = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/getFile?file_id=${fileId}`);
       const fileData = await fileResp.json();
-
       if (fileData.ok) {
         const url = `https://api.telegram.org/file/bot${BOT_TOKEN}/${fileData.result.file_path}`;
-        photoCache[key] = url;
+        photoCache[userId] = url;
         if (!isInitialRender) requestRender();
         return url;
       }
     }
-  } catch (e) {}
-
-  // Нет фото — запоминаем, чтобы больше не запрашивать
-  photoCache[key] = null;
+  } catch (e) {
+  }
   return null;
 }
 
@@ -2296,7 +2285,7 @@ async function joinContest(contestId) {
 
     if (!isSubscribed) {
       toast('Для участия нужно подписаться на канал!', 'error');
-
+      
       let channelUrl = contest.channel_username ? `https://t.me/${contest.channel_username.replace('@', '')}` : contest.invite_link;
       if (!channelUrl) {
         const linkRes = await tgApi('createChatInviteLink', { chat_id: contest.channel_id });
@@ -2440,7 +2429,7 @@ async function deleteContest(contestId) {
     }
 
     const parts = state.participants[contestId] || [];
-
+    
     const batchPromises = parts.map(p => fbDel('participants', p._id));
     await Promise.all(batchPromises);
 
@@ -2918,7 +2907,7 @@ function renderDetail() {
       if (canManage) {
         h += `<div class="lb-item${isMe ? ' me' : ''}" data-action="openParticipant" data-pid="${p._id}" data-cid="${c._id}">`;
       } else {
-        h += `<div class="lb-item${isMe ? ' me' : ''}" data-action="openUserProfile" data-username="${p.username || ''}">`;
+        h += `<div class="lb-item${isMe ? ' me' : ''}">`;
       }
 
       h += `<div class="lb-rank ${rankClass}">${rank}</div>`;
@@ -3167,7 +3156,7 @@ function bindEvents() {
   document.querySelectorAll('[data-action]').forEach(el => {
     el.addEventListener('click', async (e) => {
       e.stopPropagation();
-      const action = el.dataset.action;
+      const action = el.dataset.action; 
 
       if (action === 'nav') {
         const screen = el.dataset.screen;
@@ -3180,6 +3169,7 @@ function bindEvents() {
         window.scrollTo(0, 0);
         return;
       }
+
       if (action === 'goHome') {
         state.screen = 'home';
         state.selectedContest = null;
@@ -3187,6 +3177,7 @@ function bindEvents() {
         window.scrollTo(0, 0);
         return;
       }
+
       if (action === 'openContest') {
         state.selectedContest = el.dataset.id;
         state.screen = 'detail';
@@ -3194,10 +3185,12 @@ function bindEvents() {
         window.scrollTo(0, 0);
         return;
       }
+
       if (action === 'checkSub') {
         const contest = state.contests.find(c => c._id === el.dataset.id);
         const parts = state.participants[contest._id] || [];
         const me = parts.find(p => p.user_id === currentUser.id);
+
         if (contest && me) {
            const res = await tgApi('getChatMember', { chat_id: contest.channel_id, user_id: currentUser.id });
            if (res.ok && ['member', 'administrator', 'creator'].includes(res.result.status)) {
@@ -3213,6 +3206,7 @@ function bindEvents() {
         }
         return;
       }
+
       if (action === 'addBotToChannel') {
         const url = `https://t.me/${BOT_USERNAME}?startchannel&admin=post_messages+edit_messages+delete_messages+invite_users`;
         if (window.Telegram?.WebApp?.openTelegramLink) {
@@ -3222,6 +3216,7 @@ function bindEvents() {
         }
         return;
       }
+
       if (action === 'scanChannels') {
         toast('Ищем каналы...');
         await scanForChannels();
@@ -3234,6 +3229,7 @@ function bindEvents() {
         render();
         return;
       }
+
       if (action === 'selectChannel') {
         collectFormData();
         state.formData.channel_id = String(el.dataset.chatid);
@@ -3242,18 +3238,21 @@ function bindEvents() {
         render();
         return;
       }
+
       if (action === 'addPrize') {
         collectFormData();
         state.formData.prizes = (state.formData.prizes || ['']).concat(['']);
         render();
         return;
       }
+
       if (action === 'removePrize') {
         collectFormData();
         state.formData.prizes.splice(parseInt(el.dataset.idx), 1);
         render();
         return;
       }
+
       if (action === 'submitContest') {
         collectFormData();
         const ok = await createContest(state.formData);
@@ -3264,18 +3263,22 @@ function bindEvents() {
         }
         return;
       }
+
       if (action === 'joinContest') {
         await joinContest(el.dataset.id);
         return;
       }
+
       if (action === 'endContest') {
         await endContest(el.dataset.id);
         return;
       }
+
       if (action === 'deleteContest') {
         await deleteContest(el.dataset.id);
         return;
       }
+
       if (action === 'copyInvite') {
         try {
           await navigator.clipboard.writeText(el.dataset.link);
@@ -3291,6 +3294,7 @@ function bindEvents() {
         }
         return;
       }
+
       if (action === 'openParticipant') {
         const parts = state.participants[el.dataset.cid] || [];
         const part = parts.find(p => p._id === el.dataset.pid);
@@ -3299,11 +3303,13 @@ function bindEvents() {
         render();
         return;
       }
+
       if (action === 'closeModal') {
         state.modal = null;
         render();
         return;
       }
+
       if (action === 'addPoints') {
         const type = el.dataset.type;
         const inputId = type === 'invites' ? 'modal-inv' : type === 'subscribe' ? 'modal-sub' : 'modal-ads';
@@ -3312,6 +3318,7 @@ function bindEvents() {
         await addPointsToParticipant(el.dataset.pid, type, count, contest);
         return;
       }
+
       if (action === 'removeManualPoints') {
         const count = parseInt(document.getElementById('modal-manual')?.value) || 1;
         const cid = el.dataset.cid;
@@ -3328,6 +3335,7 @@ function bindEvents() {
         }
         return;
       }
+
       if (action === 'addManualPoints') {
         const count = parseInt(document.getElementById('modal-manual')?.value) || 1;
         const cid = el.dataset.cid;
@@ -3343,31 +3351,12 @@ function bindEvents() {
         }
         return;
       }
+
       if (action === 'setAdminTab') {
         state.adminTab = el.dataset.tab;
         render();
         return;
       }
-
-      // ←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←
-      // НОВЫЙ КОД (добавлен сюда)
-      if (action === 'openUserProfile') {
-        const username = el.dataset.username;
-        if (!username) {
-          toast('У пользователя нет username', 'warn');
-          return;
-        }
-        const link = `https://t.me/${username.replace(/^@/, '')}`;
-        const tg = window.Telegram?.WebApp;
-        if (tg?.openTelegramLink) {
-          tg.openTelegramLink(link);
-        } else {
-          window.open(link, '_blank');
-        }
-        return;
-      }
-      // ←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←←
-
     });
   });
 
@@ -3428,7 +3417,7 @@ function collectFormData() {
 async function init() {
   // 1. Показываем экран загрузки
   render(); 
-
+  
   try {
     initTg();
     await initFirebase();
@@ -3436,16 +3425,16 @@ async function init() {
     if (fbReady) {
       // Блокируем множественные рендеры
       isInitialRender = true;
-
+      
       // Ждем первичные данные
       await Promise.all([
         loadChannels(),
         loadContests()
       ]);
-
+      
       const params = new URLSearchParams(window.location.search);
       const startappData = tgStartParam || params.get('startapp') || params.get('contest');
-
+      
       if (startappData) {
         if (startappData.includes('_')) {
           const parts = startappData.split('_');
@@ -3470,14 +3459,14 @@ async function init() {
 
       startContestsListener();
       state.contests.forEach(c => startParticipantsListener(c._id));
-
+      
       scanForChannels().then(() => {
           loadChannels();
       });
 
       getUserPhoto(currentUser.id);
       setInterval(autoEndContests, 30000);
-
+      
       setTimeout(() => {
          isInitialRender = false;
       }, 500);
