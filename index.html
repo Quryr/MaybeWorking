@@ -1541,9 +1541,18 @@ function formatDateMSK(dateStr) {
 }
 
 function mskInputToUTC(localStr) {
-  const d = new Date(localStr);
-  d.setHours(d.getHours() - 3);
-  return d.toISOString();
+  // Надежный парсинг даты из datetime-local (вида YYYY-MM-DDTHH:mm)
+  // Мы принимаем это время ровно как МСК (UTC+3) и конвертируем в UTC для базы
+  const parts = localStr.split(/\D/); // [YYYY, MM, DD, HH, mm]
+  if (parts.length >= 5) {
+    // Создаем дату в UTC
+    const d = new Date(Date.UTC(parts[0], parts[1] - 1, parts[2], parts[3], parts[4]));
+    // Вычитаем 3 часа (т.к. МСК это UTC+3)
+    d.setUTCHours(d.getUTCHours() - 3);
+    return d.toISOString();
+  }
+  // Запасной вариант, если формат не совпал
+  return new Date(localStr).toISOString();
 }
 
 const AVATAR_COLORS = [
@@ -2711,7 +2720,8 @@ function renderProfile() {
   h += '<div class="header"><h1>Профиль</h1></div>';
 
   h += '<div class="card" style="text-align:center;padding:28px 20px">';
-  h += avatarHTML(currentUser, 72);
+  // Исправление: обернули аватарку в inline-block, чтобы она центрировалась внутри блока
+  h += `<div style="display:inline-block">${avatarHTML(currentUser, 72)}</div>`;
   h += `<div style="font-size:22px;font-weight:900;letter-spacing:-0.3px;margin-top:14px">${esc(currentUser.first_name)}</div>`;
   if (currentUser.username) {
     h += `<div style="font-size:14px;color:var(--text2);margin-top:4px;font-weight:500">@${currentUser.username}</div>`;
@@ -3125,7 +3135,6 @@ function collectFormData() {
 // INIT
 // ═══════════════════════════════════════
 async function init() {
-  // 1. Показываем загрузку моментально!
   render(); 
   
   try {
@@ -3137,19 +3146,16 @@ async function init() {
       startContestsListener();
       await loadContests();
       
-      // Не ждем сканирования каналов, чтобы не блочить экран (работает в фоне)
       scanForChannels().then(() => {
           loadChannels().then(() => render());
       });
 
-      // Загружаем участников параллельно (ускоряет запуск в разы)
       const pPromises = state.contests.map(c => {
          startParticipantsListener(c._id);
          return loadParticipants(c._id);
       });
       await Promise.all(pPromises);
 
-      // Подгружаем аватарку в фоне
       getUserPhoto(currentUser.id).then(() => render());
     }
 
@@ -3166,7 +3172,6 @@ async function init() {
       }
     }
 
-    // 2. Отрисовываем сам интерфейс
     render();
   } catch (e) {
     console.error('Init error:', e);
