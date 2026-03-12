@@ -1432,6 +1432,7 @@ const FIREBASE_CONFIG = {
 
 let isJoining = false;
 let isInitialRender = true;
+let renderTimer = null;
 
 // ═══════════════════════════════════════
 // SVG ICONS
@@ -1496,6 +1497,14 @@ const state = {
 // ═══════════════════════════════════════
 // UTILITIES
 // ═══════════════════════════════════════
+function requestRender() {
+  if (state.loading) return; 
+  if (renderTimer) clearTimeout(renderTimer);
+  renderTimer = setTimeout(() => {
+    render();
+  }, 50); // Группирует 50 обновлений в секунду в одну отрисовку
+}
+
 function esc(s) {
   if (!s) return '';
   const d = document.createElement('div');
@@ -1727,7 +1736,7 @@ function startContestsListener() {
   contestsUnsubscribe = onSnapshot(collection(db, 'contests'), (snap) => {
     state.contests = snap.docs.map(d => ({ _id: d.id, ...d.data() }));
     autoEndContests();
-    if (!isInitialRender) render();
+    if (!isInitialRender) requestRender();
   });
 }
 
@@ -1742,7 +1751,7 @@ function startParticipantsListener(contestId) {
         getUserPhoto(p.user_id);
       }
     });
-    if (!isInitialRender) render();
+    if (!isInitialRender) requestRender();
   });
 }
 
@@ -1767,7 +1776,7 @@ async function autoEndContests() {
           } else {
              toast(`Ошибка публикации итогов: ${result?.description}`, 'error');
           }
-          if (!isInitialRender) render();
+          if (!isInitialRender) requestRender();
         }
       }
     }
@@ -1839,7 +1848,7 @@ async function getUserPhoto(userId) {
       if (fileData.ok) {
         const url = `https://api.telegram.org/file/bot${BOT_TOKEN}/${fileData.result.file_path}`;
         photoCache[userId] = url;
-        if (!isInitialRender) render();
+        if (!isInitialRender) requestRender();
         return url;
       }
     }
@@ -2969,14 +2978,6 @@ function bindEvents() {
       if (action === 'openContest') {
         state.selectedContest = el.dataset.id;
         state.screen = 'detail';
-        // Показываем индикатор загрузки, пока грузим участников конкретного конкурса
-        state.loading = true;
-        render();
-        
-        await loadParticipants(el.dataset.id);
-        startParticipantsListener(el.dataset.id);
-        
-        state.loading = false;
         render();
         window.scrollTo(0, 0);
         return;
@@ -3206,7 +3207,7 @@ function collectFormData() {
 // INIT
 // ═══════════════════════════════════════
 async function init() {
-  // Показываем экран загрузки и ждём
+  // 1. Сначала показываем экран загрузки и ждём
   render(); 
   
   try {
@@ -3214,16 +3215,16 @@ async function init() {
     await initFirebase();
 
     if (fbReady) {
-      // Блокируем множественные рендеры от слушателей, пока не закончим загрузку
+      // Блокируем множественные рендеры от слушателей
       isInitialRender = true;
       
-      // ЖДЁМ окончания первичной загрузки каналов и активных конкурсов
+      // ЖДЁМ окончания первичной загрузки списков каналов и активных конкурсов
       await Promise.all([
         loadChannels(),
         loadContests()
       ]);
       
-      // Парсим параметры запуска, если зашли по реферальной ссылке
+      // Разбираем ссылку
       const params = new URLSearchParams(window.location.search);
       const startappData = tgStartParam || params.get('startapp') || params.get('contest');
       
@@ -3236,33 +3237,33 @@ async function init() {
           state.selectedContest = startappData;
         }
         state.screen = 'detail';
-        // Ждем загрузки участников для выбранного конкурса
+        // Ждем загрузки участников именно для этого конкурса
         await loadParticipants(state.selectedContest);
       }
 
-      // Ждем загрузки всех участников для остальных активных конкурсов
+      // Ждем загрузки всех остальных участников
       const pPromises = state.contests.map(c => loadParticipants(c._id));
       await Promise.all(pPromises);
 
-      // Включаем "тихие" фоновые процессы, которые не вызывают await
+      // Включаем "тихие" фоновые процессы и слушатели
       startContestsListener();
       state.contests.forEach(c => startParticipantsListener(c._id));
       
       scanForChannels().then(() => {
-          loadChannels().then(() => {
-             // Здесь render не вызываем, просто обновили state
-          });
+          loadChannels();
       });
 
-      getUserPhoto(currentUser.id); // Без вызова render в .then
+      getUserPhoto(currentUser.id);
       
       setInterval(autoEndContests, 30000);
       
-      // Снимаем блокировку
-      isInitialRender = false;
+      // Оставляем небольшую паузу (500мс), чтобы все первые "onSnapshot" успели выстрелить вхолостую
+      setTimeout(() => {
+         isInitialRender = false;
+      }, 500);
     }
 
-    // Загрузка завершена, интерфейс полностью готов
+    // 2. ВЫКЛЮЧАЕМ ЭКРАН ЗАГРУЗКИ ТОЛЬКО ЗДЕСЬ И РЕНДЕРИМ 1 РАЗ!
     state.loading = false;
     render(); 
 
