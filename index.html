@@ -1497,6 +1497,18 @@ const state = {
 // ═══════════════════════════════════════
 // UTILITIES
 // ═══════════════════════════════════════
+
+// Безопасное подтверждение через Telegram, чтобы не багалась клавиатура
+function tgConfirm(msg) {
+  return new Promise(resolve => {
+    if (window.Telegram?.WebApp?.showConfirm) {
+      window.Telegram.WebApp.showConfirm(msg, resolve);
+    } else {
+      resolve(confirm(msg));
+    }
+  });
+}
+
 function requestRender() {
   if (state.loading) return; 
   if (renderTimer) clearTimeout(renderTimer);
@@ -2225,7 +2237,8 @@ async function endContest(contestId) {
     return;
   }
 
-  if (!confirm('Завершить конкурс? Это действие нельзя отменить.')) return;
+  const isConfirmed = await tgConfirm('Завершить конкурс? Это действие нельзя отменить.');
+  if (!isConfirmed) return;
 
   await fbSet('contests', contestId, { status: 'ended', ended_at: new Date().toISOString() });
 
@@ -2253,7 +2266,8 @@ async function deleteContest(contestId) {
     return;
   }
 
-  if (!confirm('Удалить конкурс навсегда? Это нельзя отменить.')) return;
+  const isConfirmed = await tgConfirm('Удалить конкурс навсегда? Это нельзя отменить.');
+  if (!isConfirmed) return;
 
   state.loading = true;
   render();
@@ -2652,6 +2666,7 @@ function renderDetail() {
     h += `<button class="btn btn-primary" data-action="joinContest" data-id="${c._id}" style="margin-bottom:16px">${IC.zap} ${esc(c.button_text || 'Участвовать')}</button>`;
   }
 
+  // Оставим кнопку для тех, кто вдруг зашел старым способом, но основная логика теперь требует подписку сразу при входе
   if (me && c.status === 'active' && c.scoring?.subscribe?.enabled && (!me.subscribe_count || me.subscribe_count === 0)) {
     h += `<button class="btn btn-secondary" style="margin-bottom:16px;" data-action="checkSub" data-id="${c._id}">${IC.check} Проверить подписку и получить баллы</button>`;
   }
@@ -3043,7 +3058,12 @@ function bindEvents() {
       }
 
       if (action === 'addBotToChannel') {
-        window.open(`https://t.me/${BOT_USERNAME}?startchannel&admin=post_messages+edit_messages+delete_messages+invite_users`, '_blank');
+        const url = `https://t.me/${BOT_USERNAME}?startchannel&admin=post_messages+edit_messages+delete_messages+invite_users`;
+        if (window.Telegram?.WebApp?.openTelegramLink) {
+           window.Telegram.WebApp.openTelegramLink(url);
+        } else {
+           window.open(url, '_blank');
+        }
         return;
       }
 
