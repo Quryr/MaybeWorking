@@ -2668,10 +2668,10 @@ function renderCreate() {
   }
 
   // ─── Основная информация ───
-  h += '<div class="section-title">Информация</div>';
+  h += '<div class="section-title" style="text-align: center; font-size: 14px;">Информация</div>';
 
   h += '<div class="form-group">';
-  h += '<label class="form-label">Название конкурса *</label>';
+  h += '<label class="form-label">Название конкурса</label>';
   h += `<input class="form-input" id="f-name" type="text" placeholder="Например: Весенний розыгрыш" value="${esc(fd.name || '')}">`;
   h += '</div>';
 
