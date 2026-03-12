@@ -1508,6 +1508,12 @@ function esc(s) {
   return d.innerHTML.replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 }
 
+// Специальное экранирование для Telegram HTML Parse Mode, чтобы бот не выдавал 400 ошибку
+function escTg(s) {
+  if (!s) return '';
+  return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
 function toast(msg, type = 'success') {
   const old = document.querySelector('.toast');
   if (old) old.remove();
@@ -1726,6 +1732,7 @@ function startContestsListener() {
   if (contestsUnsubscribe) contestsUnsubscribe();
   contestsUnsubscribe = onSnapshot(collection(db, 'contests'), (snap) => {
     state.contests = snap.docs.map(d => ({ _id: d.id, ...d.data() }));
+    autoEndContests(); // Проверяем нет ли просроченных конкурсов
     render();
   });
 }
@@ -1743,6 +1750,40 @@ function startParticipantsListener(contestId) {
     });
     render();
   });
+}
+
+// ═══════════════════════════════════════
+// AUTO END CONTESTS (Фоновое закрытие)
+// ═══════════════════════════════════════
+let isAutoEnding = false;
+async function autoEndContests() {
+  if (!fbReady || isAutoEnding) return;
+  isAutoEnding = true;
+  try {
+    const now = new Date();
+    for (const c of state.contests) {
+      if (c.status === 'active' && new Date(c.end_date) <= now) {
+        // Разрешаем только создателю или админу выполнить этот скрипт, чтобы не было дублей и спама
+        if (c.creator_id === currentUser.id || currentUser.is_admin) {
+          // Сразу меняем статус локально, чтобы не вызвать повторно
+          c.status = 'ended';
+          await fbSet('contests', c._id, { status: 'ended', ended_at: new Date().toISOString() });
+          await loadParticipants(c._id);
+          const { result } = await sendResultsPost(c);
+          if (result?.ok) {
+             toast(`Конкурс "${c.name}" автоматически завершён! Итоги в канале.`);
+          } else {
+             toast(`Ошибка публикации итогов: ${result?.description}`, 'error');
+          }
+          render();
+        }
+      }
+    }
+  } catch(e) {
+    console.error('Auto end error:', e);
+  } finally {
+    isAutoEnding = false;
+  }
 }
 
 // ═══════════════════════════════════════
@@ -1839,15 +1880,15 @@ async function sendContestPost(contest, contestId) {
   if (!channelId) return { ok: false, description: 'Канал не выбран' };
 
   let text = `━━━━━━━━━━━━━━━━━━\n`;
-  text += `<b>🏆 ${contest.name}</b>\n`;
+  text += `<b>🏆 ${escTg(contest.name)}</b>\n`;
   text += `━━━━━━━━━━━━━━━━━━\n\n`;
 
   if (contest.description) {
-    text += `${contest.description}\n\n`;
+    text += `${escTg(contest.description)}\n\n`;
   }
 
   if (contest.conditions) {
-    text += `📋 <b>Условия участия:</b>\n${contest.conditions}\n\n`;
+    text += `📋 <b>Условия участия:</b>\n${escTg(contest.conditions)}\n\n`;
   }
 
   const prizes = (contest.prizes || []).filter(p => p);
@@ -1855,7 +1896,7 @@ async function sendContestPost(contest, contestId) {
     text += `🎁 <b>Призы:</b>\n`;
     const medals = ['🥇', '🥈', '🥉'];
     prizes.forEach((p, i) => {
-      text += `${medals[i] || `${i + 1}.`} ${i + 1}-е место — ${p}\n`;
+      text += `${medals[i] || `${i + 1}.`} ${i + 1}-е место — ${escTg(p)}\n`;
     });
     text += `\n👥 <b>Призовых мест:</b> ${prizes.length}\n\n`;
   }
@@ -1939,7 +1980,7 @@ async function sendResultsPost(contest) {
   }
 
   let text = `━━━━━━━━━━━━━━━━━━\n`;
-  text += `<b>🏆 Итоги: ${contest.name}</b>\n`;
+  text += `<b>🏆 Итоги: ${escTg(contest.name)}</b>\n`;
   text += `━━━━━━━━━━━━━━━━━━\n\n`;
   text += `👥 Участников: ${parts.length}\n\n`;
   text += `<b>Победители:</b>\n\n`;
@@ -1947,8 +1988,8 @@ async function sendResultsPost(contest) {
   const medals = ['🥇', '🥈', '🥉'];
   winners.forEach((w, i) => {
     const name = w.username ? `@${w.username}` : (w.first_name || 'User');
-    const prize = prizes[i] ? ` — ${prizes[i]}` : '';
-    text += `${medals[i] || `${i + 1}.`} <b>${name}</b> (${w.points || 0} баллов)${prize}\n`;
+    const prize = prizes[i] ? ` — ${escTg(prizes[i])}` : '';
+    text += `${medals[i] || `${i + 1}.`} <b>${escTg(name)}</b> (${w.points || 0} баллов)${prize}\n`;
   });
 
   text += `\n━━━━━━━━━━━━━━━━━━\nПоздравляем!`;
@@ -2044,7 +2085,7 @@ async function createContest(formData) {
 }
 
 // ═══════════════════════════════════════
-// JOIN CONTEST (FIXED: Mandatory Sub + Anti-spam + Invites)
+// JOIN CONTEST
 // ═══════════════════════════════════════
 async function joinContest(contestId) {
   if (isJoining) return;
@@ -2070,13 +2111,13 @@ async function joinContest(contestId) {
     if (!isSubscribed) {
       toast('Для участия нужно подписаться на канал!', 'error');
       
-      // Ищем или создаем ссылку на канал, чтобы перекинуть туда юзера
+      // Перекидываем в канал
       let channelUrl = contest.channel_username ? `https://t.me/${contest.channel_username.replace('@', '')}` : contest.invite_link;
       if (!channelUrl) {
         const linkRes = await tgApi('createChatInviteLink', { chat_id: contest.channel_id });
         if (linkRes.ok) {
           channelUrl = linkRes.result.invite_link;
-          await fbSet('contests', contestId, { invite_link: channelUrl }); // сохраняем для будущих
+          await fbSet('contests', contestId, { invite_link: channelUrl }); // сохраняем
           contest.invite_link = channelUrl;
         }
       }
@@ -2089,10 +2130,10 @@ async function joinContest(contestId) {
           window.open(channelUrl, '_blank');
         }
       }
-      return; // ПРЕРЫВАЕМ УЧАСТИЕ: он не подписан
+      return; // Прерываем участие
     }
 
-    // 2. Если дошли сюда — человек подписан. Считаем баллы.
+    // 2. Пользователь подписан.
     let initialPts = contest.initial_points || 0;
     let subCount = 0;
     if (contest.scoring?.subscribe?.enabled) {
@@ -2121,7 +2162,7 @@ async function joinContest(contestId) {
       return;
     }
 
-    // 3. Обработка реферальной системы (кто нас пригласил?)
+    // 3. Реферальная система (кто пригласил?)
     if (state.referrerId && String(state.referrerId) !== String(currentUser.id) && contest.scoring?.invites?.enabled) {
       const parts = state.participants[contestId] || [];
       const referrer = parts.find(p => String(p.user_id) === String(state.referrerId));
@@ -2135,7 +2176,7 @@ async function joinContest(contestId) {
       } else {
         toast('Вы участвуете!');
       }
-      state.referrerId = null; // Сбрасываем рефералку
+      state.referrerId = null;
     } else {
       toast('Вы участвуете!');
     }
@@ -2147,7 +2188,7 @@ async function joinContest(contestId) {
     console.error('Join error:', e);
     toast('Произошла ошибка', 'error');
   } finally {
-    isJoining = false; // Отпираем замок
+    isJoining = false; // Открываем замок
   }
 }
 
@@ -3192,6 +3233,9 @@ async function init() {
       await Promise.all(pPromises);
 
       getUserPhoto(currentUser.id).then(() => render());
+      
+      // Запускаем периодическую проверку на авто-завершение каждые 30 секунд
+      setInterval(autoEndContests, 30000);
     }
 
     state.loading = false;
