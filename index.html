@@ -9,7 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
 /* ═══════════════════════════════════════
-   ROOT & RESET
+   ROOT & RESET (BLACK & POISON ORANGE THEME)
    ═══════════════════════════════════════ */
 * {
   margin: 0;
@@ -18,38 +18,33 @@
 }
 
 :root {
-  /* Полностью переработанная светлая тема (Soft Apple Style) */
-  --bg: #F2F5FA; /* Очень мягкий голубовато-белый фон */
-  --card: #FFFFFF;
-  --card-border: #E2E8F0;
+  --bg: #000000;
+  --card: #0A0A0A;
+  --card-border: #1F1F1F;
+  --text: #FFFFFF;
+  --text2: #A0A0A0;
+  --text3: #666666;
   
-  /* Тексты теперь не черные, а глубокие сине-графитовые */
-  --text: #1A2035; 
-  --text2: #64748B;
-  --text3: #94A3B8;
+  /* POISONOUS ORANGE ACCENTS */
+  --accent: #FF5500; 
+  --accent-hover: #E64D00;
+  --accent-text: #000000;
+  --accent-glow: rgba(255, 85, 0, 0.35);
   
-  /* Ваш красивый градиент */
-  --accent-grad: linear-gradient(135deg, #ACB6E5 0%, #86FDE8 100%);
-  --accent: #86FDE8;
-  --accent-dark: #ACB6E5;
-  --accent-text: #122620; /* Темный текст для читаемости на светлом градиенте */
+  /* NEON STATUS COLORS */
+  --danger: #FF0033;
+  --danger-bg: #2A0008;
+  --success: #39FF14;
+  --success-bg: #0A1F05;
+  --warn: #FFB300;
+  --warn-bg: #261B00;
   
-  /* Второстепенные цвета интерфейса (плашки, инпуты) */
-  --section-bg: #E8EDF6; 
-  --hover: #E2E8F4;
+  --section-bg: #121212;
+  --hover: #1A1A1A;
   
-  /* Статусные цвета смягчены под общий стиль */
-  --danger: #FF6B6B;
-  --danger-bg: #FFF0F0;
-  --success: #34C759;
-  --success-bg: #E8F9EE;
-  --warn: #FFB020;
-  --warn-bg: #FFF8EB;
-  
-  /* Радиусы в стиле iOS */
-  --radius: 24px;
-  --radius-sm: 16px;
-  --radius-xs: 12px;
+  --radius: 16px;
+  --radius-sm: 12px;
+  --radius-xs: 8px;
 }
 
 html, body {
@@ -79,6 +74,11 @@ a {
   text-decoration: none;
 }
 
+::selection {
+  background: var(--accent);
+  color: var(--accent-text);
+}
+
 /* ═══════════════════════════════════════
    APP CONTAINER
    ═══════════════════════════════════════ */
@@ -104,25 +104,28 @@ a {
   letter-spacing: -0.8px;
   flex: 1;
   line-height: 1.1;
+  text-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
 }
 
 .header-sub {
   font-size: 14px;
   font-weight: 500;
-  color: var(--text2);
+  color: var(--accent);
   margin-top: 4px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .header-badge {
   font-size: 11px;
-  font-weight: 700;
-  background: var(--accent-grad);
+  font-weight: 800;
+  background: var(--accent);
   color: var(--accent-text);
   padding: 4px 12px;
   border-radius: 20px;
-  letter-spacing: .5px;
+  letter-spacing: 1px;
   text-transform: uppercase;
-  box-shadow: 0 4px 12px rgba(134, 253, 232, 0.3);
+  box-shadow: 0 0 10px var(--accent-glow);
 }
 
 /* ═══════════════════════════════════════
@@ -133,9 +136,8 @@ a {
   align-items: center;
   gap: 8px;
   padding: 10px 18px 10px 14px;
-  background: var(--card);
+  background: var(--section-bg);
   border: 1px solid var(--card-border);
-  box-shadow: 0 4px 12px rgba(172, 182, 229, 0.1);
   border-radius: 40px;
   font-size: 14px;
   font-weight: 600;
@@ -148,14 +150,16 @@ a {
 
 .back-btn:active {
   transform: scale(.95);
-  background: var(--hover);
+  background: var(--card-border);
+  border-color: var(--accent);
+  color: var(--accent);
 }
 
 .back-btn svg {
   width: 18px;
   height: 18px;
   flex-shrink: 0;
-  stroke: var(--accent-dark);
+  stroke: currentColor;
 }
 
 /* ═══════════════════════════════════════
@@ -163,22 +167,26 @@ a {
    ═══════════════════════════════════════ */
 .card {
   background: var(--card);
-  border: 1px solid rgba(255,255,255,0.5);
-  box-shadow: 0 8px 24px rgba(172, 182, 229, 0.12);
+  border: 1px solid var(--card-border);
   border-radius: var(--radius);
-  padding: 20px;
-  margin-bottom: 14px;
+  padding: 16px;
+  margin-bottom: 12px;
   transition: all .2s;
   -webkit-tap-highlight-color: transparent;
 }
 
 .card:active {
   transform: scale(.985);
-  box-shadow: 0 4px 12px rgba(172, 182, 229, 0.08);
+  border-color: var(--accent);
+  box-shadow: 0 0 15px var(--accent-glow);
 }
 
 .card-clickable {
   cursor: pointer;
+}
+
+.card-clickable:hover {
+  border-color: var(--accent);
 }
 
 /* ═══════════════════════════════════════
@@ -186,13 +194,12 @@ a {
    ═══════════════════════════════════════ */
 .ccard {
   background: var(--card);
-  border: 1px solid rgba(255,255,255,0.5);
-  box-shadow: 0 8px 24px rgba(172, 182, 229, 0.12);
+  border: 1px solid var(--card-border);
   border-radius: var(--radius);
   padding: 16px;
-  margin-bottom: 14px;
+  margin-bottom: 12px;
   display: flex;
-  gap: 16px;
+  gap: 14px;
   align-items: flex-start;
   cursor: pointer;
   transition: all .2s;
@@ -201,21 +208,22 @@ a {
 
 .ccard:active {
   transform: scale(.985);
-  box-shadow: 0 4px 12px rgba(172, 182, 229, 0.08);
+  border-color: var(--accent);
+  box-shadow: 0 0 20px var(--accent-glow);
 }
 
 .ccard-icon {
   width: 56px;
   height: 56px;
-  border-radius: 16px;
-  background: var(--accent-grad);
-  box-shadow: 0 6px 16px rgba(134, 253, 232, 0.35);
+  border-radius: 14px;
+  background: var(--accent);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
   position: relative;
   overflow: hidden;
+  box-shadow: 0 0 15px var(--accent-glow);
 }
 
 .ccard-icon::after {
@@ -225,15 +233,15 @@ a {
   left: 0;
   right: 0;
   height: 50%;
-  background: linear-gradient(180deg, rgba(255,255,255,.3) 0%, transparent 100%);
-  border-radius: 16px 16px 0 0;
+  background: linear-gradient(180deg, rgba(255,255,255,.2) 0%, transparent 100%);
+  border-radius: 14px 14px 0 0;
 }
 
 .ccard-icon svg {
   width: 26px;
   height: 26px;
   stroke: var(--accent-text);
-  stroke-width: 1.8;
+  stroke-width: 2;
   fill: none;
   position: relative;
   z-index: 1;
@@ -253,7 +261,7 @@ a {
 }
 
 .ccard-title {
-  font-size: 17px;
+  font-size: 16px;
   font-weight: 800;
   letter-spacing: -0.3px;
   line-height: 1.25;
@@ -264,7 +272,7 @@ a {
   font-size: 13px;
   color: var(--text2);
   font-weight: 600;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 
 .ccard-meta {
@@ -285,8 +293,8 @@ a {
 .ccard-meta-item svg {
   width: 14px;
   height: 14px;
-  stroke: var(--accent-dark);
-  stroke-width: 2.5;
+  stroke: var(--accent);
+  stroke-width: 2;
   fill: none;
 }
 
@@ -297,19 +305,21 @@ a {
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  padding: 5px 12px;
+  padding: 4px 10px;
   border-radius: 20px;
   font-size: 11px;
-  font-weight: 700;
-  letter-spacing: .3px;
+  font-weight: 800;
+  letter-spacing: .5px;
   white-space: nowrap;
   flex-shrink: 0;
+  text-transform: uppercase;
 }
 
 .badge-live {
-  background: var(--accent-grad);
-  color: var(--accent-text);
-  box-shadow: 0 4px 12px rgba(134, 253, 232, 0.3);
+  background: rgba(57, 255, 20, 0.1);
+  color: var(--success);
+  border: 1px solid rgba(57, 255, 20, 0.3);
+  box-shadow: 0 0 10px rgba(57, 255, 20, 0.2);
 }
 
 .badge-live::before {
@@ -317,19 +327,20 @@ a {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: #fff;
+  background: var(--success);
   animation: pulse 2s infinite;
-  box-shadow: 0 0 4px rgba(255,255,255,0.8);
+  box-shadow: 0 0 8px var(--success);
 }
 
 .badge-ended {
   background: var(--section-bg);
   color: var(--text3);
+  border: 1px solid var(--card-border);
 }
 
 @keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: .4; }
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: .4; transform: scale(1.2); }
 }
 
 /* ═══════════════════════════════════════
@@ -341,15 +352,16 @@ a {
   justify-content: center;
   gap: 8px;
   width: 100%;
-  padding: 16px;
+  padding: 15px;
   border-radius: var(--radius-sm);
   font-size: 15px;
-  font-weight: 700;
+  font-weight: 800;
   border: none;
   cursor: pointer;
-  transition: all .15s;
+  transition: all .2s;
   -webkit-tap-highlight-color: transparent;
-  letter-spacing: -0.2px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
 }
 
 .btn:active {
@@ -357,39 +369,48 @@ a {
 }
 
 .btn-primary {
-  background: var(--accent-grad);
+  background: var(--accent);
   color: var(--accent-text);
-  box-shadow: 0 6px 18px rgba(134, 253, 232, 0.4);
+  box-shadow: 0 0 15px var(--accent-glow);
 }
 
 .btn-primary:active {
-  filter: brightness(0.95);
-  box-shadow: 0 2px 8px rgba(134, 253, 232, 0.3);
+  background: var(--accent-hover);
+  box-shadow: 0 0 25px rgba(255, 85, 0, 0.6);
 }
 
 .btn-secondary {
   background: var(--section-bg);
-  color: var(--text);
-  font-weight: 600;
+  color: var(--accent);
+  border: 1px solid var(--card-border);
 }
 
-.btn-secondary:active {
-  background: var(--hover);
+.btn-secondary:active, .btn-secondary:hover {
+  border-color: var(--accent);
+  background: rgba(255, 85, 0, 0.05);
 }
 
 .btn-danger {
   background: var(--danger-bg);
   color: var(--danger);
+  border: 1px solid rgba(255, 0, 51, 0.3);
 }
 
 .btn-success {
   background: var(--success-bg);
   color: var(--success);
+  border: 1px solid rgba(57, 255, 20, 0.3);
+}
+
+.btn-warn {
+  background: var(--warn-bg);
+  color: var(--warn);
+  border: 1px solid rgba(255, 179, 0, 0.3);
 }
 
 .btn-sm {
-  padding: 12px 18px;
-  font-size: 13px;
+  padding: 10px 16px;
+  font-size: 12px;
   width: auto;
   border-radius: var(--radius-xs);
 }
@@ -398,13 +419,14 @@ a {
   width: 18px;
   height: 18px;
   stroke: currentColor;
-  stroke-width: 2;
+  stroke-width: 2.5;
   fill: none;
 }
 
 .btn:disabled {
   opacity: .4;
   pointer-events: none;
+  box-shadow: none;
 }
 
 .btn-row {
@@ -429,38 +451,39 @@ a {
 
 .form-label {
   display: block;
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--text);
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--accent);
   margin-bottom: 8px;
-  letter-spacing: .3px;
+  letter-spacing: 1px;
   text-transform: uppercase;
 }
 
 .form-hint {
-  font-size: 12px;
+  font-size: 11px;
   color: var(--text3);
   margin-top: 6px;
   line-height: 1.4;
+  font-weight: 500;
 }
 
 .form-input {
   width: 100%;
-  padding: 15px 16px;
+  padding: 14px 16px;
   border: 1.5px solid var(--card-border);
   border-radius: var(--radius-sm);
   font-size: 16px;
-  font-weight: 500;
-  background: var(--card);
+  font-weight: 600;
+  background: var(--section-bg);
   color: var(--text);
   transition: all .2s;
   outline: none;
-  box-shadow: 0 2px 8px rgba(172, 182, 229, 0.05);
 }
 
 .form-input:focus {
-  border-color: var(--accent-dark);
-  box-shadow: 0 0 0 4px rgba(172, 182, 229, 0.2);
+  border-color: var(--accent);
+  box-shadow: 0 0 10px var(--accent-glow);
+  background: #000;
 }
 
 .form-input::placeholder {
@@ -469,13 +492,13 @@ a {
 
 textarea.form-input {
   resize: vertical;
-  min-height: 100px;
+  min-height: 88px;
   line-height: 1.5;
 }
 
 select.form-input {
   cursor: pointer;
-  background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%23ACB6E5' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%23FF5500' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 16px center;
   padding-right: 40px;
@@ -489,10 +512,9 @@ select.form-input {
   align-items: center;
   justify-content: space-between;
   padding: 16px;
-  background: var(--card);
-  border: 1px solid var(--card-border);
-  box-shadow: 0 4px 14px rgba(172, 182, 229, 0.06);
+  background: var(--section-bg);
   border-radius: var(--radius-sm);
+  border: 1px solid var(--card-border);
   margin-bottom: 8px;
   gap: 12px;
 }
@@ -505,8 +527,10 @@ select.form-input {
 }
 
 .toggle-row-title {
-  font-size: 15px;
-  font-weight: 700;
+  font-size: 14px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .toggle-row-desc {
@@ -535,32 +559,41 @@ select.form-input {
   border-radius: 16px;
   cursor: pointer;
   transition: all .3s;
+  border: 1px solid #333;
 }
 
 .toggle-slider::before {
   content: '';
   position: absolute;
-  width: 26px;
-  height: 26px;
-  background: #fff;
+  width: 24px;
+  height: 24px;
+  background: var(--text2);
   border-radius: 50%;
   top: 3px;
   left: 3px;
-  transition: transform .3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, .15);
+  transition: transform .3s;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, .5);
 }
 
 .toggle input:checked + .toggle-slider {
-  background: var(--accent-grad);
+  background: var(--accent);
+  border-color: var(--accent);
+  box-shadow: 0 0 10px var(--accent-glow);
 }
 
 .toggle input:checked + .toggle-slider::before {
   transform: translateX(20px);
+  background: #000;
 }
 
 .toggle-sub {
   padding: 12px 16px 16px;
   display: none;
+  background: var(--card);
+  border-left: 2px solid var(--accent);
+  margin-top: -8px;
+  margin-bottom: 8px;
+  border-radius: 0 0 var(--radius-sm) var(--radius-sm);
 }
 
 .toggle-sub.show {
@@ -571,13 +604,14 @@ select.form-input {
    SECTION TITLE
    ═══════════════════════════════════════ */
 .section-title {
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 800;
-  color: var(--text2);
+  color: var(--accent);
   text-transform: uppercase;
-  letter-spacing: 1px;
-  margin: 32px 0 14px;
+  letter-spacing: 1.5px;
+  margin: 32px 0 12px;
   padding: 0 4px;
+  text-shadow: 0 0 8px var(--accent-glow);
 }
 
 /* ═══════════════════════════════════════
@@ -588,10 +622,10 @@ select.form-input {
   bottom: 0;
   left: 0;
   right: 0;
-  background: rgba(255, 255, 255, .85);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border-top: 1px solid rgba(226, 232, 240, 0.6);
+  background: rgba(10, 10, 10, .95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-top: 1px solid var(--card-border);
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   padding: 0 0 env(safe-area-inset-bottom, 0px);
@@ -610,9 +644,9 @@ select.form-input {
   padding: 12px 0 10px;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
-  transition: color .2s;
+  transition: all .2s;
   position: relative;
-  gap: 5px;
+  gap: 4px;
 }
 
 .tab svg {
@@ -621,36 +655,38 @@ select.form-input {
   stroke: var(--text3);
   stroke-width: 2;
   fill: none;
-  transition: stroke .2s;
+  transition: all .2s;
 }
 
 .tab span {
   font-size: 10px;
   font-weight: 700;
   color: var(--text3);
-  transition: color .2s;
-  letter-spacing: .3px;
+  transition: all .2s;
+  letter-spacing: .5px;
+  text-transform: uppercase;
 }
 
 .tab.active svg {
-  stroke: url(#appGrad);
+  stroke: var(--accent);
+  filter: drop-shadow(0 0 5px var(--accent-glow));
 }
 
 .tab.active span {
-  color: var(--accent-dark);
+  color: var(--accent);
 }
 
-/* Красивая черточка сверху для активного таба */
 .tab.active::before {
   content: '';
   position: absolute;
-  top: -1px;
+  top: 0;
   left: 50%;
   transform: translateX(-50%);
   width: 40px;
-  height: 4px;
-  background: var(--accent-grad);
+  height: 3px;
+  background: var(--accent);
   border-radius: 0 0 4px 4px;
+  box-shadow: 0 2px 10px var(--accent);
 }
 
 /* ═══════════════════════════════════════
@@ -659,16 +695,19 @@ select.form-input {
 .lb-item {
   display: flex;
   align-items: center;
-  gap: 14px;
-  padding: 16px;
+  gap: 12px;
+  padding: 14px;
   border-radius: var(--radius-sm);
-  margin-bottom: 10px;
+  margin-bottom: 8px;
   cursor: pointer;
-  transition: all .15s;
+  transition: all .2s;
   -webkit-tap-highlight-color: transparent;
   background: var(--card);
   border: 1px solid var(--card-border);
-  box-shadow: 0 4px 14px rgba(172, 182, 229, 0.08);
+}
+
+.lb-item:hover {
+  border-color: #333;
 }
 
 .lb-item:active {
@@ -676,9 +715,9 @@ select.form-input {
 }
 
 .lb-item.me {
-  background: linear-gradient(to right, rgba(172,182,229,0.1), rgba(134,253,232,0.1));
-  border-color: transparent;
-  box-shadow: 0 0 0 2px var(--accent-dark);
+  border-color: var(--accent);
+  background: rgba(255, 85, 0, 0.05);
+  box-shadow: 0 0 15px rgba(255, 85, 0, 0.1);
 }
 
 .lb-rank {
@@ -687,29 +726,35 @@ select.form-input {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 900;
   border-radius: 50%;
   flex-shrink: 0;
+  border: 1px solid transparent;
 }
 
-.lb-rank.r1 { background: var(--accent-grad); color: var(--accent-text); box-shadow: 0 4px 10px rgba(134, 253, 232, 0.4);}
-.lb-rank.r2 { background: #E2E8F0; color: #475569; }
-.lb-rank.r3 { background: #F1F5F9; color: #64748B; }
-.lb-rank.rn { background: transparent; color: var(--text3); }
+.lb-rank.r1 { background: var(--accent); color: #000; box-shadow: 0 0 10px var(--accent-glow); }
+.lb-rank.r2 { background: #E0E0E0; color: #000; }
+.lb-rank.r3 { background: #8C3A00; color: #FFF; }
+.lb-rank.rn { background: var(--section-bg); color: var(--text2); border-color: var(--card-border); }
 
 .lb-avatar {
-  width: 44px;
-  height: 44px;
+  width: 42px;
+  height: 42px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 16px;
   font-weight: 800;
-  color: #fff;
+  color: #000;
   flex-shrink: 0;
   overflow: hidden;
+  border: 2px solid var(--card-border);
+}
+
+.lb-item.me .lb-avatar {
+  border-color: var(--accent);
 }
 
 .lb-avatar img {
@@ -725,7 +770,7 @@ select.form-input {
 }
 
 .lb-name {
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 800;
   white-space: nowrap;
   overflow: hidden;
@@ -733,10 +778,10 @@ select.form-input {
 }
 
 .lb-username {
-  font-size: 13px;
-  color: var(--text3);
-  font-weight: 500;
-  margin-top: 2px;
+  font-size: 12px;
+  color: var(--accent);
+  font-weight: 600;
+  margin-top: 1px;
 }
 
 .lb-stats {
@@ -750,7 +795,7 @@ select.form-input {
   display: flex;
   align-items: center;
   gap: 4px;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 700;
   color: var(--text2);
 }
@@ -758,8 +803,8 @@ select.form-input {
 .lb-stat svg {
   width: 14px;
   height: 14px;
-  stroke: var(--accent-dark);
-  stroke-width: 2.5;
+  stroke: var(--text3);
+  stroke-width: 2;
   fill: none;
 }
 
@@ -772,44 +817,46 @@ select.form-input {
   font-size: 20px;
   font-weight: 900;
   letter-spacing: -.5px;
-  background: var(--accent-grad);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: var(--accent);
+  text-shadow: 0 0 10px var(--accent-glow);
 }
 
 .lb-points-label {
   font-size: 10px;
   color: var(--text3);
-  font-weight: 700;
+  font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: .5px;
+  letter-spacing: 1px;
 }
 
 /* ═══════════════════════════════════════
    INVITE BOX
    ═══════════════════════════════════════ */
 .invite-box {
-  background: var(--card);
-  border: 1px solid var(--card-border);
-  box-shadow: 0 8px 24px rgba(172, 182, 229, 0.15);
+  background: var(--section-bg);
+  border: 1px solid var(--accent);
   border-radius: var(--radius);
-  padding: 20px;
+  padding: 16px;
   margin: 16px 0;
+  box-shadow: 0 0 15px rgba(255, 85, 0, 0.1);
 }
 
 .invite-box-title {
-  font-size: 15px;
+  font-size: 13px;
   font-weight: 800;
   margin-bottom: 12px;
   display: flex;
   align-items: center;
   gap: 8px;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .invite-box-title svg {
-  width: 20px;
-  height: 20px;
-  stroke: url(#appGrad);
+  width: 18px;
+  height: 18px;
+  stroke: var(--accent);
   stroke-width: 2.5;
   fill: none;
 }
@@ -822,10 +869,11 @@ select.form-input {
 
 .invite-box-link {
   flex: 1;
-  padding: 14px 16px;
-  background: var(--section-bg);
+  padding: 12px 14px;
+  background: #000;
+  border: 1px solid var(--card-border);
   border-radius: var(--radius-xs);
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 600;
   color: var(--text);
   white-space: nowrap;
@@ -835,38 +883,39 @@ select.form-input {
 }
 
 .invite-box-copy {
-  width: 48px;
-  height: 48px;
+  width: 44px;
+  height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--accent-grad);
+  background: var(--accent);
   border-radius: var(--radius-xs);
   cursor: pointer;
   flex-shrink: 0;
-  transition: all .15s;
+  transition: all .2s;
   border: none;
-  box-shadow: 0 4px 12px rgba(134, 253, 232, 0.3);
+  box-shadow: 0 0 10px var(--accent-glow);
 }
 
 .invite-box-copy:active {
   transform: scale(.88);
+  background: var(--accent-hover);
 }
 
 .invite-box-copy svg {
   width: 20px;
   height: 20px;
-  stroke: var(--accent-text);
+  stroke: #000;
   stroke-width: 2.5;
   fill: none;
 }
 
 .invite-box-hint {
-  font-size: 12px;
+  font-size: 11px;
   color: var(--text2);
-  margin-top: 12px;
-  font-weight: 500;
-  line-height: 1.5;
+  margin-top: 10px;
+  font-weight: 600;
+  line-height: 1.4;
 }
 
 /* ═══════════════════════════════════════
@@ -875,9 +924,9 @@ select.form-input {
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(26, 32, 53, 0.4);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  background: rgba(0, 0, 0, .8);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
   z-index: 2000;
   display: flex;
   align-items: flex-end;
@@ -886,21 +935,23 @@ select.form-input {
 }
 
 .modal {
-  background: var(--bg);
-  border-radius: 32px 32px 0 0;
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-bottom: none;
+  border-radius: 24px 24px 0 0;
   width: 100%;
   max-width: 480px;
   max-height: 85vh;
   overflow-y: auto;
   padding: 24px 20px calc(24px + env(safe-area-inset-bottom, 0px));
-  animation: slideUp .3s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 -10px 40px rgba(172, 182, 229, 0.2);
+  animation: slideUp .3s;
+  box-shadow: 0 -10px 40px rgba(255, 85, 0, 0.1);
 }
 
 .modal-handle {
   width: 48px;
   height: 6px;
-  background: #DCE2ED;
+  background: var(--card-border);
   border-radius: 3px;
   margin: 0 auto 24px;
 }
@@ -914,15 +965,16 @@ select.form-input {
 }
 
 .modal-subtitle {
-  font-size: 15px;
-  color: var(--text2);
+  font-size: 14px;
+  color: var(--accent);
   text-align: center;
   margin-bottom: 24px;
+  font-weight: 600;
 }
 
 .modal-actions {
   display: flex;
-  gap: 8px;
+  gap: 12px;
   margin-top: 24px;
 }
 
@@ -953,7 +1005,7 @@ select.form-input {
 }
 
 .fade-up {
-  animation: fadeUp .5s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation: fadeUp .4s ease both;
 }
 
 /* ═══════════════════════════════════════
@@ -962,7 +1014,7 @@ select.form-input {
 .prize-row {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   margin-bottom: 12px;
 }
 
@@ -973,15 +1025,16 @@ select.form-input {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 900;
   flex-shrink: 0;
+  border: 1px solid transparent;
 }
 
-.prize-medal.m1 { background: var(--accent-grad); color: var(--accent-text); box-shadow: 0 4px 10px rgba(134, 253, 232, 0.3); }
-.prize-medal.m2 { background: #E2E8F0; color: #475569; }
-.prize-medal.m3 { background: #F1F5F9; color: #64748B; }
-.prize-medal.mn { background: var(--section-bg); color: var(--text2); }
+.prize-medal.m1 { background: var(--accent); color: #000; box-shadow: 0 0 10px var(--accent-glow); }
+.prize-medal.m2 { background: #E0E0E0; color: #000; }
+.prize-medal.m3 { background: #8C3A00; color: #FFF; }
+.prize-medal.mn { background: var(--section-bg); color: var(--text2); border-color: var(--card-border); }
 
 .prize-input {
   flex: 1;
@@ -994,15 +1047,16 @@ select.form-input {
   align-items: center;
   justify-content: center;
   background: var(--danger-bg);
-  border: none;
+  border: 1px solid rgba(255,0,51,0.3);
   border-radius: 50%;
   cursor: pointer;
   flex-shrink: 0;
-  transition: all .15s;
+  transition: all .2s;
 }
 
 .prize-remove:active {
   transform: scale(.85);
+  background: var(--danger);
 }
 
 .prize-remove svg {
@@ -1011,6 +1065,9 @@ select.form-input {
   stroke: var(--danger);
   stroke-width: 2.5;
   fill: none;
+}
+.prize-remove:active svg {
+  stroke: #fff;
 }
 
 /* ═══════════════════════════════════════
@@ -1024,30 +1081,34 @@ select.form-input {
 }
 
 .stat-box {
-  background: var(--card);
+  background: var(--section-bg);
   border: 1px solid var(--card-border);
-  box-shadow: 0 6px 16px rgba(172, 182, 229, 0.08);
   border-radius: var(--radius-sm);
-  padding: 20px 10px;
+  padding: 16px 8px;
   text-align: center;
+  transition: all .2s;
+}
+
+.stat-box:hover {
+  border-color: var(--accent);
+  background: rgba(255, 85, 0, 0.05);
 }
 
 .stat-box-val {
   font-size: 26px;
   font-weight: 900;
   letter-spacing: -.5px;
-  background: var(--accent-grad);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: var(--accent);
+  text-shadow: 0 0 10px var(--accent-glow);
 }
 
 .stat-box-label {
-  font-size: 11px;
-  font-weight: 700;
+  font-size: 10px;
+  font-weight: 800;
   color: var(--text2);
   margin-top: 6px;
   text-transform: uppercase;
-  letter-spacing: .5px;
+  letter-spacing: 1px;
 }
 
 /* ═══════════════════════════════════════
@@ -1057,7 +1118,7 @@ select.form-input {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 16px 0;
+  padding: 14px 0;
   border-bottom: 1px solid var(--card-border);
 }
 
@@ -1066,13 +1127,13 @@ select.form-input {
 }
 
 .info-label {
-  font-size: 15px;
+  font-size: 13px;
   color: var(--text2);
   font-weight: 600;
 }
 
 .info-value {
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 800;
   text-align: right;
   max-width: 60%;
@@ -1091,31 +1152,51 @@ select.form-input {
    NOTICES
    ═══════════════════════════════════════ */
 .notice {
-  padding: 16px;
+  padding: 14px 16px;
   border-radius: var(--radius-sm);
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
   line-height: 1.5;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
   display: flex;
   align-items: flex-start;
-  gap: 12px;
+  gap: 10px;
+  border: 1px solid transparent;
 }
 
 .notice svg {
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
   flex-shrink: 0;
   margin-top: 1px;
 }
 
-.notice-warn { background: var(--warn-bg); color: #B37A00; }
+.notice-warn {
+  background: var(--warn-bg);
+  color: var(--warn);
+  border-color: rgba(255, 179, 0, 0.3);
+}
 .notice-warn svg { stroke: var(--warn); }
-.notice-info { background: var(--section-bg); color: var(--accent-dark); }
-.notice-info svg { stroke: var(--accent-dark); }
-.notice-success { background: var(--success-bg); color: #1B9E4B; }
+
+.notice-info {
+  background: #001A33;
+  color: #00B3FF;
+  border-color: rgba(0, 179, 255, 0.3);
+}
+.notice-info svg { stroke: #00B3FF; }
+
+.notice-success {
+  background: var(--success-bg);
+  color: var(--success);
+  border-color: rgba(57, 255, 20, 0.3);
+}
 .notice-success svg { stroke: var(--success); }
-.notice-error { background: var(--danger-bg); color: var(--danger); }
+
+.notice-error {
+  background: var(--danger-bg);
+  color: var(--danger);
+  border-color: rgba(255, 0, 51, 0.3);
+}
 .notice-error svg { stroke: var(--danger); }
 
 /* ═══════════════════════════════════════
@@ -1130,34 +1211,39 @@ select.form-input {
   width: 88px;
   height: 88px;
   border-radius: 50%;
-  background: var(--card);
-  box-shadow: 0 8px 32px rgba(172, 182, 229, 0.15);
+  background: var(--section-bg);
+  border: 1px solid var(--card-border);
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 0 auto 24px;
+  box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
 }
 
 .empty-icon svg {
   width: 40px;
   height: 40px;
-  stroke: url(#appGrad);
+  stroke: var(--accent);
   stroke-width: 1.5;
   fill: none;
+  filter: drop-shadow(0 0 5px var(--accent-glow));
 }
 
 .empty-title {
   font-size: 22px;
   font-weight: 900;
   margin-bottom: 10px;
+  color: var(--text);
+  letter-spacing: -0.5px;
 }
 
 .empty-desc {
-  font-size: 15px;
+  font-size: 14px;
   color: var(--text2);
   line-height: 1.6;
-  max-width: 300px;
+  max-width: 280px;
   margin: 0 auto;
+  font-weight: 500;
 }
 
 /* ═══════════════════════════════════════
@@ -1168,21 +1254,31 @@ select.form-input {
   top: 20px;
   left: 50%;
   transform: translateX(-50%);
-  padding: 16px 28px;
-  border-radius: 40px;
+  padding: 14px 24px;
+  border-radius: var(--radius-sm);
   font-size: 14px;
   font-weight: 700;
   z-index: 3000;
   animation: fadeIn .3s;
   max-width: 90%;
   text-align: center;
-  background: var(--text);
-  color: #fff;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, .2);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+  letter-spacing: 0.5px;
 }
 
-.toast-success { background: var(--accent-grad); color: var(--accent-text); }
-.toast-error { background: var(--danger); color: #fff; }
+.toast-success {
+  background: var(--success-bg);
+  color: var(--success);
+  border: 1px solid var(--success);
+  box-shadow: 0 0 20px rgba(57, 255, 20, 0.2);
+}
+
+.toast-error {
+  background: var(--danger-bg);
+  color: var(--danger);
+  border: 1px solid var(--danger);
+  box-shadow: 0 0 20px rgba(255, 0, 51, 0.2);
+}
 
 /* ═══════════════════════════════════════
    CHANNEL CARD (in create form)
@@ -1190,15 +1286,14 @@ select.form-input {
 .ch-card {
   display: flex;
   align-items: center;
-  gap: 14px;
-  padding: 16px;
-  background: var(--card);
-  border: 1px solid var(--card-border);
-  box-shadow: 0 4px 12px rgba(172, 182, 229, 0.05);
+  gap: 12px;
+  padding: 14px;
+  background: var(--section-bg);
   border-radius: var(--radius-sm);
-  margin-bottom: 10px;
+  margin-bottom: 8px;
   cursor: pointer;
-  transition: all .15s;
+  border: 2px solid var(--card-border);
+  transition: all .2s;
 }
 
 .ch-card:active {
@@ -1206,28 +1301,39 @@ select.form-input {
 }
 
 .ch-card.selected {
-  border-color: transparent;
-  background: linear-gradient(to right, rgba(172,182,229,0.1), rgba(134,253,232,0.1));
-  box-shadow: 0 0 0 2px var(--accent-dark);
+  border-color: var(--accent);
+  background: rgba(255, 85, 0, 0.05);
+  box-shadow: 0 0 15px rgba(255, 85, 0, 0.1);
 }
 
 .ch-card-icon {
   width: 40px;
   height: 40px;
   border-radius: 12px;
-  background: var(--accent-grad);
+  background: var(--card-border);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  transition: all .2s;
+}
+
+.ch-card.selected .ch-card-icon {
+  background: var(--accent);
+  box-shadow: 0 0 10px var(--accent-glow);
 }
 
 .ch-card-icon svg {
   width: 20px;
   height: 20px;
-  stroke: var(--accent-text);
+  stroke: var(--text2);
   stroke-width: 2;
   fill: none;
+  transition: all .2s;
+}
+
+.ch-card.selected .ch-card-icon svg {
+  stroke: #000;
 }
 
 .ch-card-body {
@@ -1236,7 +1342,7 @@ select.form-input {
 }
 
 .ch-card-title {
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 800;
   white-space: nowrap;
   overflow: hidden;
@@ -1244,31 +1350,32 @@ select.form-input {
 }
 
 .ch-card-id {
-  font-size: 12px;
-  color: var(--text3);
+  font-size: 11px;
+  color: var(--accent);
   font-weight: 600;
-  margin-top: 2px;
+  margin-top: 3px;
 }
 
 .ch-card-check {
-  width: 26px;
-  height: 26px;
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
   border: 2px solid var(--card-border);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  transition: all .15s;
+  transition: all .2s;
 }
 
 .ch-card.selected .ch-card-check {
-  background: var(--accent-grad);
-  border-color: transparent;
+  background: var(--accent);
+  border-color: var(--accent);
+  box-shadow: 0 0 8px var(--accent-glow);
 }
 
 .ch-card.selected .ch-card-check svg {
-  stroke: var(--accent-text);
+  stroke: #000;
 }
 
 /* ═══════════════════════════════════════
@@ -1277,29 +1384,32 @@ select.form-input {
 .admin-tabs {
   display: flex;
   gap: 4px;
-  background: var(--card);
-  border-radius: 40px;
+  background: var(--section-bg);
+  border-radius: var(--radius-xs);
   padding: 4px;
   margin-bottom: 20px;
-  box-shadow: 0 4px 16px rgba(172, 182, 229, 0.1);
+  border: 1px solid var(--card-border);
 }
 
 .admin-tab {
   flex: 1;
-  padding: 12px;
+  padding: 12px 10px;
   text-align: center;
-  font-size: 14px;
-  font-weight: 700;
-  border-radius: 40px;
+  font-size: 12px;
+  font-weight: 800;
+  border-radius: 6px;
   cursor: pointer;
   transition: all .2s;
   color: var(--text2);
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .admin-tab.active {
-  background: var(--accent-grad);
-  color: var(--accent-text);
-  box-shadow: 0 4px 12px rgba(134, 253, 232, 0.3);
+  background: var(--card-border);
+  color: var(--accent);
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+  text-shadow: 0 0 5px var(--accent-glow);
 }
 
 /* ═══════════════════════════════════════
@@ -1311,16 +1421,17 @@ select.form-input {
   justify-content: center;
   min-height: 60vh;
   flex-direction: column;
-  gap: 16px;
+  gap: 20px;
 }
 
 .loading-spinner {
   width: 48px;
   height: 48px;
   border: 4px solid var(--card-border);
-  border-top-color: var(--accent-dark);
+  border-top-color: var(--accent);
   border-radius: 50%;
   animation: spin .8s linear infinite;
+  box-shadow: 0 0 20px rgba(255, 85, 0, 0.2);
 }
 
 /* ═══════════════════════════════════════
@@ -1338,19 +1449,24 @@ select.form-input {
   align-items: center;
   gap: 8px;
   padding: 10px 16px;
-  background: var(--card);
+  background: var(--section-bg);
   border: 1px solid var(--card-border);
-  box-shadow: 0 4px 12px rgba(172, 182, 229, 0.08);
-  border-radius: 40px;
-  font-size: 14px;
+  border-radius: 30px;
+  font-size: 13px;
   font-weight: 700;
   color: var(--text);
+  transition: all .2s;
+}
+
+.scoring-pill:hover {
+  border-color: var(--accent);
+  color: var(--accent);
 }
 
 .scoring-pill svg {
-  width: 18px;
-  height: 18px;
-  stroke: var(--accent-dark);
+  width: 16px;
+  height: 16px;
+  stroke: var(--accent);
   stroke-width: 2.5;
   fill: none;
 }
@@ -1360,25 +1476,38 @@ select.form-input {
    ═══════════════════════════════════════ */
 .detail-hero {
   text-align: center;
-  padding: 40px 20px;
-  background: var(--card);
+  padding: 36px 20px;
+  background: var(--section-bg);
+  border: 1px solid var(--card-border);
   border-radius: var(--radius);
-  box-shadow: 0 8px 32px rgba(172, 182, 229, 0.15);
   margin-bottom: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.detail-hero::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,85,0,0.05) 0%, transparent 70%);
+  pointer-events: none;
 }
 
 .detail-hero-icon {
   width: 80px;
   height: 80px;
-  border-radius: 24px;
-  background: var(--accent-grad);
-  box-shadow: 0 8px 24px rgba(134, 253, 232, 0.4);
+  border-radius: 20px;
+  background: var(--accent);
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 0 auto 20px;
   position: relative;
   overflow: hidden;
+  box-shadow: 0 0 30px var(--accent-glow);
 }
 
 .detail-hero-icon::after {
@@ -1388,14 +1517,14 @@ select.form-input {
   left: 0;
   right: 0;
   height: 50%;
-  background: linear-gradient(180deg, rgba(255,255,255,.3) 0%, transparent 100%);
+  background: linear-gradient(180deg, rgba(255,255,255,.2) 0%, transparent 100%);
 }
 
 .detail-hero-icon svg {
   width: 36px;
   height: 36px;
-  stroke: var(--accent-text);
-  stroke-width: 1.8;
+  stroke: #000;
+  stroke-width: 2;
   fill: none;
   position: relative;
   z-index: 1;
@@ -1406,26 +1535,19 @@ select.form-input {
   font-weight: 900;
   letter-spacing: -0.5px;
   margin-bottom: 6px;
+  text-shadow: 0 0 10px rgba(255,255,255,0.1);
 }
 
 .detail-hero-channel {
-  font-size: 15px;
-  color: var(--text2);
-  font-weight: 600;
+  font-size: 14px;
+  color: var(--accent);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 </style>
 </head>
 <body>
-<!-- SVG Градиент для иконок -->
-<svg width="0" height="0" style="position:absolute">
-  <defs>
-    <linearGradient id="appGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#ACB6E5" />
-      <stop offset="100%" stop-color="#86FDE8" />
-    </linearGradient>
-  </defs>
-</svg>
-
 <div id="root"></div>
 <script type="module">
 // ═══════════════════════════════════════
@@ -1440,11 +1562,11 @@ const BOT_USERNAME = 'T3335tBot';
 // ═══════════════════════════════════════
 // FIREBASE IMPORTS
 // ═══════════════════════════════════════
-import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js';
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
 import {
   getFirestore, collection, doc, getDocs, getDoc,
   setDoc, addDoc, updateDoc, deleteDoc, query, where, onSnapshot
-} from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js';
+} from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
 
 // ═══════════════════════════════════════
 // CONSTANTS
@@ -1526,6 +1648,7 @@ const state = {
 // UTILITIES
 // ═══════════════════════════════════════
 
+// Безопасное подтверждение через Telegram, чтобы не багалась клавиатура
 function tgConfirm(msg) {
   return new Promise(resolve => {
     if (window.Telegram?.WebApp?.showConfirm) {
@@ -1541,7 +1664,7 @@ function requestRender() {
   if (renderTimer) clearTimeout(renderTimer);
   renderTimer = setTimeout(() => {
     render();
-  }, 50); 
+  }, 50); // Группирует 50 обновлений в секунду в одну отрисовку
 }
 
 function esc(s) {
@@ -1601,14 +1724,13 @@ function mskInputToUTC(localStr) {
   return new Date(localStr).toISOString();
 }
 
-// Новые цвета аватарок в стиле пастельного градиента
+// Neon/Dark colors for poison theme
 const AVATAR_COLORS = [
-  '#ACB6E5', '#A2C4E4', '#99D1E3', '#8FDFE2',
-  '#86FDE8', '#9BE2D6', '#B0C6C4', '#C5AAB2',
-  '#D59BB6', '#B8A8D0', '#9CA5E3', '#89D9ED'
+  '#FF5500', '#E64D00', '#CC4400', '#B33C00', 
+  '#993300', '#333333', '#444444', '#555555'
 ];
 
-function avatarHTML(user, size = 40) {
+function avatarHTML(user, size = 42) {
   const colorIdx = Math.abs((user.id || 0) % AVATAR_COLORS.length);
   const color = AVATAR_COLORS[colorIdx];
   const initials = (user.first_name || '?').charAt(0).toUpperCase();
@@ -1617,7 +1739,7 @@ function avatarHTML(user, size = 40) {
   if (photoUrl) {
     return `<div class="lb-avatar" style="width:${size}px;height:${size}px"><img src="${photoUrl}" alt=""></div>`;
   }
-  return `<div class="lb-avatar" style="width:${size}px;height:${size}px;background:${color};color:#1A2035;font-size:${Math.round(size * 0.4)}px">${initials}</div>`;
+  return `<div class="lb-avatar" style="width:${size}px;height:${size}px;background:${color};font-size:${Math.round(size * 0.4)}px;color:#000;">${initials}</div>`;
 }
 
 // ═══════════════════════════════════════
@@ -2378,7 +2500,7 @@ function render() {
   if (!root) return;
 
   if (state.loading) {
-    root.innerHTML = '<div class="loading"><div class="loading-spinner"></div><div style="font-size:14px;color:var(--text2);font-weight:600">Загрузка...</div></div>';
+    root.innerHTML = '<div class="loading"><div class="loading-spinner"></div><div style="font-size:14px;color:var(--accent);font-weight:800;letter-spacing:1px;text-transform:uppercase;">Загрузка...</div></div>';
     return;
   }
 
@@ -2406,7 +2528,6 @@ function render() {
 // ═══════════════════════════════════════
 function renderHome() {
   let h = '<div class="app fade-up">';
-  
   h += '<div class="header"><h1>Конкурсы<div class="header-sub">Активные розыгрыши</div></h1></div>';
 
   if (!fbReady) {
@@ -2469,9 +2590,9 @@ function renderPoints() {
 
   const total = myParts.reduce((s, x) => s + (x.me.points || 0), 0);
 
-  h += `<div class="card" style="text-align:center;padding:24px">`;
-  h += `<div style="font-size:42px;font-weight:900;letter-spacing:-1px;background:var(--accent-grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;display:inline-block">${total}</div>`;
-  h += `<div style="font-size:14px;color:var(--text2);font-weight:600;margin-top:4px">Баллов всего</div>`;
+  h += `<div class="card" style="text-align:center;padding:32px 24px">`;
+  h += `<div style="font-size:48px;font-weight:900;letter-spacing:-1px;color:var(--accent);text-shadow:0 0 15px var(--accent-glow)">${total}</div>`;
+  h += `<div style="font-size:14px;color:var(--text2);font-weight:800;margin-top:8px;text-transform:uppercase;letter-spacing:1px">Баллов всего</div>`;
   h += '</div>';
 
   if (myParts.length === 0) {
@@ -2486,12 +2607,12 @@ function renderPoints() {
       h += `<div class="card card-clickable" data-action="openContest" data-id="${c._id}">`;
       h += '<div style="display:flex;justify-content:space-between;align-items:center">';
       h += `<div style="flex:1;min-width:0">`;
-      h += `<div style="font-size:15px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(c.name)}</div>`;
-      h += `<div style="font-size:12px;color:var(--text2);margin-top:3px">${c.status === 'active' ? timeLeft(c.end_date) : 'Завершён'}</div>`;
+      h += `<div style="font-size:15px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(c.name)}</div>`;
+      h += `<div style="font-size:12px;color:var(--text2);margin-top:3px;font-weight:600">${c.status === 'active' ? timeLeft(c.end_date) : 'Завершён'}</div>`;
       h += '</div>';
       h += `<div style="text-align:right;flex-shrink:0;margin-left:12px">`;
-      h += `<div style="font-size:20px;font-weight:900;background:var(--accent-grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;display:inline-block">${me.points || 0}</div>`;
-      h += `<div style="font-size:10px;color:var(--text3);font-weight:600">БАЛЛОВ</div>`;
+      h += `<div style="font-size:22px;font-weight:900;color:var(--accent);text-shadow:0 0 8px var(--accent-glow)">${me.points || 0}</div>`;
+      h += `<div style="font-size:10px;color:var(--text3);font-weight:800;text-transform:uppercase">БАЛЛОВ</div>`;
       h += '</div></div>';
 
       const stats = [];
@@ -2499,7 +2620,7 @@ function renderPoints() {
       if (me.subscribe_count) stats.push(`${IC.bell} ${me.subscribe_count}`);
       if (me.ads_count) stats.push(`${IC.play} ${me.ads_count}`);
       if (stats.length > 0) {
-        h += `<div class="lb-stats" style="margin-top:10px">${stats.map(s => `<div class="lb-stat">${s}</div>`).join('')}</div>`;
+        h += `<div class="lb-stats" style="margin-top:12px">${stats.map(s => `<div class="lb-stat">${s}</div>`).join('')}</div>`;
       }
 
       h += '</div>';
@@ -2537,7 +2658,7 @@ function renderCreate() {
       h += `<div class="ch-card-title">${esc(ch.title)}</div>`;
       h += `<div class="ch-card-id">${ch.username ? '@' + ch.username : 'ID: ' + ch.chat_id}</div>`;
       h += `</div>`;
-      h += `<div class="ch-card-check">${sel ? `<svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:#fff;stroke-width:3;fill:none"><polyline points="20 6 9 17 4 12"/></svg>` : ''}</div>`;
+      h += `<div class="ch-card-check">${sel ? `<svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:#000;stroke-width:3;fill:none"><polyline points="20 6 9 17 4 12"/></svg>` : ''}</div>`;
       h += `</div>`;
     });
   }
@@ -2653,7 +2774,7 @@ function renderCreate() {
   h += `<input class="form-input" id="f-ads-pts" type="number" min="1" value="${fd.ads_points || '3'}">`;
   h += '</div></div>';
 
-  h += '<div style="margin-top:32px;margin-bottom:32px">';
+  h += '<div style="margin-top:40px;margin-bottom:32px">';
   h += `<button class="btn btn-primary" data-action="submitContest">${IC.send} Создать конкурс</button>`;
   h += '</div>';
 
@@ -2688,21 +2809,21 @@ function renderDetail() {
   if (c.channel_title) {
     h += `<div class="detail-hero-channel">${esc(c.channel_title)}</div>`;
   }
-  h += `<span class="badge ${c.status === 'active' ? 'badge-live' : 'badge-ended'}" style="margin-top:12px">${c.status === 'active' ? 'Активный' : 'Завершён'}</span>`;
+  h += `<span class="badge ${c.status === 'active' ? 'badge-live' : 'badge-ended'}" style="margin-top:16px">${c.status === 'active' ? 'Активный' : 'Завершён'}</span>`;
   h += '</div>';
 
   if (c.status === 'active' && !me) {
-    h += `<button class="btn btn-primary" data-action="joinContest" data-id="${c._id}" style="margin-bottom:16px">${IC.zap} ${esc(c.button_text || 'Участвовать')}</button>`;
+    h += `<button class="btn btn-primary" data-action="joinContest" data-id="${c._id}" style="margin-bottom:20px">${IC.zap} ${esc(c.button_text || 'Участвовать')}</button>`;
   }
 
   if (me && c.status === 'active' && c.scoring?.subscribe?.enabled && (!me.subscribe_count || me.subscribe_count === 0)) {
-    h += `<button class="btn btn-secondary" style="margin-bottom:16px;" data-action="checkSub" data-id="${c._id}">${IC.check} Проверить подписку и получить баллы</button>`;
+    h += `<button class="btn btn-secondary" style="margin-bottom:20px;" data-action="checkSub" data-id="${c._id}">${IC.check} Проверить подписку</button>`;
   }
 
   if (canManage && c.status === 'active') {
-    h += '<div class="btn-row" style="margin-bottom:16px">';
+    h += '<div class="btn-row" style="margin-bottom:20px">';
     h += `<button class="btn btn-sm btn-danger" data-action="endContest" data-id="${c._id}">${IC.stop} Завершить</button>`;
-    h += `<button class="btn btn-sm btn-secondary" style="color:var(--danger)" data-action="deleteContest" data-id="${c._id}">${IC.trash} Удалить</button>`;
+    h += `<button class="btn btn-sm btn-secondary" style="color:var(--danger); border-color:var(--danger-bg)" data-action="deleteContest" data-id="${c._id}">${IC.trash} Удалить</button>`;
     h += '</div>';
   }
 
@@ -2743,7 +2864,7 @@ function renderDetail() {
     prizes.forEach((p, i) => {
       h += `<div style="display:flex;align-items:center;gap:12px;padding:10px 0;${i < prizes.length - 1 ? 'border-bottom:1px solid var(--card-border)' : ''}">`;
       h += `<div class="prize-medal ${medals[i] || 'mn'}">${i + 1}</div>`;
-      h += `<div style="font-size:15px;font-weight:600">${esc(p)}</div>`;
+      h += `<div style="font-size:15px;font-weight:800">${esc(p)}</div>`;
       h += '</div>';
     });
     h += '</div>';
@@ -2776,7 +2897,7 @@ function renderDetail() {
   h += '<div class="section-title">Таблица лидеров</div>';
 
   if (sorted.length === 0) {
-    h += '<div class="card" style="text-align:center;padding:32px;color:var(--text2);font-size:14px;font-weight:500">Пока нет участников</div>';
+    h += '<div class="card" style="text-align:center;padding:32px;color:var(--text2);font-size:14px;font-weight:600">Пока нет участников</div>';
   } else {
     sorted.forEach((p, i) => {
       const rank = i + 1;
@@ -2790,7 +2911,7 @@ function renderDetail() {
       }
 
       h += `<div class="lb-rank ${rankClass}">${rank}</div>`;
-      h += avatarHTML(p, 40);
+      h += avatarHTML(p, 42);
       h += '<div class="lb-info">';
       h += `<div class="lb-name">${esc(p.first_name || 'User')}</div>`;
       if (p.username) {
@@ -2844,11 +2965,11 @@ function renderManage() {
       const parts = (state.participants[c._id] || []).length;
 
       h += '<div class="card">';
-      h += `<div style="display:flex;gap:12px;align-items:center;margin-bottom:12px;cursor:pointer" data-action="openContest" data-id="${c._id}">`;
-      h += `<div class="ccard-icon" style="width:44px;height:44px;border-radius:12px">${IC.award}</div>`;
+      h += `<div style="display:flex;gap:12px;align-items:center;margin-bottom:14px;cursor:pointer" data-action="openContest" data-id="${c._id}">`;
+      h += `<div class="ccard-icon" style="width:48px;height:48px;border-radius:12px">${IC.award}</div>`;
       h += '<div style="flex:1;min-width:0">';
-      h += `<div style="font-size:15px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(c.name)}</div>`;
-      h += `<div style="font-size:12px;color:var(--text2);margin-top:2px">${parts} участн. · ${c.status === 'active' ? timeLeft(c.end_date) : 'Завершён'}</div>`;
+      h += `<div style="font-size:16px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(c.name)}</div>`;
+      h += `<div style="font-size:12px;color:var(--text2);margin-top:4px;font-weight:600">${parts} участн. · ${c.status === 'active' ? timeLeft(c.end_date) : 'Завершён'}</div>`;
       h += '</div>';
       h += `<span class="badge ${c.status === 'active' ? 'badge-live' : 'badge-ended'}">${c.status === 'active' ? 'Live' : 'Завершён'}</span>`;
       h += '</div>';
@@ -2858,7 +2979,7 @@ function renderManage() {
       if (c.status === 'active') {
         h += `<button class="btn btn-sm btn-danger" data-action="endContest" data-id="${c._id}">${IC.stop} Завершить</button>`;
       }
-      h += `<button class="btn btn-sm btn-secondary" style="color:var(--danger)" data-action="deleteContest" data-id="${c._id}">${IC.trash} Удалить</button>`;
+      h += `<button class="btn btn-sm btn-secondary" style="color:var(--danger); border-color:var(--danger-bg)" data-action="deleteContest" data-id="${c._id}">${IC.trash} Удалить</button>`;
       h += '</div>';
       h += '</div>';
     });
@@ -2875,14 +2996,15 @@ function renderProfile() {
   let h = '<div class="app fade-up">';
   h += '<div class="header"><h1>Профиль</h1></div>';
 
-  h += '<div class="card" style="text-align:center;padding:28px 20px">';
-  h += `<div style="display:inline-block">${avatarHTML(currentUser, 72)}</div>`;
-  h += `<div style="font-size:22px;font-weight:900;letter-spacing:-0.3px;margin-top:14px">${esc(currentUser.first_name)}</div>`;
+  h += '<div class="card" style="text-align:center;padding:32px 20px; position:relative; overflow:hidden;">';
+  h += `<div style="position:absolute;top:-50px;left:50%;transform:translateX(-50%);width:150px;height:150px;background:var(--accent);filter:blur(80px);opacity:0.2;border-radius:50%;pointer-events:none;"></div>`;
+  h += `<div style="display:inline-block">${avatarHTML(currentUser, 80)}</div>`;
+  h += `<div style="font-size:24px;font-weight:900;letter-spacing:-0.3px;margin-top:16px;text-shadow:0 0 10px rgba(255,255,255,0.1)">${esc(currentUser.first_name)}</div>`;
   if (currentUser.username) {
-    h += `<div style="font-size:14px;color:var(--text2);margin-top:4px;font-weight:500">@${currentUser.username}</div>`;
+    h += `<div style="font-size:14px;color:var(--accent);margin-top:6px;font-weight:700">@${currentUser.username}</div>`;
   }
   if (currentUser.is_admin) {
-    h += '<span class="header-badge" style="margin-top:12px;display:inline-block">Администратор</span>';
+    h += '<span class="header-badge" style="margin-top:14px;display:inline-block">Администратор</span>';
   }
   h += '</div>';
 
@@ -2904,7 +3026,7 @@ function renderProfile() {
 
   h += '<div class="section-title">Статистика</div>';
   h += '<div class="card">';
-  h += `<div class="info-row"><span class="info-label">Telegram ID</span><span class="info-value">${currentUser.id}</span></div>`;
+  h += `<div class="info-row"><span class="info-label">Telegram ID</span><span class="info-value" style="color:var(--accent)">${currentUser.id}</span></div>`;
   h += `<div class="info-row"><span class="info-label">Подписок всего</span><span class="info-value">${totalSubscribes}</span></div>`;
   h += `<div class="info-row"><span class="info-label">Приглашений всего</span><span class="info-value">${totalInvites}</span></div>`;
   h += '</div>';
@@ -2914,8 +3036,8 @@ function renderProfile() {
     myParts.forEach(({ contest: c, me }) => {
       h += `<div class="card card-clickable" data-action="openContest" data-id="${c._id}">`;
       h += '<div style="display:flex;justify-content:space-between;align-items:center">';
-      h += `<div style="font-size:14px;font-weight:700">${esc(c.name)}</div>`;
-      h += `<div style="font-size:16px;font-weight:800;background:var(--accent-grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent">${me.points || 0} б.</div>`;
+      h += `<div style="font-size:15px;font-weight:800">${esc(c.name)}</div>`;
+      h += `<div style="font-size:18px;font-weight:900;color:var(--accent)">${me.points || 0} б.</div>`;
       h += '</div></div>';
     });
   }
@@ -2938,9 +3060,9 @@ function renderModal() {
   h += `<div class="modal" onclick="event.stopPropagation()">`;
   h += '<div class="modal-handle"></div>';
 
-  h += '<div style="text-align:center;margin-bottom:20px">';
-  h += `<div style="display:inline-block">${avatarHTML(p, 56)}</div>`;
-  h += `<div class="modal-title">${esc(p.first_name || 'User')}</div>`;
+  h += '<div style="text-align:center;margin-bottom:24px">';
+  h += `<div style="display:inline-block">${avatarHTML(p, 64)}</div>`;
+  h += `<div class="modal-title" style="margin-top:12px">${esc(p.first_name || 'User')}</div>`;
   if (p.username) h += `<div class="modal-subtitle">@${p.username}</div>`;
   h += '</div>';
 
@@ -2950,42 +3072,42 @@ function renderModal() {
   h += `<div class="stat-box"><div class="stat-box-val">${p.subscribe_count || 0}</div><div class="stat-box-label">Подписок</div></div>`;
   h += '</div>';
 
-  h += '<div class="section-title" style="margin-top:8px">Начислить</div>';
+  h += '<div class="section-title" style="margin-top:16px">Начислить</div>';
 
   if (c.scoring?.invites?.enabled) {
-    h += `<div style="display:flex;gap:8px;margin-bottom:10px;align-items:center;padding:12px;background:var(--section-bg);border-radius:var(--radius-xs)">`;
-    h += `<div style="flex:1"><div style="font-size:14px;font-weight:700">Приглашения</div>`;
-    h += `<div style="font-size:12px;color:var(--text2)">+${c.scoring.invites.points} баллов × кол-во</div></div>`;
-    h += `<input class="form-input" id="modal-inv" type="number" min="1" value="1" style="width:64px;text-align:center;padding:10px">`;
+    h += `<div style="display:flex;gap:8px;margin-bottom:12px;align-items:center;padding:14px;background:var(--section-bg);border-radius:var(--radius-xs); border:1px solid var(--card-border)">`;
+    h += `<div style="flex:1"><div style="font-size:14px;font-weight:800">Приглашения</div>`;
+    h += `<div style="font-size:12px;color:var(--accent)">+${c.scoring.invites.points} баллов × кол-во</div></div>`;
+    h += `<input class="form-input" id="modal-inv" type="number" min="1" value="1" style="width:70px;text-align:center;padding:12px">`;
     h += `<button class="btn btn-sm btn-primary" data-action="addPoints" data-type="invites" data-pid="${p._id}" data-cid="${c._id}">${IC.plus}</button>`;
     h += '</div>';
   }
 
   if (c.scoring?.subscribe?.enabled) {
-    h += `<div style="display:flex;gap:8px;margin-bottom:10px;align-items:center;padding:12px;background:var(--section-bg);border-radius:var(--radius-xs)">`;
-    h += `<div style="flex:1"><div style="font-size:14px;font-weight:700">Подписка</div>`;
-    h += `<div style="font-size:12px;color:var(--text2)">+${c.scoring.subscribe.points} баллов × кол-во</div></div>`;
-    h += `<input class="form-input" id="modal-sub" type="number" min="1" value="1" style="width:64px;text-align:center;padding:10px">`;
+    h += `<div style="display:flex;gap:8px;margin-bottom:12px;align-items:center;padding:14px;background:var(--section-bg);border-radius:var(--radius-xs); border:1px solid var(--card-border)">`;
+    h += `<div style="flex:1"><div style="font-size:14px;font-weight:800">Подписка</div>`;
+    h += `<div style="font-size:12px;color:var(--accent)">+${c.scoring.subscribe.points} баллов × кол-во</div></div>`;
+    h += `<input class="form-input" id="modal-sub" type="number" min="1" value="1" style="width:70px;text-align:center;padding:12px">`;
     h += `<button class="btn btn-sm btn-primary" data-action="addPoints" data-type="subscribe" data-pid="${p._id}" data-cid="${c._id}">${IC.plus}</button>`;
     h += '</div>';
   }
 
   if (c.scoring?.ads?.enabled) {
-    h += `<div style="display:flex;gap:8px;margin-bottom:10px;align-items:center;padding:12px;background:var(--section-bg);border-radius:var(--radius-xs)">`;
-    h += `<div style="flex:1"><div style="font-size:14px;font-weight:700">Просмотры</div>`;
-    h += `<div style="font-size:12px;color:var(--text2)">+${c.scoring.ads.points} баллов × кол-во</div></div>`;
-    h += `<input class="form-input" id="modal-ads" type="number" min="1" value="1" style="width:64px;text-align:center;padding:10px">`;
+    h += `<div style="display:flex;gap:8px;margin-bottom:12px;align-items:center;padding:14px;background:var(--section-bg);border-radius:var(--radius-xs); border:1px solid var(--card-border)">`;
+    h += `<div style="flex:1"><div style="font-size:14px;font-weight:800">Просмотры</div>`;
+    h += `<div style="font-size:12px;color:var(--accent)">+${c.scoring.ads.points} баллов × кол-во</div></div>`;
+    h += `<input class="form-input" id="modal-ads" type="number" min="1" value="1" style="width:70px;text-align:center;padding:12px">`;
     h += `<button class="btn btn-sm btn-primary" data-action="addPoints" data-type="ads" data-pid="${p._id}" data-cid="${c._id}">${IC.plus}</button>`;
     h += '</div>';
   }
 
   h += '<div class="divider"></div>';
-  h += `<div style="display:flex;gap:8px;align-items:center;padding:12px;background:var(--section-bg);border-radius:var(--radius-xs)">`;
-  h += `<div style="flex:1"><div style="font-size:14px;font-weight:700">Вручную</div>`;
+  h += `<div style="display:flex;gap:8px;align-items:center;padding:14px;background:var(--section-bg);border-radius:var(--radius-xs); border:1px solid var(--card-border)">`;
+  h += `<div style="flex:1"><div style="font-size:14px;font-weight:800">Вручную</div>`;
   h += `<div style="font-size:12px;color:var(--text2)">Изменение баллов</div></div>`;
-  h += `<input class="form-input" id="modal-manual" type="number" min="1" value="1" style="width:60px;text-align:center;padding:10px; flex-shrink:0;">`;
-  h += `<button class="btn btn-sm btn-danger" data-action="removeManualPoints" data-pid="${p._id}" data-cid="${c._id}" style="padding:10px 14px; flex-shrink:0;">${IC.minus}</button>`;
-  h += `<button class="btn btn-sm btn-success" data-action="addManualPoints" data-pid="${p._id}" data-cid="${c._id}" style="padding:10px 14px; flex-shrink:0;">${IC.plus}</button>`;
+  h += `<input class="form-input" id="modal-manual" type="number" min="1" value="1" style="width:70px;text-align:center;padding:12px; flex-shrink:0;">`;
+  h += `<button class="btn btn-sm btn-danger" data-action="removeManualPoints" data-pid="${p._id}" data-cid="${c._id}" style="padding:12px; flex-shrink:0;">${IC.minus}</button>`;
+  h += `<button class="btn btn-sm btn-success" data-action="addManualPoints" data-pid="${p._id}" data-cid="${c._id}" style="padding:12px; flex-shrink:0;">${IC.plus}</button>`;
   h += '</div>';
 
   h += '<div class="modal-actions">';
@@ -3034,7 +3156,7 @@ function bindEvents() {
   document.querySelectorAll('[data-action]').forEach(el => {
     el.addEventListener('click', async (e) => {
       e.stopPropagation();
-      const action = el.dataset.action;
+      const action = el.dataset.action; 
 
       if (action === 'nav') {
         const screen = el.dataset.screen;
