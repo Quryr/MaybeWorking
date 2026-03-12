@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -10,1219 +9,1391 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
 /* ═══════════════════════════════════════
-   ROOT & RESET
-   ═══════════════════════════════════════ */
+   ROOT & RESET
+   ═══════════════════════════════════════ */
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
+
 :root {
-  --bg: #FFFFFF;
-  --card: #FFFFFF;
-  --card-border: #E5E5EA;
-  --text: #000000;
-  --text2: #6E6E73;
-  --text3: #AEAEB2;
-  --accent: #000000;
-  --accent-text: #FFFFFF;
-  --danger: #FF3B30;
-  --danger-bg: #FFF1F0;
-  --success: #34C759;
-  --success-bg: #E8F9EE;
-  --warn: #FF9500;
-  --warn-bg: #FFF8EC;
-  --section-bg: #F2F2F7;
-  --hover: #F5F5F7;
-  --radius: 16px;
-  --radius-sm: 12px;
-  --radius-xs: 8px;
+  --bg: #FFFFFF;
+  --card: #FFFFFF;
+  --card-border: #E5E5EA;
+  --text: #000000;
+  --text2: #6E6E73;
+  --text3: #AEAEB2;
+  --accent: #000000;
+  --accent-text: #FFFFFF;
+  --danger: #FF3B30;
+  --danger-bg: #FFF1F0;
+  --success: #34C759;
+  --success-bg: #E8F9EE;
+  --warn: #FF9500;
+  --warn-bg: #FFF8EC;
+  --section-bg: #F2F2F7;
+  --hover: #F5F5F7;
+  --radius: 16px;
+  --radius-sm: 12px;
+  --radius-xs: 8px;
 }
+
 html, body {
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-rendering: geometricPrecision;
-  overflow-x: hidden;
-  min-height: 100vh;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: geometricPrecision;
+  overflow-x: hidden;
+  min-height: 100vh;
 }
+
 body {
-  padding-bottom: calc(80px + env(safe-area-inset-bottom, 0px));
+  padding-bottom: calc(80px + env(safe-area-inset-bottom, 0px));
 }
+
 input, textarea, select, button {
-  font-family: inherit;
-  font-size: inherit;
-  -webkit-appearance: none;
-  appearance: none;
+  font-family: inherit;
+  font-size: inherit;
+  -webkit-appearance: none;
+  appearance: none;
 }
+
 a {
-  color: inherit;
-  text-decoration: none;
+  color: inherit;
+  text-decoration: none;
 }
+
 /* ═══════════════════════════════════════
-   APP CONTAINER
-   ═══════════════════════════════════════ */
+   APP CONTAINER
+   ═══════════════════════════════════════ */
 .app {
-  max-width: 480px;
-  margin: 0 auto;
-  padding: 16px 16px 0;
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 16px 16px 0;
 }
+
 /* ═══════════════════════════════════════
-   HEADER
-   ═══════════════════════════════════════ */
+   HEADER
+   ═══════════════════════════════════════ */
 .header {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px 0 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0 24px;
 }
+
 .header h1 {
-  font-size: 28px;
-  font-weight: 900;
-  letter-spacing: -0.8px;
-  flex: 1;
-  line-height: 1.1;
+  font-size: 28px;
+  font-weight: 900;
+  letter-spacing: -0.8px;
+  flex: 1;
+  line-height: 1.1;
 }
+
 .header-sub {
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--text2);
-  margin-top: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text2);
+  margin-top: 4px;
 }
+
 .header-badge {
-  font-size: 11px;
-  font-weight: 700;
-  background: #000;
-  color: #fff;
-  padding: 4px 12px;
-  border-radius: 20px;
-  letter-spacing: .5px;
-  text-transform: uppercase;
+  font-size: 11px;
+  font-weight: 700;
+  background: #000;
+  color: #fff;
+  padding: 4px 12px;
+  border-radius: 20px;
+  letter-spacing: .5px;
+  text-transform: uppercase;
 }
+
 /* ═══════════════════════════════════════
-   BACK BUTTON
-   ═══════════════════════════════════════ */
+   BACK BUTTON
+   ═══════════════════════════════════════ */
 .back-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 10px 18px 10px 14px;
-  background: var(--section-bg);
-  border: 1px solid var(--card-border);
-  border-radius: 40px;
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--text);
-  cursor: pointer;
-  transition: all .2s;
-  -webkit-tap-highlight-color: transparent;
-  margin-bottom: 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px 10px 14px;
+  background: var(--section-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 40px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  cursor: pointer;
+  transition: all .2s;
+  -webkit-tap-highlight-color: transparent;
+  margin-bottom: 20px;
 }
+
 .back-btn:active {
-  transform: scale(.95);
-  background: var(--card-border);
+  transform: scale(.95);
+  background: var(--card-border);
 }
+
 .back-btn svg {
-  width: 18px;
-  height: 18px;
-  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
 }
+
 /* ═══════════════════════════════════════
-   CARDS
-   ═══════════════════════════════════════ */
+   CARDS
+   ═══════════════════════════════════════ */
 .card {
-  background: var(--card);
-  border: 1px solid var(--card-border);
-  border-radius: var(--radius);
-  padding: 16px;
-  margin-bottom: 12px;
-  transition: all .2s;
-  -webkit-tap-highlight-color: transparent;
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-bottom: 12px;
+  transition: all .2s;
+  -webkit-tap-highlight-color: transparent;
 }
+
 .card:active {
-  transform: scale(.985);
+  transform: scale(.985);
 }
+
 .card-clickable {
-  cursor: pointer;
+  cursor: pointer;
 }
+
 /* ═══════════════════════════════════════
-   CONTEST CARD (on home screen)
-   ═══════════════════════════════════════ */
+   CONTEST CARD (on home screen)
+   ═══════════════════════════════════════ */
 .ccard {
-  background: var(--card);
-  border: 1px solid var(--card-border);
-  border-radius: var(--radius);
-  padding: 16px;
-  margin-bottom: 12px;
-  display: flex;
-  gap: 14px;
-  align-items: flex-start;
-  cursor: pointer;
-  transition: all .2s;
-  -webkit-tap-highlight-color: transparent;
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-bottom: 12px;
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  cursor: pointer;
+  transition: all .2s;
+  -webkit-tap-highlight-color: transparent;
 }
+
 .ccard:active {
-  transform: scale(.985);
-  box-shadow: 0 2px 12px rgba(0, 0, 0, .06);
+  transform: scale(.985);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, .06);
 }
+
 .ccard-icon {
-  width: 56px;
-  height: 56px;
-  border-radius: 14px;
-  background: var(--accent);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  position: relative;
-  overflow: hidden;
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  background: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
 }
+
 .ccard-icon::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 50%;
-  background: linear-gradient(180deg, rgba(255,255,255,.15) 0%, transparent 100%);
-  border-radius: 14px 14px 0 0;
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50%;
+  background: linear-gradient(180deg, rgba(255,255,255,.15) 0%, transparent 100%);
+  border-radius: 14px 14px 0 0;
 }
+
 .ccard-icon svg {
-  width: 26px;
-  height: 26px;
-  stroke: #fff;
-  stroke-width: 1.8;
-  fill: none;
-  position: relative;
-  z-index: 1;
+  width: 26px;
+  height: 26px;
+  stroke: #fff;
+  stroke-width: 1.8;
+  fill: none;
+  position: relative;
+  z-index: 1;
 }
+
 .ccard-body {
-  flex: 1;
-  min-width: 0;
+  flex: 1;
+  min-width: 0;
 }
+
 .ccard-top {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 8px;
-  margin-bottom: 6px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 6px;
 }
+
 .ccard-title {
-  font-size: 16px;
-  font-weight: 800;
-  letter-spacing: -0.3px;
-  line-height: 1.25;
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: -0.3px;
+  line-height: 1.25;
 }
+
 .ccard-channel {
-  font-size: 13px;
-  color: var(--text2);
-  font-weight: 600;
-  margin-bottom: 8px;
+  font-size: 13px;
+  color: var(--text2);
+  font-weight: 600;
+  margin-bottom: 8px;
 }
+
 .ccard-meta {
-  display: flex;
-  gap: 14px;
-  flex-wrap: wrap;
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
 }
+
 .ccard-meta-item {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--text2);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text2);
 }
+
 .ccard-meta-item svg {
-  width: 14px;
-  height: 14px;
-  stroke: var(--text3);
-  stroke-width: 2;
-  fill: none;
+  width: 14px;
+  height: 14px;
+  stroke: var(--text3);
+  stroke-width: 2;
+  fill: none;
 }
+
 /* ═══════════════════════════════════════
-   BADGES
-   ═══════════════════════════════════════ */
+   BADGES
+   ═══════════════════════════════════════ */
 .badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  padding: 4px 10px;
-  border-radius: 20px;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: .3px;
-  white-space: nowrap;
-  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .3px;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
+
 .badge-live {
-  background: var(--success-bg);
-  color: #1B9E4B;
+  background: var(--success-bg);
+  color: #1B9E4B;
 }
+
 .badge-live::before {
-  content: '';
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--success);
-  animation: pulse 2s infinite;
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--success);
+  animation: pulse 2s infinite;
 }
+
 .badge-ended {
-  background: var(--section-bg);
-  color: var(--text3);
+  background: var(--section-bg);
+  color: var(--text3);
 }
+
 @keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: .3; }
+  0%, 100% { opacity: 1; }
+  50% { opacity: .3; }
 }
+
 /* ═══════════════════════════════════════
-   BUTTONS
-   ═══════════════════════════════════════ */
+   BUTTONS
+   ═══════════════════════════════════════ */
 .btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  width: 100%;
-  padding: 15px;
-  border-radius: var(--radius-sm);
-  font-size: 15px;
-  font-weight: 700;
-  border: none;
-  cursor: pointer;
-  transition: all .15s;
-  -webkit-tap-highlight-color: transparent;
-  letter-spacing: -0.2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 15px;
+  border-radius: var(--radius-sm);
+  font-size: 15px;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  transition: all .15s;
+  -webkit-tap-highlight-color: transparent;
+  letter-spacing: -0.2px;
 }
+
 .btn:active {
-  transform: scale(.97);
+  transform: scale(.97);
 }
+
 .btn-primary {
-  background: var(--accent);
-  color: var(--accent-text);
+  background: var(--accent);
+  color: var(--accent-text);
 }
+
 .btn-primary:active {
-  background: #333;
+  background: #333;
 }
+
 .btn-secondary {
-  background: var(--section-bg);
-  color: var(--text);
-  border: 1px solid var(--card-border);
+  background: var(--section-bg);
+  color: var(--text);
+  border: 1px solid var(--card-border);
 }
+
 .btn-danger {
-  background: var(--danger);
-  color: #fff;
+  background: var(--danger);
+  color: #fff;
 }
+
 .btn-success {
-  background: var(--success);
-  color: #fff;
+  background: var(--success);
+  color: #fff;
 }
+
 .btn-warn {
-  background: var(--warn);
-  color: #fff;
+  background: var(--warn);
+  color: #fff;
 }
+
 .btn-sm {
-  padding: 10px 16px;
-  font-size: 13px;
-  width: auto;
-  border-radius: var(--radius-xs);
+  padding: 10px 16px;
+  font-size: 13px;
+  width: auto;
+  border-radius: var(--radius-xs);
 }
+
 .btn svg {
-  width: 18px;
-  height: 18px;
-  stroke: currentColor;
-  stroke-width: 2;
-  fill: none;
+  width: 18px;
+  height: 18px;
+  stroke: currentColor;
+  stroke-width: 2;
+  fill: none;
 }
+
 .btn:disabled {
-  opacity: .4;
-  pointer-events: none;
+  opacity: .4;
+  pointer-events: none;
 }
+
 .btn-row {
-  display: flex;
-  gap: 8px;
-  margin-top: 8px;
-  flex-wrap: wrap;
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+  flex-wrap: wrap; /* Fixes buttons overflowing right side */
 }
+
 .btn-row .btn {
-  flex: 1;
-  min-width: 140px;
+  flex: 1 1 auto;
+  min-width: 0;
+  white-space: nowrap;
 }
+
 /* ═══════════════════════════════════════
-   FORMS
-   ═══════════════════════════════════════ */
+   FORMS
+   ═══════════════════════════════════════ */
 .form-group {
-  margin-bottom: 20px;
+  margin-bottom: 20px;
 }
+
 .form-label {
-  display: block;
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--text);
-  margin-bottom: 8px;
-  letter-spacing: .2px;
-  text-transform: uppercase;
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 8px;
+  letter-spacing: .2px;
+  text-transform: uppercase;
 }
+
 .form-hint {
-  font-size: 12px;
-  color: var(--text3);
-  margin-top: 6px;
-  line-height: 1.4;
+  font-size: 12px;
+  color: var(--text3);
+  margin-top: 6px;
+  line-height: 1.4;
 }
+
 .form-input {
-  width: 100%;
-  padding: 14px 16px;
-  border: 1.5px solid var(--card-border);
-  border-radius: var(--radius-sm);
-  font-size: 16px;
-  font-weight: 500;
-  background: var(--card);
-  color: var(--text);
-  transition: border-color .2s;
-  outline: none;
+  width: 100%;
+  padding: 14px 16px;
+  border: 1.5px solid var(--card-border);
+  border-radius: var(--radius-sm);
+  font-size: 16px;
+  font-weight: 500;
+  background: var(--card);
+  color: var(--text);
+  transition: border-color .2s;
+  outline: none;
 }
+
 .form-input:focus {
-  border-color: var(--accent);
+  border-color: var(--accent);
 }
+
 .form-input::placeholder {
-  color: var(--text3);
+  color: var(--text3);
 }
+
 textarea.form-input {
-  resize: vertical;
-  min-height: 88px;
-  line-height: 1.5;
+  resize: vertical;
+  min-height: 88px;
+  line-height: 1.5;
 }
+
 select.form-input {
-  cursor: pointer;
-  background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%23AEAEB2' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 16px center;
-  padding-right: 40px;
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%23AEAEB2' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+  padding-right: 40px;
 }
+
 /* ═══════════════════════════════════════
-   TOGGLE SWITCH
-   ═══════════════════════════════════════ */
+   TOGGLE SWITCH
+   ═══════════════════════════════════════ */
 .toggle-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 16px;
-  background: var(--section-bg);
-  border-radius: var(--radius-sm);
-  margin-bottom: 8px;
-  gap: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  background: var(--section-bg);
+  border-radius: var(--radius-sm);
+  margin-bottom: 8px;
+  gap: 12px;
 }
+
 .toggle-row-info {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  flex: 1;
 }
+
 .toggle-row-title {
-  font-size: 15px;
-  font-weight: 700;
+  font-size: 15px;
+  font-weight: 700;
 }
+
 .toggle-row-desc {
-  font-size: 12px;
-  color: var(--text2);
-  line-height: 1.4;
+  font-size: 12px;
+  color: var(--text2);
+  line-height: 1.4;
 }
+
 .toggle {
-  position: relative;
-  width: 52px;
-  height: 32px;
-  flex-shrink: 0;
+  position: relative;
+  width: 52px;
+  height: 32px;
+  flex-shrink: 0;
 }
+
 .toggle input {
-  opacity: 0;
-  width: 0;
-  height: 0;
+  opacity: 0;
+  width: 0;
+  height: 0;
 }
+
 .toggle-slider {
-  position: absolute;
-  inset: 0;
-  background: var(--card-border);
-  border-radius: 16px;
-  cursor: pointer;
-  transition: all .3s;
+  position: absolute;
+  inset: 0;
+  background: var(--card-border);
+  border-radius: 16px;
+  cursor: pointer;
+  transition: all .3s;
 }
+
 .toggle-slider::before {
-  content: '';
-  position: absolute;
-  width: 26px;
-  height: 26px;
-  background: #fff;
-  border-radius: 50%;
-  top: 3px;
-  left: 3px;
-  transition: transform .3s;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, .15);
+  content: '';
+  position: absolute;
+  width: 26px;
+  height: 26px;
+  background: #fff;
+  border-radius: 50%;
+  top: 3px;
+  left: 3px;
+  transition: transform .3s;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, .15);
 }
+
 .toggle input:checked + .toggle-slider {
-  background: var(--accent);
+  background: var(--accent);
 }
+
 .toggle input:checked + .toggle-slider::before {
-  transform: translateX(20px);
+  transform: translateX(20px);
 }
+
 .toggle-sub {
-  padding: 12px 16px 16px;
-  display: none;
+  padding: 12px 16px 16px;
+  display: none;
 }
+
 .toggle-sub.show {
-  display: block;
+  display: block;
 }
+
 /* ═══════════════════════════════════════
-   SECTION TITLE
-   ═══════════════════════════════════════ */
+   SECTION TITLE
+   ═══════════════════════════════════════ */
 .section-title {
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--text2);
-  text-transform: uppercase;
-  letter-spacing: 1.2px;
-  margin: 28px 0 12px;
-  padding: 0 4px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text2);
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  margin: 28px 0 12px;
+  padding: 0 4px;
 }
+
 /* ═══════════════════════════════════════
-   TAB BAR — все кнопки одинаковые
-   ═══════════════════════════════════════ */
+   TAB BAR
+   ═══════════════════════════════════════ */
 .tab-bar {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: rgba(255, 255, 255, .94);
-  backdrop-filter: blur(30px);
-  -webkit-backdrop-filter: blur(30px);
-  border-top: 1px solid var(--card-border);
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  padding: 0 0 env(safe-area-inset-bottom, 0px);
-  z-index: 1000;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(255, 255, 255, .94);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  border-top: 1px solid var(--card-border);
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  padding: 0 0 env(safe-area-inset-bottom, 0px);
+  z-index: 1000;
 }
+
 .tab-bar.cols-4 {
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(4, 1fr);
 }
+
 .tab {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 10px 0 8px;
-  cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
-  transition: color .2s;
-  position: relative;
-  gap: 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 0 8px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: color .2s;
+  position: relative;
+  gap: 4px;
 }
+
 .tab svg {
-  width: 24px;
-  height: 24px;
-  stroke: var(--text3);
-  stroke-width: 1.8;
-  fill: none;
-  transition: stroke .2s;
+  width: 24px;
+  height: 24px;
+  stroke: var(--text3);
+  stroke-width: 1.8;
+  fill: none;
+  transition: stroke .2s;
 }
+
 .tab span {
-  font-size: 10px;
-  font-weight: 600;
-  color: var(--text3);
-  transition: color .2s;
-  letter-spacing: .3px;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text3);
+  transition: color .2s;
+  letter-spacing: .3px;
 }
+
 .tab.active svg {
-  stroke: var(--text);
+  stroke: var(--text);
 }
+
 .tab.active span {
-  color: var(--text);
+  color: var(--text);
 }
+
 .tab.active::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 36px;
-  height: 3px;
-  background: var(--accent);
-  border-radius: 0 0 3px 3px;
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 36px;
+  height: 3px;
+  background: var(--accent);
+  border-radius: 0 0 3px 3px;
 }
+
 /* ═══════════════════════════════════════
-   LEADERBOARD
-   ═══════════════════════════════════════ */
+   LEADERBOARD
+   ═══════════════════════════════════════ */
 .lb-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 14px;
-  border-radius: var(--radius-sm);
-  margin-bottom: 8px;
-  cursor: pointer;
-  transition: all .15s;
-  -webkit-tap-highlight-color: transparent;
-  background: var(--card);
-  border: 1px solid var(--card-border);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px;
+  border-radius: var(--radius-sm);
+  margin-bottom: 8px;
+  cursor: pointer;
+  transition: all .15s;
+  -webkit-tap-highlight-color: transparent;
+  background: var(--card);
+  border: 1px solid var(--card-border);
 }
+
 .lb-item:active {
-  transform: scale(.98);
+  transform: scale(.98);
 }
+
 .lb-item.me {
-  border-color: var(--accent);
-  background: #FAFAFA;
-  box-shadow: 0 0 0 1px var(--accent);
+  border-color: var(--accent);
+  background: #FAFAFA;
+  box-shadow: 0 0 0 1px var(--accent);
 }
+
 .lb-rank {
-  width: 32px;
-  height: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 14px;
-  font-weight: 800;
-  border-radius: 50%;
-  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 800;
+  border-radius: 50%;
+  flex-shrink: 0;
 }
+
 .lb-rank.r1 { background: #FFF3D6; color: #C58800; }
 .lb-rank.r2 { background: #F0F0F0; color: #666; }
 .lb-rank.r3 { background: #FFE8D6; color: #B5651D; }
 .lb-rank.rn { background: var(--section-bg); color: var(--text2); }
+
 .lb-avatar {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 15px;
-  font-weight: 700;
-  color: #fff;
-  flex-shrink: 0;
-  overflow: hidden;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  font-weight: 700;
+  color: #fff;
+  flex-shrink: 0;
+  overflow: hidden;
 }
+
 .lb-avatar img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 50%;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
 }
+
 .lb-info {
-  flex: 1;
-  min-width: 0;
+  flex: 1;
+  min-width: 0;
 }
+
 .lb-name {
-  font-size: 15px;
-  font-weight: 700;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  font-size: 15px;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
+
 .lb-username {
-  font-size: 12px;
-  color: var(--text3);
-  font-weight: 500;
-  margin-top: 1px;
+  font-size: 12px;
+  color: var(--text3);
+  font-weight: 500;
+  margin-top: 1px;
 }
+
 .lb-stats {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-top: 4px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 4px;
 }
+
 .lb-stat {
-  display: flex;
-  align-items: center;
-  gap: 3px;
-  font-size: 11px;
-  font-weight: 700;
-  color: var(--text2);
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text2);
 }
+
 .lb-stat svg {
-  width: 13px;
-  height: 13px;
-  stroke: var(--text3);
-  stroke-width: 2;
-  fill: none;
+  width: 13px;
+  height: 13px;
+  stroke: var(--text3);
+  stroke-width: 2;
+  fill: none;
 }
+
 .lb-points-col {
-  text-align: right;
-  flex-shrink: 0;
+  text-align: right;
+  flex-shrink: 0;
 }
+
 .lb-points {
-  font-size: 18px;
-  font-weight: 900;
-  letter-spacing: -.5px;
+  font-size: 18px;
+  font-weight: 900;
+  letter-spacing: -.5px;
 }
+
 .lb-points-label {
-  font-size: 10px;
-  color: var(--text3);
-  font-weight: 600;
+  font-size: 10px;
+  color: var(--text3);
+  font-weight: 600;
 }
+
 /* ═══════════════════════════════════════
-   INVITE BOX
-   ═══════════════════════════════════════ */
+   INVITE BOX
+   ═══════════════════════════════════════ */
 .invite-box {
-  background: var(--section-bg);
-  border: 1.5px solid var(--card-border);
-  border-radius: var(--radius);
-  padding: 16px;
-  margin: 16px 0;
+  background: var(--section-bg);
+  border: 1.5px solid var(--card-border);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin: 16px 0;
 }
+
 .invite-box-title {
-  font-size: 14px;
-  font-weight: 700;
-  margin-bottom: 10px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
+
 .invite-box-title svg {
-  width: 18px;
-  height: 18px;
-  stroke: var(--text);
-  stroke-width: 2;
-  fill: none;
+  width: 18px;
+  height: 18px;
+  stroke: var(--text);
+  stroke-width: 2;
+  fill: none;
 }
+
 .invite-box-row {
-  display: flex;
-  gap: 8px;
-  align-items: center;
+  display: flex;
+  gap: 8px;
+  align-items: center;
 }
+
 .invite-box-link {
-  flex: 1;
-  padding: 12px 14px;
-  background: #fff;
-  border: 1px solid var(--card-border);
-  border-radius: var(--radius-xs);
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--text);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  font-family: 'SF Mono', 'Menlo', monospace;
+  flex: 1;
+  padding: 12px 14px;
+  background: #fff;
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-xs);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-family: 'SF Mono', 'Menlo', monospace;
 }
+
 .invite-box-copy {
-  width: 44px;
-  height: 44px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--accent);
-  border-radius: var(--radius-xs);
-  cursor: pointer;
-  flex-shrink: 0;
-  transition: all .15s;
-  border: none;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--accent);
+  border-radius: var(--radius-xs);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all .15s;
+  border: none;
 }
+
 .invite-box-copy:active {
-  transform: scale(.88);
+  transform: scale(.88);
 }
+
 .invite-box-copy svg {
-  width: 18px;
-  height: 18px;
-  stroke: #fff;
-  stroke-width: 2;
-  fill: none;
+  width: 18px;
+  height: 18px;
+  stroke: #fff;
+  stroke-width: 2;
+  fill: none;
 }
+
 .invite-box-hint {
-  font-size: 12px;
-  color: var(--text2);
-  margin-top: 10px;
-  font-weight: 500;
-  line-height: 1.4;
+  font-size: 12px;
+  color: var(--text2);
+  margin-top: 10px;
+  font-weight: 500;
+  line-height: 1.4;
 }
+
 /* ═══════════════════════════════════════
-   MODAL (bottom sheet)
-   ═══════════════════════════════════════ */
+   MODAL (bottom sheet)
+   ═══════════════════════════════════════ */
 .modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, .45);
-  z-index: 2000;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  animation: fadeIn .2s;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, .45);
+  z-index: 2000;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  animation: fadeIn .2s;
 }
+
 .modal {
-  background: #fff;
-  border-radius: 24px 24px 0 0;
-  width: 100%;
-  max-width: 480px;
-  max-height: 85vh;
-  overflow-y: auto;
-  padding: 24px 20px calc(24px + env(safe-area-inset-bottom, 0px));
-  animation: slideUp .3s;
+  background: #fff;
+  border-radius: 24px 24px 0 0;
+  width: 100%;
+  max-width: 480px;
+  max-height: 85vh;
+  overflow-y: auto;
+  padding: 24px 20px calc(24px + env(safe-area-inset-bottom, 0px));
+  animation: slideUp .3s;
 }
+
 .modal-handle {
-  width: 40px;
-  height: 4px;
-  background: var(--card-border);
-  border-radius: 2px;
-  margin: 0 auto 20px;
+  width: 40px;
+  height: 4px;
+  background: var(--card-border);
+  border-radius: 2px;
+  margin: 0 auto 20px;
 }
+
 .modal-title {
-  font-size: 20px;
-  font-weight: 800;
-  margin-bottom: 4px;
-  text-align: center;
-  letter-spacing: -0.3px;
+  font-size: 20px;
+  font-weight: 800;
+  margin-bottom: 4px;
+  text-align: center;
+  letter-spacing: -0.3px;
 }
+
 .modal-subtitle {
-  font-size: 14px;
-  color: var(--text2);
-  text-align: center;
-  margin-bottom: 20px;
+  font-size: 14px;
+  color: var(--text2);
+  text-align: center;
+  margin-bottom: 20px;
 }
+
 .modal-actions {
-  display: flex;
-  gap: 8px;
-  margin-top: 20px;
+  display: flex;
+  gap: 8px;
+  margin-top: 20px;
 }
+
 .modal-actions .btn {
-  flex: 1;
+  flex: 1;
 }
+
 /* ═══════════════════════════════════════
-   ANIMATIONS
-   ═══════════════════════════════════════ */
+   ANIMATIONS
+   ═══════════════════════════════════════ */
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
+
 @keyframes slideUp {
-  from { transform: translateY(100%); }
-  to { transform: translateY(0); }
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
 }
+
 @keyframes fadeUp {
-  from { opacity: 0; transform: translateY(16px); }
-  to { opacity: 1; transform: translateY(0); }
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
 }
+
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to { transform: rotate(360deg); }
 }
+
 .fade-up {
-  animation: fadeUp .4s ease both;
+  animation: fadeUp .4s ease both;
 }
+
 /* ═══════════════════════════════════════
-   PRIZE ROWS
-   ═══════════════════════════════════════ */
+   PRIZE ROWS
+   ═══════════════════════════════════════ */
 .prize-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
 }
+
 .prize-medal {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 14px;
-  font-weight: 900;
-  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 900;
+  flex-shrink: 0;
 }
+
 .prize-medal.m1 { background: #FFF3D6; color: #C58800; }
 .prize-medal.m2 { background: #F0F0F0; color: #666; }
 .prize-medal.m3 { background: #FFE8D6; color: #B5651D; }
 .prize-medal.mn { background: var(--section-bg); color: var(--text2); }
+
 .prize-input {
-  flex: 1;
+  flex: 1;
 }
+
 .prize-remove {
-  width: 36px;
-  height: 36px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--danger-bg);
-  border: none;
-  border-radius: 50%;
-  cursor: pointer;
-  flex-shrink: 0;
-  transition: all .15s;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--danger-bg);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all .15s;
 }
+
 .prize-remove:active {
-  transform: scale(.85);
+  transform: scale(.85);
 }
+
 .prize-remove svg {
-  width: 16px;
-  height: 16px;
-  stroke: var(--danger);
-  stroke-width: 2;
-  fill: none;
+  width: 16px;
+  height: 16px;
+  stroke: var(--danger);
+  stroke-width: 2;
+  fill: none;
 }
+
 /* ═══════════════════════════════════════
-   STAT BOXES
-   ═══════════════════════════════════════ */
+   STAT BOXES
+   ═══════════════════════════════════════ */
 .stat-row {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
-  margin: 12px 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin: 12px 0;
 }
+
 .stat-box {
-  background: var(--section-bg);
-  border-radius: var(--radius-sm);
-  padding: 16px 8px;
-  text-align: center;
+  background: var(--section-bg);
+  border-radius: var(--radius-sm);
+  padding: 16px 8px;
+  text-align: center;
 }
+
 .stat-box-val {
-  font-size: 24px;
-  font-weight: 900;
-  letter-spacing: -.5px;
+  font-size: 24px;
+  font-weight: 900;
+  letter-spacing: -.5px;
 }
+
 .stat-box-label {
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--text2);
-  margin-top: 4px;
-  text-transform: uppercase;
-  letter-spacing: .5px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text2);
+  margin-top: 4px;
+  text-transform: uppercase;
+  letter-spacing: .5px;
 }
+
 /* ═══════════════════════════════════════
-   INFO ROWS
-   ═══════════════════════════════════════ */
+   INFO ROWS
+   ═══════════════════════════════════════ */
 .info-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 14px 0;
-  border-bottom: 1px solid var(--card-border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--card-border);
 }
+
 .info-row:last-child {
-  border-bottom: none;
+  border-bottom: none;
 }
+
 .info-label {
-  font-size: 14px;
-  color: var(--text2);
-  font-weight: 500;
+  font-size: 14px;
+  color: var(--text2);
+  font-weight: 500;
 }
+
 .info-value {
-  font-size: 14px;
-  font-weight: 700;
-  text-align: right;
-  max-width: 60%;
+  font-size: 14px;
+  font-weight: 700;
+  text-align: right;
+  max-width: 60%;
 }
+
 /* ═══════════════════════════════════════
-   DIVIDER
-   ═══════════════════════════════════════ */
+   DIVIDER
+   ═══════════════════════════════════════ */
 .divider {
-  height: 1px;
-  background: var(--card-border);
-  margin: 16px 0;
+  height: 1px;
+  background: var(--card-border);
+  margin: 16px 0;
 }
+
 /* ═══════════════════════════════════════
-   NOTICES
-   ═══════════════════════════════════════ */
+   NOTICES
+   ═══════════════════════════════════════ */
 .notice {
-  padding: 14px 16px;
-  border-radius: var(--radius-sm);
-  font-size: 13px;
-  font-weight: 600;
-  line-height: 1.5;
-  margin-bottom: 12px;
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
+  padding: 14px 16px;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.5;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
 }
+
 .notice svg {
-  width: 18px;
-  height: 18px;
-  flex-shrink: 0;
-  margin-top: 1px;
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  margin-top: 1px;
 }
+
 .notice-warn {
-  background: var(--warn-bg);
-  color: #8A5A00;
+  background: var(--warn-bg);
+  color: #8A5A00;
 }
+
 .notice-warn svg {
-  stroke: #FF9500;
+  stroke: #FF9500;
 }
+
 .notice-info {
-  background: #EFF6FF;
-  color: #1D4ED8;
+  background: #EFF6FF;
+  color: #1D4ED8;
 }
+
 .notice-info svg {
-  stroke: #3B82F6;
+  stroke: #3B82F6;
 }
+
 .notice-success {
-  background: var(--success-bg);
-  color: #1B9E4B;
+  background: var(--success-bg);
+  color: #1B9E4B;
 }
+
 .notice-success svg {
-  stroke: var(--success);
+  stroke: var(--success);
 }
+
 .notice-error {
-  background: var(--danger-bg);
-  color: var(--danger);
+  background: var(--danger-bg);
+  color: var(--danger);
 }
+
 .notice-error svg {
-  stroke: var(--danger);
+  stroke: var(--danger);
 }
+
 /* ═══════════════════════════════════════
-   EMPTY STATE
-   ═══════════════════════════════════════ */
+   EMPTY STATE
+   ═══════════════════════════════════════ */
 .empty {
-  text-align: center;
-  padding: 60px 24px;
+  text-align: center;
+  padding: 60px 24px;
 }
+
 .empty-icon {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  background: var(--section-bg);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto 20px;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: var(--section-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
 }
+
 .empty-icon svg {
-  width: 36px;
-  height: 36px;
-  stroke: var(--text3);
-  stroke-width: 1.5;
-  fill: none;
+  width: 36px;
+  height: 36px;
+  stroke: var(--text3);
+  stroke-width: 1.5;
+  fill: none;
 }
+
 .empty-title {
-  font-size: 20px;
-  font-weight: 800;
-  margin-bottom: 8px;
+  font-size: 20px;
+  font-weight: 800;
+  margin-bottom: 8px;
 }
+
 .empty-desc {
-  font-size: 14px;
-  color: var(--text2);
-  line-height: 1.6;
-  max-width: 280px;
-  margin: 0 auto;
+  font-size: 14px;
+  color: var(--text2);
+  line-height: 1.6;
+  max-width: 280px;
+  margin: 0 auto;
 }
+
 /* ═══════════════════════════════════════
-   TOAST NOTIFICATIONS
-   ═══════════════════════════════════════ */
+   TOAST NOTIFICATIONS
+   ═══════════════════════════════════════ */
 .toast {
-  position: fixed;
-  top: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  padding: 14px 24px;
-  border-radius: var(--radius-sm);
-  font-size: 14px;
-  font-weight: 600;
-  z-index: 3000;
-  animation: fadeIn .3s;
-  max-width: 90%;
-  text-align: center;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, .12);
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 14px 24px;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-weight: 600;
+  z-index: 3000;
+  animation: fadeIn .3s;
+  max-width: 90%;
+  text-align: center;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, .12);
 }
+
 .toast-success {
-  background: var(--success-bg);
-  color: #1B9E4B;
-  border: 1px solid #B8EDCB;
+  background: var(--success-bg);
+  color: #1B9E4B;
+  border: 1px solid #B8EDCB;
 }
+
 .toast-error {
-  background: var(--danger-bg);
-  color: var(--danger);
-  border: 1px solid #FFBABA;
+  background: var(--danger-bg);
+  color: var(--danger);
+  border: 1px solid #FFBABA;
 }
+
 /* ═══════════════════════════════════════
-   CHANNEL CARD (in create form)
-   ═══════════════════════════════════════ */
+   CHANNEL CARD (in create form)
+   ═══════════════════════════════════════ */
 .ch-card {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 14px;
-  background: var(--section-bg);
-  border-radius: var(--radius-sm);
-  margin-bottom: 8px;
-  cursor: pointer;
-  border: 2px solid transparent;
-  transition: all .15s;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px;
+  background: var(--section-bg);
+  border-radius: var(--radius-sm);
+  margin-bottom: 8px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: all .15s;
 }
+
 .ch-card:active {
-  transform: scale(.98);
+  transform: scale(.98);
 }
+
 .ch-card.selected {
-  border-color: var(--accent);
-  background: #FAFAFA;
+  border-color: var(--accent);
+  background: #FAFAFA;
 }
+
 .ch-card-icon {
-  width: 36px;
-  height: 36px;
-  border-radius: 10px;
-  background: var(--accent);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
 }
+
 .ch-card-icon svg {
-  width: 18px;
-  height: 18px;
-  stroke: #fff;
-  stroke-width: 2;
-  fill: none;
+  width: 18px;
+  height: 18px;
+  stroke: #fff;
+  stroke-width: 2;
+  fill: none;
 }
+
 .ch-card-body {
-  flex: 1;
-  min-width: 0;
+  flex: 1;
+  min-width: 0;
 }
+
 .ch-card-title {
-  font-size: 15px;
-  font-weight: 700;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  font-size: 15px;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
+
 .ch-card-id {
-  font-size: 11px;
-  color: var(--text3);
-  font-weight: 500;
-  margin-top: 2px;
+  font-size: 11px;
+  color: var(--text3);
+  font-weight: 500;
+  margin-top: 2px;
 }
+
 .ch-card-check {
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  border: 2px solid var(--card-border);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  transition: all .15s;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2px solid var(--card-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all .15s;
 }
+
 .ch-card.selected .ch-card-check {
-  background: var(--accent);
-  border-color: var(--accent);
+  background: var(--accent);
+  border-color: var(--accent);
 }
+
 .ch-card.selected .ch-card-check svg {
-  stroke: #fff;
+  stroke: #fff;
 }
+
 /* ═══════════════════════════════════════
-   ADMIN TABS (filter)
-   ═══════════════════════════════════════ */
+   ADMIN TABS (filter)
+   ═══════════════════════════════════════ */
 .admin-tabs {
-  display: flex;
-  gap: 4px;
-  background: var(--section-bg);
-  border-radius: var(--radius-xs);
-  padding: 4px;
-  margin-bottom: 16px;
+  display: flex;
+  gap: 4px;
+  background: var(--section-bg);
+  border-radius: var(--radius-xs);
+  padding: 4px;
+  margin-bottom: 16px;
 }
+
 .admin-tab {
-  flex: 1;
-  padding: 10px;
-  text-align: center;
-  font-size: 13px;
-  font-weight: 600;
-  border-radius: var(--radius-xs);
-  cursor: pointer;
-  transition: all .2s;
-  color: var(--text2);
+  flex: 1;
+  padding: 10px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: var(--radius-xs);
+  cursor: pointer;
+  transition: all .2s;
+  color: var(--text2);
 }
+
 .admin-tab.active {
-  background: #fff;
-  color: var(--text);
-  box-shadow: 0 1px 4px rgba(0, 0, 0, .08);
+  background: #fff;
+  color: var(--text);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, .08);
 }
+
 /* ═══════════════════════════════════════
-   LOADING
-   ═══════════════════════════════════════ */
+   LOADING
+   ═══════════════════════════════════════ */
 .loading {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 60vh;
-  flex-direction: column;
-  gap: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  flex-direction: column;
+  gap: 16px;
 }
+
 .loading-spinner {
-  width: 40px;
-  height: 40px;
-  border: 3px solid var(--card-border);
-  border-top-color: var(--accent);
-  border-radius: 50%;
-  animation: spin .8s linear infinite;
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--card-border);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin .8s linear infinite;
 }
+
 /* ═══════════════════════════════════════
-   SCORING BADGES (detail page)
-   ═══════════════════════════════════════ */
+   SCORING BADGES (detail page)
+   ═══════════════════════════════════════ */
 .scoring-pills {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  margin: 12px 0;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 12px 0;
 }
+
 .scoring-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 8px 14px;
-  background: var(--section-bg);
-  border-radius: 20px;
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--text);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  background: var(--section-bg);
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
 }
+
 .scoring-pill svg {
-  width: 16px;
-  height: 16px;
-  stroke: var(--text2);
-  stroke-width: 2;
-  fill: none;
+  width: 16px;
+  height: 16px;
+  stroke: var(--text2);
+  stroke-width: 2;
+  fill: none;
 }
+
 /* ═══════════════════════════════════════
-   DETAIL HERO
-   ═══════════════════════════════════════ */
+   DETAIL HERO
+   ═══════════════════════════════════════ */
 .detail-hero {
-  text-align: center;
-  padding: 32px 20px;
-  background: var(--section-bg);
-  border-radius: var(--radius);
-  margin-bottom: 16px;
+  text-align: center;
+  padding: 32px 20px;
+  background: var(--section-bg);
+  border-radius: var(--radius);
+  margin-bottom: 16px;
 }
+
 .detail-hero-icon {
-  width: 72px;
-  height: 72px;
-  border-radius: 20px;
-  background: var(--accent);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto 16px;
-  position: relative;
-  overflow: hidden;
+  width: 72px;
+  height: 72px;
+  border-radius: 20px;
+  background: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+  position: relative;
+  overflow: hidden;
 }
+
 .detail-hero-icon::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 50%;
-  background: linear-gradient(180deg, rgba(255,255,255,.15) 0%, transparent 100%);
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50%;
+  background: linear-gradient(180deg, rgba(255,255,255,.15) 0%, transparent 100%);
 }
+
 .detail-hero-icon svg {
-  width: 32px;
-  height: 32px;
-  stroke: #fff;
-  stroke-width: 1.8;
-  fill: none;
-  position: relative;
-  z-index: 1;
+  width: 32px;
+  height: 32px;
+  stroke: #fff;
+  stroke-width: 1.8;
+  fill: none;
+  position: relative;
+  z-index: 1;
 }
+
 .detail-hero-title {
-  font-size: 24px;
-  font-weight: 900;
-  letter-spacing: -0.5px;
-  margin-bottom: 4px;
+  font-size: 24px;
+  font-weight: 900;
+  letter-spacing: -0.5px;
+  margin-bottom: 4px;
 }
+
 .detail-hero-channel {
-  font-size: 14px;
-  color: var(--text2);
-  font-weight: 600;
+  font-size: 14px;
+  color: var(--text2);
+  font-weight: 600;
 }
 </style>
 </head>
@@ -1234,1458 +1405,1747 @@ select.form-input {
 // ═══════════════════════════════════════
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
 import {
-  getFirestore, collection, doc, getDocs, getDoc,
-  setDoc, addDoc, updateDoc, deleteDoc, query, where, onSnapshot
+  getFirestore, collection, doc, getDocs, getDoc,
+  setDoc, addDoc, updateDoc, deleteDoc, query, where, onSnapshot
 } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
+
 // ═══════════════════════════════════════
 // CONSTANTS
 // ═══════════════════════════════════════
 const BOT_TOKEN = '8031008647:AAFWbpZ-OQeIUwPbWOmBxCzeYVA_yh_AjC8';
 const MAIN_ADMIN_TG_ID = 1262669099;
 const BOT_USERNAME = 'T3335tBot';
-const MINI_APP_URL = window.location.origin + window.location.pathname;
+const MINI_APP_SHORT_NAME = 'app'; // Change to actual Mini App short name
+
 const FIREBASE_CONFIG = {
-  apiKey: "AIzaSyBPQO8zHAMOgvM4DtwSwNQ-VhTi6GsoLhs",
-  authDomain: "contest-bot-54b4d.firebaseapp.com",
-  projectId: "contest-bot-54b4d",
-  storageBucket: "contest-bot-54b4d.firebasestorage.app",
-  messagingSenderId: "996857778577",
-  appId: "1:996857778577:web:eb0bd1f4de21696b424a30"
+  apiKey: "AIzaSyBPQO8zHAMOgvM4DtwSwNQ-VhTi6GsoLhs",
+  authDomain: "contest-bot-54b4d.firebaseapp.com",
+  projectId: "contest-bot-54b4d",
+  storageBucket: "contest-bot-54b4d.firebasestorage.app",
+  messagingSenderId: "996857778577",
+  appId: "1:996857778577:web:eb0bd1f4de21696b424a30"
 };
+
 // ═══════════════════════════════════════
 // SVG ICONS
 // ═══════════════════════════════════════
 const IC = {
-  home: `<svg viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1h-5v-6H9v6H4a1 1 0 01-1-1V9.5z"/></svg>`,
-  star: `<svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14l-5-4.87 6.91-1.01L12 2z"/></svg>`,
-  plus: `<svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>`,
-  settings: `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 01-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>`,
-  user: `<svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`,
-  users: `<svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>`,
-  award: `<svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>`,
-  clock: `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`,
-  gift: `<svg viewBox="0 0 24 24"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 010-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 000-5C13 2 12 7 12 7z"/></svg>`,
-  check: `<svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>`,
-  send: `<svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>`,
-  hash: `<svg viewBox="0 0 24 24"><line x1="4" y1="9" x2="20" y2="9"/><line x1="4" y1="15" x2="20" y2="15"/><line x1="10" y1="3" x2="8" y2="21"/><line x1="16" y1="3" x2="14" y2="21"/></svg>`,
-  zap: `<svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>`,
-  list: `<svg viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>`,
-  edit: `<svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>`,
-  x: `<svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`,
-  chevL: `<svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>`,
-  chevR: `<svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>`,
-  ext: `<svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>`,
-  heart: `<svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>`,
-  play: `<svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>`,
-  stop: `<svg viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>`,
-  copy: `<svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>`,
-  link: `<svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>`,
-  trash: `<svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>`,
-  crown: `<svg viewBox="0 0 24 24"><path d="M2 20h20l-2-12-5 5-3-7-3 7-5-5-2 12z"/></svg>`,
-  target: `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>`,
-  search: `<svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>`,
-  refresh: `<svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/></svg>`,
-  info: `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>`,
-  megaphone: `<svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>`,
+  home: `<svg viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1h-5v-6H9v6H4a1 1 0 01-1-1V9.5z"/></svg>`,
+  star: `<svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14l-5-4.87 6.91-1.01L12 2z"/></svg>`,
+  plus: `<svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>`,
   minus: `<svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/></svg>`,
+  settings: `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 01-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>`,
+  user: `<svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`,
+  users: `<svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>`,
+  award: `<svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>`,
+  clock: `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`,
+  gift: `<svg viewBox="0 0 24 24"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 010-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 000-5C13 2 12 7 12 7z"/></svg>`,
+  check: `<svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>`,
+  bell: `<svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>`,
+  send: `<svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>`,
+  hash: `<svg viewBox="0 0 24 24"><line x1="4" y1="9" x2="20" y2="9"/><line x1="4" y1="15" x2="20" y2="15"/><line x1="10" y1="3" x2="8" y2="21"/><line x1="16" y1="3" x2="14" y2="21"/></svg>`,
+  zap: `<svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>`,
+  list: `<svg viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>`,
+  edit: `<svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>`,
+  x: `<svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`,
+  chevL: `<svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>`,
+  chevR: `<svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>`,
+  ext: `<svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>`,
+  heart: `<svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>`,
+  play: `<svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>`,
+  stop: `<svg viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>`,
+  copy: `<svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>`,
+  link: `<svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>`,
+  trash: `<svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>`,
+  crown: `<svg viewBox="0 0 24 24"><path d="M2 20h20l-2-12-5 5-3-7-3 7-5-5-2 12z"/></svg>`,
+  target: `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>`,
+  search: `<svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>`,
+  refresh: `<svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/></svg>`,
+  info: `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>`,
+  megaphone: `<svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>`,
 };
+
 // ═══════════════════════════════════════
 // STATE
 // ═══════════════════════════════════════
 let db = null;
 let fbReady = false;
 let currentUser = { id: 0, first_name: 'Гость', username: '', is_admin: false };
+let tgStartParam = null;
 const photoCache = {};
 const state = {
-  screen: 'home',
-  loading: true,
-  contests: [],
-  participants: {},
-  channels: [],
-  selectedContest: null,
-  formData: { prizes: [''], outcome_type: 'leaderboard' },
-  modal: null,
-  adminTab: 'all',
+  screen: 'home',
+  loading: true,
+  contests: [],
+  participants: {},
+  channels: [],
+  selectedContest: null,
+  formData: { prizes: [''], outcome_type: 'leaderboard' },
+  modal: null,
+  adminTab: 'all',
 };
+
 // ═══════════════════════════════════════
 // UTILITIES
 // ═══════════════════════════════════════
 function esc(s) {
-  if (!s) return '';
-  const d = document.createElement('div');
-  d.textContent = s;
-  return d.innerHTML;
+  if (!s) return '';
+  const d = document.createElement('div');
+  d.textContent = s;
+  return d.innerHTML;
 }
+
 function toast(msg, type = 'success') {
-  const old = document.querySelector('.toast');
-  if (old) old.remove();
-  const t = document.createElement('div');
-  t.className = `toast toast-${type}`;
-  t.textContent = msg;
-  document.body.appendChild(t);
-  setTimeout(() => t.remove(), 3000);
+  const old = document.querySelector('.toast');
+  if (old) old.remove();
+  const t = document.createElement('div');
+  t.className = `toast toast-${type}`;
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 3000);
 }
+
 function timeLeft(dateStr) {
-  if (!dateStr) return '—';
-  const diff = new Date(dateStr) - new Date();
-  if (diff <= 0) return 'Завершён';
-  const d = Math.floor(diff / 86400000);
-  const h = Math.floor((diff % 86400000) / 3600000);
-  const m = Math.floor((diff % 3600000) / 60000);
-  if (d > 0) return `${d}д ${h}ч`;
-  if (h > 0) return `${h}ч ${m}м`;
-  return `${m}м`;
+  if (!dateStr) return '—';
+  const diff = new Date(dateStr) - new Date();
+  if (diff <= 0) return 'Завершён';
+  const d = Math.floor(diff / 86400000);
+  const h = Math.floor((diff % 86400000) / 3600000);
+  const m = Math.floor((diff % 3600000) / 60000);
+  if (d > 0) return `${d}д ${h}ч`;
+  if (h > 0) return `${h}ч ${m}м`;
+  return `${m}м`;
 }
+
 function formatDateMSK(dateStr) {
-  if (!dateStr) return '—';
-  try {
-    return new Date(dateStr).toLocaleString('ru-RU', {
-      timeZone: 'Europe/Moscow',
-      day: 'numeric', month: 'short', year: 'numeric',
-      hour: '2-digit', minute: '2-digit'
-    }) + ' МСК';
-  } catch (e) {
-    return dateStr;
-  }
+  if (!dateStr) return '—';
+  try {
+    return new Date(dateStr).toLocaleString('ru-RU', {
+      timeZone: 'Europe/Moscow',
+      day: 'numeric', month: 'short', year: 'numeric',
+      hour: '2-digit', minute: '2-digit'
+    }) + ' МСК';
+  } catch (e) {
+    return dateStr;
+  }
 }
+
 function mskInputToUTC(localStr) {
-  const d = new Date(localStr);
-  d.setHours(d.getHours() - 3);
-  return d.toISOString();
+  const d = new Date(localStr);
+  d.setHours(d.getHours() - 3);
+  return d.toISOString();
 }
+
 const AVATAR_COLORS = [
-  '#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4',
-  '#FFEAA7', '#DDA0DD', '#98D8C8', '#F7DC6F',
-  '#BB8FCE', '#85C1E9', '#82E0AA', '#F8C471'
+  '#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4',
+  '#FFEAA7', '#DDA0DD', '#98D8C8', '#F7DC6F',
+  '#BB8FCE', '#85C1E9', '#82E0AA', '#F8C471'
 ];
+
 function avatarHTML(user, size = 40) {
-  const colorIdx = Math.abs((user.id || 0) % AVATAR_COLORS.length);
-  const color = AVATAR_COLORS[colorIdx];
-  const initials = (user.first_name || '?').charAt(0).toUpperCase();
-  const photoUrl = photoCache[user.id || user.user_id];
-  if (photoUrl) {
-    return `<div class="lb-avatar" style="width:${size}px;height:${size}px"><img src="${photoUrl}" alt=""></div>`;
-  }
-  return `<div class="lb-avatar" style="width:${size}px;height:${size}px;background:${color};font-size:${Math.round(size * 0.4)}px">${initials}</div>`;
+  const colorIdx = Math.abs((user.id || 0) % AVATAR_COLORS.length);
+  const color = AVATAR_COLORS[colorIdx];
+  const initials = (user.first_name || '?').charAt(0).toUpperCase();
+  const photoUrl = photoCache[user.id || user.user_id];
+
+  if (photoUrl) {
+    return `<div class="lb-avatar" style="width:${size}px;height:${size}px"><img src="${photoUrl}" alt=""></div>`;
+  }
+  return `<div class="lb-avatar" style="width:${size}px;height:${size}px;background:${color};font-size:${Math.round(size * 0.4)}px">${initials}</div>`;
 }
+
 // ═══════════════════════════════════════
 // TELEGRAM INIT
 // ═══════════════════════════════════════
 function initTg() {
-  try {
-    const tg = window.Telegram?.WebApp;
-    if (tg) {
-      tg.ready();
-      tg.expand();
-      const u = tg.initDataUnsafe?.user;
-      if (u) {
-        currentUser = {
-          id: u.id,
-          first_name: u.first_name || 'User',
-          username: u.username || '',
-          is_admin: u.id === MAIN_ADMIN_TG_ID
-        };
-      }
-    }
-  } catch (e) {
-    console.log('Telegram WebApp not available');
-  }
-  if (!currentUser.id) {
-    currentUser = {
-      id: MAIN_ADMIN_TG_ID,
-      first_name: 'Admin',
-      username: 'Tru5tNoBody',
-      is_admin: true
-    };
-  }
+  try {
+    const tg = window.Telegram?.WebApp;
+    if (tg) {
+      tg.ready();
+      tg.expand();
+      tgStartParam = tg.initDataUnsafe?.start_param;
+      const u = tg.initDataUnsafe?.user;
+      if (u) {
+        currentUser = {
+          id: u.id,
+          first_name: u.first_name || 'User',
+          username: u.username || '',
+          is_admin: u.id === MAIN_ADMIN_TG_ID
+        };
+      }
+    }
+  } catch (e) {
+    console.log('Telegram WebApp not available');
+  }
+  if (!currentUser.id) {
+    currentUser = {
+      id: MAIN_ADMIN_TG_ID,
+      first_name: 'Admin',
+      username: 'Tru5tNoBody',
+      is_admin: true
+    };
+  }
 }
+
 // ═══════════════════════════════════════
 // FIREBASE INIT
 // ═══════════════════════════════════════
 async function initFirebase() {
-  try {
-    const app = initializeApp(FIREBASE_CONFIG);
-    db = getFirestore(app);
-    await getDocs(collection(db, 'contests'));
-    fbReady = true;
-    console.log('Firebase подключен');
-  } catch (e) {
-    console.error('Firebase ошибка:', e);
-    fbReady = false;
-  }
+  try {
+    const app = initializeApp(FIREBASE_CONFIG);
+    db = getFirestore(app);
+    await getDocs(collection(db, 'contests'));
+    fbReady = true;
+    console.log('Firebase подключен');
+  } catch (e) {
+    console.error('Firebase ошибка:', e);
+    fbReady = false;
+  }
 }
+
 // ═══════════════════════════════════════
 // FIREBASE CRUD
 // ═══════════════════════════════════════
 async function fbAdd(col, data) {
-  if (!fbReady) return null;
-  try {
-    const ref = await addDoc(collection(db, col), data);
-    return ref.id;
-  } catch (e) {
-    console.error('fbAdd error:', e);
-    return null;
-  }
+  if (!fbReady) return null;
+  try {
+    const ref = await addDoc(collection(db, col), data);
+    return ref.id;
+  } catch (e) {
+    console.error('fbAdd error:', e);
+    return null;
+  }
 }
+
 async function fbSet(col, id, data) {
-  if (!fbReady) return;
-  try {
-    await setDoc(doc(db, col, id), data, { merge: true });
-  } catch (e) {
-    console.error('fbSet error:', e);
-  }
+  if (!fbReady) return;
+  try {
+    await setDoc(doc(db, col, id), data, { merge: true });
+  } catch (e) {
+    console.error('fbSet error:', e);
+  }
 }
+
 async function fbGet(col, id) {
-  if (!fbReady) return null;
-  try {
-    const snap = await getDoc(doc(db, col, id));
-    return snap.exists() ? { _id: snap.id, ...snap.data() } : null;
-  } catch (e) {
-    return null;
-  }
+  if (!fbReady) return null;
+  try {
+    const snap = await getDoc(doc(db, col, id));
+    return snap.exists() ? { _id: snap.id, ...snap.data() } : null;
+  } catch (e) {
+    return null;
+  }
 }
+
 async function fbAll(col) {
-  if (!fbReady) return [];
-  try {
-    const snap = await getDocs(collection(db, col));
-    return snap.docs.map(d => ({ _id: d.id, ...d.data() }));
-  } catch (e) {
-    return [];
-  }
+  if (!fbReady) return [];
+  try {
+    const snap = await getDocs(collection(db, col));
+    return snap.docs.map(d => ({ _id: d.id, ...d.data() }));
+  } catch (e) {
+    return [];
+  }
 }
+
 async function fbDel(col, id) {
-  if (!fbReady) return;
-  try {
-    await deleteDoc(doc(db, col, id));
-  } catch (e) {
-    console.error('fbDel error:', e);
-  }
+  if (!fbReady) return;
+  try {
+    await deleteDoc(doc(db, col, id));
+  } catch (e) {
+    console.error('fbDel error:', e);
+  }
 }
+
 async function fbQuery(col, field, op, val) {
-  if (!fbReady) return [];
-  try {
-    const q = query(collection(db, col), where(field, op, val));
-    const snap = await getDocs(q);
-    return snap.docs.map(d => ({ _id: d.id, ...d.data() }));
-  } catch (e) {
-    return [];
-  }
+  if (!fbReady) return [];
+  try {
+    const q = query(collection(db, col), where(field, op, val));
+    const snap = await getDocs(q);
+    return snap.docs.map(d => ({ _id: d.id, ...d.data() }));
+  } catch (e) {
+    return [];
+  }
 }
+
 // ═══════════════════════════════════════
 // DATA LOADING
 // ═══════════════════════════════════════
 async function loadContests() {
-  state.contests = await fbAll('contests');
+  state.contests = await fbAll('contests');
 }
+
 async function loadParticipants(contestId) {
-  state.participants[contestId] = await fbQuery('participants', 'contest_id', '==', contestId);
+  state.participants[contestId] = await fbQuery('participants', 'contest_id', '==', contestId);
 }
+
 async function loadChannels() {
-  const all = await fbAll('channels');
-  state.channels = all.filter(ch => ch.admin_id === currentUser.id || currentUser.is_admin);
+  const all = await fbAll('channels');
+  const uniqueChannels = [];
+  const seenIds = new Set();
+  
+  for (const ch of all) {
+    const chIdStr = String(ch.chat_id);
+    if (seenIds.has(chIdStr)) continue;
+    seenIds.add(chIdStr);
+    
+    if (ch.title === 'undefined' || !ch.title) {
+       ch.title = ch.username ? `@${ch.username}` : `Канал ${ch.chat_id}`;
+    }
+    
+    if (ch.admin_id === currentUser.id || currentUser.is_admin) {
+      uniqueChannels.push(ch);
+    }
+  }
+  state.channels = uniqueChannels;
 }
+
 // ═══════════════════════════════════════
 // REAL-TIME LISTENERS
 // ═══════════════════════════════════════
 let contestsUnsubscribe = null;
 const participantUnsubs = {};
+
 function startContestsListener() {
-  if (!fbReady) return;
-  if (contestsUnsubscribe) contestsUnsubscribe();
-  contestsUnsubscribe = onSnapshot(collection(db, 'contests'), (snap) => {
-    state.contests = snap.docs.map(d => ({ _id: d.id, ...d.data() }));
-    render();
-  });
+  if (!fbReady) return;
+  if (contestsUnsubscribe) contestsUnsubscribe();
+  contestsUnsubscribe = onSnapshot(collection(db, 'contests'), (snap) => {
+    state.contests = snap.docs.map(d => ({ _id: d.id, ...d.data() }));
+    render();
+  });
 }
+
 function startParticipantsListener(contestId) {
-  if (!fbReady) return;
-  if (participantUnsubs[contestId]) participantUnsubs[contestId]();
-  const q = query(collection(db, 'participants'), where('contest_id', '==', contestId));
-  participantUnsubs[contestId] = onSnapshot(q, (snap) => {
-    state.participants[contestId] = snap.docs.map(d => ({ _id: d.id, ...d.data() }));
-    state.participants[contestId].forEach(p => {
-      if (p.user_id && !photoCache[p.user_id]) {
-        getUserPhoto(p.user_id);
-      }
-    });
-    render();
-  });
+  if (!fbReady) return;
+  if (participantUnsubs[contestId]) participantUnsubs[contestId]();
+  const q = query(collection(db, 'participants'), where('contest_id', '==', contestId));
+  participantUnsubs[contestId] = onSnapshot(q, (snap) => {
+    state.participants[contestId] = snap.docs.map(d => ({ _id: d.id, ...d.data() }));
+    state.participants[contestId].forEach(p => {
+      if (p.user_id && !photoCache[p.user_id]) {
+        getUserPhoto(p.user_id);
+      }
+    });
+    render();
+  });
 }
+
 // ═══════════════════════════════════════
-// CHANNEL SCANNING (исправлено: проверка существования в БД + чистый title)
+// CHANNEL SCANNING (автоматическое)
+// ═══════════════════════════════════════
 async function scanForChannels() {
-  try {
-    const resp = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/getUpdates?limit=100&allowed_updates=["my_chat_member"]`);
-    const data = await resp.json();
-    if (!data.ok) return;
-    for (const upd of (data.result || [])) {
-      const mcm = upd.my_chat_member;
-      if (!mcm) continue;
-      const chat = mcm.chat;
-      if (chat.type !== 'channel' && chat.type !== 'supergroup') continue;
-      const newStatus = mcm.new_chat_member?.status;
-      if (newStatus === 'administrator') {
-        const adminId = mcm.from?.id;
-        if (!adminId) continue;
-        // ПРОВЕРКА В БД (чтобы не было дублей)
-        const existing = await fbQuery('channels', 'chat_id', '==', chat.id);
-        if (existing.length === 0) {
-          const chData = {
-            chat_id: chat.id,
-            title: chat.title || (chat.username ? `@${chat.username}` : `Канал ${chat.id}`),
-            username: chat.username || '',
-            type: chat.type,
-            admin_id: adminId,
-            added_at: new Date().toISOString()
-          };
-          const id = await fbAdd('channels', chData);
-          if (id) {
-            state.channels.push({ _id: id, ...chData });
-          }
-        }
-      }
-    }
-  } catch (e) {
-    console.error('Scan error:', e);
-  }
+  try {
+    const resp = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/getUpdates?limit=100&allowed_updates=["my_chat_member"]`);
+    const data = await resp.json();
+    if (!data.ok) return;
+
+    for (const upd of (data.result || [])) {
+      const mcm = upd.my_chat_member;
+      if (!mcm) continue;
+
+      const chat = mcm.chat;
+      if (chat.type !== 'channel' && chat.type !== 'supergroup') continue;
+
+      const newStatus = mcm.new_chat_member?.status;
+      if (newStatus === 'administrator') {
+        const adminId = mcm.from?.id;
+        if (!adminId) continue;
+
+        const existing = state.channels.find(ch => String(ch.chat_id) === String(chat.id));
+        if (!existing) {
+          let safeTitle = chat.title || chat.username || `Канал ${chat.id}`;
+          if (safeTitle === 'undefined') safeTitle = `Канал ${chat.id}`;
+          
+          const chData = {
+            chat_id: String(chat.id),
+            title: safeTitle,
+            username: chat.username || '',
+            type: chat.type,
+            admin_id: adminId,
+            added_at: new Date().toISOString()
+          };
+          const id = await fbAdd('channels', chData);
+          if (id) {
+            state.channels.push({ _id: id, ...chData });
+          }
+        }
+      }
+    }
+  } catch (e) {
+    console.error('Scan error:', e);
+  }
 }
+
 // ═══════════════════════════════════════
 // USER PHOTOS
 // ═══════════════════════════════════════
 async function getUserPhoto(userId) {
-  if (photoCache[userId]) return photoCache[userId];
-  try {
-    const resp = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/getUserProfilePhotos?user_id=${userId}&limit=1`);
-    const data = await resp.json();
-    if (data.ok && data.result.total_count > 0) {
-      const fileId = data.result.photos[0][0].file_id;
-      const fileResp = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/getFile?file_id=${fileId}`);
-      const fileData = await fileResp.json();
-      if (fileData.ok) {
-        const url = `https://api.telegram.org/file/bot${BOT_TOKEN}/${fileData.result.file_path}`;
-        photoCache[userId] = url;
-        return url;
-      }
-    }
-  } catch (e) {}
-  return null;
+  if (photoCache[userId]) return photoCache[userId];
+  try {
+    const resp = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/getUserProfilePhotos?user_id=${userId}&limit=1`);
+    const data = await resp.json();
+    if (data.ok && data.result.total_count > 0) {
+      const fileId = data.result.photos[0][0].file_id;
+      const fileResp = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/getFile?file_id=${fileId}`);
+      const fileData = await fileResp.json();
+      if (fileData.ok) {
+        const url = `https://api.telegram.org/file/bot${BOT_TOKEN}/${fileData.result.file_path}`;
+        photoCache[userId] = url;
+        return url;
+      }
+    }
+  } catch (e) {
+  }
+  return null;
 }
+
 // ═══════════════════════════════════════
 // TELEGRAM BOT API CALLS
 // ═══════════════════════════════════════
 async function tgApi(method, params) {
-  try {
-    const resp = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/${method}`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(params)
-    });
-    return await resp.json();
-  } catch (e) {
-    console.error('TG API error:', e);
-    return { ok: false, description: e.message };
-  }
+  try {
+    const resp = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/${method}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(params)
+    });
+    return await resp.json();
+  } catch (e) {
+    console.error('TG API error:', e);
+    return { ok: false, description: e.message };
+  }
 }
+
 // ═══════════════════════════════════════
-// SEND CONTEST POST TO CHANNEL (исправлено: startapp вместо start)
+// SEND CONTEST POST TO CHANNEL
+// ═══════════════════════════════════════
 async function sendContestPost(contest, contestId) {
-  const channelId = contest.channel_id;
-  if (!channelId) return { ok: false, description: 'Канал не выбран' };
-  let text = `━━━━━━━━━━━━━━━━━━\n`;
-  text += `<b>🏆 ${contest.name}</b>\n`;
-  text += `━━━━━━━━━━━━━━━━━━\n\n`;
-  if (contest.description) text += `${contest.description}\n\n`;
-  if (contest.conditions) text += `📋 <b>Условия участия:</b>\n${contest.conditions}\n\n`;
-  const prizes = (contest.prizes || []).filter(p => p);
-  if (prizes.length > 0) {
-    text += `🎁 <b>Призы:</b>\n`;
-    const medals = ['🥇', '🥈', '🥉'];
-    prizes.forEach((p, i) => {
-      text += `${medals[i] || `${i + 1}.`} ${i + 1}-е место — ${p}\n`;
-    });
-    text += `\n👥 <b>Призовых мест:</b> ${prizes.length}\n\n`;
-  }
-  const scoring = contest.scoring || {};
-  const methods = [];
-  if (scoring.invites?.enabled) methods.push(`приглашение друзей (+${scoring.invites.points} за друга)`);
-  if (scoring.subscription?.enabled) methods.push(`подписка на канал (+${scoring.subscription.points} баллов)`);
-  if (scoring.ads?.enabled) methods.push(`просмотр рекламы (+${scoring.ads.points} за просмотр)`);
-  if (methods.length > 0) {
-    text += `⚡ <b>Как заработать баллы:</b>\n`;
-    methods.forEach(m => { text += ` • ${m}\n`; });
-    text += `\n`;
-  }
-  const types = {
-    'leaderboard': 'по лидерборду (больше баллов = выше)',
-    'random': 'случайный выбор среди участников с порогом баллов',
-    'weighted': 'взвешенный рандом (больше баллов = выше шанс)'
-  };
-  text += `🎯 <b>Определение победителя:</b> ${types[contest.outcome_type] || 'лидерборд'}\n\n`;
-  if (contest.initial_points && parseInt(contest.initial_points) > 0) {
-    text += `✨ <b>Стартовые баллы:</b> ${contest.initial_points}\n\n`;
-  }
-  text += `⏰ <b>До:</b> ${formatDateMSK(contest.end_date)}\n\n`;
-  text += `━━━━━━━━━━━━━━━━━━\n`;
-  text += `Нажмите кнопку ниже, чтобы участвовать!`;
-  const buttonText = contest.button_text || 'Участвовать';
-  const appUrl = MINI_APP_URL + '?contest=' + contestId;
-  const deepLink = `https://t.me/${BOT_USERNAME}?startapp=contest_${contestId}`;
-  let result = await tgApi('sendMessage', {
-    chat_id: channelId,
-    text: text,
-    parse_mode: 'HTML',
-    reply_markup: {
-      inline_keyboard: [[{
-        text: `🏆 ${buttonText}`,
-        web_app: { url: appUrl }
-      }]]
-    }
-  });
-  if (result.ok) return result;
-  result = await tgApi('sendMessage', {
-    chat_id: channelId,
-    text: text,
-    parse_mode: 'HTML',
-    reply_markup: {
-      inline_keyboard: [[{
-        text: `🏆 ${buttonText}`,
-        url: deepLink
-      }]]
-    }
-  });
-  if (result.ok) return result;
-  result = await tgApi('sendMessage', {
-    chat_id: channelId,
-    text: text + `\n\n👉 ${appUrl}`,
-    parse_mode: 'HTML'
-  });
-  return result;
+  const channelId = contest.channel_id;
+  if (!channelId) return { ok: false, description: 'Канал не выбран' };
+
+  let text = `━━━━━━━━━━━━━━━━━━\n`;
+  text += `<b>🏆 ${contest.name}</b>\n`;
+  text += `━━━━━━━━━━━━━━━━━━\n\n`;
+
+  if (contest.description) {
+    text += `${contest.description}\n\n`;
+  }
+
+  if (contest.conditions) {
+    text += `📋 <b>Условия участия:</b>\n${contest.conditions}\n\n`;
+  }
+
+  const prizes = (contest.prizes || []).filter(p => p);
+  if (prizes.length > 0) {
+    text += `🎁 <b>Призы:</b>\n`;
+    const medals = ['🥇', '🥈', '🥉'];
+    prizes.forEach((p, i) => {
+      text += `${medals[i] || `${i + 1}.`} ${i + 1}-е место — ${p}\n`;
+    });
+    text += `\n👥 <b>Призовых мест:</b> ${prizes.length}\n\n`;
+  }
+
+  const scoring = contest.scoring || {};
+  const methods = [];
+  if (scoring.invites?.enabled) methods.push(`приглашение друзей (+${scoring.invites.points} за друга)`);
+  if (scoring.subscribe?.enabled) methods.push(`подписка на канал (+${scoring.subscribe.points} за подписку)`);
+  if (scoring.ads?.enabled) methods.push(`просмотр рекламы (+${scoring.ads.points} за просмотр)`);
+
+  if (methods.length > 0) {
+    text += `⚡ <b>Как заработать баллы:</b>\n`;
+    methods.forEach(m => { text += `  • ${m}\n`; });
+    text += `\n`;
+  }
+
+  const types = {
+    'leaderboard': 'по лидерборду (больше баллов = выше)',
+    'random': 'случайный выбор среди участников с порогом баллов',
+    'weighted': 'взвешенный рандом (больше баллов = выше шанс)'
+  };
+  text += `🎯 <b>Определение победителя:</b> ${types[contest.outcome_type] || 'лидерборд'}\n\n`;
+
+  if (contest.initial_points && parseInt(contest.initial_points) > 0) {
+    text += `✨ <b>Стартовые баллы:</b> ${contest.initial_points}\n\n`;
+  }
+
+  text += `⏰ <b>До:</b> ${formatDateMSK(contest.end_date)}\n\n`;
+  text += `━━━━━━━━━━━━━━━━━━\n`;
+  text += `Нажмите кнопку ниже, чтобы участвовать!`;
+
+  const buttonText = contest.button_text || 'Участвовать';
+  const appUrl = `https://t.me/${BOT_USERNAME}/${MINI_APP_SHORT_NAME}?startapp=${contestId}`;
+
+  let result = await tgApi('sendMessage', {
+    chat_id: channelId,
+    text: text,
+    parse_mode: 'HTML',
+    reply_markup: {
+      inline_keyboard: [[{
+        text: `🏆 ${buttonText}`,
+        url: appUrl
+      }]]
+    }
+  });
+
+  return result;
 }
+
 // ═══════════════════════════════════════
-// SEND RESULTS POST TO CHANNEL (без изменений)
+// SEND RESULTS POST TO CHANNEL
+// ═══════════════════════════════════════
 async function sendResultsPost(contest) {
-  const parts = state.participants[contest._id] || [];
-  const sorted = [...parts].sort((a, b) => (b.points || 0) - (a.points || 0));
-  const prizes = (contest.prizes || []).filter(p => p);
-  const winnersCount = prizes.length || 1;
-  let winners = [];
-  if (contest.outcome_type === 'random') {
-    const eligible = sorted.filter(p => (p.points || 0) >= (parseInt(contest.threshold) || 0));
-    for (let i = 0; i < Math.min(winnersCount, eligible.length); i++) {
-      const idx = Math.floor(Math.random() * eligible.length);
-      winners.push(eligible.splice(idx, 1)[0]);
-    }
-  } else if (contest.outcome_type === 'weighted') {
-    const eligible = sorted.filter(p => (p.points || 0) > 0);
-    for (let i = 0; i < Math.min(winnersCount, eligible.length); i++) {
-      const weights = eligible.map(p => p.points || 1);
-      const total = weights.reduce((a, b) => a + b, 0);
-      let r = Math.random() * total;
-      let idx = 0;
-      for (let j = 0; j < weights.length; j++) {
-        r -= weights[j];
-        if (r <= 0) { idx = j; break; }
-      }
-      winners.push(eligible.splice(idx, 1)[0]);
-    }
-  } else {
-    winners = sorted.slice(0, winnersCount);
-  }
-  let text = `━━━━━━━━━━━━━━━━━━\n`;
-  text += `<b>🏆 Итоги: ${contest.name}</b>\n`;
-  text += `━━━━━━━━━━━━━━━━━━\n\n`;
-  text += `👥 Участников: ${parts.length}\n\n`;
-  text += `<b>Победители:</b>\n\n`;
-  const medals = ['🥇', '🥈', '🥉'];
-  winners.forEach((w, i) => {
-    const name = w.username ? `@${w.username}` : (w.first_name || 'User');
-    const prize = prizes[i] ? ` — ${prizes[i]}` : '';
-    text += `${medals[i] || `${i + 1}.`} <b>${name}</b> (${w.points || 0} баллов)${prize}\n`;
-  });
-  text += `\n━━━━━━━━━━━━━━━━━━\nПоздравляем!`;
-  const appUrl = MINI_APP_URL + '?contest=' + contest._id;
-  const deepLink = `https://t.me/${BOT_USERNAME}?startapp=contest_${contest._id}`;
-  let result = await tgApi('sendMessage', {
-    chat_id: contest.channel_id,
-    text: text,
-    parse_mode: 'HTML',
-    reply_markup: {
-      inline_keyboard: [[{
-        text: '📊 Посмотреть итоги',
-        web_app: { url: appUrl }
-      }]]
-    }
-  });
-  if (!result.ok) {
-    result = await tgApi('sendMessage', {
-      chat_id: contest.channel_id,
-      text: text,
-      parse_mode: 'HTML',
-      reply_markup: {
-        inline_keyboard: [[{
-          text: '📊 Посмотреть итоги',
-          url: deepLink
-        }]]
-      }
-    });
-  }
-  return { winners, result };
+  const parts = state.participants[contest._id] || [];
+  const sorted = [...parts].sort((a, b) => (b.points || 0) - (a.points || 0));
+  const prizes = (contest.prizes || []).filter(p => p);
+  const winnersCount = prizes.length || 1;
+
+  let winners = [];
+  if (contest.outcome_type === 'random') {
+    const eligible = sorted.filter(p => (p.points || 0) >= (parseInt(contest.threshold) || 0));
+    for (let i = 0; i < Math.min(winnersCount, eligible.length); i++) {
+      const idx = Math.floor(Math.random() * eligible.length);
+      winners.push(eligible.splice(idx, 1)[0]);
+    }
+  } else if (contest.outcome_type === 'weighted') {
+    const eligible = sorted.filter(p => (p.points || 0) > 0);
+    for (let i = 0; i < Math.min(winnersCount, eligible.length); i++) {
+      const weights = eligible.map(p => p.points || 1);
+      const total = weights.reduce((a, b) => a + b, 0);
+      let r = Math.random() * total;
+      let idx = 0;
+      for (let j = 0; j < weights.length; j++) {
+        r -= weights[j];
+        if (r <= 0) { idx = j; break; }
+      }
+      winners.push(eligible.splice(idx, 1)[0]);
+    }
+  } else {
+    winners = sorted.slice(0, winnersCount);
+  }
+
+  let text = `━━━━━━━━━━━━━━━━━━\n`;
+  text += `<b>🏆 Итоги: ${contest.name}</b>\n`;
+  text += `━━━━━━━━━━━━━━━━━━\n\n`;
+  text += `👥 Участников: ${parts.length}\n\n`;
+  text += `<b>Победители:</b>\n\n`;
+
+  const medals = ['🥇', '🥈', '🥉'];
+  winners.forEach((w, i) => {
+    const name = w.username ? `@${w.username}` : (w.first_name || 'User');
+    const prize = prizes[i] ? ` — ${prizes[i]}` : '';
+    text += `${medals[i] || `${i + 1}.`} <b>${name}</b> (${w.points || 0} баллов)${prize}\n`;
+  });
+
+  text += `\n━━━━━━━━━━━━━━━━━━\nПоздравляем!`;
+
+  const appUrl = `https://t.me/${BOT_USERNAME}/${MINI_APP_SHORT_NAME}?startapp=${contest._id}`;
+
+  let result = await tgApi('sendMessage', {
+    chat_id: contest.channel_id,
+    text: text,
+    parse_mode: 'HTML',
+    reply_markup: {
+      inline_keyboard: [[{
+        text: '📊 Посмотреть итоги',
+        url: appUrl
+      }]]
+    }
+  });
+
+  return { winners, result };
 }
+
 // ═══════════════════════════════════════
-// CREATE CONTEST (убрал reactions, добавил subscription)
+// CREATE CONTEST
+// ═══════════════════════════════════════
 async function createContest(formData) {
-  if (!formData.name?.trim()) {
-    toast('Введите название конкурса', 'error');
-    return false;
-  }
-  if (!formData.channel_id) {
-    toast('Выберите канал', 'error');
-    return false;
-  }
-  if (!formData.end_date) {
-    toast('Укажите дату окончания', 'error');
-    return false;
-  }
-  const prizes = (formData.prizes || []).filter(p => p?.trim());
-  const contestData = {
-    name: formData.name.trim(),
-    description: formData.description?.trim() || '',
-    conditions: formData.conditions?.trim() || '',
-    channel_id: formData.channel_id,
-    channel_title: formData.channel_title || '',
-    channel_username: formData.channel_username || '',
-    end_date: mskInputToUTC(formData.end_date),
-    button_text: formData.button_text?.trim() || 'Участвовать',
-    initial_points: parseInt(formData.initial_points) || 0,
-    outcome_type: formData.outcome_type || 'leaderboard',
-    threshold: parseInt(formData.threshold) || 0,
-    prizes: prizes,
-    status: 'active',
-    creator_id: currentUser.id,
-    creator_name: currentUser.first_name,
-    created_at: new Date().toISOString(),
-    scoring: {
-      invites: {
-        enabled: !!formData.invites_enabled,
-        points: parseInt(formData.invites_points) || 5
-      },
-      subscription: {
-        enabled: !!formData.subscription_enabled,
-        points: parseInt(formData.subscription_points) || 15
-      },
-      ads: {
-        enabled: !!formData.ads_enabled,
-        points: parseInt(formData.ads_points) || 3
-      }
-    }
-  };
-  toast('Создаём конкурс...');
-  const contestId = await fbAdd('contests', contestData);
-  if (!contestId) {
-    toast('Ошибка создания конкурса', 'error');
-    return false;
-  }
-  const postResult = await sendContestPost(contestData, contestId);
-  if (!postResult.ok) {
-    toast(`Конкурс создан, но пост не отправлен: ${postResult.description || 'Неизвестная ошибка'}`, 'error');
-  } else {
-    toast('Конкурс создан и опубликован!');
-  }
-  if (postResult.ok && postResult.result?.message_id) {
-    await fbSet('contests', contestId, { message_id: postResult.result.message_id });
-  }
-  return true;
+  if (!formData.name?.trim()) {
+    toast('Введите название конкурса', 'error');
+    return false;
+  }
+  if (!formData.channel_id) {
+    toast('Выберите канал', 'error');
+    return false;
+  }
+  if (!formData.end_date) {
+    toast('Укажите дату окончания', 'error');
+    return false;
+  }
+
+  const prizes = (formData.prizes || []).filter(p => p?.trim());
+
+  const contestData = {
+    name: formData.name.trim(),
+    description: formData.description?.trim() || '',
+    conditions: formData.conditions?.trim() || '',
+    channel_id: formData.channel_id,
+    channel_title: formData.channel_title || '',
+    channel_username: formData.channel_username || '',
+    end_date: mskInputToUTC(formData.end_date),
+    button_text: formData.button_text?.trim() || 'Участвовать',
+    initial_points: parseInt(formData.initial_points) || 0,
+    outcome_type: formData.outcome_type || 'leaderboard',
+    threshold: parseInt(formData.threshold) || 0,
+    prizes: prizes,
+    status: 'active',
+    creator_id: currentUser.id,
+    creator_name: currentUser.first_name,
+    created_at: new Date().toISOString(),
+    scoring: {
+      invites: {
+        enabled: !!formData.invites_enabled,
+        points: parseInt(formData.invites_points) || 5
+      },
+      subscribe: {
+        enabled: !!formData.subscribe_enabled,
+        points: parseInt(formData.subscribe_points) || 10
+      },
+      ads: {
+        enabled: !!formData.ads_enabled,
+        points: parseInt(formData.ads_points) || 3
+      }
+    }
+  };
+
+  toast('Создаём конкурс...');
+  const contestId = await fbAdd('contests', contestData);
+  if (!contestId) {
+    toast('Ошибка создания конкурса', 'error');
+    return false;
+  }
+
+  const postResult = await sendContestPost(contestData, contestId);
+  if (!postResult.ok) {
+    toast(`Конкурс создан, но пост не отправлен: ${postResult.description || 'Неизвестная ошибка'}`, 'error');
+  } else {
+    toast('Конкурс создан и опубликован!');
+  }
+
+  if (postResult.ok && postResult.result?.message_id) {
+    await fbSet('contests', contestId, { message_id: postResult.result.message_id });
+  }
+
+  return true;
 }
+
 // ═══════════════════════════════════════
-// JOIN CONTEST (добавлена проверка подписки)
+// JOIN CONTEST
+// ═══════════════════════════════════════
 async function joinContest(contestId) {
-  const contest = state.contests.find(c => c._id === contestId);
-  if (!contest) return;
-  const existing = (state.participants[contestId] || []).find(p => p.user_id === currentUser.id);
-  if (existing) {
-    toast('Вы уже участвуете!', 'error');
-    return;
-  }
-  let startPoints = contest.initial_points || 0;
-  let subscribed = false;
-  if (contest.scoring?.subscription?.enabled && contest.channel_id) {
-    const memberCheck = await tgApi('getChatMember', {
-      chat_id: contest.channel_id,
-      user_id: currentUser.id
-    });
-    if (memberCheck.ok && ['member','administrator','creator'].includes(memberCheck.result.status)) {
-      startPoints += contest.scoring.subscription.points || 15;
-      subscribed = true;
-      toast(`+${contest.scoring.subscription.points} за подписку на канал!`);
-    }
-  }
-  const partData = {
-    contest_id: contestId,
-    user_id: currentUser.id,
-    first_name: currentUser.first_name,
-    username: currentUser.username,
-    points: startPoints,
-    invites_count: 0,
-    ads_count: 0,
-    subscribed: subscribed,
-    invite_link: '',
-    joined_at: new Date().toISOString()
-  };
-  const partId = await fbAdd('participants', partData);
-  if (!partId) {
-    toast('Ошибка при присоединении', 'error');
-    return;
-  }
-  if (contest.scoring?.invites?.enabled && contest.channel_id) {
+  const contest = state.contests.find(c => c._id === contestId);
+  if (!contest) return;
+
+  const existing = (state.participants[contestId] || []).find(p => p.user_id === currentUser.id);
+  if (existing) {
+    toast('Вы уже участвуете!', 'error');
+    return;
+  }
+
+  let initialPts = contest.initial_points || 0;
+  let subCount = 0;
+
+  if (contest.scoring?.subscribe?.enabled && contest.channel_id) {
     try {
-      const linkResult = await tgApi('createChatInviteLink', {
-        chat_id: contest.channel_id,
-        name: `ref_${currentUser.id}_${contestId}`,
-        creates_join_request: false
-      });
-      if (linkResult.ok) {
-        await fbSet('participants', partId, { invite_link: linkResult.result.invite_link });
-        partData.invite_link = linkResult.result.invite_link;
-      }
-    } catch (e) {}
-  }
-  toast('Вы участвуете!');
-  await loadParticipants(contestId);
-  render();
-}
-// ═══════════════════════════════════════
-// END / DELETE / ADD POINTS (без изменений)
-async function endContest(contestId) {
-  const contest = state.contests.find(c => c._id === contestId);
-  if (!contest) return;
-  if (contest.creator_id !== currentUser.id && !currentUser.is_admin) {
-    toast('Нет прав', 'error');
-    return;
-  }
-  if (!confirm('Завершить конкурс? Это действие нельзя отменить.')) return;
-  await fbSet('contests', contestId, { status: 'ended', ended_at: new Date().toISOString() });
-  await loadParticipants(contestId);
-  const { winners, result } = await sendResultsPost(contest);
-  if (result?.ok) {
-    toast('Конкурс завершён, итоги опубликованы!');
-  } else {
-    toast('Конкурс завершён, но итоги не отправлены в канал', 'error');
-  }
-  render();
-}
-async function deleteContest(contestId) {
-  const contest = state.contests.find(c => c._id === contestId);
-  if (!contest) return;
-  if (contest.creator_id !== currentUser.id && !currentUser.is_admin) {
-    toast('Нет прав', 'error');
-    return;
-  }
-  if (!confirm('Удалить конкурс навсегда? Это нельзя отменить.')) return;
-  const parts = state.participants[contestId] || [];
-  for (const p of parts) {
-    await fbDel('participants', p._id);
-  }
-  await fbDel('contests', contestId);
-  delete state.participants[contestId];
-  toast('Конкурс удалён');
-  state.screen = 'home';
-  state.selectedContest = null;
-  state.formData = { prizes: [''], outcome_type: 'leaderboard' };
-  render();
-}
-async function addPointsToParticipant(partId, type, count, contest, sign = '+') {
-  const parts = Object.values(state.participants).flat();
-  const part = parts.find(p => p._id === partId);
-  if (!part || !contest) return;
-  const scoring = contest.scoring || {};
-  let pointsPerUnit = 0;
-  let countField = '';
-  if (type === 'invites') {
-    pointsPerUnit = scoring.invites?.points || 5;
-    countField = 'invites_count';
-  } else if (type === 'ads') {
-    pointsPerUnit = scoring.ads?.points || 3;
-    countField = 'ads_count';
-  }
-  const totalPoints = count * pointsPerUnit * (sign === '-' ? -1 : 1);
-  const newCount = Math.max(0, (part[countField] || 0) + count * (sign === '-' ? -1 : 1));
-  const newPoints = Math.max(0, (part.points || 0) + totalPoints);
-  const updateData = { points: newPoints };
-  updateData[countField] = newCount;
-  await fbSet('participants', partId, updateData);
-  part.points = newPoints;
-  part[countField] = newCount;
-  const typeNames = { invites: 'приглашений', ads: 'просмотров' };
-  toast(`${sign}${count} ${typeNames[type]} (${sign}${totalPoints} баллов)`);
-  state.modal = { type: 'participant', participant: part, contest };
-  render();
-}
-// ═══════════════════════════════════════
-// RENDER (все экраны без изменений кроме detail + create + modal)
-function render() {
-  const root = document.getElementById('root');
-  if (!root) return;
-  if (state.loading) {
-    root.innerHTML = '<div class="loading"><div class="loading-spinner"></div><div style="font-size:14px;color:var(--text2);font-weight:600">Загрузка...</div></div>';
-    return;
-  }
-  let html = '';
-  switch (state.screen) {
-    case 'home': html = renderHome(); break;
-    case 'points': html = renderPoints(); break;
-    case 'create': html = renderCreate(); break;
-    case 'detail': html = renderDetail(); break;
-    case 'manage': html = renderManage(); break;
-    case 'profile': html = renderProfile(); break;
-    default: html = renderHome();
-  }
-  html += renderTabBar();
-  html += renderModal();
-  root.innerHTML = html;
-  bindEvents();
-}
-// ═══════════════════════════════════════
-// RENDER: HOME (без изменений)
-function renderHome() {
-  let h = '<div class="app fade-up">';
-  h += '<div class="header"><h1>Конкурсы<div class="header-sub">Активные розыгрыши</div></h1></div>';
-  if (!fbReady) {
-    h += `<div class="notice notice-error">${IC.info} Firebase не подключен. Настройте конфигурацию.</div>`;
-  }
-  const active = state.contests.filter(c => c.status === 'active');
-  if (active.length === 0) {
-    h += '<div class="empty">';
-    h += `<div class="empty-icon">${IC.award}</div>`;
-    h += '<div class="empty-title">Пока нет конкурсов</div>';
-    h += '<div class="empty-desc">Создайте первый конкурс, нажав кнопку «Создать» внизу</div>';
-    h += '</div>';
-  } else {
-    active.forEach(c => {
-      const parts = (state.participants[c._id] || []).length;
-      const prizes = (c.prizes || []).filter(p => p);
-      h += `<div class="ccard" data-action="openContest" data-id="${c._id}">`;
-      h += `<div class="ccard-icon">${IC.award}</div>`;
-      h += '<div class="ccard-body">';
-      h += `<div class="ccard-top">`;
-      h += `<div class="ccard-title">${esc(c.name)}</div>`;
-      h += `<span class="badge badge-live">Live</span>`;
-      h += '</div>';
-      if (c.channel_title) {
-        h += `<div class="ccard-channel">${esc(c.channel_title)}</div>`;
-      }
-      h += '<div class="ccard-meta">';
-      h += `<div class="ccard-meta-item">${IC.users} ${parts}</div>`;
-      h += `<div class="ccard-meta-item">${IC.clock} ${timeLeft(c.end_date)}</div>`;
-      if (prizes.length > 0) {
-        h += `<div class="ccard-meta-item">${IC.gift} ${prizes.length} ${prizes.length === 1 ? 'приз' : 'призов'}</div>`;
-      }
-      h += '</div>';
-      h += '</div></div>';
-    });
-  }
-  h += '</div>';
-  return h;
-}
-// ═══════════════════════════════════════
-// RENDER: POINTS (убрал reactions_count)
-function renderPoints() {
-  let h = '<div class="app fade-up">';
-  h += '<div class="header"><h1>Мои баллы<div class="header-sub">Во всех конкурсах</div></h1></div>';
-  const myParts = [];
-  for (const c of state.contests) {
-    const parts = state.participants[c._id] || [];
-    const me = parts.find(p => p.user_id === currentUser.id);
-    if (me) myParts.push({ contest: c, me });
-  }
-  const total = myParts.reduce((s, x) => s + (x.me.points || 0), 0);
-  h += `<div class="card" style="text-align:center;padding:24px">`;
-  h += `<div style="font-size:42px;font-weight:900;letter-spacing:-1px">${total}</div>`;
-  h += `<div style="font-size:14px;color:var(--text2);font-weight:600;margin-top:4px">Баллов всего</div>`;
-  h += '</div>';
-  if (myParts.length === 0) {
-    h += '<div class="empty">';
-    h += `<div class="empty-icon">${IC.star}</div>`;
-    h += '<div class="empty-title">Вы пока не участвуете</div>';
-    h += '<div class="empty-desc">Присоединитесь к конкурсу на главной странице</div>';
-    h += '</div>';
-  } else {
-    h += '<div class="section-title">Мои конкурсы</div>';
-    myParts.forEach(({ contest: c, me }) => {
-      h += `<div class="card card-clickable" data-action="openContest" data-id="${c._id}">`;
-      h += '<div style="display:flex;justify-content:space-between;align-items:center">';
-      h += `<div style="flex:1;min-width:0">`;
-      h += `<div style="font-size:15px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(c.name)}</div>`;
-      h += `<div style="font-size:12px;color:var(--text2);margin-top:3px">${c.status === 'active' ? timeLeft(c.end_date) : 'Завершён'}</div>`;
-      h += '</div>';
-      h += `<div style="text-align:right;flex-shrink:0;margin-left:12px">`;
-      h += `<div style="font-size:20px;font-weight:900">${me.points || 0}</div>`;
-      h += `<div style="font-size:10px;color:var(--text3);font-weight:600">БАЛЛОВ</div>`;
-      h += '</div></div>';
-      const stats = [];
-      if (me.invites_count) stats.push(`<div class="lb-stat">${IC.users} ${me.invites_count}</div>`);
-      if (me.ads_count) stats.push(`<div class="lb-stat">${IC.play} ${me.ads_count}</div>`);
-      if (stats.length > 0) {
-        h += `<div class="lb-stats" style="margin-top:10px">${stats.map(s => `<div class="lb-stat">${s}</div>`).join('')}</div>`;
-      }
-      h += '</div>';
-    });
-  }
-  h += '</div>';
-  return h;
-}
-// ═══════════════════════════════════════
-// RENDER: CREATE (убрал reactions, добавил subscription)
-function renderCreate() {
-  const fd = state.formData;
-  let h = '<div class="app fade-up">';
-  h += '<div class="header"><h1>Новый конкурс</h1></div>';
-  h += '<div class="section-title">Канал</div>';
-  h += `<div class="btn-row" style="margin-bottom:16px">`;
-  h += `<button class="btn btn-sm btn-secondary" data-action="addBotToChannel">${IC.plus} Добавить бота</button>`;
-  h += `<button class="btn btn-sm btn-secondary" data-action="scanChannels">${IC.refresh} Найти каналы</button>`;
-  h += `</div>`;
-  if (state.channels.length === 0) {
-    h += `<div class="notice notice-info">${IC.info} Добавьте бота администратором в канал, затем нажмите «Найти каналы»</div>`;
-  } else {
-    state.channels.forEach(ch => {
-      const sel = fd.channel_id === ch.chat_id;
-      const displayName = ch.title || (ch.username ? '@' + ch.username : `ID: ${ch.chat_id}`);
-      h += `<div class="ch-card${sel ? ' selected' : ''}" data-action="selectChannel" data-chatid="${ch.chat_id}" data-title="${esc(ch.title)}" data-username="${ch.username || ''}">`;
-      h += `<div class="ch-card-icon">${IC.megaphone}</div>`;
-      h += `<div class="ch-card-body">`;
-      h += `<div class="ch-card-title">${esc(displayName)}</div>`;
-      h += `<div class="ch-card-id">${ch.username ? '@' + ch.username : 'ID: ' + ch.chat_id}</div>`;
-      h += `</div>`;
-      h += `<div class="ch-card-check">${sel ? `<svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:#fff;stroke-width:3;fill:none"><polyline points="20 6 9 17 4 12"/></svg>` : ''}</div>`;
-      h += `</div>`;
-    });
-  }
-  if (fd.channel_id) {
-    h += `<div class="notice notice-success">${IC.check} Канал выбран: ${esc(fd.channel_title || fd.channel_id)}</div>`;
-  }
-  h += '<div class="section-title">Информация</div>';
-  h += '<div class="form-group">';
-  h += '<label class="form-label">Название конкурса *</label>';
-  h += `<input class="form-input" id="f-name" type="text" placeholder="Например: Весенний розыгрыш" value="${esc(fd.name || '')}">`;
-  h += '</div>';
-  h += '<div class="form-group">';
-  h += '<label class="form-label">Описание</label>';
-  h += `<textarea class="form-input" id="f-desc" placeholder="Расскажите о конкурсе...">${esc(fd.description || '')}</textarea>`;
-  h += '</div>';
-  h += '<div class="form-group">';
-  h += '<label class="form-label">Условия участия</label>';
-  h += `<textarea class="form-input" id="f-cond" placeholder="Что нужно сделать для участия...">${esc(fd.conditions || '')}</textarea>`;
-  h += '</div>';
-  h += '<div class="form-group">';
-  h += '<label class="form-label">Дата окончания (МСК) *</label>';
-  h += `<input class="form-input" id="f-date" type="datetime-local" value="${fd.end_date || ''}">`;
-  h += '<div class="form-hint">Время вводится по Москве (МСК, UTC+3)</div>';
-  h += '</div>';
-  h += '<div class="form-group">';
-  h += '<label class="form-label">Текст кнопки</label>';
-  h += `<input class="form-input" id="f-btn" type="text" placeholder="Участвовать" value="${esc(fd.button_text || '')}">`;
-  h += '</div>';
-  h += '<div class="form-group">';
-  h += '<label class="form-label">Стартовые баллы</label>';
-  h += `<input class="form-input" id="f-init" type="number" min="0" placeholder="0" value="${fd.initial_points || ''}">`;
-  h += '<div class="form-hint">Баллы при вступлении в конкурс</div>';
-  h += '</div>';
-  h += '<div class="section-title">Призы (каждый = место)</div>';
-  const prizes = fd.prizes || [''];
-  prizes.forEach((p, i) => {
-    const medals = ['m1', 'm2', 'm3'];
-    h += '<div class="prize-row">';
-    h += `<div class="prize-medal ${medals[i] || 'mn'}">${i + 1}</div>`;
-    h += `<input class="form-input prize-input" type="text" placeholder="${i + 1}-е место" value="${esc(p)}">`;
-    if (prizes.length > 1) {
-      h += `<button class="prize-remove" data-action="removePrize" data-idx="${i}">${IC.x}</button>`;
-    }
-    h += '</div>';
-  });
-  h += `<button class="btn btn-sm btn-secondary" data-action="addPrize" style="margin-top:4px">${IC.plus} Добавить место</button>`;
-  h += '<div class="section-title">Определение победителей</div>';
-  h += '<div class="form-group">';
-  h += `<select class="form-input" id="f-outcome">`;
-  h += `<option value="leaderboard"${fd.outcome_type === 'leaderboard' ? ' selected' : ''}>Лидерборд (больше баллов = выше)</option>`;
-  h += `<option value="random"${fd.outcome_type === 'random' ? ' selected' : ''}>Случайный среди набравших порог</option>`;
-  h += `<option value="weighted"${fd.outcome_type === 'weighted' ? ' selected' : ''}>Взвешенный рандом (баллы = шанс)</option>`;
-  h += '</select>';
-  h += '</div>';
-  if (fd.outcome_type === 'random') {
-    h += '<div class="form-group">';
-    h += '<label class="form-label">Порог баллов</label>';
-    h += `<input class="form-input" id="f-thresh" type="number" min="0" placeholder="10" value="${fd.threshold || ''}">`;
-    h += '<div class="form-hint">Минимум баллов для участия в розыгрыше</div>';
-    h += '</div>';
-  }
-  h += '<div class="section-title">Начисление баллов</div>';
-  h += '<div class="toggle-row">';
-  h += '<div class="toggle-row-info"><div class="toggle-row-title">Приглашения</div>';
-  h += '<div class="toggle-row-desc">Баллы за приглашение друзей в канал</div></div>';
-  h += `<label class="toggle"><input type="checkbox" id="f-inv-on"${fd.invites_enabled ? ' checked' : ''}><span class="toggle-slider"></span></label>`;
-  h += '</div>';
-  h += `<div class="toggle-sub${fd.invites_enabled ? ' show' : ''}" id="inv-sub">`;
-  h += '<div class="form-group" style="margin-bottom:8px">';
-  h += '<label class="form-label">Баллов за 1 приглашение</label>';
-  h += `<input class="form-input" id="f-inv-pts" type="number" min="1" value="${fd.invites_points || '5'}">`;
-  h += '</div></div>';
-  // НОВАЯ СЕКЦИЯ — ПОДПИСКА (вместо реакций)
-  h += '<div class="toggle-row">';
-  h += '<div class="toggle-row-info"><div class="toggle-row-title">Подписка на канал</div>';
-  h += '<div class="toggle-row-desc">Баллы за подписку на канал конкурса</div></div>';
-  h += `<label class="toggle"><input type="checkbox" id="f-sub-on"${fd.subscription_enabled ? ' checked' : ''}><span class="toggle-slider"></span></label>`;
-  h += '</div>';
-  h += `<div class="toggle-sub${fd.subscription_enabled ? ' show' : ''}" id="sub-sub">`;
-  h += '<div class="form-group" style="margin-bottom:8px">';
-  h += '<label class="form-label">Баллов за подписку</label>';
-  h += `<input class="form-input" id="f-sub-pts" type="number" min="1" value="${fd.subscription_points || '15'}">`;
-  h += '</div></div>';
-  h += '<div class="toggle-row">';
-  h += '<div class="toggle-row-info"><div class="toggle-row-title">Просмотр рекламы</div>';
-  h += '<div class="toggle-row-desc">Баллы за просмотры рекламных видео</div></div>';
-  h += `<label class="toggle"><input type="checkbox" id="f-ads-on"${fd.ads_enabled ? ' checked' : ''}><span class="toggle-slider"></span></label>`;
-  h += '</div>';
-  h += `<div class="toggle-sub${fd.ads_enabled ? ' show' : ''}" id="ads-sub">`;
-  h += `<div class="notice notice-warn" style="margin-bottom:8px">${IC.info} Модуль рекламы в разработке</div>`;
-  h += '<div class="form-group" style="margin-bottom:8px">';
-  h += '<label class="form-label">Баллов за 1 просмотр</label>';
-  h += `<input class="form-input" id="f-ads-pts" type="number" min="1" value="${fd.ads_points || '3'}">`;
-  h += '</div></div>';
-  h += '<div style="margin-top:32px;margin-bottom:32px">';
-  h += `<button class="btn btn-primary" data-action="submitContest">${IC.send} Создать конкурс</button>`;
-  h += '</div>';
-  h += '</div>';
-  return h;
-}
-// ═══════════════════════════════════════
-// RENDER: DETAIL (исправлена кнопка удалить + scoring)
-function renderDetail() {
-  const c = state.contests.find(x => x._id === state.selectedContest);
-  if (!c) {
-    return '<div class="app fade-up"><div class="empty"><div class="empty-title">Конкурс не найден</div></div></div>';
-  }
-  const parts = (state.participants[c._id] || []);
-  const sorted = [...parts].sort((a, b) => (b.points || 0) - (a.points || 0));
-  const me = parts.find(p => p.user_id === currentUser.id);
-  const isCreator = c.creator_id === currentUser.id;
-  const isAdmin = currentUser.is_admin;
-  const canManage = isCreator || isAdmin;
-  const prizes = (c.prizes || []).filter(p => p);
-  let h = '<div class="app fade-up">';
-  h += `<button class="back-btn" data-action="goHome">${IC.chevL} Назад</button>`;
-  h += '<div class="detail-hero">';
-  h += `<div class="detail-hero-icon">${IC.award}</div>`;
-  h += `<div class="detail-hero-title">${esc(c.name)}</div>`;
-  if (c.channel_title) {
-    h += `<div class="detail-hero-channel">${esc(c.channel_title)}</div>`;
-  }
-  h += `<span class="badge ${c.status === 'active' ? 'badge-live' : 'badge-ended'}" style="margin-top:12px">${c.status === 'active' ? 'Активный' : 'Завершён'}</span>`;
-  h += '</div>';
-  if (c.status === 'active' && !me) {
-    h += `<button class="btn btn-primary" data-action="joinContest" data-id="${c._id}" style="margin-bottom:16px">${IC.zap} ${esc(c.button_text || 'Участвовать')}</button>`;
-  }
-  if (canManage && c.status === 'active') {
-    h += '<div class="btn-row" style="margin-bottom:16px;flex-wrap:wrap">';
-    h += `<button class="btn btn-sm btn-danger" data-action="endContest" data-id="${c._id}">${IC.stop} Завершить</button>`;
-    h += `<button class="btn btn-sm btn-secondary" style="color:var(--danger)" data-action="deleteContest" data-id="${c._id}">${IC.trash} Удалить</button>`;
-    h += '</div>';
-  }
-  if (me && me.invite_link && c.scoring?.invites?.enabled) {
-    h += '<div class="invite-box">';
-    h += `<div class="invite-box-title">${IC.link} Ваша ссылка для приглашений</div>`;
-    h += '<div class="invite-box-row">';
-    h += `<div class="invite-box-link">${me.invite_link}</div>`;
-    h += `<button class="invite-box-copy" data-action="copyInvite" data-link="${me.invite_link}">${IC.copy}</button>`;
-    h += '</div>';
-    h += `<div class="invite-box-hint">+${c.scoring.invites.points} баллов за каждого друга, присоединившегося по вашей ссылке</div>`;
-    h += '</div>';
-  }
-  h += '<div class="section-title">Информация</div>';
-  h += '<div class="card">';
-  if (c.description) {
-    h += `<div class="info-row"><span class="info-label">Описание</span><span class="info-value">${esc(c.description)}</span></div>`;
-  }
-  if (c.conditions) {
-    h += `<div class="info-row"><span class="info-label">Условия</span><span class="info-value">${esc(c.conditions)}</span></div>`;
-  }
-  h += `<div class="info-row"><span class="info-label">До</span><span class="info-value">${formatDateMSK(c.end_date)}</span></div>`;
-  h += `<div class="info-row"><span class="info-label">Участников</span><span class="info-value">${parts.length}</span></div>`;
-  const typeNames = { 'leaderboard': 'Лидерборд', 'random': 'Случайный', 'weighted': 'Взвешенный' };
-  h += `<div class="info-row"><span class="info-label">Тип</span><span class="info-value">${typeNames[c.outcome_type] || 'Лидерборд'}</span></div>`;
-  if (c.initial_points) {
-    h += `<div class="info-row"><span class="info-label">Старт. баллы</span><span class="info-value">${c.initial_points}</span></div>`;
-  }
-  h += '</div>';
-  if (prizes.length > 0) {
-    h += '<div class="section-title">Призы</div>';
-    h += '<div class="card">';
-    const medals = ['m1', 'm2', 'm3'];
-    prizes.forEach((p, i) => {
-      h += `<div style="display:flex;align-items:center;gap:12px;padding:10px 0;${i < prizes.length - 1 ? 'border-bottom:1px solid var(--card-border)' : ''}">`;
-      h += `<div class="prize-medal ${medals[i] || 'mn'}">${i + 1}</div>`;
-      h += `<div style="font-size:15px;font-weight:600">${esc(p)}</div>`;
-      h += '</div>';
-    });
-    h += '</div>';
-  }
-  const scoring = c.scoring || {};
-  const methods = [];
-  if (scoring.invites?.enabled) methods.push({ icon: IC.users, text: `Приглашения +${scoring.invites.points}` });
-  if (scoring.subscription?.enabled) methods.push({ icon: IC.heart, text: `Подписка +${scoring.subscription.points}` });
-  if (scoring.ads?.enabled) methods.push({ icon: IC.play, text: `Реклама +${scoring.ads.points}` });
-  if (methods.length > 0) {
-    h += '<div class="section-title">Способы заработка</div>';
-    h += '<div class="scoring-pills">';
-    methods.forEach(m => {
-      h += `<div class="scoring-pill">${m.icon} ${m.text}</div>`;
-    });
-    h += '</div>';
-  }
-  if (me) {
-    h += '<div class="section-title">Ваша статистика</div>';
-    h += '<div class="stat-row">';
-    h += `<div class="stat-box"><div class="stat-box-val">${me.points || 0}</div><div class="stat-box-label">Баллов</div></div>`;
-    h += `<div class="stat-box"><div class="stat-box-val">${me.invites_count || 0}</div><div class="stat-box-label">Приглашений</div></div>`;
-    h += `<div class="stat-box"><div class="stat-box-val">${me.ads_count || 0}</div><div class="stat-box-label">Просмотров</div></div>`;
-    h += '</div>';
-  }
-  h += '<div class="section-title">Таблица лидеров</div>';
-  if (sorted.length === 0) {
-    h += '<div class="card" style="text-align:center;padding:32px;color:var(--text2);font-size:14px;font-weight:500">Пока нет участников</div>';
-  } else {
-    sorted.forEach((p, i) => {
-      const rank = i + 1;
-      const rankClass = rank === 1 ? 'r1' : rank === 2 ? 'r2' : rank === 3 ? 'r3' : 'rn';
-      const isMe = p.user_id === currentUser.id;
-      if (canManage) {
-        h += `<div class="lb-item${isMe ? ' me' : ''}" data-action="openParticipant" data-pid="${p._id}" data-cid="${c._id}">`;
+      const res = await tgApi('getChatMember', { chat_id: contest.channel_id, user_id: currentUser.id });
+      if (res.ok && ['member', 'administrator', 'creator'].includes(res.result.status)) {
+         initialPts += contest.scoring.subscribe.points;
+         subCount = 1;
+         toast('Начислены баллы за подписку!');
       } else {
-        h += `<div class="lb-item${isMe ? ' me' : ''}">`;
+         toast('Вы не подписаны на канал, баллы за подписку не начислены', 'info');
       }
-      h += `<div class="lb-rank ${rankClass}">${rank}</div>`;
-      h += avatarHTML(p, 40);
-      h += '<div class="lb-info">';
-      h += `<div class="lb-name">${esc(p.first_name || 'User')}</div>`;
-      if (p.username) {
-        h += `<div class="lb-username">@${p.username}</div>`;
-      }
-      const stats = [];
-      if (p.invites_count) stats.push(`<div class="lb-stat">${IC.users} ${p.invites_count}</div>`);
-      if (p.ads_count) stats.push(`<div class="lb-stat">${IC.play} ${p.ads_count}</div>`);
-      if (stats.length > 0) {
-        h += `<div class="lb-stats">${stats.join('')}</div>`;
-      }
-      h += '</div>';
-      h += `<div class="lb-points-col"><div class="lb-points">${p.points || 0}</div><div class="lb-points-label">баллов</div></div>`;
-      h += '</div>';
-    });
+    } catch(e) {}
   }
-  h += '</div>';
-  return h;
+
+  const partData = {
+    contest_id: contestId,
+    user_id: currentUser.id,
+    first_name: currentUser.first_name,
+    username: currentUser.username,
+    points: initialPts,
+    invites_count: 0,
+    subscribe_count: subCount,
+    ads_count: 0,
+    invite_link: '',
+    joined_at: new Date().toISOString()
+  };
+
+  const partId = await fbAdd('participants', partData);
+  if (!partId) {
+    toast('Ошибка при присоединении', 'error');
+    return;
+  }
+
+  if (contest.scoring?.invites?.enabled && contest.channel_id) {
+    try {
+      const linkResult = await tgApi('createChatInviteLink', {
+        chat_id: contest.channel_id,
+        name: `ref_${currentUser.id}_${contestId}`,
+        creates_join_request: false
+      });
+      if (linkResult.ok) {
+        await fbSet('participants', partId, { invite_link: linkResult.result.invite_link });
+        partData.invite_link = linkResult.result.invite_link;
+      }
+    } catch (e) {
+      console.error('Invite link error:', e);
+    }
+  }
+
+  toast('Вы участвуете!');
+  await loadParticipants(contestId);
+  render();
 }
+
 // ═══════════════════════════════════════
-// RENDER: MANAGE / PROFILE (без изменений)
+// END CONTEST
+// ═══════════════════════════════════════
+async function endContest(contestId) {
+  const contest = state.contests.find(c => c._id === contestId);
+  if (!contest) return;
+
+  if (contest.creator_id !== currentUser.id && !currentUser.is_admin) {
+    toast('Нет прав', 'error');
+    return;
+  }
+
+  if (!confirm('Завершить конкурс? Это действие нельзя отменить.')) return;
+
+  await fbSet('contests', contestId, { status: 'ended', ended_at: new Date().toISOString() });
+
+  await loadParticipants(contestId);
+  const { winners, result } = await sendResultsPost(contest);
+
+  if (result?.ok) {
+    toast('Конкурс завершён, итоги опубликованы!');
+  } else {
+    toast('Конкурс завершён, но итоги не отправлены в канал', 'error');
+  }
+
+  render();
+}
+
+// ═══════════════════════════════════════
+// DELETE CONTEST
+// ═══════════════════════════════════════
+async function deleteContest(contestId) {
+  const contest = state.contests.find(c => c._id === contestId);
+  if (!contest) return;
+
+  if (contest.creator_id !== currentUser.id && !currentUser.is_admin) {
+    toast('Нет прав', 'error');
+    return;
+  }
+
+  if (!confirm('Удалить конкурс навсегда? Это нельзя отменить.')) return;
+
+  const parts = state.participants[contestId] || [];
+  for (const p of parts) {
+    await fbDel('participants', p._id);
+  }
+
+  await fbDel('contests', contestId);
+  delete state.participants[contestId];
+
+  toast('Конкурс удалён');
+  state.screen = 'home';
+  state.selectedContest = null;
+  state.formData = { prizes: [''], outcome_type: 'leaderboard' };
+  render();
+}
+
+// ═══════════════════════════════════════
+// ADD POINTS TO PARTICIPANT
+// ═══════════════════════════════════════
+async function addPointsToParticipant(partId, type, count, contest) {
+  const parts = Object.values(state.participants).flat();
+  const part = parts.find(p => p._id === partId);
+  if (!part || !contest) return;
+
+  const scoring = contest.scoring || {};
+  let pointsPerUnit = 0;
+  let countField = '';
+
+  if (type === 'invites') {
+    pointsPerUnit = scoring.invites?.points || 5;
+    countField = 'invites_count';
+  } else if (type === 'subscribe') {
+    pointsPerUnit = scoring.subscribe?.points || 10;
+    countField = 'subscribe_count';
+  } else if (type === 'ads') {
+    pointsPerUnit = scoring.ads?.points || 3;
+    countField = 'ads_count';
+  }
+
+  const totalPoints = count * pointsPerUnit;
+  const newCount = (part[countField] || 0) + count;
+  const newPoints = (part.points || 0) + totalPoints;
+
+  const updateData = { points: newPoints };
+  updateData[countField] = newCount;
+
+  await fbSet('participants', partId, updateData);
+
+  part.points = newPoints;
+  part[countField] = newCount;
+
+  const typeNames = { invites: 'приглашений', subscribe: 'подписок', ads: 'просмотров' };
+  toast(`+${count} ${typeNames[type]} (+${totalPoints} баллов)`);
+
+  state.modal = { type: 'participant', participant: part, contest };
+  render();
+}
+
+// ═══════════════════════════════════════
+// RENDER
+// ═══════════════════════════════════════
+function render() {
+  const root = document.getElementById('root');
+  if (!root) return;
+
+  if (state.loading) {
+    root.innerHTML = '<div class="loading"><div class="loading-spinner"></div><div style="font-size:14px;color:var(--text2);font-weight:600">Загрузка...</div></div>';
+    return;
+  }
+
+  let html = '';
+
+  switch (state.screen) {
+    case 'home': html = renderHome(); break;
+    case 'points': html = renderPoints(); break;
+    case 'create': html = renderCreate(); break;
+    case 'detail': html = renderDetail(); break;
+    case 'manage': html = renderManage(); break;
+    case 'profile': html = renderProfile(); break;
+    default: html = renderHome();
+  }
+
+  html += renderTabBar();
+  html += renderModal();
+
+  root.innerHTML = html;
+  bindEvents();
+}
+
+// ═══════════════════════════════════════
+// RENDER: HOME
+// ═══════════════════════════════════════
+function renderHome() {
+  let h = '<div class="app fade-up">';
+  h += '<div class="header"><h1>Конкурсы<div class="header-sub">Активные розыгрыши</div></h1></div>';
+
+  if (!fbReady) {
+    h += `<div class="notice notice-error">${IC.info} Firebase не подключен. Настройте конфигурацию.</div>`;
+  }
+
+  const active = state.contests.filter(c => c.status === 'active');
+
+  if (active.length === 0) {
+    h += '<div class="empty">';
+    h += `<div class="empty-icon">${IC.award}</div>`;
+    h += '<div class="empty-title">Пока нет конкурсов</div>';
+    h += '<div class="empty-desc">Создайте первый конкурс, нажав кнопку «Создать» внизу</div>';
+    h += '</div>';
+  } else {
+    active.forEach(c => {
+      const parts = (state.participants[c._id] || []).length;
+      const prizes = (c.prizes || []).filter(p => p);
+
+      h += `<div class="ccard" data-action="openContest" data-id="${c._id}">`;
+      h += `<div class="ccard-icon">${IC.award}</div>`;
+      h += '<div class="ccard-body">';
+      h += `<div class="ccard-top">`;
+      h += `<div class="ccard-title">${esc(c.name)}</div>`;
+      h += `<span class="badge badge-live">Live</span>`;
+      h += '</div>';
+
+      if (c.channel_title) {
+        h += `<div class="ccard-channel">${esc(c.channel_title)}</div>`;
+      }
+
+      h += '<div class="ccard-meta">';
+      h += `<div class="ccard-meta-item">${IC.users} ${parts}</div>`;
+      h += `<div class="ccard-meta-item">${IC.clock} ${timeLeft(c.end_date)}</div>`;
+      if (prizes.length > 0) {
+        h += `<div class="ccard-meta-item">${IC.gift} ${prizes.length} ${prizes.length === 1 ? 'приз' : 'призов'}</div>`;
+      }
+      h += '</div>';
+      h += '</div></div>';
+    });
+  }
+
+  h += '</div>';
+  return h;
+}
+
+// ═══════════════════════════════════════
+// RENDER: POINTS
+// ═══════════════════════════════════════
+function renderPoints() {
+  let h = '<div class="app fade-up">';
+  h += '<div class="header"><h1>Мои баллы<div class="header-sub">Во всех конкурсах</div></h1></div>';
+
+  const myParts = [];
+  for (const c of state.contests) {
+    const parts = state.participants[c._id] || [];
+    const me = parts.find(p => p.user_id === currentUser.id);
+    if (me) myParts.push({ contest: c, me });
+  }
+
+  const total = myParts.reduce((s, x) => s + (x.me.points || 0), 0);
+
+  h += `<div class="card" style="text-align:center;padding:24px">`;
+  h += `<div style="font-size:42px;font-weight:900;letter-spacing:-1px">${total}</div>`;
+  h += `<div style="font-size:14px;color:var(--text2);font-weight:600;margin-top:4px">Баллов всего</div>`;
+  h += '</div>';
+
+  if (myParts.length === 0) {
+    h += '<div class="empty">';
+    h += `<div class="empty-icon">${IC.star}</div>`;
+    h += '<div class="empty-title">Вы пока не участвуете</div>';
+    h += '<div class="empty-desc">Присоединитесь к конкурсу на главной странице</div>';
+    h += '</div>';
+  } else {
+    h += '<div class="section-title">Мои конкурсы</div>';
+    myParts.forEach(({ contest: c, me }) => {
+      h += `<div class="card card-clickable" data-action="openContest" data-id="${c._id}">`;
+      h += '<div style="display:flex;justify-content:space-between;align-items:center">';
+      h += `<div style="flex:1;min-width:0">`;
+      h += `<div style="font-size:15px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(c.name)}</div>`;
+      h += `<div style="font-size:12px;color:var(--text2);margin-top:3px">${c.status === 'active' ? timeLeft(c.end_date) : 'Завершён'}</div>`;
+      h += '</div>';
+      h += `<div style="text-align:right;flex-shrink:0;margin-left:12px">`;
+      h += `<div style="font-size:20px;font-weight:900">${me.points || 0}</div>`;
+      h += `<div style="font-size:10px;color:var(--text3);font-weight:600">БАЛЛОВ</div>`;
+      h += '</div></div>';
+
+      const stats = [];
+      if (me.invites_count) stats.push(`${IC.users} ${me.invites_count}`);
+      if (me.subscribe_count) stats.push(`${IC.bell} ${me.subscribe_count}`);
+      if (me.ads_count) stats.push(`${IC.play} ${me.ads_count}`);
+      if (stats.length > 0) {
+        h += `<div class="lb-stats" style="margin-top:10px">${stats.map(s => `<div class="lb-stat">${s}</div>`).join('')}</div>`;
+      }
+
+      h += '</div>';
+    });
+  }
+
+  h += '</div>';
+  return h;
+}
+
+// ═══════════════════════════════════════
+// RENDER: CREATE CONTEST
+// ═══════════════════════════════════════
+function renderCreate() {
+  const fd = state.formData;
+  let h = '<div class="app fade-up">';
+  h += '<div class="header"><h1>Новый конкурс</h1></div>';
+
+  // ─── Канал ───
+  h += '<div class="section-title">Канал</div>';
+
+  h += `<div class="btn-row" style="margin-bottom:16px">`;
+  h += `<button class="btn btn-sm btn-secondary" data-action="addBotToChannel">${IC.plus} Добавить бота</button>`;
+  h += `<button class="btn btn-sm btn-secondary" data-action="scanChannels">${IC.refresh} Найти каналы</button>`;
+  h += `</div>`;
+
+  if (state.channels.length === 0) {
+    h += `<div class="notice notice-info">${IC.info} Добавьте бота администратором в канал, затем нажмите «Найти каналы»</div>`;
+  } else {
+    state.channels.forEach(ch => {
+      const sel = fd.channel_id === String(ch.chat_id);
+      h += `<div class="ch-card${sel ? ' selected' : ''}" data-action="selectChannel" data-chatid="${ch.chat_id}" data-title="${esc(ch.title)}" data-username="${ch.username || ''}">`;
+      h += `<div class="ch-card-icon">${IC.megaphone}</div>`;
+      h += `<div class="ch-card-body">`;
+      h += `<div class="ch-card-title">${esc(ch.title)}</div>`;
+      h += `<div class="ch-card-id">${ch.username ? '@' + ch.username : 'ID: ' + ch.chat_id}</div>`;
+      h += `</div>`;
+      h += `<div class="ch-card-check">${sel ? `<svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:#fff;stroke-width:3;fill:none"><polyline points="20 6 9 17 4 12"/></svg>` : ''}</div>`;
+      h += `</div>`;
+    });
+  }
+
+  if (fd.channel_id) {
+    h += `<div class="notice notice-success">${IC.check} Канал выбран: ${esc(fd.channel_title)}</div>`;
+  }
+
+  // ─── Основная информация ───
+  h += '<div class="section-title">Информация</div>';
+
+  h += '<div class="form-group">';
+  h += '<label class="form-label">Название конкурса *</label>';
+  h += `<input class="form-input" id="f-name" type="text" placeholder="Например: Весенний розыгрыш" value="${esc(fd.name || '')}">`;
+  h += '</div>';
+
+  h += '<div class="form-group">';
+  h += '<label class="form-label">Описание</label>';
+  h += `<textarea class="form-input" id="f-desc" placeholder="Расскажите о конкурсе...">${esc(fd.description || '')}</textarea>`;
+  h += '</div>';
+
+  h += '<div class="form-group">';
+  h += '<label class="form-label">Условия участия</label>';
+  h += `<textarea class="form-input" id="f-cond" placeholder="Что нужно сделать для участия...">${esc(fd.conditions || '')}</textarea>`;
+  h += '</div>';
+
+  h += '<div class="form-group">';
+  h += '<label class="form-label">Дата окончания (МСК) *</label>';
+  h += `<input class="form-input" id="f-date" type="datetime-local" value="${fd.end_date || ''}">`;
+  h += '<div class="form-hint">Время вводится по Москве (МСК, UTC+3)</div>';
+  h += '</div>';
+
+  h += '<div class="form-group">';
+  h += '<label class="form-label">Текст кнопки</label>';
+  h += `<input class="form-input" id="f-btn" type="text" placeholder="Участвовать" value="${esc(fd.button_text || '')}">`;
+  h += '</div>';
+
+  h += '<div class="form-group">';
+  h += '<label class="form-label">Стартовые баллы</label>';
+  h += `<input class="form-input" id="f-init" type="number" min="0" placeholder="0" value="${fd.initial_points || ''}">`;
+  h += '<div class="form-hint">Баллы при вступлении в конкурс</div>';
+  h += '</div>';
+
+  // ─── Призы ───
+  h += '<div class="section-title">Призы (каждый = место)</div>';
+
+  const prizes = fd.prizes || [''];
+  prizes.forEach((p, i) => {
+    const medals = ['m1', 'm2', 'm3'];
+    h += '<div class="prize-row">';
+    h += `<div class="prize-medal ${medals[i] || 'mn'}">${i + 1}</div>`;
+    h += `<input class="form-input prize-input" type="text" placeholder="${i + 1}-е место" value="${esc(p)}">`;
+    if (prizes.length > 1) {
+      h += `<button class="prize-remove" data-action="removePrize" data-idx="${i}">${IC.x}</button>`;
+    }
+    h += '</div>';
+  });
+
+  h += `<button class="btn btn-sm btn-secondary" data-action="addPrize" style="margin-top:4px">${IC.plus} Добавить место</button>`;
+
+  // ─── Тип определения ───
+  h += '<div class="section-title">Определение победителей</div>';
+  h += '<div class="form-group">';
+  h += `<select class="form-input" id="f-outcome">`;
+  h += `<option value="leaderboard"${fd.outcome_type === 'leaderboard' ? ' selected' : ''}>Лидерборд (больше баллов = выше)</option>`;
+  h += `<option value="random"${fd.outcome_type === 'random' ? ' selected' : ''}>Случайный среди набравших порог</option>`;
+  h += `<option value="weighted"${fd.outcome_type === 'weighted' ? ' selected' : ''}>Взвешенный рандом (баллы = шанс)</option>`;
+  h += '</select>';
+  h += '</div>';
+
+  if (fd.outcome_type === 'random') {
+    h += '<div class="form-group">';
+    h += '<label class="form-label">Порог баллов</label>';
+    h += `<input class="form-input" id="f-thresh" type="number" min="0" placeholder="10" value="${fd.threshold || ''}">`;
+    h += '<div class="form-hint">Минимум баллов для участия в розыгрыше</div>';
+    h += '</div>';
+  }
+
+  // ─── Начисление баллов ───
+  h += '<div class="section-title">Начисление баллов</div>';
+
+  h += '<div class="toggle-row">';
+  h += '<div class="toggle-row-info"><div class="toggle-row-title">Приглашения</div>';
+  h += '<div class="toggle-row-desc">Баллы за приглашение друзей в канал</div></div>';
+  h += `<label class="toggle"><input type="checkbox" id="f-inv-on"${fd.invites_enabled ? ' checked' : ''}><span class="toggle-slider"></span></label>`;
+  h += '</div>';
+  h += `<div class="toggle-sub${fd.invites_enabled ? ' show' : ''}" id="inv-sub">`;
+  h += '<div class="form-group" style="margin-bottom:8px">';
+  h += '<label class="form-label">Баллов за 1 приглашение</label>';
+  h += `<input class="form-input" id="f-inv-pts" type="number" min="1" value="${fd.invites_points || '5'}">`;
+  h += '</div></div>';
+
+  h += '<div class="toggle-row">';
+  h += '<div class="toggle-row-info"><div class="toggle-row-title">Подписка</div>';
+  h += '<div class="toggle-row-desc">Баллы за подписку на канал</div></div>';
+  h += `<label class="toggle"><input type="checkbox" id="f-sub-on"${fd.subscribe_enabled ? ' checked' : ''}><span class="toggle-slider"></span></label>`;
+  h += '</div>';
+  h += `<div class="toggle-sub${fd.subscribe_enabled ? ' show' : ''}" id="sub-sub">`;
+  h += '<div class="form-group" style="margin-bottom:8px">';
+  h += '<label class="form-label">Баллов за подписку</label>';
+  h += `<input class="form-input" id="f-sub-pts" type="number" min="1" value="${fd.subscribe_points || '10'}">`;
+  h += '</div></div>';
+
+  h += '<div class="toggle-row">';
+  h += '<div class="toggle-row-info"><div class="toggle-row-title">Просмотр рекламы</div>';
+  h += '<div class="toggle-row-desc">Баллы за просмотры рекламных видео</div></div>';
+  h += `<label class="toggle"><input type="checkbox" id="f-ads-on"${fd.ads_enabled ? ' checked' : ''}><span class="toggle-slider"></span></label>`;
+  h += '</div>';
+  h += `<div class="toggle-sub${fd.ads_enabled ? ' show' : ''}" id="ads-sub">`;
+  h += `<div class="notice notice-warn" style="margin-bottom:8px">${IC.info} Модуль рекламы в разработке</div>`;
+  h += '<div class="form-group" style="margin-bottom:8px">';
+  h += '<label class="form-label">Баллов за 1 просмотр</label>';
+  h += `<input class="form-input" id="f-ads-pts" type="number" min="1" value="${fd.ads_points || '3'}">`;
+  h += '</div></div>';
+
+  h += '<div style="margin-top:32px;margin-bottom:32px">';
+  h += `<button class="btn btn-primary" data-action="submitContest">${IC.send} Создать конкурс</button>`;
+  h += '</div>';
+
+  h += '</div>';
+  return h;
+}
+
+// ═══════════════════════════════════════
+// RENDER: CONTEST DETAIL
+// ═══════════════════════════════════════
+function renderDetail() {
+  const c = state.contests.find(x => x._id === state.selectedContest);
+  if (!c) {
+    return '<div class="app fade-up"><div class="empty"><div class="empty-title">Конкурс не найден</div></div></div>';
+  }
+
+  const parts = (state.participants[c._id] || []);
+  const sorted = [...parts].sort((a, b) => (b.points || 0) - (a.points || 0));
+  const me = parts.find(p => p.user_id === currentUser.id);
+  const isCreator = c.creator_id === currentUser.id;
+  const isAdmin = currentUser.is_admin;
+  const canManage = isCreator || isAdmin;
+  const prizes = (c.prizes || []).filter(p => p);
+
+  let h = '<div class="app fade-up">';
+
+  h += `<button class="back-btn" data-action="goHome">${IC.chevL} Назад</button>`;
+
+  h += '<div class="detail-hero">';
+  h += `<div class="detail-hero-icon">${IC.award}</div>`;
+  h += `<div class="detail-hero-title">${esc(c.name)}</div>`;
+  if (c.channel_title) {
+    h += `<div class="detail-hero-channel">${esc(c.channel_title)}</div>`;
+  }
+  h += `<span class="badge ${c.status === 'active' ? 'badge-live' : 'badge-ended'}" style="margin-top:12px">${c.status === 'active' ? 'Активный' : 'Завершён'}</span>`;
+  h += '</div>';
+
+  if (c.status === 'active' && !me) {
+    h += `<button class="btn btn-primary" data-action="joinContest" data-id="${c._id}" style="margin-bottom:16px">${IC.zap} ${esc(c.button_text || 'Участвовать')}</button>`;
+  }
+
+  if (me && c.status === 'active' && c.scoring?.subscribe?.enabled && (!me.subscribe_count || me.subscribe_count === 0)) {
+    h += `<button class="btn btn-secondary" style="margin-bottom:16px;" data-action="checkSub" data-id="${c._id}">${IC.check} Проверить подписку и получить баллы</button>`;
+  }
+
+  if (canManage && c.status === 'active') {
+    h += '<div class="btn-row" style="margin-bottom:16px">';
+    h += `<button class="btn btn-sm btn-danger" data-action="endContest" data-id="${c._id}">${IC.stop} Завершить</button>`;
+    h += `<button class="btn btn-sm btn-secondary" style="color:var(--danger)" data-action="deleteContest" data-id="${c._id}">${IC.trash} Удалить</button>`;
+    h += '</div>';
+  }
+
+  if (me && me.invite_link && c.scoring?.invites?.enabled) {
+    h += '<div class="invite-box">';
+    h += `<div class="invite-box-title">${IC.link} Ваша ссылка для приглашений</div>`;
+    h += '<div class="invite-box-row">';
+    h += `<div class="invite-box-link">${me.invite_link}</div>`;
+    h += `<button class="invite-box-copy" data-action="copyInvite" data-link="${me.invite_link}">${IC.copy}</button>`;
+    h += '</div>';
+    h += `<div class="invite-box-hint">+${c.scoring.invites.points} баллов за каждого друга, присоединившегося по вашей ссылке</div>`;
+    h += '</div>';
+  }
+
+  h += '<div class="section-title">Информация</div>';
+  h += '<div class="card">';
+  if (c.description) {
+    h += `<div class="info-row"><span class="info-label">Описание</span><span class="info-value">${esc(c.description)}</span></div>`;
+  }
+  if (c.conditions) {
+    h += `<div class="info-row"><span class="info-label">Условия</span><span class="info-value">${esc(c.conditions)}</span></div>`;
+  }
+  h += `<div class="info-row"><span class="info-label">До</span><span class="info-value">${formatDateMSK(c.end_date)}</span></div>`;
+  h += `<div class="info-row"><span class="info-label">Участников</span><span class="info-value">${parts.length}</span></div>`;
+
+  const typeNames = { 'leaderboard': 'Лидерборд', 'random': 'Случайный', 'weighted': 'Взвешенный' };
+  h += `<div class="info-row"><span class="info-label">Тип</span><span class="info-value">${typeNames[c.outcome_type] || 'Лидерборд'}</span></div>`;
+
+  if (c.initial_points) {
+    h += `<div class="info-row"><span class="info-label">Старт. баллы</span><span class="info-value">${c.initial_points}</span></div>`;
+  }
+  h += '</div>';
+
+  if (prizes.length > 0) {
+    h += '<div class="section-title">Призы</div>';
+    h += '<div class="card">';
+    const medals = ['m1', 'm2', 'm3'];
+    prizes.forEach((p, i) => {
+      h += `<div style="display:flex;align-items:center;gap:12px;padding:10px 0;${i < prizes.length - 1 ? 'border-bottom:1px solid var(--card-border)' : ''}">`;
+      h += `<div class="prize-medal ${medals[i] || 'mn'}">${i + 1}</div>`;
+      h += `<div style="font-size:15px;font-weight:600">${esc(p)}</div>`;
+      h += '</div>';
+    });
+    h += '</div>';
+  }
+
+  const scoring = c.scoring || {};
+  const methods = [];
+  if (scoring.invites?.enabled) methods.push({ icon: IC.users, text: `Приглашения +${scoring.invites.points}` });
+  if (scoring.subscribe?.enabled) methods.push({ icon: IC.bell, text: `Подписка +${scoring.subscribe.points}` });
+  if (scoring.ads?.enabled) methods.push({ icon: IC.play, text: `Реклама +${scoring.ads.points}` });
+
+  if (methods.length > 0) {
+    h += '<div class="section-title">Способы заработка</div>';
+    h += '<div class="scoring-pills">';
+    methods.forEach(m => {
+      h += `<div class="scoring-pill">${m.icon} ${m.text}</div>`;
+    });
+    h += '</div>';
+  }
+
+  if (me) {
+    h += '<div class="section-title">Ваша статистика</div>';
+    h += '<div class="stat-row">';
+    h += `<div class="stat-box"><div class="stat-box-val">${me.points || 0}</div><div class="stat-box-label">Баллов</div></div>`;
+    h += `<div class="stat-box"><div class="stat-box-val">${me.invites_count || 0}</div><div class="stat-box-label">Приглашений</div></div>`;
+    h += `<div class="stat-box"><div class="stat-box-val">${me.subscribe_count || 0}</div><div class="stat-box-label">Подписок</div></div>`;
+    h += '</div>';
+  }
+
+  h += '<div class="section-title">Таблица лидеров</div>';
+
+  if (sorted.length === 0) {
+    h += '<div class="card" style="text-align:center;padding:32px;color:var(--text2);font-size:14px;font-weight:500">Пока нет участников</div>';
+  } else {
+    sorted.forEach((p, i) => {
+      const rank = i + 1;
+      const rankClass = rank === 1 ? 'r1' : rank === 2 ? 'r2' : rank === 3 ? 'r3' : 'rn';
+      const isMe = p.user_id === currentUser.id;
+
+      if (canManage) {
+        h += `<div class="lb-item${isMe ? ' me' : ''}" data-action="openParticipant" data-pid="${p._id}" data-cid="${c._id}">`;
+      } else {
+        h += `<div class="lb-item${isMe ? ' me' : ''}">`;
+      }
+
+      h += `<div class="lb-rank ${rankClass}">${rank}</div>`;
+      h += avatarHTML(p, 40);
+      h += '<div class="lb-info">';
+      h += `<div class="lb-name">${esc(p.first_name || 'User')}</div>`;
+      if (p.username) {
+        h += `<div class="lb-username">@${p.username}</div>`;
+      }
+
+      const stats = [];
+      if (p.invites_count) stats.push(`<div class="lb-stat">${IC.users} ${p.invites_count}</div>`);
+      if (p.subscribe_count) stats.push(`<div class="lb-stat">${IC.bell} ${p.subscribe_count}</div>`);
+      if (p.ads_count) stats.push(`<div class="lb-stat">${IC.play} ${p.ads_count}</div>`);
+      if (stats.length > 0) {
+        h += `<div class="lb-stats">${stats.join('')}</div>`;
+      }
+
+      h += '</div>';
+      h += `<div class="lb-points-col"><div class="lb-points">${p.points || 0}</div><div class="lb-points-label">баллов</div></div>`;
+      h += '</div>';
+    });
+  }
+
+  h += '</div>';
+  return h;
+}
+
+// ═══════════════════════════════════════
+// RENDER: MANAGE (admin/creator panel)
+// ═══════════════════════════════════════
 function renderManage() {
-  let h = '<div class="app fade-up">';
-  h += '<div class="header"><h1>Управление<div class="header-sub">Ваши конкурсы</div></h1></div>';
-  h += '<div class="admin-tabs">';
-  h += `<div class="admin-tab${state.adminTab === 'all' ? ' active' : ''}" data-action="setAdminTab" data-tab="all">Все</div>`;
-  h += `<div class="admin-tab${state.adminTab === 'active' ? ' active' : ''}" data-action="setAdminTab" data-tab="active">Активные</div>`;
-  h += `<div class="admin-tab${state.adminTab === 'ended' ? ' active' : ''}" data-action="setAdminTab" data-tab="ended">Завершённые</div>`;
-  h += '</div>';
-  const tab = state.adminTab || 'all';
-  let myContests = state.contests.filter(c => c.creator_id === currentUser.id || currentUser.is_admin);
-  if (tab === 'active') myContests = myContests.filter(c => c.status === 'active');
-  if (tab === 'ended') myContests = myContests.filter(c => c.status === 'ended');
-  if (myContests.length === 0) {
-    h += '<div class="empty">';
-    h += `<div class="empty-icon">${IC.list}</div>`;
-    h += `<div class="empty-title">Нет конкурсов</div>`;
-    h += `<div class="empty-desc">${tab === 'ended' ? 'Нет завершённых конкурсов' : 'Создайте конкурс, чтобы управлять им'}</div>`;
-    h += '</div>';
-  } else {
-    myContests.forEach(c => {
-      const parts = (state.participants[c._id] || []).length;
-      h += '<div class="card">';
-      h += `<div style="display:flex;gap:12px;align-items:center;margin-bottom:12px;cursor:pointer" data-action="openContest" data-id="${c._id}">`;
-      h += `<div class="ccard-icon" style="width:44px;height:44px;border-radius:12px">${IC.award}</div>`;
-      h += '<div style="flex:1;min-width:0">';
-      h += `<div style="font-size:15px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(c.name)}</div>`;
-      h += `<div style="font-size:12px;color:var(--text2);margin-top:2px">${parts} участн. · ${c.status === 'active' ? timeLeft(c.end_date) : 'Завершён'}</div>`;
-      h += '</div>';
-      h += `<span class="badge ${c.status === 'active' ? 'badge-live' : 'badge-ended'}">${c.status === 'active' ? 'Live' : 'Завершён'}</span>`;
-      h += '</div>';
-      h += '<div class="btn-row">';
-      h += `<button class="btn btn-sm btn-secondary" data-action="openContest" data-id="${c._id}">${IC.ext} Открыть</button>`;
-      if (c.status === 'active') {
-        h += `<button class="btn btn-sm btn-danger" data-action="endContest" data-id="${c._id}">${IC.stop} Завершить</button>`;
-      }
-      h += `<button class="btn btn-sm btn-secondary" style="color:var(--danger)" data-action="deleteContest" data-id="${c._id}">${IC.trash} Удалить</button>`;
-      h += '</div>';
-      h += '</div>';
-    });
-  }
-  h += '</div>';
-  return h;
+  let h = '<div class="app fade-up">';
+  h += '<div class="header"><h1>Управление<div class="header-sub">Ваши конкурсы</div></h1></div>';
+
+  h += '<div class="admin-tabs">';
+  h += `<div class="admin-tab${state.adminTab === 'all' ? ' active' : ''}" data-action="setAdminTab" data-tab="all">Все</div>`;
+  h += `<div class="admin-tab${state.adminTab === 'active' ? ' active' : ''}" data-action="setAdminTab" data-tab="active">Активные</div>`;
+  h += `<div class="admin-tab${state.adminTab === 'ended' ? ' active' : ''}" data-action="setAdminTab" data-tab="ended">Завершённые</div>`;
+  h += '</div>';
+
+  const tab = state.adminTab || 'all';
+  let myContests = state.contests.filter(c => c.creator_id === currentUser.id || currentUser.is_admin);
+  if (tab === 'active') myContests = myContests.filter(c => c.status === 'active');
+  if (tab === 'ended') myContests = myContests.filter(c => c.status === 'ended');
+
+  if (myContests.length === 0) {
+    h += '<div class="empty">';
+    h += `<div class="empty-icon">${IC.list}</div>`;
+    h += `<div class="empty-title">Нет конкурсов</div>`;
+    h += `<div class="empty-desc">${tab === 'ended' ? 'Нет завершённых конкурсов' : 'Создайте конкурс, чтобы управлять им'}</div>`;
+    h += '</div>';
+  } else {
+    myContests.forEach(c => {
+      const parts = (state.participants[c._id] || []).length;
+
+      h += '<div class="card">';
+      h += `<div style="display:flex;gap:12px;align-items:center;margin-bottom:12px;cursor:pointer" data-action="openContest" data-id="${c._id}">`;
+      h += `<div class="ccard-icon" style="width:44px;height:44px;border-radius:12px">${IC.award}</div>`;
+      h += '<div style="flex:1;min-width:0">';
+      h += `<div style="font-size:15px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(c.name)}</div>`;
+      h += `<div style="font-size:12px;color:var(--text2);margin-top:2px">${parts} участн. · ${c.status === 'active' ? timeLeft(c.end_date) : 'Завершён'}</div>`;
+      h += '</div>';
+      h += `<span class="badge ${c.status === 'active' ? 'badge-live' : 'badge-ended'}">${c.status === 'active' ? 'Live' : 'Завершён'}</span>`;
+      h += '</div>';
+
+      h += '<div class="btn-row">';
+      h += `<button class="btn btn-sm btn-secondary" data-action="openContest" data-id="${c._id}">${IC.ext} Открыть</button>`;
+      if (c.status === 'active') {
+        h += `<button class="btn btn-sm btn-danger" data-action="endContest" data-id="${c._id}">${IC.stop} Завершить</button>`;
+      }
+      h += `<button class="btn btn-sm btn-secondary" style="color:var(--danger)" data-action="deleteContest" data-id="${c._id}">${IC.trash} Удалить</button>`;
+      h += '</div>';
+      h += '</div>';
+    });
+  }
+
+  h += '</div>';
+  return h;
 }
+
+// ═══════════════════════════════════════
+// RENDER: PROFILE
+// ═══════════════════════════════════════
 function renderProfile() {
-  let h = '<div class="app fade-up">';
-  h += '<div class="header"><h1>Профиль</h1></div>';
-  h += '<div class="card" style="text-align:center;padding:28px 20px">';
-  h += avatarHTML(currentUser, 72);
-  h += `<div style="font-size:22px;font-weight:900;letter-spacing:-0.3px;margin-top:14px">${esc(currentUser.first_name)}</div>`;
-  if (currentUser.username) {
-    h += `<div style="font-size:14px;color:var(--text2);margin-top:4px;font-weight:500">@${currentUser.username}</div>`;
-  }
-  if (currentUser.is_admin) {
-    h += '<span class="header-badge" style="margin-top:12px;display:inline-block">Администратор</span>';
-  }
-  h += '</div>';
-  const myParts = [];
-  for (const c of state.contests) {
-    const parts = state.participants[c._id] || [];
-    const me = parts.find(p => p.user_id === currentUser.id);
-    if (me) myParts.push({ contest: c, me });
-  }
-  const total = myParts.reduce((s, x) => s + (x.me.points || 0), 0);
-  const totalInvites = myParts.reduce((s, x) => s + (x.me.invites_count || 0), 0);
-  const totalAds = myParts.reduce((s, x) => s + (x.me.ads_count || 0), 0);
-  h += '<div class="stat-row">';
-  h += `<div class="stat-box"><div class="stat-box-val">${myParts.length}</div><div class="stat-box-label">Конкурсов</div></div>`;
-  h += `<div class="stat-box"><div class="stat-box-val">${total}</div><div class="stat-box-label">Баллов</div></div>`;
-  h += `<div class="stat-box"><div class="stat-box-val">${totalInvites}</div><div class="stat-box-label">Приглашений</div></div>`;
-  h += '</div>';
-  h += '<div class="section-title">Статистика</div>';
-  h += '<div class="card">';
-  h += `<div class="info-row"><span class="info-label">Telegram ID</span><span class="info-value">${currentUser.id}</span></div>`;
-  h += `<div class="info-row"><span class="info-label">Просмотров рекламы</span><span class="info-value">${totalAds}</span></div>`;
-  h += `<div class="info-row"><span class="info-label">Приглашений всего</span><span class="info-value">${totalInvites}</span></div>`;
-  h += '</div>';
-  if (myParts.length > 0) {
-    h += '<div class="section-title">Мои конкурсы</div>';
-    myParts.forEach(({ contest: c, me }) => {
-      h += `<div class="card card-clickable" data-action="openContest" data-id="${c._id}">`;
-      h += '<div style="display:flex;justify-content:space-between;align-items:center">';
-      h += `<div style="font-size:14px;font-weight:700">${esc(c.name)}</div>`;
-      h += `<div style="font-size:16px;font-weight:800">${me.points || 0} б.</div>`;
-      h += '</div></div>';
-    });
-  }
-  h += '</div>';
-  return h;
+  let h = '<div class="app fade-up">';
+  h += '<div class="header"><h1>Профиль</h1></div>';
+
+  h += '<div class="card" style="text-align:center;padding:28px 20px">';
+  h += avatarHTML(currentUser, 72);
+  h += `<div style="font-size:22px;font-weight:900;letter-spacing:-0.3px;margin-top:14px">${esc(currentUser.first_name)}</div>`;
+  if (currentUser.username) {
+    h += `<div style="font-size:14px;color:var(--text2);margin-top:4px;font-weight:500">@${currentUser.username}</div>`;
+  }
+  if (currentUser.is_admin) {
+    h += '<span class="header-badge" style="margin-top:12px;display:inline-block">Администратор</span>';
+  }
+  h += '</div>';
+
+  const myParts = [];
+  for (const c of state.contests) {
+    const parts = state.participants[c._id] || [];
+    const me = parts.find(p => p.user_id === currentUser.id);
+    if (me) myParts.push({ contest: c, me });
+  }
+  const total = myParts.reduce((s, x) => s + (x.me.points || 0), 0);
+  const totalInvites = myParts.reduce((s, x) => s + (x.me.invites_count || 0), 0);
+  const totalSubscribes = myParts.reduce((s, x) => s + (x.me.subscribe_count || 0), 0);
+
+  h += '<div class="stat-row">';
+  h += `<div class="stat-box"><div class="stat-box-val">${myParts.length}</div><div class="stat-box-label">Конкурсов</div></div>`;
+  h += `<div class="stat-box"><div class="stat-box-val">${total}</div><div class="stat-box-label">Баллов</div></div>`;
+  h += `<div class="stat-box"><div class="stat-box-val">${totalInvites}</div><div class="stat-box-label">Приглашений</div></div>`;
+  h += '</div>';
+
+  h += '<div class="section-title">Статистика</div>';
+  h += '<div class="card">';
+  h += `<div class="info-row"><span class="info-label">Telegram ID</span><span class="info-value">${currentUser.id}</span></div>`;
+  h += `<div class="info-row"><span class="info-label">Подписок всего</span><span class="info-value">${totalSubscribes}</span></div>`;
+  h += `<div class="info-row"><span class="info-label">Приглашений всего</span><span class="info-value">${totalInvites}</span></div>`;
+  h += '</div>';
+
+  if (myParts.length > 0) {
+    h += '<div class="section-title">Мои конкурсы</div>';
+    myParts.forEach(({ contest: c, me }) => {
+      h += `<div class="card card-clickable" data-action="openContest" data-id="${c._id}">`;
+      h += '<div style="display:flex;justify-content:space-between;align-items:center">';
+      h += `<div style="font-size:14px;font-weight:700">${esc(c.name)}</div>`;
+      h += `<div style="font-size:16px;font-weight:800">${me.points || 0} б.</div>`;
+      h += '</div></div>';
+    });
+  }
+
+  h += '</div>';
+  return h;
 }
+
 // ═══════════════════════════════════════
-// RENDER: MODAL (добавлены кнопки −)
+// RENDER: MODAL (participant management)
+// ═══════════════════════════════════════
 function renderModal() {
-  if (state.modal?.type !== 'participant') return '';
-  const p = state.modal.participant;
-  const c = state.modal.contest;
-  if (!p || !c) return '';
-  let h = `<div class="modal-overlay" data-action="closeModal">`;
-  h += `<div class="modal" onclick="event.stopPropagation()">`;
-  h += '<div class="modal-handle"></div>';
-  h += '<div style="text-align:center;margin-bottom:20px">';
-  h += `<div style="display:inline-block">${avatarHTML(p, 56)}</div>`;
-  h += `<div class="modal-title">${esc(p.first_name || 'User')}</div>`;
-  if (p.username) h += `<div class="modal-subtitle">@${p.username}</div>`;
-  h += '</div>';
-  h += '<div class="stat-row">';
-  h += `<div class="stat-box"><div class="stat-box-val">${p.points || 0}</div><div class="stat-box-label">Баллов</div></div>`;
-  h += `<div class="stat-box"><div class="stat-box-val">${p.invites_count || 0}</div><div class="stat-box-label">Приглаш.</div></div>`;
-  h += `<div class="stat-box"><div class="stat-box-val">${p.ads_count || 0}</div><div class="stat-box-label">Просмотров</div></div>`;
-  h += '</div>';
-  h += '<div class="section-title" style="margin-top:8px">Начислить / убавить</div>';
-  if (c.scoring?.invites?.enabled) {
-    h += `<div style="display:flex;gap:8px;margin-bottom:10px;align-items:center;padding:12px;background:var(--section-bg);border-radius:var(--radius-xs)">`;
-    h += `<div style="flex:1"><div style="font-size:14px;font-weight:700">Приглашения</div>`;
-    h += `<div style="font-size:12px;color:var(--text2)">+${c.scoring.invites.points} баллов × кол-во</div></div>`;
-    h += `<button class="btn btn-sm btn-danger" data-action="addPoints" data-sign="-" data-type="invites" data-pid="${p._id}" data-cid="${c._id}">${IC.minus}</button>`;
-    h += `<input class="form-input" id="modal-inv" type="number" min="1" value="1" style="width:64px;text-align:center;padding:10px">`;
-    h += `<button class="btn btn-sm btn-primary" data-action="addPoints" data-sign="+" data-type="invites" data-pid="${p._id}" data-cid="${c._id}">${IC.plus}</button>`;
-    h += '</div>';
-  }
-  if (c.scoring?.ads?.enabled) {
-    h += `<div style="display:flex;gap:8px;margin-bottom:10px;align-items:center;padding:12px;background:var(--section-bg);border-radius:var(--radius-xs)">`;
-    h += `<div style="flex:1"><div style="font-size:14px;font-weight:700">Просмотры</div>`;
-    h += `<div style="font-size:12px;color:var(--text2)">+${c.scoring.ads.points} баллов × кол-во</div></div>`;
-    h += `<button class="btn btn-sm btn-danger" data-action="addPoints" data-sign="-" data-type="ads" data-pid="${p._id}" data-cid="${c._id}">${IC.minus}</button>`;
-    h += `<input class="form-input" id="modal-ads" type="number" min="1" value="1" style="width:64px;text-align:center;padding:10px">`;
-    h += `<button class="btn btn-sm btn-primary" data-action="addPoints" data-sign="+" data-type="ads" data-pid="${p._id}" data-cid="${c._id}">${IC.plus}</button>`;
-    h += '</div>';
-  }
-  h += '<div class="divider"></div>';
-  h += `<div style="display:flex;gap:8px;align-items:center;padding:12px;background:var(--section-bg);border-radius:var(--radius-xs)">`;
-  h += `<div style="flex:1"><div style="font-size:14px;font-weight:700">Вручную</div>`;
-  h += `<div style="font-size:12px;color:var(--text2)">Прямое начисление (можно отрицательное)</div></div>`;
-  h += `<input class="form-input" id="modal-manual" type="number" value="1" style="width:64px;text-align:center;padding:10px">`;
-  h += `<button class="btn btn-sm btn-success" data-action="addManualPoints" data-pid="${p._id}" data-cid="${c._id}">${IC.plus}</button>`;
-  h += '</div>';
-  h += '<div class="modal-actions">';
-  if (p.username) {
-    h += `<a href="https://t.me/${p.username}" target="_blank" class="btn btn-secondary" style="text-decoration:none">${IC.ext} Профиль</a>`;
-  }
-  h += `<button class="btn btn-secondary" data-action="closeModal">Закрыть</button>`;
-  h += '</div></div></div>';
-  return h;
+  if (state.modal?.type !== 'participant') return '';
+
+  const p = state.modal.participant;
+  const c = state.modal.contest;
+  if (!p || !c) return '';
+
+  let h = `<div class="modal-overlay" data-action="closeModal">`;
+  h += `<div class="modal" onclick="event.stopPropagation()">`;
+  h += '<div class="modal-handle"></div>';
+
+  h += '<div style="text-align:center;margin-bottom:20px">';
+  h += `<div style="display:inline-block">${avatarHTML(p, 56)}</div>`;
+  h += `<div class="modal-title">${esc(p.first_name || 'User')}</div>`;
+  if (p.username) h += `<div class="modal-subtitle">@${p.username}</div>`;
+  h += '</div>';
+
+  h += '<div class="stat-row">';
+  h += `<div class="stat-box"><div class="stat-box-val">${p.points || 0}</div><div class="stat-box-label">Баллов</div></div>`;
+  h += `<div class="stat-box"><div class="stat-box-val">${p.invites_count || 0}</div><div class="stat-box-label">Приглаш.</div></div>`;
+  h += `<div class="stat-box"><div class="stat-box-val">${p.subscribe_count || 0}</div><div class="stat-box-label">Подписок</div></div>`;
+  h += '</div>';
+
+  h += '<div class="section-title" style="margin-top:8px">Начислить</div>';
+
+  if (c.scoring?.invites?.enabled) {
+    h += `<div style="display:flex;gap:8px;margin-bottom:10px;align-items:center;padding:12px;background:var(--section-bg);border-radius:var(--radius-xs)">`;
+    h += `<div style="flex:1"><div style="font-size:14px;font-weight:700">Приглашения</div>`;
+    h += `<div style="font-size:12px;color:var(--text2)">+${c.scoring.invites.points} баллов × кол-во</div></div>`;
+    h += `<input class="form-input" id="modal-inv" type="number" min="1" value="1" style="width:64px;text-align:center;padding:10px">`;
+    h += `<button class="btn btn-sm btn-primary" data-action="addPoints" data-type="invites" data-pid="${p._id}" data-cid="${c._id}">${IC.plus}</button>`;
+    h += '</div>';
+  }
+
+  if (c.scoring?.subscribe?.enabled) {
+    h += `<div style="display:flex;gap:8px;margin-bottom:10px;align-items:center;padding:12px;background:var(--section-bg);border-radius:var(--radius-xs)">`;
+    h += `<div style="flex:1"><div style="font-size:14px;font-weight:700">Подписка</div>`;
+    h += `<div style="font-size:12px;color:var(--text2)">+${c.scoring.subscribe.points} баллов × кол-во</div></div>`;
+    h += `<input class="form-input" id="modal-sub" type="number" min="1" value="1" style="width:64px;text-align:center;padding:10px">`;
+    h += `<button class="btn btn-sm btn-primary" data-action="addPoints" data-type="subscribe" data-pid="${p._id}" data-cid="${c._id}">${IC.plus}</button>`;
+    h += '</div>';
+  }
+
+  if (c.scoring?.ads?.enabled) {
+    h += `<div style="display:flex;gap:8px;margin-bottom:10px;align-items:center;padding:12px;background:var(--section-bg);border-radius:var(--radius-xs)">`;
+    h += `<div style="flex:1"><div style="font-size:14px;font-weight:700">Просмотры</div>`;
+    h += `<div style="font-size:12px;color:var(--text2)">+${c.scoring.ads.points} баллов × кол-во</div></div>`;
+    h += `<input class="form-input" id="modal-ads" type="number" min="1" value="1" style="width:64px;text-align:center;padding:10px">`;
+    h += `<button class="btn btn-sm btn-primary" data-action="addPoints" data-type="ads" data-pid="${p._id}" data-cid="${c._id}">${IC.plus}</button>`;
+    h += '</div>';
+  }
+
+  h += '<div class="divider"></div>';
+  h += `<div style="display:flex;gap:8px;align-items:center;padding:12px;background:var(--section-bg);border-radius:var(--radius-xs)">`;
+  h += `<div style="flex:1"><div style="font-size:14px;font-weight:700">Вручную</div>`;
+  h += `<div style="font-size:12px;color:var(--text2)">Изменение баллов</div></div>`;
+  h += `<input class="form-input" id="modal-manual" type="number" min="1" value="1" style="width:60px;text-align:center;padding:10px; flex-shrink:0;">`;
+  h += `<button class="btn btn-sm btn-danger" data-action="removeManualPoints" data-pid="${p._id}" data-cid="${c._id}" style="padding:10px 14px; flex-shrink:0;">${IC.minus}</button>`;
+  h += `<button class="btn btn-sm btn-success" data-action="addManualPoints" data-pid="${p._id}" data-cid="${c._id}" style="padding:10px 14px; flex-shrink:0;">${IC.plus}</button>`;
+  h += '</div>';
+
+  h += '<div class="modal-actions">';
+  if (p.username) {
+    h += `<a href="https://t.me/${p.username}" target="_blank" class="btn btn-secondary" style="text-decoration:none">${IC.ext} Профиль</a>`;
+  }
+  h += `<button class="btn btn-secondary" data-action="closeModal">Закрыть</button>`;
+  h += '</div></div></div>';
+  return h;
 }
+
 // ═══════════════════════════════════════
-// RENDER: TAB BAR (без изменений)
+// RENDER: TAB BAR
+// ═══════════════════════════════════════
 function renderTabBar() {
-  const isCreatorOrAdmin = currentUser.is_admin || state.contests.some(c => c.creator_id === currentUser.id);
-  const cols = isCreatorOrAdmin ? 5 : 4;
-  let h = `<nav class="tab-bar${cols === 4 ? ' cols-4' : ''}">`;
-  h += `<div class="tab${state.screen === 'home' ? ' active' : ''}" data-action="nav" data-screen="home">`;
-  h += `${IC.home}<span>Главная</span></div>`;
-  h += `<div class="tab${state.screen === 'points' ? ' active' : ''}" data-action="nav" data-screen="points">`;
-  h += `${IC.star}<span>Баллы</span></div>`;
-  h += `<div class="tab${state.screen === 'create' ? ' active' : ''}" data-action="nav" data-screen="create">`;
-  h += `${IC.plus}<span>Создать</span></div>`;
-  if (isCreatorOrAdmin) {
-    h += `<div class="tab${state.screen === 'manage' ? ' active' : ''}" data-action="nav" data-screen="manage">`;
-    h += `${IC.settings}<span>Управление</span></div>`;
-  }
-  h += `<div class="tab${state.screen === 'profile' ? ' active' : ''}" data-action="nav" data-screen="profile">`;
-  h += `${IC.user}<span>Профиль</span></div>`;
-  h += '</nav>';
-  return h;
+  const isCreatorOrAdmin = currentUser.is_admin || state.contests.some(c => c.creator_id === currentUser.id);
+  const cols = isCreatorOrAdmin ? 5 : 4;
+
+  let h = `<nav class="tab-bar${cols === 4 ? ' cols-4' : ''}">`;
+
+  h += `<div class="tab${state.screen === 'home' ? ' active' : ''}" data-action="nav" data-screen="home">`;
+  h += `${IC.home}<span>Главная</span></div>`;
+
+  h += `<div class="tab${state.screen === 'points' ? ' active' : ''}" data-action="nav" data-screen="points">`;
+  h += `${IC.star}<span>Баллы</span></div>`;
+
+  h += `<div class="tab${state.screen === 'create' ? ' active' : ''}" data-action="nav" data-screen="create">`;
+  h += `${IC.plus}<span>Создать</span></div>`;
+
+  if (isCreatorOrAdmin) {
+    h += `<div class="tab${state.screen === 'manage' ? ' active' : ''}" data-action="nav" data-screen="manage">`;
+    h += `${IC.settings}<span>Управление</span></div>`;
+  }
+
+  h += `<div class="tab${state.screen === 'profile' ? ' active' : ''}" data-action="nav" data-screen="profile">`;
+  h += `${IC.user}<span>Профиль</span></div>`;
+
+  h += '</nav>';
+  return h;
 }
+
 // ═══════════════════════════════════════
-// EVENT BINDING (добавлены sign для +/−)
+// EVENT BINDING
+// ═══════════════════════════════════════
 function bindEvents() {
-  document.querySelectorAll('[data-action]').forEach(el => {
-    el.addEventListener('click', async (e) => {
-      e.stopPropagation();
-      const action = el.dataset.action;
-      if (action === 'nav') {
-        const screen = el.dataset.screen;
-        if (screen === 'create') {
-          state.formData = { prizes: [''], outcome_type: 'leaderboard' };
-        }
-        state.screen = screen;
-        state.selectedContest = null;
-        render();
-        window.scrollTo(0, 0);
-        return;
-      }
-      if (action === 'goHome') {
-        state.screen = 'home';
-        state.selectedContest = null;
-        render();
-        window.scrollTo(0, 0);
-        return;
-      }
-      if (action === 'openContest') {
-        state.selectedContest = el.dataset.id;
-        state.screen = 'detail';
-        await loadParticipants(el.dataset.id);
-        startParticipantsListener(el.dataset.id);
-        render();
-        window.scrollTo(0, 0);
-        return;
-      }
-      if (action === 'addBotToChannel') {
-        window.open(`https://t.me/${BOT_USERNAME}?startchannel&admin=post_messages+edit_messages+delete_messages+invite_users`, '_blank');
-        return;
-      }
-      if (action === 'scanChannels') {
-        toast('Ищем каналы...');
-        await scanForChannels();
-        await loadChannels();
-        if (state.channels.length > 0) {
-          toast(`Найдено каналов: ${state.channels.length}`);
-        } else {
-          toast('Каналы не найдены. Добавьте бота в канал и нажмите ещё раз', 'error');
-        }
-        render();
-        return;
-      }
-      if (action === 'selectChannel') {
-        collectFormData();
-        state.formData.channel_id = parseInt(el.dataset.chatid);
-        state.formData.channel_title = el.dataset.title;
-        state.formData.channel_username = el.dataset.username;
-        render();
-        return;
-      }
-      if (action === 'addPrize') {
-        collectFormData();
-        state.formData.prizes = (state.formData.prizes || ['']).concat(['']);
-        render();
-        return;
-      }
-      if (action === 'removePrize') {
-        collectFormData();
-        state.formData.prizes.splice(parseInt(el.dataset.idx), 1);
-        render();
-        return;
-      }
-      if (action === 'submitContest') {
-        collectFormData();
-        const ok = await createContest(state.formData);
-        if (ok) {
-          state.screen = 'home';
-          state.formData = { prizes: [''], outcome_type: 'leaderboard' };
-          render();
+  document.querySelectorAll('[data-action]').forEach(el => {
+    el.addEventListener('click', async (e) => {
+      e.stopPropagation();
+      const action = el.dataset.action;
+
+      if (action === 'nav') {
+        const screen = el.dataset.screen;
+        if (screen === 'create') {
+          state.formData = { prizes: [''], outcome_type: 'leaderboard' };
+        }
+        state.screen = screen;
+        state.selectedContest = null;
+        render();
+        window.scrollTo(0, 0);
+        return;
+      }
+
+      if (action === 'goHome') {
+        state.screen = 'home';
+        state.selectedContest = null;
+        render();
+        window.scrollTo(0, 0);
+        return;
+      }
+
+      if (action === 'openContest') {
+        state.selectedContest = el.dataset.id;
+        state.screen = 'detail';
+        await loadParticipants(el.dataset.id);
+        startParticipantsListener(el.dataset.id);
+        render();
+        window.scrollTo(0, 0);
+        return;
+      }
+
+      if (action === 'checkSub') {
+        const contest = state.contests.find(c => c._id === el.dataset.id);
+        const parts = state.participants[contest._id] || [];
+        const me = parts.find(p => p.user_id === currentUser.id);
+
+        if (contest && me) {
+           const res = await tgApi('getChatMember', { chat_id: contest.channel_id, user_id: currentUser.id });
+           if (res.ok && ['member', 'administrator', 'creator'].includes(res.result.status)) {
+              const extra = contest.scoring.subscribe.points || 0;
+              await fbSet('participants', me._id, {
+                  points: (me.points || 0) + extra,
+                  subscribe_count: 1
+              });
+              toast('Баллы за подписку успешно начислены!', 'success');
+           } else {
+              toast('Вы всё ещё не подписаны на канал.', 'error');
+           }
         }
         return;
       }
-      if (action === 'joinContest') {
-        await joinContest(el.dataset.id);
-        return;
-      }
-      if (action === 'endContest') {
-        await endContest(el.dataset.id);
-        return;
-      }
-      if (action === 'deleteContest') {
-        await deleteContest(el.dataset.id);
-        return;
-      }
-      if (action === 'copyInvite') {
-        try {
-          await navigator.clipboard.writeText(el.dataset.link);
-          toast('Ссылка скопирована!');
-        } catch (err) {
-          const ta = document.createElement('textarea');
-          ta.value = el.dataset.link;
-          document.body.appendChild(ta);
-          ta.select();
-          document.execCommand('copy');
-          ta.remove();
-          toast('Ссылка скопирована!');
-        }
-        return;
-      }
-      if (action === 'openParticipant') {
-        const parts = state.participants[el.dataset.cid] || [];
-        const part = parts.find(p => p._id === el.dataset.pid);
-        const contest = state.contests.find(c => c._id === el.dataset.cid);
-        state.modal = { type: 'participant', participant: part, contest };
-        render();
-        return;
-      }
-      if (action === 'closeModal') {
-        state.modal = null;
-        render();
-        return;
-      }
-      if (action === 'addPoints') {
-        const type = el.dataset.type;
-        const sign = el.dataset.sign || '+';
-        const inputId = type === 'invites' ? 'modal-inv' : 'modal-ads';
-        const count = parseInt(document.getElementById(inputId)?.value) || 1;
-        const contest = state.contests.find(c => c._id === el.dataset.cid);
-        await addPointsToParticipant(el.dataset.pid, type, count, contest, sign);
-        return;
-      }
-      if (action === 'addManualPoints') {
+
+      if (action === 'addBotToChannel') {
+        window.open(`https://t.me/${BOT_USERNAME}?startchannel&admin=post_messages+edit_messages+delete_messages+invite_users`, '_blank');
+        return;
+      }
+
+      if (action === 'scanChannels') {
+        toast('Ищем каналы...');
+        await scanForChannels();
+        await loadChannels();
+        if (state.channels.length > 0) {
+          toast(`Найдено каналов: ${state.channels.length}`);
+        } else {
+          toast('Каналы не найдены. Добавьте бота в канал и нажмите ещё раз', 'error');
+        }
+        render();
+        return;
+      }
+
+      if (action === 'selectChannel') {
+        collectFormData();
+        state.formData.channel_id = String(el.dataset.chatid);
+        state.formData.channel_title = el.dataset.title;
+        state.formData.channel_username = el.dataset.username;
+        render();
+        return;
+      }
+
+      if (action === 'addPrize') {
+        collectFormData();
+        state.formData.prizes = (state.formData.prizes || ['']).concat(['']);
+        render();
+        return;
+      }
+
+      if (action === 'removePrize') {
+        collectFormData();
+        state.formData.prizes.splice(parseInt(el.dataset.idx), 1);
+        render();
+        return;
+      }
+
+      if (action === 'submitContest') {
+        collectFormData();
+        const ok = await createContest(state.formData);
+        if (ok) {
+          state.screen = 'home';
+          state.formData = { prizes: [''], outcome_type: 'leaderboard' };
+          render();
+        }
+        return;
+      }
+
+      if (action === 'joinContest') {
+        await joinContest(el.dataset.id);
+        return;
+      }
+
+      if (action === 'endContest') {
+        await endContest(el.dataset.id);
+        return;
+      }
+
+      if (action === 'deleteContest') {
+        await deleteContest(el.dataset.id);
+        return;
+      }
+
+      if (action === 'copyInvite') {
+        try {
+          await navigator.clipboard.writeText(el.dataset.link);
+          toast('Ссылка скопирована!');
+        } catch (err) {
+          const ta = document.createElement('textarea');
+          ta.value = el.dataset.link;
+          document.body.appendChild(ta);
+          ta.select();
+          document.execCommand('copy');
+          ta.remove();
+          toast('Ссылка скопирована!');
+        }
+        return;
+      }
+
+      if (action === 'openParticipant') {
+        const parts = state.participants[el.dataset.cid] || [];
+        const part = parts.find(p => p._id === el.dataset.pid);
+        const contest = state.contests.find(c => c._id === el.dataset.cid);
+        state.modal = { type: 'participant', participant: part, contest };
+        render();
+        return;
+      }
+
+      if (action === 'closeModal') {
+        state.modal = null;
+        render();
+        return;
+      }
+
+      if (action === 'addPoints') {
+        const type = el.dataset.type;
+        const inputId = type === 'invites' ? 'modal-inv' : type === 'subscribe' ? 'modal-sub' : 'modal-ads';
+        const count = parseInt(document.getElementById(inputId)?.value) || 1;
+        const contest = state.contests.find(c => c._id === el.dataset.cid);
+        await addPointsToParticipant(el.dataset.pid, type, count, contest);
+        return;
+      }
+
+      if (action === 'removeManualPoints') {
         const count = parseInt(document.getElementById('modal-manual')?.value) || 1;
-        const cid = el.dataset.cid;
-        const parts = state.participants[cid] || [];
-        const part = parts.find(p => p._id === el.dataset.pid);
-        if (part) {
-          await fbSet('participants', el.dataset.pid, { points: (part.points || 0) + count });
-          part.points = (part.points || 0) + count;
-          toast(`+${count} баллов вручную`);
-          const contest = state.contests.find(c => c._id === cid);
-          state.modal = { type: 'participant', participant: part, contest };
-          render();
-        }
-        return;
+        const cid = el.dataset.cid;
+        const parts = state.participants[cid] || [];
+        const part = parts.find(p => p._id === el.dataset.pid);
+        if (part) {
+          const newPoints = Math.max(0, (part.points || 0) - count);
+          await fbSet('participants', el.dataset.pid, { points: newPoints });
+          part.points = newPoints;
+          toast(`-${count} баллов вручную`, 'success');
+          const contest = state.contests.find(c => c._id === cid);
+          state.modal = { type: 'participant', participant: part, contest };
+          render();
+        }
+        return;
       }
-      if (action === 'setAdminTab') {
-        state.adminTab = el.dataset.tab;
-        render();
-        return;
-      }
-    });
-  });
-  [
-    { id: 'f-inv-on', sub: 'inv-sub' },
-    { id: 'f-sub-on', sub: 'sub-sub' },
-    { id: 'f-ads-on', sub: 'ads-sub' }
-  ].forEach(t => {
-    const el = document.getElementById(t.id);
-    if (el) {
-      el.addEventListener('change', () => {
-        const sub = document.getElementById(t.sub);
-        if (sub) sub.classList.toggle('show', el.checked);
-      });
-    }
-  });
-  const outcomeEl = document.getElementById('f-outcome');
-  if (outcomeEl) {
-    outcomeEl.addEventListener('change', () => {
-      collectFormData();
-      render();
-    });
-  }
+
+      if (action === 'addManualPoints') {
+        const count = parseInt(document.getElementById('modal-manual')?.value) || 1;
+        const cid = el.dataset.cid;
+        const parts = state.participants[cid] || [];
+        const part = parts.find(p => p._id === el.dataset.pid);
+        if (part) {
+          await fbSet('participants', el.dataset.pid, { points: (part.points || 0) + count });
+          part.points = (part.points || 0) + count;
+          toast(`+${count} баллов вручную`);
+          const contest = state.contests.find(c => c._id === cid);
+          state.modal = { type: 'participant', participant: part, contest };
+          render();
+        }
+        return;
+      }
+
+      if (action === 'setAdminTab') {
+        state.adminTab = el.dataset.tab;
+        render();
+        return;
+      }
+    });
+  });
+
+  [
+    { id: 'f-inv-on', sub: 'inv-sub' },
+    { id: 'f-sub-on', sub: 'sub-sub' },
+    { id: 'f-ads-on', sub: 'ads-sub' }
+  ].forEach(t => {
+    const el = document.getElementById(t.id);
+    if (el) {
+      el.addEventListener('change', () => {
+        const sub = document.getElementById(t.sub);
+        if (sub) sub.classList.toggle('show', el.checked);
+      });
+    }
+  });
+
+  const outcomeEl = document.getElementById('f-outcome');
+  if (outcomeEl) {
+    outcomeEl.addEventListener('change', () => {
+      collectFormData();
+      render();
+    });
+  }
 }
+
 // ═══════════════════════════════════════
-// COLLECT FORM DATA (добавил subscription)
+// COLLECT FORM DATA (before re-render)
+// ═══════════════════════════════════════
 function collectFormData() {
-  const fd = state.formData;
-  const g = id => document.getElementById(id);
-  if (g('f-name')) fd.name = g('f-name').value;
-  if (g('f-desc')) fd.description = g('f-desc').value;
-  if (g('f-cond')) fd.conditions = g('f-cond').value;
-  if (g('f-date')) fd.end_date = g('f-date').value;
-  if (g('f-btn')) fd.button_text = g('f-btn').value;
-  if (g('f-init')) fd.initial_points = g('f-init').value;
-  if (g('f-outcome')) fd.outcome_type = g('f-outcome').value;
-  if (g('f-thresh')) fd.threshold = g('f-thresh').value;
-  if (g('f-inv-on')) fd.invites_enabled = g('f-inv-on').checked;
-  if (g('f-inv-pts')) fd.invites_points = g('f-inv-pts').value;
-  if (g('f-sub-on')) fd.subscription_enabled = g('f-sub-on').checked;
-  if (g('f-sub-pts')) fd.subscription_points = g('f-sub-pts').value;
-  if (g('f-ads-on')) fd.ads_enabled = g('f-ads-on').checked;
-  if (g('f-ads-pts')) fd.ads_points = g('f-ads-pts').value;
-  const prizeInputs = document.querySelectorAll('.prize-input');
-  if (prizeInputs.length > 0) {
-    fd.prizes = Array.from(prizeInputs).map(el => el.value);
-  }
+  const fd = state.formData;
+  const g = id => document.getElementById(id);
+
+  if (g('f-name')) fd.name = g('f-name').value;
+  if (g('f-desc')) fd.description = g('f-desc').value;
+  if (g('f-cond')) fd.conditions = g('f-cond').value;
+  if (g('f-date')) fd.end_date = g('f-date').value;
+  if (g('f-btn')) fd.button_text = g('f-btn').value;
+  if (g('f-init')) fd.initial_points = g('f-init').value;
+  if (g('f-outcome')) fd.outcome_type = g('f-outcome').value;
+  if (g('f-thresh')) fd.threshold = g('f-thresh').value;
+  if (g('f-inv-on')) fd.invites_enabled = g('f-inv-on').checked;
+  if (g('f-inv-pts')) fd.invites_points = g('f-inv-pts').value;
+  if (g('f-sub-on')) fd.subscribe_enabled = g('f-sub-on').checked;
+  if (g('f-sub-pts')) fd.subscribe_points = g('f-sub-pts').value;
+  if (g('f-ads-on')) fd.ads_enabled = g('f-ads-on').checked;
+  if (g('f-ads-pts')) fd.ads_points = g('f-ads-pts').value;
+
+  const prizeInputs = document.querySelectorAll('.prize-input');
+  if (prizeInputs.length > 0) {
+    fd.prizes = Array.from(prizeInputs).map(el => el.value);
+  }
 }
+
 // ═══════════════════════════════════════
-// INIT (добавлен парсинг startapp)
+// INIT
+// ═══════════════════════════════════════
 async function init() {
-  initTg();
-  // === Deep link support для startapp ===
-  const tg = window.Telegram?.WebApp;
-  let contestIdFromDeep = null;
-  if (tg && tg.initDataUnsafe && tg.initDataUnsafe.start_param) {
-    contestIdFromDeep = tg.initDataUnsafe.start_param.startsWith('contest_') 
-      ? tg.initDataUnsafe.start_param.replace('contest_', '') 
-      : tg.initDataUnsafe.start_param;
-  }
-  const params = new URLSearchParams(window.location.search);
-  const contestIdFromUrl = params.get('contest');
-  const contestId = contestIdFromDeep || contestIdFromUrl;
-  await initFirebase();
-  if (fbReady) {
-    await loadChannels();
-    await scanForChannels();
-    await loadChannels();
-    startContestsListener();
-    await loadContests();
-    for (const c of state.contests) {
-      await loadParticipants(c._id);
-      startParticipantsListener(c._id);
-    }
-    getUserPhoto(currentUser.id).then(() => render());
-  }
-  state.loading = false;
-  if (contestId) {
-    state.selectedContest = contestId;
-    state.screen = 'detail';
-    if (fbReady) {
-      await loadParticipants(contestId);
-      startParticipantsListener(contestId);
-    }
-  }
-  render();
+  initTg();
+  await initFirebase();
+
+  if (fbReady) {
+    await loadChannels();
+    await scanForChannels();
+    await loadChannels();
+    startContestsListener();
+    await loadContests();
+    for (const c of state.contests) {
+      await loadParticipants(c._id);
+      startParticipantsListener(c._id);
+    }
+    getUserPhoto(currentUser.id).then(() => render());
+  }
+
+  state.loading = false;
+
+  const params = new URLSearchParams(window.location.search);
+  const contestId = tgStartParam || params.get('contest');
+  if (contestId) {
+    state.selectedContest = contestId;
+    state.screen = 'detail';
+    if (fbReady) {
+      await loadParticipants(contestId);
+      startParticipantsListener(contestId);
+    }
+  }
+
+  render();
 }
+
 init();
 </script>
 </body>
 </html>
-```
