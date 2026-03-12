@@ -1709,21 +1709,18 @@ async function loadChannels() {
   const seenIds = new Set();
   
   for (const ch of all) {
-    // Автоматическая очистка: удаляем каналы с битыми ID
     if (!ch.chat_id || ch.chat_id === 'undefined') {
         fbDel('channels', ch._id).catch(e => console.log(e));
         continue;
     }
 
     const chIdStr = String(ch.chat_id);
-    // Автоматическая очистка: удаляем дубликаты из базы
     if (seenIds.has(chIdStr)) {
         fbDel('channels', ch._id).catch(e => console.log(e));
         continue;
     }
     seenIds.add(chIdStr);
     
-    // Восстанавливаем имя, если оно было записано как строка 'undefined'
     if (ch.title === 'undefined' || !ch.title) {
        ch.title = (ch.username && ch.username !== 'undefined') ? `@${ch.username}` : `Канал ${ch.chat_id}`;
     }
@@ -2148,6 +2145,15 @@ async function joinContest(contestId) {
       return;
     }
 
+    // Ищем сохраненный реферал в базе, если юзер перешел по ссылке в посте
+    let actualReferrerId = state.referrerId;
+    if (!actualReferrerId && contest.scoring?.invites?.enabled) {
+      const pendingRef = await fbGet('pending_referrals', `${currentUser.id}_${contestId}`);
+      if (pendingRef && pendingRef.referrerId) {
+        actualReferrerId = pendingRef.referrerId;
+      }
+    }
+
     let initialPts = contest.initial_points || 0;
     let subCount = 0;
     if (contest.scoring?.subscribe?.enabled) {
@@ -2176,9 +2182,10 @@ async function joinContest(contestId) {
       return;
     }
 
-    if (state.referrerId && String(state.referrerId) !== String(currentUser.id) && contest.scoring?.invites?.enabled) {
+    // Начисление баллов рефоводу
+    if (actualReferrerId && String(actualReferrerId) !== String(currentUser.id) && contest.scoring?.invites?.enabled) {
       const parts = state.participants[contestId] || [];
-      const referrer = parts.find(p => String(p.user_id) === String(state.referrerId));
+      const referrer = parts.find(p => String(p.user_id) === String(actualReferrerId));
       if (referrer) {
         const invitePts = contest.scoring.invites.points || 5;
         await fbSet('participants', referrer._id, {
@@ -2190,6 +2197,7 @@ async function joinContest(contestId) {
         toast('Вы участвуете!');
       }
       state.referrerId = null;
+      fbDel('pending_referrals', `${currentUser.id}_${contestId}`).catch(e => console.error(e));
     } else {
       toast('Вы участвуете!');
     }
@@ -2247,12 +2255,10 @@ async function deleteContest(contestId) {
 
   if (!confirm('Удалить конкурс навсегда? Это нельзя отменить.')) return;
 
-  // Моментально включаем экран загрузки, чтобы не было никаких поддергиваний
   state.loading = true;
   render();
 
   try {
-    // Отключаем слушатель участников, чтобы интерфейс не перерисовывался 100 раз
     if (participantUnsubs[contestId]) {
       participantUnsubs[contestId]();
       delete participantUnsubs[contestId];
@@ -2260,7 +2266,6 @@ async function deleteContest(contestId) {
 
     const parts = state.participants[contestId] || [];
     
-    // Удаляем всех участников одновременно (в 10 раз быстрее!)
     const batchPromises = parts.map(p => fbDel('participants', p._id));
     await Promise.all(batchPromises);
 
@@ -2276,7 +2281,6 @@ async function deleteContest(contestId) {
     console.error(e);
     toast('Ошибка при удалении', 'error');
   } finally {
-    // Выключаем загрузку
     state.loading = false;
     render();
   }
@@ -2648,7 +2652,6 @@ function renderDetail() {
     h += `<button class="btn btn-primary" data-action="joinContest" data-id="${c._id}" style="margin-bottom:16px">${IC.zap} ${esc(c.button_text || 'Участвовать')}</button>`;
   }
 
-  // Оставим кнопку для тех, кто вдруг зашел старым способом, но основная логика теперь требует подписку сразу при входе
   if (me && c.status === 'active' && c.scoring?.subscribe?.enabled && (!me.subscribe_count || me.subscribe_count === 0)) {
     h += `<button class="btn btn-secondary" style="margin-bottom:16px;" data-action="checkSub" data-id="${c._id}">${IC.check} Проверить подписку и получить баллы</button>`;
   }
@@ -3242,7 +3245,7 @@ function collectFormData() {
 // INIT
 // ═══════════════════════════════════════
 async function init() {
-  // 1. Сначала показываем экран загрузки и ждём
+  // 1. Показываем экран загрузки
   render(); 
   
   try {
@@ -3250,16 +3253,15 @@ async function init() {
     await initFirebase();
 
     if (fbReady) {
-      // Блокируем множественные рендеры от слушателей
+      // Блокируем множественные рендеры
       isInitialRender = true;
       
-      // ЖДЁМ окончания первичной загрузки списков каналов и активных конкурсов
+      // Ждем первичные данные
       await Promise.all([
         loadChannels(),
         loadContests()
       ]);
       
-      // Разбираем ссылку
       const params = new URLSearchParams(window.location.search);
       const startappData = tgStartParam || params.get('startapp') || params.get('contest');
       
@@ -3268,19 +3270,23 @@ async function init() {
           const parts = startappData.split('_');
           state.selectedContest = parts[0];
           state.referrerId = parts[1];
+          // Сразу фиксируем реферала в базе, на случай если он сейчас закроет апп и уйдет в канал подписываться
+          if (currentUser.id && state.selectedContest && state.referrerId) {
+             fbSet('pending_referrals', `${currentUser.id}_${state.selectedContest}`, {
+               referrerId: state.referrerId,
+               timestamp: new Date().toISOString()
+             }).catch(e => console.error(e));
+          }
         } else {
           state.selectedContest = startappData;
         }
         state.screen = 'detail';
-        // Ждем загрузки участников именно для этого конкурса
         await loadParticipants(state.selectedContest);
       }
 
-      // Ждем загрузки всех остальных участников
       const pPromises = state.contests.map(c => loadParticipants(c._id));
       await Promise.all(pPromises);
 
-      // Включаем "тихие" фоновые процессы и слушатели
       startContestsListener();
       state.contests.forEach(c => startParticipantsListener(c._id));
       
@@ -3289,16 +3295,14 @@ async function init() {
       });
 
       getUserPhoto(currentUser.id);
-      
       setInterval(autoEndContests, 30000);
       
-      // Оставляем небольшую паузу (500мс), чтобы все первые "onSnapshot" успели выстрелить вхолостую
       setTimeout(() => {
          isInitialRender = false;
       }, 500);
     }
 
-    // 2. ВЫКЛЮЧАЕМ ЭКРАН ЗАГРУЗКИ ТОЛЬКО ЗДЕСЬ И РЕНДЕРИМ 1 РАЗ!
+    // 2. Снимаем загрузку и рисуем всё один раз
     state.loading = false;
     render(); 
 
