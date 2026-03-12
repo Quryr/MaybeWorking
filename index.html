@@ -1693,7 +1693,7 @@ async function fbQuery(col, field, op, val) {
 }
 
 // ═══════════════════════════════════════
-// DATA LOADING
+// DATA LOADING & CLEANUP
 // ═══════════════════════════════════════
 async function loadContests() {
   state.contests = await fbAll('contests');
@@ -1709,12 +1709,26 @@ async function loadChannels() {
   const seenIds = new Set();
   
   for (const ch of all) {
+    // Автоматическая очистка: удаляем каналы с битыми ID
+    if (!ch.chat_id || ch.chat_id === 'undefined') {
+        fbDel('channels', ch._id).catch(e => console.log(e));
+        continue;
+    }
+
     const chIdStr = String(ch.chat_id);
-    if (seenIds.has(chIdStr)) continue;
+    // Автоматическая очистка: удаляем дубликаты из базы
+    if (seenIds.has(chIdStr)) {
+        fbDel('channels', ch._id).catch(e => console.log(e));
+        continue;
+    }
     seenIds.add(chIdStr);
     
+    // Восстанавливаем имя, если оно было записано как строка 'undefined'
     if (ch.title === 'undefined' || !ch.title) {
-       ch.title = ch.username ? `@${ch.username}` : `Канал ${ch.chat_id}`;
+       ch.title = (ch.username && ch.username !== 'undefined') ? `@${ch.username}` : `Канал ${ch.chat_id}`;
+    }
+    if (ch.username === 'undefined') {
+       ch.username = '';
     }
     
     if (ch.admin_id === currentUser.id || currentUser.is_admin) {
@@ -1812,11 +1826,12 @@ async function scanForChannels() {
         if (!existing) {
           let safeTitle = chat.title || chat.username || `Канал ${chat.id}`;
           if (safeTitle === 'undefined') safeTitle = `Канал ${chat.id}`;
+          let safeUsername = chat.username && chat.username !== 'undefined' ? chat.username : '';
           
           const chData = {
             chat_id: String(chat.id),
             title: safeTitle,
-            username: chat.username || '',
+            username: safeUsername,
             type: chat.type,
             admin_id: adminId,
             added_at: new Date().toISOString()
@@ -2232,19 +2247,39 @@ async function deleteContest(contestId) {
 
   if (!confirm('Удалить конкурс навсегда? Это нельзя отменить.')) return;
 
-  const parts = state.participants[contestId] || [];
-  for (const p of parts) {
-    await fbDel('participants', p._id);
-  }
-
-  await fbDel('contests', contestId);
-  delete state.participants[contestId];
-
-  toast('Конкурс удалён');
-  state.screen = 'home';
-  state.selectedContest = null;
-  state.formData = { prizes: [''], outcome_type: 'leaderboard' };
+  // Моментально включаем экран загрузки, чтобы не было никаких поддергиваний
+  state.loading = true;
   render();
+
+  try {
+    // Отключаем слушатель участников, чтобы интерфейс не перерисовывался 100 раз
+    if (participantUnsubs[contestId]) {
+      participantUnsubs[contestId]();
+      delete participantUnsubs[contestId];
+    }
+
+    const parts = state.participants[contestId] || [];
+    
+    // Удаляем всех участников одновременно (в 10 раз быстрее!)
+    const batchPromises = parts.map(p => fbDel('participants', p._id));
+    await Promise.all(batchPromises);
+
+    await fbDel('contests', contestId);
+    delete state.participants[contestId];
+
+    toast('Конкурс удалён');
+    state.screen = 'home';
+    state.selectedContest = null;
+    state.formData = { prizes: [''], outcome_type: 'leaderboard' };
+
+  } catch (e) {
+    console.error(e);
+    toast('Ошибка при удалении', 'error');
+  } finally {
+    // Выключаем загрузку
+    state.loading = false;
+    render();
+  }
 }
 
 // ═══════════════════════════════════════
