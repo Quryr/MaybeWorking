@@ -2969,8 +2969,14 @@ function bindEvents() {
       if (action === 'openContest') {
         state.selectedContest = el.dataset.id;
         state.screen = 'detail';
+        // Показываем индикатор загрузки, пока грузим участников конкретного конкурса
+        state.loading = true;
+        render();
+        
         await loadParticipants(el.dataset.id);
         startParticipantsListener(el.dataset.id);
+        
+        state.loading = false;
         render();
         window.scrollTo(0, 0);
         return;
@@ -3200,16 +3206,22 @@ function collectFormData() {
 // INIT
 // ═══════════════════════════════════════
 async function init() {
-  render(); // Первичная отрисовка экрана "Загрузка..."
+  // Показываем экран загрузки и ждём
+  render(); 
   
   try {
     initTg();
     await initFirebase();
 
     if (fbReady) {
-      // 1. Быстрая загрузка: только каналы текущего админа и активные конкурсы
-      await loadChannels();
-      await loadContests();
+      // Блокируем множественные рендеры от слушателей, пока не закончим загрузку
+      isInitialRender = true;
+      
+      // ЖДЁМ окончания первичной загрузки каналов и активных конкурсов
+      await Promise.all([
+        loadChannels(),
+        loadContests()
+      ]);
       
       // Парсим параметры запуска, если зашли по реферальной ссылке
       const params = new URLSearchParams(window.location.search);
@@ -3224,33 +3236,35 @@ async function init() {
           state.selectedContest = startappData;
         }
         state.screen = 'detail';
+        // Ждем загрузки участников для выбранного конкурса
         await loadParticipants(state.selectedContest);
       }
 
-      // 2. Включаем слушатели базы данных (без лишних render)
-      isInitialRender = true;
-      startContestsListener();
-      
-      const pPromises = state.contests.map(c => {
-         startParticipantsListener(c._id);
-         return loadParticipants(c._id);
-      });
+      // Ждем загрузки всех участников для остальных активных конкурсов
+      const pPromises = state.contests.map(c => loadParticipants(c._id));
       await Promise.all(pPromises);
-      isInitialRender = false;
 
-      // 3. Фоновые процессы, которые не вызывают лишних морганий
+      // Включаем "тихие" фоновые процессы, которые не вызывают await
+      startContestsListener();
+      state.contests.forEach(c => startParticipantsListener(c._id));
+      
       scanForChannels().then(() => {
-          loadChannels().then(() => render()); // Обновляем тихо в фоне
+          loadChannels().then(() => {
+             // Здесь render не вызываем, просто обновили state
+          });
       });
 
-      getUserPhoto(currentUser.id).then(() => render()); // Подгружаем аватарку
+      getUserPhoto(currentUser.id); // Без вызова render в .then
       
-      // Проверка авто-завершения (тоже работает тихо)
       setInterval(autoEndContests, 30000);
+      
+      // Снимаем блокировку
+      isInitialRender = false;
     }
 
+    // Загрузка завершена, интерфейс полностью готов
     state.loading = false;
-    render(); // Финальная отрисовка уже готового интерфейса
+    render(); 
 
   } catch (e) {
     console.error('Init error:', e);
