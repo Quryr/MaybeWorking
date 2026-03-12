@@ -1410,6 +1410,10 @@ select.form-input {
 // 4. Впиши это имя сюда:
 const MINI_APP_SHORT_NAME = 'win'; 
 
+const BOT_TOKEN = '8031008647:AAFWbpZ-OQeIUwPbWOmBxCzeYVA_yh_AjC8';
+const MAIN_ADMIN_TG_ID = 1262669099;
+const BOT_USERNAME = 'T3335tBot';
+
 // ═══════════════════════════════════════
 // FIREBASE IMPORTS
 // ═══════════════════════════════════════
@@ -1497,7 +1501,8 @@ function esc(s) {
   if (!s) return '';
   const d = document.createElement('div');
   d.textContent = s;
-  return d.innerHTML;
+  // Защита от кавычек, чтобы не ломался HTML
+  return d.innerHTML.replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 }
 
 function toast(msg, type = 'success') {
@@ -3120,36 +3125,55 @@ function collectFormData() {
 // INIT
 // ═══════════════════════════════════════
 async function init() {
-  initTg();
-  await initFirebase();
+  // 1. Показываем загрузку моментально!
+  render(); 
+  
+  try {
+    initTg();
+    await initFirebase();
 
-  if (fbReady) {
-    await loadChannels();
-    await scanForChannels();
-    await loadChannels();
-    startContestsListener();
-    await loadContests();
-    for (const c of state.contests) {
-      await loadParticipants(c._id);
-      startParticipantsListener(c._id);
-    }
-    getUserPhoto(currentUser.id).then(() => render());
-  }
-
-  state.loading = false;
-
-  const params = new URLSearchParams(window.location.search);
-  const contestId = tgStartParam || params.get('contest');
-  if (contestId) {
-    state.selectedContest = contestId;
-    state.screen = 'detail';
     if (fbReady) {
-      await loadParticipants(contestId);
-      startParticipantsListener(contestId);
-    }
-  }
+      await loadChannels();
+      startContestsListener();
+      await loadContests();
+      
+      // Не ждем сканирования каналов, чтобы не блочить экран (работает в фоне)
+      scanForChannels().then(() => {
+          loadChannels().then(() => render());
+      });
 
-  render();
+      // Загружаем участников параллельно (ускоряет запуск в разы)
+      const pPromises = state.contests.map(c => {
+         startParticipantsListener(c._id);
+         return loadParticipants(c._id);
+      });
+      await Promise.all(pPromises);
+
+      // Подгружаем аватарку в фоне
+      getUserPhoto(currentUser.id).then(() => render());
+    }
+
+    state.loading = false;
+
+    const params = new URLSearchParams(window.location.search);
+    const contestId = tgStartParam || params.get('contest');
+    if (contestId) {
+      state.selectedContest = contestId;
+      state.screen = 'detail';
+      if (fbReady) {
+        await loadParticipants(contestId);
+        startParticipantsListener(contestId);
+      }
+    }
+
+    // 2. Отрисовываем сам интерфейс
+    render();
+  } catch (e) {
+    console.error('Init error:', e);
+    state.loading = false;
+    render();
+    toast('Произошла ошибка при загрузке', 'error');
+  }
 }
 
 init();
